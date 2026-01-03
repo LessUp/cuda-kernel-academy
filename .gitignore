@@ -1,0 +1,119 @@
+# Build directories
+build/
+cmake-build-*/
+out/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Compiled files
+*.o
+*.obj
+*.a
+*.so
+*.dylib
+*.exe
+
+# CUDA compiled files
+*.cubin
+*.ptx
+*.fatbin
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+!CMakeLists.txt
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+.eggs/
+
+# Data files
+*.csv
+*.bin
+*.dat
+*.weights
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Kiro
+.kiro/
+
+# Additional CUDA/GPU files
+*.sass
+*.cubin
+*.ptx
+*.fatbin
+*.gpu
+
+# Profiling and debugging
+*.nvprof
+*.nsight-cuprof
+*.qdrep
+*.qdstrm
+*.sqlite
+nvprof_*
+profile_*
+
+# Benchmark results
+benchmark_results/
+*.benchmark
+*.perf
+
+# Test outputs
+test_output/
+test_results/
+*.test
+
+# Documentation build
+docs/_build/
+docs/html/
+docs/latex/
+*.dox
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.orig
+*.rej
+
+# Core dumps
+core
+core.*
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Package managers
+node_modules/
+.npm/
+.yarn/
+
+# Coverage reports
+coverage/
+*.gcov
+*.gcda
+*.gcno
+
+# Memory debugging
+*.memcheck
+valgrind-out.*

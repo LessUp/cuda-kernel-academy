@@ -1,0 +1,59 @@
+cmake_minimum_required(VERSION 3.20)
+project(cuda-academy-common LANGUAGES CXX CUDA)
+
+# ============================================================================
+# C++ Standard Configuration
+# ============================================================================
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+set(CMAKE_CUDA_STANDARD 17)
+set(CMAKE_CUDA_STANDARD_REQUIRED ON)
+
+# ============================================================================
+# CUDA Configuration
+# ============================================================================
+find_package(CUDAToolkit REQUIRED)
+
+# CUDA architectures (Volta to Hopper)
+set(CMAKE_CUDA_ARCHITECTURES "70;75;80;86;89;90" CACHE STRING "CUDA architectures")
+
+# ============================================================================
+# Header-Only Library
+# ============================================================================
+add_library(cuda_academy_common INTERFACE)
+add_library(CudaAcademy::common ALIAS cuda_academy_common)
+
+target_include_directories(cuda_academy_common INTERFACE
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+)
+
+target_link_libraries(cuda_academy_common INTERFACE
+    CUDA::cudart
+    CUDA::cublas
+)
+
+# ============================================================================
+# Installation
+# ============================================================================
+include(GNUInstallDirs)
+
+install(TARGETS cuda_academy_common
+    EXPORT CudaAcademyTargets
+    INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)
+
+install(DIRECTORY include/
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)
+
+# ============================================================================
+# Summary
+# ============================================================================
+message(STATUS "")
+message(STATUS "CUDA Academy Common Library Configuration:")
+message(STATUS "  C++ Standard:   ${CMAKE_CXX_STANDARD}")
+message(STATUS "  CUDA Archs:     ${CMAKE_CUDA_ARCHITECTURES}")
+message(STATUS "")

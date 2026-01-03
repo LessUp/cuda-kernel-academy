@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  hpc-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: hpc-ai-optimization-lab:latest
+    container_name: hpc-dev
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    volumes:
+      - ..:/workspace
+    working_dir: /workspace
+    stdin_open: true
+    tty: true
