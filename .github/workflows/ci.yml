@@ -1,0 +1,154 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  CMAKE_BUILD_TYPE: Release
+
+jobs:
+  # ==========================================================================
+  # Format Check
+  # ==========================================================================
+  format-check:
+    name: Format Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check C++/CUDA formatting
+        uses: jidicula/clang-format-action@v4.11.0
+        with:
+          clang-format-version: '17'
+          check-path: '.'
+          exclude-regex: 'build|\.git'
+
+  # ==========================================================================
+  # Build and Test
+  # ==========================================================================
+  build:
+    name: Build (${{ matrix.cuda }}, sm_${{ matrix.arch }})
+    runs-on: ubuntu-latest
+    needs: format-check
+    container:
+      image: nvidia/cuda:${{ matrix.cuda }}-devel-ubuntu22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # CUDA 12.0 builds
+          - cuda: "12.0.0"
+            arch: "70"
+          - cuda: "12.0.0"
+            arch: "80"
+          - cuda: "12.0.0"
+            arch: "86"
+          # CUDA 12.3 builds (for sm_90)
+          - cuda: "12.3.0"
+            arch: "90"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends \
+            cmake \
+            ninja-build \
+            git \
+            ca-certificates
+          rm -rf /var/lib/apt/lists/*
+
+      - name: Configure CMake
+        run: |
+          cmake -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=${{ env.CMAKE_BUILD_TYPE }} \
+            -DCMAKE_CUDA_ARCHITECTURES=${{ matrix.arch }} \
+            -DBUILD_TESTS=ON \
+            -DBUILD_BENCHMARKS=ON \
+            -DBUILD_SGEMM_TUTORIAL=OFF
+
+      - name: Build
+        run: cmake --build build --parallel $(nproc)
+
+      - name: Run Tests
+        run: |
+          cd build
+          ctest --output-on-failure --timeout 300
+
+  # ==========================================================================
+  # Build SGEMM Tutorial (Makefile)
+  # ==========================================================================
+  build-sgemm:
+    name: Build SGEMM Tutorial
+    runs-on: ubuntu-latest
+    needs: format-check
+    container:
+      image: nvidia/cuda:12.0.0-devel-ubuntu22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends make
+          rm -rf /var/lib/apt/lists/*
+
+      - name: Build SGEMM Tutorial
+        working-directory: 01-sgemm-tutorial
+        run: make GPU_ARCH=sm_80
+
+  # ==========================================================================
+  # Documentation Check
+  # ==========================================================================
+  docs:
+    name: Documentation Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check Markdown links
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          use-quiet-mode: 'yes'
+          config-file: '.github/markdown-link-check-config.json'
+        continue-on-error: true
+
+  # ==========================================================================
+  # CodeQL Analysis
+  # ==========================================================================
+  codeql:
+    name: CodeQL Analysis
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: cpp
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+        continue-on-error: true
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:cpp"
