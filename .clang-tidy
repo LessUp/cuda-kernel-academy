@@ -1,0 +1,72 @@
+# CUDA Kernel Academy - clang-tidy configuration
+# https://clang.llvm.org/extra/clang-tidy/
+
+Checks: >
+  -*,
+  bugprone-*,
+  clang-analyzer-*,
+  cppcoreguidelines-*,
+  modernize-*,
+  performance-*,
+  readability-*,
+  -modernize-use-trailing-return-type,
+  -readability-magic-numbers,
+  -cppcoreguidelines-avoid-magic-numbers,
+  -cppcoreguidelines-pro-bounds-pointer-arithmetic,
+  -cppcoreguidelines-pro-bounds-constant-array-index,
+  -cppcoreguidelines-avoid-c-arrays,
+  -modernize-avoid-c-arrays,
+  -readability-identifier-length,
+  -bugprone-easily-swappable-parameters
+
+# Treat warnings as errors (disabled by default for gradual adoption)
+WarningsAsErrors: ''
+
+# Header filter - only check project headers
+HeaderFilterRegex: '.*/(include|src)/.*'
+
+# Use .clang-format for formatting suggestions
+FormatStyle: file
+
+CheckOptions:
+  # Naming conventions
+  - key: readability-identifier-naming.ClassCase
+    value: CamelCase
+  - key: readability-identifier-naming.StructCase
+    value: CamelCase
+  - key: readability-identifier-naming.EnumCase
+    value: CamelCase
+  - key: readability-identifier-naming.FunctionCase
+    value: lower_case
+  - key: readability-identifier-naming.VariableCase
+    value: lower_case
+  - key: readability-identifier-naming.ParameterCase
+    value: lower_case
+  - key: readability-identifier-naming.ConstantCase
+    value: UPPER_CASE
+  - key: readability-identifier-naming.GlobalConstantCase
+    value: CamelCase
+  - key: readability-identifier-naming.GlobalConstantPrefix
+    value: k
+  - key: readability-identifier-naming.PrivateMemberSuffix
+    value: _
+  - key: readability-identifier-naming.NamespaceCase
+    value: lower_case
+  - key: readability-identifier-naming.MacroDefinitionCase
+    value: UPPER_CASE
+
+  # Function size limits (relaxed for CUDA kernels)
+  - key: readability-function-size.LineThreshold
+    value: 200
+  - key: readability-function-size.StatementThreshold
+    value: 150
+  - key: readability-function-size.ParameterThreshold
+    value: 10
+
+  # Braces around statements
+  - key: readability-braces-around-statements.ShortStatementLines
+    value: 1
+
+  # Performance settings
+  - key: performance-unnecessary-value-param.AllowedTypes
+    value: 'cudaStream_t'
