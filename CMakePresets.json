@@ -1,0 +1,167 @@
+{
+    "version": 6,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 20,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "base",
+            "hidden": true,
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+            }
+        },
+        {
+            "name": "default",
+            "displayName": "Default Release",
+            "description": "Default release build with common architectures",
+            "inherits": "base",
+            "generator": "Ninja",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_CUDA_ARCHITECTURES": "70;80;86",
+                "BUILD_TESTS": "ON",
+                "BUILD_BENCHMARKS": "ON"
+            }
+        },
+        {
+            "name": "debug",
+            "displayName": "Debug",
+            "description": "Debug build with symbols",
+            "inherits": "base",
+            "generator": "Ninja",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_CUDA_ARCHITECTURES": "native",
+                "BUILD_TESTS": "ON",
+                "BUILD_BENCHMARKS": "OFF"
+            }
+        },
+        {
+            "name": "release",
+            "displayName": "Release",
+            "description": "Optimized release build",
+            "inherits": "base",
+            "generator": "Ninja",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_CUDA_ARCHITECTURES": "70;75;80;86;89;90",
+                "BUILD_TESTS": "ON",
+                "BUILD_BENCHMARKS": "ON"
+            }
+        },
+        {
+            "name": "volta",
+            "displayName": "Volta (sm_70)",
+            "description": "Build for Volta architecture only",
+            "inherits": "default",
+            "cacheVariables": {
+                "CMAKE_CUDA_ARCHITECTURES": "70"
+            }
+        },
+        {
+            "name": "ampere",
+            "displayName": "Ampere (sm_80, sm_86)",
+            "description": "Build for Ampere architecture",
+            "inherits": "default",
+            "cacheVariables": {
+                "CMAKE_CUDA_ARCHITECTURES": "80;86"
+            }
+        },
+        {
+            "name": "ada",
+            "displayName": "Ada Lovelace (sm_89)",
+            "description": "Build for Ada Lovelace architecture",
+            "inherits": "default",
+            "cacheVariables": {
+                "CMAKE_CUDA_ARCHITECTURES": "89"
+            }
+        },
+        {
+            "name": "hopper",
+            "displayName": "Hopper (sm_90)",
+            "description": "Build for Hopper architecture (requires CUDA 12+)",
+            "inherits": "default",
+            "cacheVariables": {
+                "CMAKE_CUDA_ARCHITECTURES": "90"
+            }
+        },
+        {
+            "name": "native",
+            "displayName": "Native GPU",
+            "description": "Build for the GPU in this system",
+            "inherits": "default",
+            "cacheVariables": {
+                "CMAKE_CUDA_ARCHITECTURES": "native"
+            }
+        },
+        {
+            "name": "minimal",
+            "displayName": "Minimal Build",
+            "description": "Build only tensorcraft-core without tests",
+            "inherits": "base",
+            "generator": "Ninja",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_CUDA_ARCHITECTURES": "native",
+                "BUILD_TENSORCRAFT": "ON",
+                "BUILD_HPC_ADVANCED": "OFF",
+                "BUILD_INFERENCE_ENGINE": "OFF",
+                "BUILD_EXAMPLES": "OFF",
+                "BUILD_TESTS": "OFF",
+                "BUILD_BENCHMARKS": "OFF"
+            }
+        },
+        {
+            "name": "full",
+            "displayName": "Full Build",
+            "description": "Build everything including Python bindings",
+            "inherits": "release",
+            "cacheVariables": {
+                "BUILD_PYTHON_BINDINGS": "ON"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "default",
+            "configurePreset": "default"
+        },
+        {
+            "name": "debug",
+            "configurePreset": "debug"
+        },
+        {
+            "name": "release",
+            "configurePreset": "release"
+        },
+        {
+            "name": "native",
+            "configurePreset": "native"
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "default",
+            "configurePreset": "default",
+            "output": {
+                "outputOnFailure": true
+            },
+            "execution": {
+                "noTestsAction": "error",
+                "stopOnFailure": false
+            }
+        },
+        {
+            "name": "debug",
+            "configurePreset": "debug",
+            "output": {
+                "outputOnFailure": true,
+                "verbosity": "verbose"
+            }
+        }
+    ]
+}
