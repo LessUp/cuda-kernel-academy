@@ -52,8 +52,9 @@ dist/
 .DS_Store
 Thumbs.db
 
-# Kiro
-.kiro/
+# Kiro (keep specs for documentation)
+.kiro/sessions/
+.kiro/settings/
 
 # Additional CUDA/GPU files
 *.sass
