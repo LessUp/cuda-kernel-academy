@@ -6,6 +6,7 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/yourusername/cuda-kernel-academy/actions/workflows/ci.yml"><img src="https://github.com/yourusername/cuda-kernel-academy/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <img src="https://img.shields.io/badge/CUDA-11.0%2B-76B900?style=flat-square&logo=nvidia" alt="CUDA">
   <img src="https://img.shields.io/badge/C++-17%2F20-00599C?style=flat-square&logo=cplusplus" alt="C++">
   <img src="https://img.shields.io/badge/License-MIT-blue?style=flat-square" alt="License">
