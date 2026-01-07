@@ -1,0 +1,27 @@
+{
+    "ignorePatterns": [
+        {
+            "pattern": "^https://github.com/OWNER"
+        },
+        {
+            "pattern": "^https://github.com/yourusername"
+        },
+        {
+            "pattern": "^#"
+        }
+    ],
+    "replacementPatterns": [],
+    "httpHeaders": [],
+    "timeout": "10s",
+    "retryOn429": true,
+    "retryCount": 3,
+    "fallbackRetryDelay": "30s",
+    "aliveStatusCodes": [
+        200,
+        206,
+        301,
+        302,
+        307,
+        308
+    ]
+}
