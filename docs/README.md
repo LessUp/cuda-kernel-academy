@@ -4,14 +4,21 @@
 
 ## 文档索引
 
+### 入门指南
+
+- [主 README](../README.md) - 项目概述和快速开始
+- [安装指南](INSTALLATION.md) - 详细的安装和构建说明
+- [常见问题](FAQ.md) - 常见问题解答
+- [故障排除](TROUBLESHOOTING.md) - 常见问题及解决方案
+
 ### 项目规范
 
 - [代码风格指南](CODING_STYLE.md) - 统一的代码风格和技术标准
 - [Integration Examples](integration_examples.md) - 如何在你的项目中集成各模块
 
-### 入门指南
+### 示例代码
 
-- [主 README](../README.md) - 项目概述和快速开始
+- [示例目录](../examples/README.md) - 独立可运行的示例代码
 
 ### 各模块文档
 
