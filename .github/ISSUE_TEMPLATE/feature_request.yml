@@ -1,0 +1,119 @@
+name: ✨ Feature Request
+description: Suggest a new feature or enhancement for CUDA Kernel Academy
+title: "[Feature]: "
+labels: ["enhancement", "triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a new feature!
+        Please provide as much detail as possible to help us understand your request.
+
+  - type: checkboxes
+    id: existing-issue
+    attributes:
+      label: Is there an existing feature request for this?
+      description: Please search to see if a feature request already exists.
+      options:
+        - label: I have searched the existing issues
+          required: true
+
+  - type: dropdown
+    id: module
+    attributes:
+      label: Related Module
+      description: Which module would this feature be related to?
+      options:
+        - 01-sgemm-tutorial
+        - 02-tensorcraft-core
+        - 03-hpc-advanced
+        - 04-inference-engine
+        - common
+        - Build System
+        - Documentation
+        - New Module
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: feature-type
+    attributes:
+      label: Feature Type
+      description: What type of feature is this?
+      options:
+        - New Kernel/Algorithm
+        - Performance Optimization
+        - API Enhancement
+        - Documentation
+        - Build/Tooling
+        - Testing
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: Is your feature request related to a problem? Please describe.
+      placeholder: "A clear description of what the problem is. Ex: I'm always frustrated when..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Describe the solution you'd like.
+      placeholder: "A clear description of what you want to happen."
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Describe any alternative solutions or features you've considered.
+      placeholder: "Other approaches you've thought about..."
+    validations:
+      required: false
+
+  - type: textarea
+    id: implementation
+    attributes:
+      label: Implementation Ideas
+      description: If you have ideas about how this could be implemented, share them here.
+      placeholder: "Technical details, code snippets, references..."
+    validations:
+      required: false
+
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: Any papers, articles, or existing implementations that are relevant.
+      placeholder: |
+        - Paper: https://...
+        - Implementation: https://...
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Willingness to Contribute
+      description: Would you be willing to help implement this feature?
+      options:
+        - label: I would be willing to submit a PR for this feature
+          required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Add any other context, screenshots, or examples about the feature request.
+    validations:
+      required: false

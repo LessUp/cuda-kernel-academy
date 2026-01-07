@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Discussions
+    url: https://github.com/OWNER/cuda-kernel-academy/discussions
+    about: Ask questions and discuss ideas in GitHub Discussions
+  - name: 📚 Documentation
+    url: https://github.com/OWNER/cuda-kernel-academy/tree/main/docs
+    about: Check the documentation for guides and references
+  - name: 🔒 Security Issues
+    url: https://github.com/OWNER/cuda-kernel-academy/security/policy
+    about: Report security vulnerabilities privately (do NOT create public issues)
