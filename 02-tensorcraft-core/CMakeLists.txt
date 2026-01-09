@@ -47,7 +47,9 @@ set(CMAKE_CUDA_STANDARD 17)
 set(CMAKE_CUDA_STANDARD_REQUIRED ON)
 
 # CUDA architectures - support from Volta to Blackwell
-set(CMAKE_CUDA_ARCHITECTURES "70;75;80;86;89;90" CACHE STRING "CUDA architectures")
+if(NOT DEFINED CMAKE_CUDA_ARCHITECTURES)
+    set(CMAKE_CUDA_ARCHITECTURES "70;75;80;86" CACHE STRING "CUDA architectures")
+endif()
 
 # Feature detection based on CUDA version
 if(CUDAToolkit_VERSION VERSION_GREATER_EQUAL "13.0")

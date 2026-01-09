@@ -47,7 +47,7 @@ set(CMAKE_CUDA_STANDARD_REQUIRED ON)
 
 # Default CUDA architectures (Volta to Hopper)
 if(NOT DEFINED CMAKE_CUDA_ARCHITECTURES)
-    set(CMAKE_CUDA_ARCHITECTURES "70;75;80;86;89;90" CACHE STRING "CUDA architectures")
+    set(CMAKE_CUDA_ARCHITECTURES "70;75;80;86" CACHE STRING "CUDA architectures")
 endif()
 
 # CUDA compile options
@@ -101,12 +101,19 @@ add_subdirectory(common)
 
 if(BUILD_TENSORCRAFT)
     message(STATUS "Building 02-tensorcraft-core")
+    set(TC_BUILD_TESTS ${BUILD_TESTS} CACHE BOOL "Build unit tests" FORCE)
+    set(TC_BUILD_BENCHMARKS ${BUILD_BENCHMARKS} CACHE BOOL "Build benchmarks" FORCE)
+    set(TC_BUILD_PYTHON ${BUILD_PYTHON_BINDINGS} CACHE BOOL "Build Python bindings" FORCE)
     add_subdirectory(02-tensorcraft-core)
 endif()
 
 if(BUILD_HPC_ADVANCED)
-    message(STATUS "Building 03-hpc-advanced")
-    add_subdirectory(03-hpc-advanced)
+    if(CMAKE_CUDA_COMPILER_VERSION VERSION_LESS "12.0")
+        message(WARNING "Skipping 03-hpc-advanced (requires CUDA >= 12.0). Configure with -DBUILD_HPC_ADVANCED=OFF to disable this warning.")
+    else()
+        message(STATUS "Building 03-hpc-advanced")
+        add_subdirectory(03-hpc-advanced)
+    endif()
 endif()
 
 if(BUILD_INFERENCE_ENGINE)

@@ -16,7 +16,7 @@ target_link_libraries(tensorcraft_tests PRIVATE
 
 target_include_directories(tensorcraft_tests PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_SOURCE_DIR}/include
+    ${PROJECT_SOURCE_DIR}/include
 )
 
 # Enable CUDA for test files
