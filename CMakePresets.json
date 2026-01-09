@@ -35,7 +35,7 @@
             "generator": "Ninja",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
-                "CMAKE_CUDA_ARCHITECTURES": "native",
+                "CMAKE_CUDA_ARCHITECTURES": "70;80;86",
                 "BUILD_TESTS": "ON",
                 "BUILD_BENCHMARKS": "OFF"
             }
@@ -95,7 +95,7 @@
             "description": "Build for the GPU in this system",
             "inherits": "default",
             "cacheVariables": {
-                "CMAKE_CUDA_ARCHITECTURES": "native"
+                "CMAKE_CUDA_ARCHITECTURES": "70;80;86"
             }
         },
         {
@@ -106,7 +106,7 @@
             "generator": "Ninja",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_CUDA_ARCHITECTURES": "native",
+                "CMAKE_CUDA_ARCHITECTURES": "70;80;86",
                 "BUILD_TENSORCRAFT": "ON",
                 "BUILD_HPC_ADVANCED": "OFF",
                 "BUILD_INFERENCE_ENGINE": "OFF",

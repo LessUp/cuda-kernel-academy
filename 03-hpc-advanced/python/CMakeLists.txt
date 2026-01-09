@@ -11,7 +11,7 @@ if(BUILD_PYTHON_BINDINGS)
         hpc_attention
     )
     
-    target_include_directories(hpc_kernels PRIVATE ${CMAKE_SOURCE_DIR}/src)
+    target_include_directories(hpc_kernels PRIVATE ${PROJECT_SOURCE_DIR}/src)
     
     install(TARGETS hpc_kernels LIBRARY DESTINATION .)
 endif()

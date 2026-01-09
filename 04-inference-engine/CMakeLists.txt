@@ -13,7 +13,9 @@ set(CMAKE_CUDA_STANDARD_REQUIRED ON)
 
 # CUDA architecture (adjust for your GPU)
 # Supported: 70, 75, 80, 86, 87, 88, 89, 90
-set(CMAKE_CUDA_ARCHITECTURES 70 75 80 86 89 90)
+if(NOT DEFINED CMAKE_CUDA_ARCHITECTURES)
+    set(CMAKE_CUDA_ARCHITECTURES 70 75 80 86)
+endif()
 
 # Find CUDA
 find_package(CUDAToolkit REQUIRED)
@@ -23,18 +25,22 @@ set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -O3 --use_fast_math")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
 
 # Include directories
-include_directories(${CMAKE_SOURCE_DIR}/include)
 
 # Add tensorcraft-core dependency
 if(USE_TENSORCRAFT)
-    set(TENSORCRAFT_ROOT "${CMAKE_SOURCE_DIR}/../02-tensorcraft-core")
-    if(EXISTS ${TENSORCRAFT_ROOT})
-        add_subdirectory(${TENSORCRAFT_ROOT} tensorcraft EXCLUDE_FROM_ALL)
+    if(TARGET tensorcraft)
         add_compile_definitions(USE_TENSORCRAFT=1)
-        message(STATUS "Using tensorcraft-core from ${TENSORCRAFT_ROOT}")
+        message(STATUS "Using tensorcraft-core from existing target")
     else()
-        message(WARNING "tensorcraft-core not found at ${TENSORCRAFT_ROOT}, using local GEMM implementations")
-        set(USE_TENSORCRAFT OFF)
+        set(TENSORCRAFT_ROOT "${CMAKE_CURRENT_LIST_DIR}/../02-tensorcraft-core")
+        if(EXISTS "${TENSORCRAFT_ROOT}/CMakeLists.txt")
+            add_subdirectory("${TENSORCRAFT_ROOT}" tensorcraft-from-parent EXCLUDE_FROM_ALL)
+            add_compile_definitions(USE_TENSORCRAFT=1)
+            message(STATUS "Using tensorcraft-core from ${TENSORCRAFT_ROOT}")
+        else()
+            message(WARNING "tensorcraft-core not found at ${TENSORCRAFT_ROOT}, using local GEMM implementations")
+            set(USE_TENSORCRAFT OFF)
+        endif()
     endif()
 endif()
 
@@ -47,12 +53,15 @@ set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} --expt-relaxed-constexpr")
 
 # Main library
 add_library(mini_inference STATIC ${SOURCES} ${HEADERS})
+target_include_directories(mini_inference PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(mini_inference CUDA::cudart CUDA::cublas)
 
 # Link tensorcraft if available
 if(USE_TENSORCRAFT AND TARGET tensorcraft)
     target_link_libraries(mini_inference tensorcraft)
-    target_include_directories(mini_inference PUBLIC ${TENSORCRAFT_ROOT}/include)
+    if(DEFINED TENSORCRAFT_ROOT)
+        target_include_directories(mini_inference PUBLIC ${TENSORCRAFT_ROOT}/include)
+    endif()
 endif()
 
 # Benchmark executable
@@ -82,9 +91,9 @@ if(BUILD_TESTS)
     enable_testing()
 
     file(GLOB_RECURSE TEST_SOURCES "tests/*.cpp" "tests/*.cu")
-    add_executable(tests ${TEST_SOURCES})
-    target_link_libraries(tests mini_inference gtest gtest_main CUDA::cudart CUDA::cublas)
+    add_executable(mini_inference_tests ${TEST_SOURCES})
+    target_link_libraries(mini_inference_tests mini_inference gtest gtest_main CUDA::cudart CUDA::cublas)
 
     include(GoogleTest)
-    gtest_discover_tests(tests)
+    gtest_discover_tests(mini_inference_tests)
 endif()

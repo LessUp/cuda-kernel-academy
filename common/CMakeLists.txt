@@ -17,7 +17,9 @@ set(CMAKE_CUDA_STANDARD_REQUIRED ON)
 find_package(CUDAToolkit REQUIRED)
 
 # CUDA architectures (Volta to Hopper)
-set(CMAKE_CUDA_ARCHITECTURES "70;75;80;86;89;90" CACHE STRING "CUDA architectures")
+if(NOT DEFINED CMAKE_CUDA_ARCHITECTURES)
+    set(CMAKE_CUDA_ARCHITECTURES "70;75;80;86" CACHE STRING "CUDA architectures")
+endif()
 
 # ============================================================================
 # Header-Only Library

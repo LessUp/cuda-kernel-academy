@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.24)
+cmake_minimum_required(VERSION 3.20)
 project(HPC-AI-Optimization-Lab LANGUAGES CXX CUDA)
 
 # C++20 and CUDA standards
@@ -15,13 +15,8 @@ set(CMAKE_CUDA_SEPARABLE_COMPILATION ON)
 
 # Auto-detect GPU architecture
 if(NOT DEFINED CMAKE_CUDA_ARCHITECTURES)
-    include(FindCUDA/select_compute_arch)
-    CUDA_DETECT_INSTALLED_GPUS(INSTALLED_GPU_CCS_1)
-    string(STRIP "${INSTALLED_GPU_CCS_1}" INSTALLED_GPU_CCS_2)
-    string(REPLACE " " ";" INSTALLED_GPU_CCS_3 "${INSTALLED_GPU_CCS_2}")
-    string(REPLACE "." "" INSTALLED_GPU_CCS_4 "${INSTALLED_GPU_CCS_3}")
-    set(CMAKE_CUDA_ARCHITECTURES ${INSTALLED_GPU_CCS_4})
-    message(STATUS "Auto-detected CUDA architectures: ${CMAKE_CUDA_ARCHITECTURES}")
+    set(CMAKE_CUDA_ARCHITECTURES "70;80;86" CACHE STRING "CUDA architectures" FORCE)
+    message(STATUS "CMAKE_CUDA_ARCHITECTURES not set, defaulting to: ${CMAKE_CUDA_ARCHITECTURES}")
 endif()
 
 # FetchContent for dependencies
@@ -77,8 +72,8 @@ endif()
 # Common library (header-only)
 add_library(hpc_common INTERFACE)
 target_include_directories(hpc_common INTERFACE 
-    ${CMAKE_SOURCE_DIR}/src
-    ${CMAKE_SOURCE_DIR}/src/common
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/common
     ${cutlass_SOURCE_DIR}/include
 )
 target_link_libraries(hpc_common INTERFACE fmt::fmt)
