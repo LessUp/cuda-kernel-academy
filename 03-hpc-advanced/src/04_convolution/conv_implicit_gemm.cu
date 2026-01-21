@@ -12,7 +12,8 @@ __global__ void conv2d_implicit_gemm_kernel(const T* __restrict__ input,
                                              int out_h, int out_w,
                                              int k_h, int k_w,
                                              int stride_h, int stride_w,
-                                             int pad_h, int pad_w) {
+                                             int pad_h, int pad_w,
+                                             int dilation_h, int dilation_w) {
     int out_idx = blockIdx.x * blockDim.x + threadIdx.x;
     int total_out = batch * out_c * out_h * out_w;
     
@@ -28,8 +29,8 @@ __global__ void conv2d_implicit_gemm_kernel(const T* __restrict__ input,
     for (int ic = 0; ic < in_c; ++ic) {
         for (int kh = 0; kh < k_h; ++kh) {
             for (int kw = 0; kw < k_w; ++kw) {
-                int ih = oh * stride_h - pad_h + kh;
-                int iw = ow * stride_w - pad_w + kw;
+                int ih = oh * stride_h - pad_h + kh * dilation_h;
+                int iw = ow * stride_w - pad_w + kw * dilation_w;
                 
                 if (ih >= 0 && ih < in_h && iw >= 0 && iw < in_w) {
                     int in_idx = b * (in_c * in_h * in_w) + ic * (in_h * in_w) + ih * in_w + iw;
@@ -59,7 +60,8 @@ void conv2d_implicit_gemm<float>(const float* input, const float* weight, float*
         p.in_height, p.in_width, out_h, out_w,
         p.kernel_h, p.kernel_w,
         p.stride_h, p.stride_w,
-        p.pad_h, p.pad_w);
+        p.pad_h, p.pad_w,
+        p.dilation_h, p.dilation_w);
     CUDA_CHECK_LAST();
 }
 
