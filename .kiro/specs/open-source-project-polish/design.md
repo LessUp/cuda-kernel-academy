@@ -12,44 +12,47 @@
 cuda-kernel-academy/
 ├── .github/                          # GitHub 配置
 │   ├── ISSUE_TEMPLATE/
-│   │   ├── bug_report.yml
-│   │   └── feature_request.yml
+│   │   ├── bug_report.yml            # Bug 报告模板
+│   │   ├── feature_request.yml       # 功能请求模板
+│   │   └── config.yml                # Issue 模板选择器配置
 │   ├── workflows/
-│   │   ├── ci.yml                    # 主 CI 流程
-│   │   └── release.yml               # 发布流程
-│   ├── PULL_REQUEST_TEMPLATE.md
-│   ├── FUNDING.yml                   # 赞助配置 (可选)
-│   └── dependabot.yml                # 依赖更新
+│   │   └── ci.yml                    # 主 CI 流程
+│   ├── PULL_REQUEST_TEMPLATE.md      # PR 模板
+│   ├── dependabot.yml                # 依赖自动更新
+│   └── markdown-link-check-config.json # Markdown 链接检查配置
 ├── docs/
-│   ├── INSTALLATION.md               # 安装指南
-│   ├── TROUBLESHOOTING.md            # 故障排除
-│   ├── FAQ.md                        # 常见问题
 │   ├── CODING_STYLE.md               # 已存在
-│   └── README.md                     # 已存在
-├── examples/                         # 新增示例目录
+│   ├── FAQ.md                        # 常见问题
+│   ├── INSTALLATION.md               # 安装指南
+│   ├── integration_examples.md       # 跨模块集成示例
+│   ├── README.md                     # 文档索引页
+│   └── TROUBLESHOOTING.md            # 故障排除
+├── examples/                         # 示例目录
 │   ├── 01_basic_gemm/
 │   ├── 02_tensor_operations/
+│   ├── CMakeLists.txt
 │   └── README.md
+├── changelog/                        # 变更记录目录
 ├── 01-sgemm-tutorial/                # 已存在
 ├── 02-tensorcraft-core/              # 已存在
 ├── 03-hpc-advanced/                  # 已存在
 ├── 04-inference-engine/              # 已存在
 ├── common/                           # 已存在
 ├── .clang-format                     # 已存在
-├── .clang-tidy                       # 新增
-├── .editorconfig                     # 新增
-├── .gitattributes                    # 新增
+├── .clang-tidy                       # 静态分析配置
+├── .editorconfig                     # 编辑器统一配置
+├── .gitattributes                    # Git 文件属性
 ├── .gitignore                        # 更新
-├── .pre-commit-config.yaml           # 新增
-├── CMakeLists.txt                    # 新增根级 CMake
-├── CMakePresets.json                 # 新增
-├── CHANGELOG.md                      # 新增
-├── CODE_OF_CONDUCT.md                # 新增
-├── CONTRIBUTING.md                   # 新增
+├── .pre-commit-config.yaml           # Pre-commit 钩子
+├── CMakeLists.txt                    # 根级 CMake
+├── CMakePresets.json                 # CMake 预设
+├── CHANGELOG.md                      # 变更日志
+├── CODE_OF_CONDUCT.md                # 行为准则
+├── CONTRIBUTING.md                   # 贡献指南
 ├── LICENSE                           # 已存在
 ├── README.md                         # 更新
-├── SECURITY.md                       # 新增
-└── VERSION                           # 新增
+├── SECURITY.md                       # 安全政策
+└── VERSION                           # 版本号
 ```
 
 ## Components and Interfaces
@@ -106,6 +109,97 @@ body:
     attributes:
       label: Relevant Logs
       render: shell
+```
+
+#### Feature Request 模板
+
+```yaml
+# .github/ISSUE_TEMPLATE/feature_request.yml
+name: Feature Request
+description: Suggest an idea for CUDA Kernel Academy
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting an improvement!
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Description
+      description: Is your feature request related to a problem?
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Describe the solution you'd like
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Any alternative solutions you've considered
+  - type: dropdown
+    id: module
+    attributes:
+      label: Related Module
+      options:
+        - 01-sgemm-tutorial
+        - 02-tensorcraft-core
+        - 03-hpc-advanced
+        - 04-inference-engine
+        - common
+        - Other
+```
+
+#### Issue 模板选择器配置
+
+```yaml
+# .github/ISSUE_TEMPLATE/config.yml
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Discussions
+    url: https://github.com/LessUp/cuda-kernel-academy/discussions
+    about: Ask questions and discuss ideas
+  - name: 📚 Documentation
+    url: https://github.com/LessUp/cuda-kernel-academy/tree/main/docs
+    about: Read the documentation
+```
+
+#### Markdown 链接检查配置
+
+```json
+{
+  "ignorePatterns": [
+    { "pattern": "^https://github.com/LessUp" },
+    { "pattern": "^mailto:" }
+  ],
+  "replacementPatterns": [],
+  "httpHeaders": [
+    {
+      "urls": ["https://github.com"],
+      "headers": { "Accept-Encoding": "zstd, br, gzip, deflate" }
+    }
+  ]
+}
+```
+
+#### Dependabot 配置
+
+```yaml
+# .github/dependabot.yml
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "github-actions"
 ```
 
 #### PR 模板
@@ -271,7 +365,7 @@ install(DIRECTORY common/include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
         },
         {
             "name": "hopper",
-            "displayName": "Hopper (CUDA 13)",
+            "displayName": "Hopper (sm_90)",
             "inherits": "default",
             "cacheVariables": {
                 "CMAKE_CUDA_ARCHITECTURES": "90"
@@ -410,9 +504,28 @@ repos:
 | 1.x     | ✅        |
 
 ## Reporting a Vulnerability
-Please report security vulnerabilities to: security@example.com
+Please report security vulnerabilities via GitHub's private vulnerability reporting feature.
 Do NOT create public issues for security vulnerabilities.
+
+## Response Timeline
+- Acknowledgment: within 48 hours
+- Initial assessment: within 1 week
+- Fix release: depends on severity
 ```
+
+#### docs/README.md
+
+文档索引页，提供所有文档的导航入口：
+- 链接到 INSTALLATION.md、FAQ.md、TROUBLESHOOTING.md
+- 链接到 CODING_STYLE.md、integration_examples.md
+- 链接到根目录的 CONTRIBUTING.md、CHANGELOG.md
+
+#### docs/integration_examples.md
+
+跨模块集成示例，展示如何将各子项目组合使用：
+- tensorcraft-core 与 inference-engine 的集成
+- 算子融合示例
+- Python 绑定调用示例
 
 ## Data Models
 
@@ -433,21 +546,43 @@ VERSION 文件格式:
 ```markdown
 # Changelog
 
-All notable changes to this project will be documented in this file.
+All notable changes to CUDA Kernel Academy will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- Nothing yet
+
 ## [1.0.0] - 2026-01-07
 
 ### Added
-- Initial release with 4 learning modules
-- Comprehensive GEMM optimization tutorials
-- TensorCraft core library
-- HPC advanced features
-- Inference engine framework
+
+#### Project Structure
+- Comprehensive 4-module learning path for CUDA kernel development
+- Unified project organization with shared common utilities
+
+#### 01-sgemm-tutorial
+- 5 SGEMM optimization levels: Naive → Tiled → Bank-Free → Double Buffer → Tensor Core
+- Benchmark suite comparing all implementations against cuBLAS
+
+#### 02-tensorcraft-core
+- Header-only high-performance kernel library (GEMM, Attention, Conv, Norm, Sparse)
+- Python bindings via pybind11
+
+#### 03-hpc-advanced
+- 7-step GEMM optimization path with Register Tiling and Software Pipelining
+- CUDA 13 features: TMA, Thread Block Clusters, FP8
+- Property-based testing with RapidCheck
+
+#### 04-inference-engine
+- Complete inference engine framework with Memory Pool, Stream Manager, Auto-tuner
+- INT8/FP16 quantization, MNIST demo
+
+[Unreleased]: https://github.com/LessUp/cuda-kernel-academy/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/LessUp/cuda-kernel-academy/releases/tag/v1.0.0
 ```
 
 ## Correctness Properties
@@ -460,19 +595,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 *For any* valid code commit to the main branch, the CI system SHALL successfully complete the build process without errors.
 
-**Validates: Requirements 3.2**
+**Validates: Requirement 3.2, 3.3**
 
 ### Property 2: 格式检查一致性
 
 *For any* source file in the repository, running clang-format SHALL produce no changes if the file is already properly formatted.
 
-**Validates: Requirements 7.3**
+**Validates: Requirement 7.3, 7.5**
 
 ### Property 3: 示例可编译性
 
 *For any* example in the examples/ directory, the example SHALL compile successfully with the default CMake configuration.
 
-**Validates: Requirements 8.2**
+**Validates: Requirement 8.2**
+
+### Property 4: 文档链接有效性
+
+*For any* Markdown file in the repository, all internal and external links SHALL resolve to valid targets.
+
+**Validates: Requirement 5.7**
 
 ## Error Handling
 
@@ -485,7 +626,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 文档验证
 
 - 使用 markdownlint 检查 Markdown 格式
-- 使用 link checker 验证文档中的链接有效性
+- 使用 markdown-link-check 验证文档中的链接有效性（配置文件：.github/markdown-link-check-config.json）
 
 ## Testing Strategy
 
@@ -497,8 +638,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [ ] SECURITY.md
 - [ ] .github/ISSUE_TEMPLATE/bug_report.yml
 - [ ] .github/ISSUE_TEMPLATE/feature_request.yml
+- [ ] .github/ISSUE_TEMPLATE/config.yml
 - [ ] .github/PULL_REQUEST_TEMPLATE.md
 - [ ] .github/workflows/ci.yml
+- [ ] .github/dependabot.yml
+- [ ] .github/markdown-link-check-config.json
 - [ ] CMakeLists.txt (根目录)
 - [ ] CMakePresets.json
 - [ ] CHANGELOG.md
@@ -507,6 +651,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [ ] .editorconfig
 - [ ] .pre-commit-config.yaml
 - [ ] .gitattributes
+- [ ] docs/README.md
+- [ ] docs/INSTALLATION.md
+- [ ] docs/TROUBLESHOOTING.md
+- [ ] docs/FAQ.md
+- [ ] docs/integration_examples.md
+- [ ] examples/README.md
+- [ ] examples/CMakeLists.txt
 
 ### CI 集成测试
 
