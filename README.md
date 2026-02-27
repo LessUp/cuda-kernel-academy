@@ -6,16 +6,33 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/LessUp/cuda-kernel-academy/actions/workflows/ci.yml"><img src="https://github.com/LessUp/cuda-kernel-academy/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/LessUp/cuda-kernel-academy/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/LessUp/cuda-kernel-academy/ci.yml?style=flat-square&logo=github&label=CI" alt="CI"></a>
   <img src="https://img.shields.io/badge/CUDA-11.0%2B-76B900?style=flat-square&logo=nvidia" alt="CUDA">
   <img src="https://img.shields.io/badge/C++-17%2F20-00599C?style=flat-square&logo=cplusplus" alt="C++">
-  <img src="https://img.shields.io/badge/License-MIT-blue?style=flat-square" alt="License">
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/LessUp/cuda-kernel-academy?style=flat-square&color=blue" alt="License"></a>
   <img src="https://img.shields.io/badge/Architecture-Volta%20to%20Hopper-green?style=flat-square" alt="Architecture">
+  <br/>
+  <a href="https://github.com/LessUp/cuda-kernel-academy/stargazers"><img src="https://img.shields.io/github/stars/LessUp/cuda-kernel-academy?style=flat-square&logo=github" alt="Stars"></a>
+  <img src="https://img.shields.io/github/last-commit/LessUp/cuda-kernel-academy?style=flat-square" alt="Last Commit">
+  <a href="https://github.com/LessUp/cuda-kernel-academy/issues"><img src="https://img.shields.io/github/issues/LessUp/cuda-kernel-academy?style=flat-square" alt="Issues"></a>
+  <a href="CONTRIBUTING.md"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square" alt="PRs Welcome"></a>
 </p>
 
 ---
 
-## 📖 项目简介
+## � 目录
+
+- [项目简介](#-项目简介)
+- [项目特色](#-项目特色)
+- [项目结构](#-项目结构)
+- [学习路径](#%EF%B8%8F-学习路径)
+- [快速开始](#%EF%B8%8F-快速开始)
+- [核心技术覆盖](#-核心技术覆盖)
+- [文档](#-文档)
+- [贡献指南](#-贡献指南)
+- [致谢](#-致谢)
+
+## �📖 项目简介
 
 **CUDA Kernel Academy** 是一个系统性的 CUDA 高性能计算学习项目，包含从入门到进阶的完整学习路径。本项目整合了4个相互关联的子项目，形成一个渐进式的学习体系。
 
@@ -145,42 +162,30 @@ graph TD
 | C++ 编译器 | GCC 9 / Clang 10 | GCC 11+ |
 | GPU 架构 | sm_70 (Volta) | sm_80+ (Ampere) |
 
-### 克隆仓库
+### 一键构建（推荐）
 
 ```bash
 git clone https://github.com/LessUp/cuda-kernel-academy.git
 cd cuda-kernel-academy
+
+# 使用 CMake Presets 一键构建
+cmake --preset default
+cmake --build build/default
+ctest --test-dir build/default --output-on-failure
 ```
 
-### 构建各模块
+> 💡 查看所有可用预设：`cmake --list-presets`（包括 debug / ampere / hopper / minimal 等）
+
+### 单独构建入门教程
 
 ```bash
-# Level 1: SGEMM 教程 (Makefile)
+# SGEMM 教程使用 Makefile（零依赖，适合初学者）
 cd 01-sgemm-tutorial
 make GPU_ARCH=sm_86
 ./build/sgemm_benchmark
-
-# Level 2: 核心算子库 (CMake)
-cd ../02-tensorcraft-core
-mkdir build && cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release
-make -j$(nproc)
-ctest --output-on-failure
-
-# Level 3: 进阶教程 (CMake)
-cd ../../03-hpc-advanced
-mkdir build && cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release -GNinja
-ninja
-ctest --output-on-failure
-
-# Level 4: 推理引擎 (CMake)
-cd ../../04-inference-engine
-mkdir build && cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release
-make -j$(nproc)
-./benchmark
 ```
+
+更多构建选项请参考 [docs/INSTALLATION.md](docs/INSTALLATION.md)。
 
 ## 📚 核心技术覆盖
 
@@ -211,57 +216,45 @@ make -j$(nproc)
 
 ## 🎓 学习建议
 
-### 初学者 (1-2周)
+| 阶段 | 时长 | 模块 | 核心目标 |
+|------|------|------|----------|
+| 🌱 初学者 | 1–2 周 | `01-sgemm-tutorial` | 掌握 CUDA 编程模型、完成 5 种 SGEMM 优化 |
+| 📊 进阶者 | 2–4 周 | `02-tensorcraft-core` | 理解工业级 API 设计、集成算子库 |
+| 🚀 专家 | 4–8 周 | `03-hpc-advanced` + `04-inference-engine` | CUDA 13 特性、构建完整推理引擎 |
 
-1. 从 `01-sgemm-tutorial` 开始
-2. 理解 CUDA 编程模型和内存层次
-3. 掌握 Coalescing、Tiling、Bank Conflict 概念
-4. 完成 5 种 SGEMM 优化版本
+## 📚 文档
 
-### 进阶者 (2-4周)
-
-1. 学习 `02-tensorcraft-core` 的 API 设计
-2. 理解 Attention、Convolution 等复杂算子
-3. 尝试在自己的项目中集成 tensorcraft
-
-### 专家 (4-8周)
-
-1. 深入 `03-hpc-advanced` 的 CUDA 13 特性
-2. 学习 Register Tiling 和 Software Pipelining
-3. 使用 RapidCheck 进行属性测试
-4. 构建完整的推理引擎 (`04-inference-engine`)
+| 文档 | 说明 |
+|------|------|
+| [📦 安装指南](docs/INSTALLATION.md) | 详细的环境搭建和构建步骤 |
+| [🎨 代码风格](docs/CODING_STYLE.md) | C++/CUDA 编码规范 |
+| [🔗 集成示例](docs/integration_examples.md) | 在你的项目中使用本库 |
+| [❓ 常见问题](docs/FAQ.md) | FAQ |
+| [🔧 故障排除](docs/TROUBLESHOOTING.md) | 常见错误及解决方案 |
+| [📝 变更日志](CHANGELOG.md) | 版本发布记录 |
 
 ## 🤝 贡献指南
 
-欢迎贡献！请先阅读 [贡献指南](CONTRIBUTING.md) 和 [代码风格指南](docs/CODING_STYLE.md)。
+欢迎各种形式的贡献！🐛 Bug 修复 · ⚡ 性能优化 · 📝 文档改进 · 🧪 测试覆盖 · 🆕 新算子实现
 
-### 代码规范
-
-- **C++ 标准**: C++17 (最低), C++20 (推荐)
-- **命名规范**: snake_case (函数/变量), PascalCase (类/结构体)
-- **格式化**: 使用 `.clang-format` 配置
-- **错误处理**: 使用 `CA_CUDA_CHECK` 宏
-
-### 贡献方向
-
-- 🐛 Bug 修复
-- 📝 文档改进
-- ⚡ 性能优化
-- 🧪 测试覆盖
-- 🆕 新算子实现
+请参阅 **[CONTRIBUTING.md](CONTRIBUTING.md)** 了解完整的开发流程和代码规范。
 
 ## 📄 License
 
-MIT License - 详见 [LICENSE](LICENSE) 文件
+MIT License — 详见 [LICENSE](LICENSE)
 
 ## 🙏 致谢
 
-- [NVIDIA CUTLASS](https://github.com/NVIDIA/cutlass) - 高性能 GEMM 模板库
-- [FlashAttention](https://github.com/Dao-AILab/flash-attention) - IO-aware Attention
-- [Simon Boehm's CUDA Tutorials](https://siboehm.com/articles/22/CUDA-MMM) - GEMM 优化教程
+- [NVIDIA CUTLASS](https://github.com/NVIDIA/cutlass) — 高性能 GEMM 模板库
+- [FlashAttention](https://github.com/Dao-AILab/flash-attention) — IO-aware Attention
+- [Simon Boehm's CUDA Tutorials](https://siboehm.com/articles/22/CUDA-MMM) — GEMM 优化教程
 
 ---
 
 <p align="center">
-  <b>Happy CUDA Hacking! 🚀</b>
+  <b>Happy CUDA Hacking! 🚀</b><br/><br/>
+  如果这个项目对你有帮助，请给一个 ⭐ Star — 这是对我们最大的支持！<br/>
+  <a href="https://github.com/LessUp/cuda-kernel-academy/discussions">💬 加入讨论</a> ·
+  <a href="https://github.com/LessUp/cuda-kernel-academy/issues/new?template=bug_report.yml">🐛 报告 Bug</a> ·
+  <a href="https://github.com/LessUp/cuda-kernel-academy/issues/new?template=feature_request.yml">✨ 功能建议</a>
 </p>
