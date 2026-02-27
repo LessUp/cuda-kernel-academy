@@ -473,7 +473,7 @@ ctest --timeout 600
 
 如果以上方案无法解决问题：
 
-1. 搜索 [GitHub Issues](https://github.com/yourusername/cuda-kernel-academy/issues)
+1. 搜索 [GitHub Issues](https://github.com/LessUp/cuda-kernel-academy/issues)
 2. 查看 [NVIDIA Developer Forums](https://forums.developer.nvidia.com/)
 3. 创建新 Issue，提供：
    - 完整的错误信息

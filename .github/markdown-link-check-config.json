@@ -1,10 +1,7 @@
 {
     "ignorePatterns": [
         {
-            "pattern": "^https://github.com/OWNER"
-        },
-        {
-            "pattern": "^https://github.com/yourusername"
+            "pattern": "^https://github.com/LessUp"
         },
         {
             "pattern": "^#"

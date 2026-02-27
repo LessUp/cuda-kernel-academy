@@ -75,4 +75,4 @@
 
 ## 贡献文档
 
-欢迎贡献文档改进！请参考各模块的 CONTRIBUTING.md。
+欢迎贡献文档改进！请参考根目录的 [CONTRIBUTING.md](../CONTRIBUTING.md)。

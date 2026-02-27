@@ -31,7 +31,7 @@
 #### 1. Fork 仓库
 
 ```bash
-git clone https://github.com/yourusername/mini-inference-engine.git
+git clone https://github.com/LessUp/cuda-kernel-academy.git
 cd mini-inference-engine
 git remote add upstream https://github.com/original/mini-inference-engine.git
 ```
