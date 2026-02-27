@@ -9,11 +9,13 @@
 - **Project**: CUDA Kernel Academy 项目整体
 - **Repository**: Git 仓库及其所有文件
 - **CI_System**: 持续集成系统 (GitHub Actions)
+- **Build_System**: 构建系统 (CMake + Ninja/Make)
 - **Documentation_System**: 项目文档体系
 - **Contributor**: 项目贡献者
 - **Issue_Template**: GitHub Issue 模板
 - **PR_Template**: GitHub Pull Request 模板
 - **Security_Policy**: 安全漏洞报告政策
+- **Example**: examples/ 目录下的独立可运行示例代码
 
 ## Requirements
 
@@ -35,9 +37,10 @@
 #### Acceptance Criteria
 
 1. THE Repository SHALL contain a .github/ISSUE_TEMPLATE directory with bug report and feature request templates
-2. THE Repository SHALL contain a .github/PULL_REQUEST_TEMPLATE.md file
-3. WHEN a user creates a new issue, THE Issue_Template SHALL guide them to provide necessary information
-4. WHEN a contributor submits a PR, THE PR_Template SHALL include a checklist for code quality and testing
+2. THE Repository SHALL contain a .github/ISSUE_TEMPLATE/config.yml to configure the issue template chooser with external links (e.g., discussions)
+3. THE Repository SHALL contain a .github/PULL_REQUEST_TEMPLATE.md file
+4. WHEN a user creates a new issue, THE Issue_Template SHALL guide them to provide necessary information (including CUDA version and GPU model for bug reports)
+5. WHEN a contributor submits a PR, THE PR_Template SHALL include a checklist for code quality and testing
 
 ### Requirement 3: 持续集成配置
 
@@ -50,6 +53,7 @@
 3. WHEN code is pushed or a PR is created, THE CI_System SHALL automatically run tests
 4. THE CI_System SHALL support multiple CUDA architectures (sm_70, sm_80, sm_86, sm_90)
 5. THE CI_System SHALL generate build status badges for the README
+6. THE Repository SHALL contain a .github/dependabot.yml to automate dependency updates (GitHub Actions versions, etc.)
 
 ### Requirement 4: 项目元数据文件
 
@@ -59,8 +63,8 @@
 
 1. THE Repository SHALL contain a .gitattributes file for proper file handling
 2. THE Repository SHALL have an updated .gitignore file covering all build artifacts and IDE files
-3. THE Repository SHALL contain a CHANGELOG.md file following Keep a Changelog format
-4. THE Repository SHALL contain a VERSION file or use semantic versioning tags
+3. THE Repository SHALL contain a CHANGELOG.md file following Keep a Changelog format, with detailed per-module release notes
+4. THE Repository SHALL contain a VERSION file using semantic versioning (MAJOR.MINOR.PATCH)
 
 ### Requirement 5: 文档完善
 
@@ -71,7 +75,10 @@
 1. THE Documentation_System SHALL include a docs/INSTALLATION.md with detailed installation instructions for all platforms
 2. THE Documentation_System SHALL include a docs/TROUBLESHOOTING.md for common issues
 3. THE Documentation_System SHALL include a docs/FAQ.md for frequently asked questions
-4. WHEN a user reads the main README, THE README SHALL include badges for build status, license, and CUDA version
+4. THE Documentation_System SHALL include a docs/README.md as a documentation index page
+5. THE Documentation_System SHALL include a docs/integration_examples.md with cross-module integration examples
+6. WHEN a user reads the main README, THE README SHALL include badges for build status, license, and CUDA version
+7. THE CI_System SHALL validate Markdown link integrity using a link-check configuration (.github/markdown-link-check-config.json)
 
 ### Requirement 6: 构建系统统一
 
@@ -94,6 +101,7 @@
 2. THE Repository SHALL contain a .editorconfig file for consistent editor settings
 3. WHEN code is submitted, THE CI_System SHALL run clang-format checks
 4. THE Repository SHALL contain pre-commit hook configurations for local development
+5. THE Repository SHALL maintain the existing .clang-format configuration for code formatting consistency
 
 ### Requirement 8: 示例和教程
 

@@ -43,16 +43,16 @@
 - [x] 3. 创建 GitHub 模板文件
   - [x] 3.1 创建 .github/ISSUE_TEMPLATE/bug_report.yml
     - YAML 格式的 Bug 报告模板，包含 CUDA 版本、GPU 型号等字段
-    - _Requirements: 2.1, 2.3_
+    - _Requirements: 2.1, 2.4_
   - [x] 3.2 创建 .github/ISSUE_TEMPLATE/feature_request.yml
     - YAML 格式的功能请求模板
     - _Requirements: 2.1_
   - [x] 3.3 创建 .github/PULL_REQUEST_TEMPLATE.md
     - 包含变更描述、类型选择、检查清单
-    - _Requirements: 2.2, 2.4_
+    - _Requirements: 2.3, 2.5_
   - [x] 3.4 创建 .github/ISSUE_TEMPLATE/config.yml
-    - 配置 Issue 模板选择器
-    - _Requirements: 2.1_
+    - 配置 Issue 模板选择器，禁用空白 Issue，添加 Discussions 链接
+    - _Requirements: 2.2_
 
 - [x] 4. 创建 CI/CD 配置
   - [x] 4.1 创建 .github/workflows/ci.yml
@@ -60,8 +60,11 @@
     - 支持多 CUDA 架构 (sm_70, sm_80, sm_86, sm_90)
     - _Requirements: 3.1, 3.2, 3.3, 3.4, 7.3_
   - [x] 4.2 创建 .github/dependabot.yml
-    - 配置依赖自动更新
-    - _Requirements: 3.1_
+    - 配置 GitHub Actions 依赖自动更新
+    - _Requirements: 3.6_
+  - [x] 4.3 创建 .github/markdown-link-check-config.json
+    - 配置 Markdown 链接检查规则（忽略模式、HTTP 头等）
+    - _Requirements: 5.7_
 
 - [x] 5. Checkpoint - 验证配置文件
   - 确保所有配置文件语法正确
@@ -91,12 +94,18 @@
     - 常见问题解答
     - 项目定位、学习路径、贡献方式
     - _Requirements: 5.3_
+  - [x] 7.4 创建 docs/README.md
+    - 文档索引页，提供所有文档的导航入口
+    - _Requirements: 5.4_
+  - [x] 7.5 创建 docs/integration_examples.md
+    - 跨模块集成示例（tensorcraft + inference-engine、算子融合、Python 绑定）
+    - _Requirements: 5.5_
 
 - [x] 8. 更新主 README
   - [x] 8.1 更新 README.md 添加 CI 徽章
     - 添加 GitHub Actions 构建状态徽章
     - 确保现有徽章格式一致
-    - _Requirements: 3.5, 5.4_
+    - _Requirements: 3.5, 5.6_
 
 - [x] 9. 创建示例目录
   - [x] 9.1 创建 examples/README.md
@@ -118,11 +127,14 @@
   - 确保所有文件已创建
   - 验证 CMake 配置语法正确
   - 检查文档链接有效性
+  - 验证 requirement 覆盖率：确保每个 requirement 至少有一个 task 覆盖
 
 ## Notes
 
 - 任务按依赖顺序排列，配置文件优先于社区文件
 - CI 配置依赖于构建系统配置
 - 示例代码依赖于核心库的存在
-- 所有 Markdown 文件使用中英双语或纯中文，保持与现有文档风格一致
+- 已有文件（如 docs/CODING_STYLE.md、.clang-format、LICENSE）无需修改，保持原样
+- changelog/ 目录用于记录开发过程中的变更明细
+- Markdown 文件采用中文为主、英文技术术语保留的风格，与现有文档保持一致
 
