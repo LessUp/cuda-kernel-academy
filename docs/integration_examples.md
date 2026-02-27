@@ -36,7 +36,7 @@ include(FetchContent)
 
 FetchContent_Declare(
     tensorcraft
-    GIT_REPOSITORY https://github.com/yourusername/cuda-kernel-academy.git
+    GIT_REPOSITORY https://github.com/LessUp/cuda-kernel-academy.git
     GIT_TAG main
     SOURCE_SUBDIR 02-tensorcraft-core
 )

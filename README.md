@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/yourusername/cuda-kernel-academy/actions/workflows/ci.yml"><img src="https://github.com/yourusername/cuda-kernel-academy/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/LessUp/cuda-kernel-academy/actions/workflows/ci.yml"><img src="https://github.com/LessUp/cuda-kernel-academy/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <img src="https://img.shields.io/badge/CUDA-11.0%2B-76B900?style=flat-square&logo=nvidia" alt="CUDA">
   <img src="https://img.shields.io/badge/C++-17%2F20-00599C?style=flat-square&logo=cplusplus" alt="C++">
   <img src="https://img.shields.io/badge/License-MIT-blue?style=flat-square" alt="License">
@@ -36,9 +36,20 @@ cuda-kernel-academy/
 ├── 02-tensorcraft-core/        # 🔧 核心：高性能算子库
 ├── 03-hpc-advanced/            # 🚀 进阶：CUDA 13 新特性
 ├── 04-inference-engine/        # 🧠 应用：推理引擎框架
+├── examples/                   # 💡 独立示例代码
+│   ├── 01_basic_gemm/
+│   └── 02_tensor_operations/
 ├── docs/                       # 📚 文档
+│   ├── INSTALLATION.md         # 安装指南
 │   ├── CODING_STYLE.md         # 代码风格指南
+│   ├── FAQ.md                  # 常见问题
+│   ├── TROUBLESHOOTING.md      # 故障排除
 │   └── integration_examples.md # 集成示例
+├── .github/                    # ⚙️ GitHub 配置 (CI/模板)
+├── CMakeLists.txt              # 根级构建系统
+├── CMakePresets.json            # CMake 预设
+├── CONTRIBUTING.md             # 贡献指南
+├── CHANGELOG.md                # 变更日志
 ├── .clang-format               # 代码格式化配置
 └── README.md
 ```
@@ -137,7 +148,7 @@ graph TD
 ### 克隆仓库
 
 ```bash
-git clone https://github.com/yourusername/cuda-kernel-academy.git
+git clone https://github.com/LessUp/cuda-kernel-academy.git
 cd cuda-kernel-academy
 ```
 
@@ -222,7 +233,7 @@ make -j$(nproc)
 
 ## 🤝 贡献指南
 
-欢迎贡献！请先阅读 [代码风格指南](docs/CODING_STYLE.md)。
+欢迎贡献！请先阅读 [贡献指南](CONTRIBUTING.md) 和 [代码风格指南](docs/CODING_STYLE.md)。
 
 ### 代码规范
 

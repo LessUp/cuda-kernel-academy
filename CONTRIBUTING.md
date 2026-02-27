@@ -58,7 +58,7 @@ git clone https://github.com/YOUR_USERNAME/cuda-kernel-academy.git
 cd cuda-kernel-academy
 
 # Add upstream remote
-git remote add upstream https://github.com/ORIGINAL_OWNER/cuda-kernel-academy.git
+git remote add upstream https://github.com/LessUp/cuda-kernel-academy.git
 
 # Create a build directory
 mkdir build && cd build
@@ -287,7 +287,7 @@ For security vulnerabilities, please see [SECURITY.md](SECURITY.md). Do NOT crea
 Your contributions make CUDA Kernel Academy better for everyone. We appreciate your time and effort!
 
 If you have questions, feel free to:
-- Open a [Discussion](https://github.com/OWNER/cuda-kernel-academy/discussions)
+- Open a [Discussion](https://github.com/LessUp/cuda-kernel-academy/discussions)
 - Ask in an Issue
 - Reach out to maintainers
 

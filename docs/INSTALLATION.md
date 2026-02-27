@@ -93,7 +93,7 @@ ninja --version
 ### 3. 克隆仓库
 
 ```bash
-git clone https://github.com/yourusername/cuda-kernel-academy.git
+git clone https://github.com/LessUp/cuda-kernel-academy.git
 cd cuda-kernel-academy
 ```
 
@@ -338,7 +338,7 @@ cmake .. -DCMAKE_CXX_COMPILER=/usr/bin/g++-11
 如果遇到安装问题：
 
 1. 查看 [故障排除指南](TROUBLESHOOTING.md)
-2. 搜索 [GitHub Issues](https://github.com/yourusername/cuda-kernel-academy/issues)
+2. 搜索 [GitHub Issues](https://github.com/LessUp/cuda-kernel-academy/issues)
 3. 创建新的 Issue 并提供：
    - 操作系统版本
    - CUDA 版本

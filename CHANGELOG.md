@@ -102,5 +102,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 |---------|------|------------|
 | 1.0.0 | 2026-01-07 | Initial release with 4 learning modules |
 
-[Unreleased]: https://github.com/OWNER/cuda-kernel-academy/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/OWNER/cuda-kernel-academy/releases/tag/v1.0.0
+[Unreleased]: https://github.com/LessUp/cuda-kernel-academy/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/LessUp/cuda-kernel-academy/releases/tag/v1.0.0

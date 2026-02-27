@@ -17,10 +17,9 @@ We take security vulnerabilities seriously. If you discover a security issue, pl
 
 **Please do NOT create a public GitHub issue for security vulnerabilities.**
 
-Instead, please report security vulnerabilities by:
+Instead, please report security vulnerabilities through:
 
-1. **Email**: Send details to **[INSERT SECURITY EMAIL]**
-2. **GitHub Security Advisories**: Use [GitHub's private vulnerability reporting](https://github.com/OWNER/cuda-kernel-academy/security/advisories/new)
+1. **GitHub Security Advisories** (preferred): Use [GitHub's private vulnerability reporting](https://github.com/LessUp/cuda-kernel-academy/security/advisories/new)
 
 ### What to Include
 
@@ -105,7 +104,7 @@ Subscribe to releases to stay informed about security updates.
 
 For security-related questions that are not vulnerabilities, you can:
 
-- Open a [Discussion](https://github.com/OWNER/cuda-kernel-academy/discussions)
+- Open a [Discussion](https://github.com/LessUp/cuda-kernel-academy/discussions)
 - Contact maintainers through GitHub
 
 ---

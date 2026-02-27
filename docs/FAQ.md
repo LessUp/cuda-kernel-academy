@@ -250,7 +250,7 @@ pre-commit run --all-files
 - 环境信息（OS、CUDA 版本、GPU 型号）
 - 错误日志
 
-使用我们的 [Bug Report 模板](https://github.com/yourusername/cuda-kernel-academy/issues/new?template=bug_report.yml)。
+使用我们的 [Bug Report 模板](https://github.com/LessUp/cuda-kernel-academy/issues/new?template=bug_report.yml)。
 
 ---
 
@@ -314,7 +314,7 @@ pre-commit run --all-files
   title = {CUDA Kernel Academy: A Comprehensive Learning Path for High-Performance CUDA Kernel Development},
   year = {2026},
   publisher = {GitHub},
-  url = {https://github.com/yourusername/cuda-kernel-academy}
+  url = {https://github.com/LessUp/cuda-kernel-academy}
 }
 ```
 
@@ -325,7 +325,7 @@ pre-commit run --all-files
 如果你的问题没有在这里找到答案：
 
 1. 查看 [故障排除指南](TROUBLESHOOTING.md)
-2. 搜索 [GitHub Issues](https://github.com/yourusername/cuda-kernel-academy/issues)
+2. 搜索 [GitHub Issues](https://github.com/LessUp/cuda-kernel-academy/issues)
 3. 创建新的 Issue 或 Discussion
 
 我们很乐意帮助！🚀
