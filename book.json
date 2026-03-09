@@ -1,0 +1,17 @@
+{
+  "title": "CUDA Kernel Academy",
+  "description": "从零到极致：系统性学习 CUDA 高性能算子开发",
+  "language": "zh-hans",
+  "gitbook": ">=3.2.0",
+  "links": {
+    "sidebar": {
+      "GitHub": "https://github.com/LessUp/cuda-kernel-academy"
+    }
+  },
+  "plugins": [
+    "-sharing",
+    "-fontsettings",
+    "theme-default"
+  ],
+  "pluginsConfig": {}
+}
