@@ -1,6 +1,7 @@
 # CUDA Kernel Academy
 
 [![CI](https://github.com/LessUp/cuda-kernel-academy/actions/workflows/ci.yml/badge.svg)](https://github.com/LessUp/cuda-kernel-academy/actions/workflows/ci.yml)
+[![Docs](https://img.shields.io/github/actions/workflow/status/LessUp/cuda-kernel-academy/pages.yml?branch=main&logo=githubpages&logoColor=white&label=Docs)](https://lessup.github.io/cuda-kernel-academy/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 ![CUDA](https://img.shields.io/badge/CUDA-12.x-76B900?logo=nvidia&logoColor=white)
 ![C++](https://img.shields.io/badge/C%2B%2B-17%2F20-00599C?logo=c%2B%2B&logoColor=white)

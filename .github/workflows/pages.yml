@@ -14,11 +14,15 @@ on:
       - "04-inference-engine/docs/**"
       - "examples/README.md"
       - "README.md"
+      - "README.zh-CN.md"
       - "SUMMARY.md"
       - "CHANGELOG.md"
       - "CONTRIBUTING.md"
       - "book.json"
-      - ".github/workflows/docs.yml"
+      - ".gitbook.yaml"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/pages.yml"
   workflow_dispatch:
 
 permissions:
@@ -35,13 +39,37 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            docs
+            01-sgemm-tutorial/README.md
+            02-tensorcraft-core/README.md
+            02-tensorcraft-core/docs
+            03-hpc-advanced/README.md
+            03-hpc-advanced/docs
+            04-inference-engine/README.md
+            04-inference-engine/docs
+            examples/README.md
+            README.md
+            README.zh-CN.md
+            SUMMARY.md
+            CHANGELOG.md
+            CONTRIBUTING.md
+            book.json
+            .gitbook.yaml
+            package.json
+            package-lock.json
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
 
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
 
       - name: Install honkit
-        run: npm install honkit
+        run: npm ci
 
       - name: Build docs
         run: npx honkit build . _site
