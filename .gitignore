@@ -86,6 +86,8 @@ test_results/
 docs/_build/
 docs/html/
 docs/latex/
+_site/
+_book/
 *.dox
 
 # Temporary files
