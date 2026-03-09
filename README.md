@@ -1,4 +1,6 @@
-# 🚀 CUDA Kernel Academy
+# CUDA Kernel Academy
+
+简体中文 | [English](README.en.md)
 
 <p align="center">
   <b>从零到极致：系统性学习 CUDA 高性能算子开发</b><br>
