@@ -18,7 +18,7 @@
   <img src="https://img.shields.io/github/last-commit/LessUp/cuda-kernel-academy?style=flat-square" alt="Last Commit">
   <a href="https://github.com/LessUp/cuda-kernel-academy/issues"><img src="https://img.shields.io/github/issues/LessUp/cuda-kernel-academy?style=flat-square" alt="Issues"></a>
   <a href="CONTRIBUTING.md"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square" alt="PRs Welcome"></a>
-  <a href="https://lessup.github.io/cuda-kernel-academy/"><img src="https://img.shields.io/github/actions/workflow/status/LessUp/cuda-kernel-academy/docs.yml?branch=main&style=flat-square&logo=githubpages&logoColor=white&label=Docs" alt="Docs"></a>
+  <a href="https://lessup.github.io/cuda-kernel-academy/"><img src="https://img.shields.io/github/actions/workflow/status/LessUp/cuda-kernel-academy/pages.yml?branch=main&style=flat-square&logo=githubpages&logoColor=white&label=Docs" alt="Docs"></a>
 </p>
 
 ---
