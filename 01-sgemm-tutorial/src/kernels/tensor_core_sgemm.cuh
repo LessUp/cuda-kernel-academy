@@ -243,42 +243,9 @@ void launch_tensor_core_sgemm(
     float_to_half_kernel<<<gridSizeB, blockSize, 0, stream>>>(B, d_B_fp16, K * N);
     
     // Launch Tensor Core kernel
-    // Each warp handles one 16x16 tile
-    // We need M/16 x N/16 warps total
-    // Organize as blocks of warps
-    
-    // Simple configuration: one warp per 16x16 output tile
-    // Block: 4x4 warps = 16 warps = 512 threads (but we use 2D indexing)
-    dim3 blockDim(16, 16);  // 256 threads = 8 warps
+    // Each warp (32 threads) computes one 16x16 output tile
+    dim3 blockDim(32, 1);  // One warp per block
     dim3 gridDim(
-        (N + WMMA_N - 1) / WMMA_N,
-        (M + WMMA_M - 1) / WMMA_M
-    );
-    
-    // Adjust for warp-level indexing
-    // Each "thread" in our grid is actually a warp position
-    gridDim.x = (N + WMMA_N - 1) / WMMA_N;
-    gridDim.y = (M + WMMA_M - 1) / WMMA_M;
-    blockDim.x = 1;
-    blockDim.y = 1;
-    
-    // Actually, let's use a simpler approach with proper warp handling
-    // 4 warps per block (128 threads), each warp handles one 16x16 tile
-    int warpsPerBlockX = 2;
-    int warpsPerBlockY = 2;
-    blockDim.x = warpsPerBlockX * 32;  // 64 threads
-    blockDim.y = warpsPerBlockY;        // 2 rows of warps
-    
-    int tilesX = (N + WMMA_N - 1) / WMMA_N;
-    int tilesY = (M + WMMA_M - 1) / WMMA_M;
-    
-    gridDim.x = (tilesX + warpsPerBlockX - 1) / warpsPerBlockX;
-    gridDim.y = (tilesY + warpsPerBlockY - 1) / warpsPerBlockY;
-    
-    // Use the basic kernel for simplicity
-    // Reset to simple 1 warp = 1 tile approach
-    blockDim = dim3(32, 1);  // One warp
-    gridDim = dim3(
         (N + WMMA_N - 1) / WMMA_N,
         (M + WMMA_M - 1) / WMMA_M
     );
@@ -288,6 +255,10 @@ void launch_tensor_core_sgemm(
     );
     
     CUDA_CHECK(cudaGetLastError());
+    
+    // Synchronize before freeing FP16 buffers to avoid use-after-free
+    // when using non-default streams
+    CUDA_CHECK(cudaStreamSynchronize(stream));
     
     // Free FP16 buffers
     CUDA_CHECK(cudaFree(d_A_fp16));

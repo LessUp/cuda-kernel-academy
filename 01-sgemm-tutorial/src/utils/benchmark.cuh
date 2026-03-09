@@ -317,6 +317,8 @@ inline void printPerformanceComparison(const std::vector<BenchmarkResult>& resul
 
 /**
  * Calculate theoretical peak GFLOPS for the GPU
+ *
+ * Uses actual device clock rate and per-architecture core counts.
  */
 inline float getTheoreticalPeakGflops() {
     int device;
@@ -325,26 +327,27 @@ inline float getTheoreticalPeakGflops() {
     cudaDeviceProp prop;
     CUDA_CHECK(cudaGetDeviceProperties(&prop, device));
     
-    // FP32 peak = SM count * cores per SM * 2 (FMA) * clock rate
-    // This is approximate; actual cores per SM varies by architecture
+    // FP32 cores per SM varies by architecture
     int coresPerSM;
     switch (prop.major) {
-        case 7: coresPerSM = 64; break;   // Volta, Turing
-        case 8: coresPerSM = 64; break;   // Ampere
+        case 7: coresPerSM = 64; break;   // Volta (7.0), Turing (7.5)
+        case 8: coresPerSM = (prop.minor == 0) ? 64 : 128; break; // A100=64, others=128
         case 9: coresPerSM = 128; break;  // Hopper
         default: coresPerSM = 64;
     }
     
-    // Use peak clock rate (in kHz) from device properties
-    // Note: clockRate is deprecated, using a reasonable estimate based on architecture
-    float clockGHz = 1.5f;  // Conservative estimate for modern GPUs
-    float peakGflops = prop.multiProcessorCount * coresPerSM * 2 * clockGHz * 1000;
+    // clockRate is in kHz → convert to GHz
+    float clockGHz = prop.clockRate / 1e6f;
+    // Peak GFLOPS = SMs × cores × 2 (FMA) × clock (GHz)
+    float peakGflops = prop.multiProcessorCount * coresPerSM * 2.0f * clockGHz;
     
     return peakGflops;
 }
 
 /**
- * Calculate theoretical peak memory bandwidth
+ * Calculate theoretical peak memory bandwidth (GB/s)
+ *
+ * Uses actual device memory clock rate and bus width.
  */
 inline float getTheoreticalPeakBandwidth() {
     int device;
@@ -353,10 +356,11 @@ inline float getTheoreticalPeakBandwidth() {
     cudaDeviceProp prop;
     CUDA_CHECK(cudaGetDeviceProperties(&prop, device));
     
-    // Approximate bandwidth based on bus width
-    // Modern GDDR6 typically runs at ~14-19 Gbps per pin
-    float memorySpeedGbps = 14.0f;  // Conservative GDDR6 estimate
-    float peakBandwidth = memorySpeedGbps * (prop.memoryBusWidth / 8);
+    // memoryClockRate is in kHz, memoryBusWidth in bits
+    // Effective bandwidth = memClk (Hz) × busWidth (bytes) × 2 (DDR) / 1e9
+    float memClockHz = prop.memoryClockRate * 1e3f;
+    float busWidthBytes = prop.memoryBusWidth / 8.0f;
+    float peakBandwidth = memClockHz * busWidthBytes * 2.0f / 1e9f;
     
     return peakBandwidth;
 }

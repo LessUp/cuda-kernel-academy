@@ -40,7 +40,8 @@ FetchContent_Declare(
 FetchContent_Declare(
     rapidcheck
     GIT_REPOSITORY https://github.com/emil-e/rapidcheck.git
-    GIT_TAG master
+    GIT_TAG        ff6af6fc683159deb51c543b065eba14dfcf329b
+    GIT_SHALLOW    FALSE
 )
 
 FetchContent_MakeAvailable(googletest fmt rapidcheck)

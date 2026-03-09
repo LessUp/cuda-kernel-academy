@@ -21,8 +21,9 @@ endif()
 find_package(CUDAToolkit REQUIRED)
 
 # Compiler flags
-set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -O3 --use_fast_math")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
+# Note: Optimization level is controlled by CMAKE_BUILD_TYPE (Release = -O3).
+# Only add CUDA-specific flags here.
+set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} --use_fast_math")
 
 # Include directories
 
@@ -44,9 +45,37 @@ if(USE_TENSORCRAFT)
     endif()
 endif()
 
-# Source files
-file(GLOB_RECURSE SOURCES "src/*.cpp" "src/*.cu")
-file(GLOB_RECURSE HEADERS "include/*.h" "include/*.cuh")
+# Source files (explicit list — do not use GLOB_RECURSE)
+set(SOURCES
+    src/inference_engine.cpp
+    src/tensor.cu
+    src/naive_matmul.cu
+    src/coalesced_gemm.cu
+    src/tiled_gemm.cu
+    src/double_buffer_gemm.cu
+    src/optimized_gemm.cu
+    src/fused_gemm.cu
+    src/half_gemm.cu
+    src/vectorized_gemm.cu
+    src/benchmark.cu
+)
+
+set(HEADERS
+    include/common.h
+    include/config.h
+    include/tensor.h
+    include/kernels.cuh
+    include/inference_engine.h
+    include/memory_pool.h
+    include/stream_manager.h
+    include/profiler.h
+    include/logger.h
+    include/autotuner.h
+    include/batch_gemm.h
+    include/quantization.h
+    include/half_gemm.cuh
+    include/vectorized_gemm.cuh
+)
 
 # Enable FP16 support
 set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} --expt-relaxed-constexpr")
