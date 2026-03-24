@@ -10,25 +10,24 @@ cmake_minimum_required(VERSION 3.20)
 file(READ "${CMAKE_CURRENT_SOURCE_DIR}/VERSION" VERSION_STRING)
 string(STRIP "${VERSION_STRING}" VERSION_STRING)
 
-project(CUDAKernelAcademy
-    VERSION ${VERSION_STRING}
-    LANGUAGES CXX CUDA
-    DESCRIPTION "Comprehensive CUDA kernel optimization learning project"
-    HOMEPAGE_URL "https://github.com/LessUp/cuda-kernel-academy"
-)
+project(
+  CUDAKernelAcademy
+  VERSION ${VERSION_STRING}
+  LANGUAGES CXX CUDA
+  DESCRIPTION "Comprehensive CUDA kernel optimization learning project"
+  HOMEPAGE_URL "https://github.com/LessUp/cuda-kernel-academy")
 
 # =============================================================================
 # Build Options
 # =============================================================================
 
-option(BUILD_SGEMM_TUTORIAL    "Build 01-sgemm-tutorial module"     OFF)
-option(BUILD_TENSORCRAFT       "Build 02-tensorcraft-core module"   ON)
-option(BUILD_HPC_ADVANCED      "Build 03-hpc-advanced module"       ON)
-option(BUILD_INFERENCE_ENGINE  "Build 04-inference-engine module"   ON)
-option(BUILD_EXAMPLES          "Build examples"                     ON)
-option(BUILD_TESTS             "Build tests"                        ON)
-option(BUILD_BENCHMARKS        "Build benchmarks"                   ON)
-option(BUILD_PYTHON_BINDINGS   "Build Python bindings"              OFF)
+option(BUILD_TENSORCRAFT "Build 02-tensorcraft-core module" ON)
+option(BUILD_HPC_ADVANCED "Build 03-hpc-advanced module" ON)
+option(BUILD_INFERENCE_ENGINE "Build 04-inference-engine module" ON)
+option(BUILD_EXAMPLES "Build examples" ON)
+option(BUILD_TESTS "Build tests" ON)
+option(BUILD_BENCHMARKS "Build benchmarks" ON)
+option(BUILD_PYTHON_BINDINGS "Build Python bindings" OFF)
 
 # =============================================================================
 # C++ Standard Configuration
@@ -47,29 +46,32 @@ set(CMAKE_CUDA_STANDARD_REQUIRED ON)
 
 # Default CUDA architectures (Volta to Hopper)
 if(NOT DEFINED CMAKE_CUDA_ARCHITECTURES)
-    set(CMAKE_CUDA_ARCHITECTURES "70;75;80;86" CACHE STRING "CUDA architectures")
+  set(CMAKE_CUDA_ARCHITECTURES
+      "70;75;80;86"
+      CACHE STRING "CUDA architectures")
 endif()
 
 # CUDA compile options
-set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} --expt-relaxed-constexpr --extended-lambda")
+set(CMAKE_CUDA_FLAGS
+    "${CMAKE_CUDA_FLAGS} --expt-relaxed-constexpr --extended-lambda")
 
 # =============================================================================
 # Compiler Warnings
 # =============================================================================
 
 add_compile_options(
-    $<$<COMPILE_LANGUAGE:CXX>:-Wall>
-    $<$<COMPILE_LANGUAGE:CXX>:-Wextra>
-    $<$<COMPILE_LANGUAGE:CXX>:-Wpedantic>
-    $<$<COMPILE_LANGUAGE:CUDA>:-Xcompiler=-Wall>
-)
+  $<$<COMPILE_LANGUAGE:CXX>:-Wall> $<$<COMPILE_LANGUAGE:CXX>:-Wextra>
+  $<$<COMPILE_LANGUAGE:CXX>:-Wpedantic>
+  $<$<COMPILE_LANGUAGE:CUDA>:-Xcompiler=-Wall>)
 
 # =============================================================================
 # Build Type Configuration
 # =============================================================================
 
 if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Build type" FORCE)
+  set(CMAKE_BUILD_TYPE
+      "Release"
+      CACHE STRING "Build type" FORCE)
 endif()
 
 set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
@@ -96,37 +98,49 @@ add_subdirectory(common)
 # Subprojects
 # =============================================================================
 
-# Note: 01-sgemm-tutorial uses Makefile, not CMake (for simplicity)
-# Build it separately with: cd 01-sgemm-tutorial && make
+# Note: 01-sgemm-tutorial is a standalone tutorial module with its own Makefile.
+# Build it separately with: cd 01-sgemm-tutorial && make GPU_ARCH=sm_86
 
 if(BUILD_TENSORCRAFT)
-    message(STATUS "Building 02-tensorcraft-core")
-    set(TC_BUILD_TESTS ${BUILD_TESTS} CACHE BOOL "Build unit tests" FORCE)
-    set(TC_BUILD_BENCHMARKS ${BUILD_BENCHMARKS} CACHE BOOL "Build benchmarks" FORCE)
-    set(TC_BUILD_PYTHON ${BUILD_PYTHON_BINDINGS} CACHE BOOL "Build Python bindings" FORCE)
-    add_subdirectory(02-tensorcraft-core)
+  message(STATUS "Building 02-tensorcraft-core")
+  set(TC_BUILD_TESTS
+      ${BUILD_TESTS}
+      CACHE BOOL "Build unit tests" FORCE)
+  set(TC_BUILD_BENCHMARKS
+      ${BUILD_BENCHMARKS}
+      CACHE BOOL "Build benchmarks" FORCE)
+  set(TC_BUILD_PYTHON
+      ${BUILD_PYTHON_BINDINGS}
+      CACHE BOOL "Build Python bindings" FORCE)
+  add_subdirectory(02-tensorcraft-core)
 endif()
 
 if(BUILD_HPC_ADVANCED)
-    if(CMAKE_CUDA_COMPILER_VERSION VERSION_LESS "12.0")
-        message(WARNING "Skipping 03-hpc-advanced (requires CUDA >= 12.0). Configure with -DBUILD_HPC_ADVANCED=OFF to disable this warning.")
-    else()
-        message(STATUS "Building 03-hpc-advanced")
-        add_subdirectory(03-hpc-advanced)
-    endif()
+  if(CMAKE_CUDA_COMPILER_VERSION VERSION_LESS "12.0")
+    message(
+      WARNING
+        "Skipping 03-hpc-advanced (requires CUDA >= 12.0). Configure with -DBUILD_HPC_ADVANCED=OFF to disable this warning."
+    )
+  else()
+    message(STATUS "Building 03-hpc-advanced")
+    add_subdirectory(03-hpc-advanced)
+  endif()
 endif()
 
 if(BUILD_INFERENCE_ENGINE)
-    if(NOT BUILD_TENSORCRAFT)
-        message(FATAL_ERROR "04-inference-engine requires 02-tensorcraft-core. Enable BUILD_TENSORCRAFT.")
-    endif()
-    message(STATUS "Building 04-inference-engine")
-    add_subdirectory(04-inference-engine)
+  if(NOT BUILD_TENSORCRAFT)
+    message(
+      FATAL_ERROR
+        "04-inference-engine requires 02-tensorcraft-core. Enable BUILD_TENSORCRAFT."
+    )
+  endif()
+  message(STATUS "Building 04-inference-engine")
+  add_subdirectory(04-inference-engine)
 endif()
 
 if(BUILD_EXAMPLES)
-    message(STATUS "Building examples")
-    add_subdirectory(examples)
+  message(STATUS "Building examples")
+  add_subdirectory(examples)
 endif()
 
 # =============================================================================
@@ -134,8 +148,8 @@ endif()
 # =============================================================================
 
 if(BUILD_TESTS)
-    enable_testing()
-    include(CTest)
+  enable_testing()
+  include(CTest)
 endif()
 
 # =============================================================================
@@ -145,20 +159,17 @@ endif()
 include(GNUInstallDirs)
 
 # Install common headers
-install(DIRECTORY common/include/
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
-    FILES_MATCHING PATTERN "*.hpp" PATTERN "*.cuh" PATTERN "*.h"
-)
+install(
+  DIRECTORY common/include/
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+  FILES_MATCHING
+  PATTERN "*.hpp"
+  PATTERN "*.cuh"
+  PATTERN "*.h")
 
 # Install documentation
-install(FILES
-    README.md
-    LICENSE
-    CHANGELOG.md
-    CONTRIBUTING.md
-    CODE_OF_CONDUCT.md
-    DESTINATION ${CMAKE_INSTALL_DOCDIR}
-)
+install(FILES README.md LICENSE CHANGELOG.md CONTRIBUTING.md CODE_OF_CONDUCT.md
+        DESTINATION ${CMAKE_INSTALL_DOCDIR})
 
 # =============================================================================
 # Package Configuration
@@ -167,10 +178,9 @@ install(FILES
 include(CMakePackageConfigHelpers)
 
 write_basic_package_version_file(
-    "${CMAKE_CURRENT_BINARY_DIR}/CUDAKernelAcademyConfigVersion.cmake"
-    VERSION ${PROJECT_VERSION}
-    COMPATIBILITY SameMajorVersion
-)
+  "${CMAKE_CURRENT_BINARY_DIR}/CUDAKernelAcademyConfigVersion.cmake"
+  VERSION ${PROJECT_VERSION}
+  COMPATIBILITY SameMajorVersion)
 
 # =============================================================================
 # Summary
@@ -185,7 +195,10 @@ message(STATUS "C++ standard:         ${CMAKE_CXX_STANDARD}")
 message(STATUS "CUDA standard:        ${CMAKE_CUDA_STANDARD}")
 message(STATUS "")
 message(STATUS "Modules:")
-message(STATUS "  01-sgemm-tutorial:    Use Makefile (cd 01-sgemm-tutorial && make)")
+message(
+  STATUS
+    "  01-sgemm-tutorial:    Standalone Makefile (cd 01-sgemm-tutorial && make GPU_ARCH=sm_86)"
+)
 message(STATUS "  02-tensorcraft-core:  ${BUILD_TENSORCRAFT}")
 message(STATUS "  03-hpc-advanced:      ${BUILD_HPC_ADVANCED}")
 message(STATUS "  04-inference-engine:  ${BUILD_INFERENCE_ENGINE}")
