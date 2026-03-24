@@ -153,7 +153,11 @@ private:
     }
     
     std::string format_string(const char* fmt) {
-        return fmt;
+        int size = std::snprintf(nullptr, 0, fmt) + 1;
+        if (size <= 0) return fmt;
+        std::unique_ptr<char[]> buf(new char[size]);
+        std::snprintf(buf.get(), size, fmt);
+        return std::string(buf.get(), buf.get() + size - 1);
     }
     
     LogLevel level_ = LogLevel::INFO;

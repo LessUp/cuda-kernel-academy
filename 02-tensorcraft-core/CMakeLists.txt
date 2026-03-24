@@ -134,7 +134,24 @@ if(TC_BUILD_BENCHMARKS)
 endif()
 
 if(TC_BUILD_PYTHON)
-    add_subdirectory(src/python_ops)
+    set(TC_PYTHON_BINDING_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/python_ops/bindings.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/python_ops/tensor_bindings.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/python_ops/kernel_bindings.cpp
+    )
+
+    set(TC_CAN_BUILD_PYTHON ON)
+    foreach(tc_python_source IN LISTS TC_PYTHON_BINDING_SOURCES)
+        if(NOT EXISTS ${tc_python_source})
+            message(WARNING "Skipping TensorCraft Python bindings because required source is missing: ${tc_python_source}")
+            set(TC_CAN_BUILD_PYTHON OFF)
+            break()
+        endif()
+    endforeach()
+
+    if(TC_CAN_BUILD_PYTHON)
+        add_subdirectory(src/python_ops)
+    endif()
 endif()
 
 # ============================================================================

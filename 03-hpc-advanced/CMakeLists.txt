@@ -12,6 +12,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # CUDA settings
 set(CMAKE_CUDA_SEPARABLE_COMPILATION ON)
+find_package(CUDAToolkit REQUIRED)
 
 # Auto-detect GPU architecture
 if(NOT DEFINED CMAKE_CUDA_ARCHITECTURES)
@@ -42,6 +43,7 @@ FetchContent_Declare(
     GIT_REPOSITORY https://github.com/emil-e/rapidcheck.git
     GIT_TAG        ff6af6fc683159deb51c543b065eba14dfcf329b
     GIT_SHALLOW    FALSE
+    GIT_SUBMODULES ""
 )
 
 FetchContent_MakeAvailable(googletest fmt rapidcheck)

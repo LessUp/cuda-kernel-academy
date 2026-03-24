@@ -4,10 +4,11 @@ include(GoogleTest)
 # Test utilities library
 add_library(test_utils INTERFACE)
 target_include_directories(test_utils INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(test_utils INTERFACE 
-    GTest::gtest_main 
+target_link_libraries(test_utils INTERFACE
+    GTest::gtest_main
     rapidcheck
     hpc_common
+    CUDA::cudart
 )
 
 # Helper function to add tests

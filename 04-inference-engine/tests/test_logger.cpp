@@ -22,7 +22,7 @@ protected:
         Logger::instance().set_level(LogLevel::INFO);
         Logger::instance().set_console(false);
         Logger::instance().set_colors(false);
-        log_path_ = make_test_path(log_path_);
+        log_path_ = make_test_path("mini_inference_test.log");
     }
 
     void TearDown() override {

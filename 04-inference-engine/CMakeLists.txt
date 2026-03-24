@@ -97,8 +97,8 @@ if(USE_TENSORCRAFT AND TARGET tensorcraft)
 endif()
 
 # Benchmark executable
-add_executable(benchmark benchmarks/benchmark.cpp)
-target_link_libraries(benchmark mini_inference CUDA::cudart CUDA::cublas)
+add_executable(mini_inference_benchmark benchmarks/benchmark.cpp)
+target_link_libraries(mini_inference_benchmark mini_inference CUDA::cudart CUDA::cublas)
 
 # MNIST inference demo
 add_executable(mnist_demo benchmarks/mnist_demo.cpp)
@@ -136,8 +136,10 @@ if(BUILD_TESTS)
       tests/test_stream_manager.cpp
       tests/test_tensor.cpp)
   add_executable(mini_inference_tests ${TEST_SOURCES})
+  set_source_files_properties(${TEST_SOURCES} PROPERTIES LANGUAGE CUDA)
   target_link_libraries(mini_inference_tests mini_inference gtest gtest_main
                         CUDA::cudart CUDA::cublas)
+  set_target_properties(mini_inference_tests PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
 
   include(GoogleTest)
   gtest_discover_tests(mini_inference_tests)

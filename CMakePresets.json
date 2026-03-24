@@ -48,7 +48,7 @@
             "generator": "Ninja",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_CUDA_ARCHITECTURES": "70;75;80;86;89;90",
+                "CMAKE_CUDA_ARCHITECTURES": "70;75;80;86",
                 "BUILD_TESTS": "ON",
                 "BUILD_BENCHMARKS": "ON"
             }

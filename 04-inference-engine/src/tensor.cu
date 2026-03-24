@@ -205,7 +205,10 @@ Tensor softmax(const Tensor& X) {
     
     Tensor Y(X.shape());
     
-    int block_size = std::min(256, cols);
+    int block_size = 1;
+    while (block_size < cols && block_size < 256) {
+        block_size <<= 1;
+    }
     softmax_kernel<<<rows, block_size, block_size * sizeof(float)>>>(
         X.data(), Y.data(), rows, cols);
     CUDA_CHECK(cudaGetLastError());
