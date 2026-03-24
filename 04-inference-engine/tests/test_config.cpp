@@ -1,7 +1,16 @@
 #include <gtest/gtest.h>
-#include "config.h"
-#include <fstream>
+
 #include <cstdlib>
+#include <filesystem>
+#include <fstream>
+
+#include "config.h"
+
+namespace {
+std::string make_test_path(const char* filename) {
+    return (std::filesystem::temp_directory_path() / filename).string();
+}
+}  // namespace
 
 using namespace mini_inference;
 
@@ -9,19 +18,21 @@ class ConfigTest : public ::testing::Test {
 protected:
     void SetUp() override {
         Config::instance().clear();
+        config_path_ = make_test_path("test_config.ini");
     }
-    
+
     void TearDown() override {
         Config::instance().clear();
-        // Clean up test files
-        std::remove("test_config.ini");
+        std::remove(config_path_.c_str());
     }
-    
+
     void create_test_config_file(const std::string& content) {
-        std::ofstream file("test_config.ini");
+        std::ofstream file(config_path_);
         file << content;
         file.close();
     }
+
+    std::string config_path_;
 };
 
 // ============================================================================
@@ -72,13 +83,13 @@ TEST_F(ConfigTest, GetFloatInvalid) {
 TEST_F(ConfigTest, SetAndGetBoolTrue) {
     Config::instance().set("bool_true", "true");
     EXPECT_TRUE(Config::instance().get_bool("bool_true"));
-    
+
     Config::instance().set("bool_1", "1");
     EXPECT_TRUE(Config::instance().get_bool("bool_1"));
-    
+
     Config::instance().set("bool_yes", "yes");
     EXPECT_TRUE(Config::instance().get_bool("bool_yes"));
-    
+
     Config::instance().set("bool_on", "on");
     EXPECT_TRUE(Config::instance().get_bool("bool_on"));
 }
@@ -86,10 +97,10 @@ TEST_F(ConfigTest, SetAndGetBoolTrue) {
 TEST_F(ConfigTest, SetAndGetBoolFalse) {
     Config::instance().set("bool_false", "false");
     EXPECT_FALSE(Config::instance().get_bool("bool_false"));
-    
+
     Config::instance().set("bool_0", "0");
     EXPECT_FALSE(Config::instance().get_bool("bool_0"));
-    
+
     Config::instance().set("bool_no", "no");
     EXPECT_FALSE(Config::instance().get_bool("bool_no"));
 }
@@ -113,7 +124,7 @@ TEST_F(ConfigTest, GetKeys) {
     Config::instance().set("key1", "value1");
     Config::instance().set("key2", "value2");
     Config::instance().set("key3", "value3");
-    
+
     auto keys = Config::instance().keys();
     EXPECT_EQ(keys.size(), 3);
 }
@@ -121,9 +132,9 @@ TEST_F(ConfigTest, GetKeys) {
 TEST_F(ConfigTest, Clear) {
     Config::instance().set("key1", "value1");
     Config::instance().set("key2", "value2");
-    
+
     Config::instance().clear();
-    
+
     EXPECT_FALSE(Config::instance().has("key1"));
     EXPECT_FALSE(Config::instance().has("key2"));
     EXPECT_EQ(Config::instance().keys().size(), 0);
@@ -139,11 +150,10 @@ TEST_F(ConfigTest, LoadFromFile) {
         "key2=value2\n"
         "int_key=42\n"
         "float_key=3.14\n"
-        "bool_key=true\n"
-    );
-    
-    EXPECT_TRUE(Config::instance().load_from_file("test_config.ini"));
-    
+        "bool_key=true\n");
+
+    EXPECT_TRUE(Config::instance().load_from_file(config_path_));
+
     EXPECT_EQ(Config::instance().get("key1"), "value1");
     EXPECT_EQ(Config::instance().get("key2"), "value2");
     EXPECT_EQ(Config::instance().get_int("int_key"), 42);
@@ -158,11 +168,10 @@ TEST_F(ConfigTest, LoadFromFileWithComments) {
         "; This is also a comment\n"
         "key2=value2\n"
         "\n"
-        "key3=value3\n"
-    );
-    
-    EXPECT_TRUE(Config::instance().load_from_file("test_config.ini"));
-    
+        "key3=value3\n");
+
+    EXPECT_TRUE(Config::instance().load_from_file(config_path_));
+
     EXPECT_EQ(Config::instance().get("key1"), "value1");
     EXPECT_EQ(Config::instance().get("key2"), "value2");
     EXPECT_EQ(Config::instance().get("key3"), "value3");
@@ -171,11 +180,10 @@ TEST_F(ConfigTest, LoadFromFileWithComments) {
 TEST_F(ConfigTest, LoadFromFileWithWhitespace) {
     create_test_config_file(
         "  key1  =  value1  \n"
-        "\tkey2\t=\tvalue2\t\n"
-    );
-    
-    EXPECT_TRUE(Config::instance().load_from_file("test_config.ini"));
-    
+        "\tkey2\t=\tvalue2\t\n");
+
+    EXPECT_TRUE(Config::instance().load_from_file(config_path_));
+
     EXPECT_EQ(Config::instance().get("key1"), "value1");
     EXPECT_EQ(Config::instance().get("key2"), "value2");
 }
@@ -185,11 +193,9 @@ TEST_F(ConfigTest, LoadFromNonexistentFile) {
 }
 
 TEST_F(ConfigTest, LoadFromFileWithValueContainingEquals) {
-    create_test_config_file(
-        "equation=a=b+c\n"
-    );
-    
-    EXPECT_TRUE(Config::instance().load_from_file("test_config.ini"));
+    create_test_config_file("equation=a=b+c\n");
+
+    EXPECT_TRUE(Config::instance().load_from_file(config_path_));
     EXPECT_EQ(Config::instance().get("equation"), "a=b+c");
 }
 
@@ -254,7 +260,7 @@ TEST_F(ConfigTest, GetDeviceConfigFromConfig) {
     Config::instance().set("ENABLE_TENSOR_CORES", "false");
     Config::instance().set("ENABLE_ASYNC_COPY", "false");
     Config::instance().set("NUM_STREAMS", "4");
-    
+
     auto config = get_device_config();
     EXPECT_EQ(config.device_id, 1);
     EXPECT_EQ(config.max_memory_usage, 1024 * 1024 * 1024);
@@ -270,13 +276,13 @@ TEST_F(ConfigTest, GetDeviceConfigFromConfig) {
 TEST_F(ConfigTest, SingletonInstance) {
     Config& instance1 = Config::instance();
     Config& instance2 = Config::instance();
-    
+
     EXPECT_EQ(&instance1, &instance2);
 }
 
 TEST_F(ConfigTest, SingletonPersistence) {
     Config::instance().set("persistent_key", "persistent_value");
-    
+
     // Access through another reference
     EXPECT_EQ(Config::instance().get("persistent_key"), "persistent_value");
 }
