@@ -1,6 +1,6 @@
 # CUDA 13 & Hopper 架构特性
 
-本文档介绍 CUDA 13 和 Hopper/Blackwell 架构的新特性。
+本文档介绍 CUDA 12/13 时代与 Hopper 相关的新特性，并结合本仓库中的教学性/实验性实现进行说明。
 
 ## 1. Hopper 架构概述
 
@@ -31,6 +31,7 @@
 TMA 是 Hopper 架构引入的硬件单元，专门用于高效的多维数据搬运。
 
 **优势**:
+
 - 解放 SM 计算资源
 - 自动处理边界条件
 - 支持多维 Tensor 布局
@@ -87,7 +88,7 @@ __global__ void tma_copy_kernel(
 
 ### TMA vs 传统加载
 
-```
+```text
 传统加载:
 1. 每个线程计算地址
 2. 每个线程发起加载请求
@@ -109,7 +110,7 @@ TMA 加载:
 
 Cluster 是多个 Thread Block 的组合，可以协作访问彼此的 Shared Memory。
 
-```
+```text
 传统模型:
 Block 0 ←→ Shared Memory 0
 Block 1 ←→ Shared Memory 1
