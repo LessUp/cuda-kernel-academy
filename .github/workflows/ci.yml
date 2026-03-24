@@ -15,19 +15,23 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  format-check:
-    name: Format Check
+  pre-commit:
+    name: Pre-commit Checks
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Check C/C++/CUDA formatting
-        uses: jidicula/clang-format-action@v4.13.0
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          clang-format-version: '17'
-          check-path: '.'
-          exclude-regex: '(^|/)(build|\.git)(/|$)'
+          python-version: '3.11'
+
+      - name: Install pre-commit
+        run: pip install pre-commit
+
+      - name: Run pre-commit
+        run: pre-commit run --all-files
 
   docs-build:
     name: Docs Build
@@ -46,4 +50,31 @@ jobs:
         run: npm ci
 
       - name: Build docs
-        run: npx honkit build . _site
+        run: npm run docs:build
+
+  markdown-links:
+    name: Markdown Link Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check markdown links
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          use-quiet-mode: 'yes'
+          config-file: '.github/markdown-link-check-config.json'
+          folder-path: '.'
+
+  cmake-presets:
+    name: CMake Preset Sanity
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install CMake
+        uses: lukka/get-cmake@latest
+
+      - name: List presets
+        run: cmake --list-presets

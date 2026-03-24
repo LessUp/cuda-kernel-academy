@@ -1,72 +1,77 @@
 # CUDA Kernel Academy
 
 [![CI](https://github.com/LessUp/cuda-kernel-academy/actions/workflows/ci.yml/badge.svg)](https://github.com/LessUp/cuda-kernel-academy/actions/workflows/ci.yml)
-[![Docs](https://img.shields.io/github/actions/workflow/status/LessUp/cuda-kernel-academy/pages.yml?branch=main&logo=githubpages&logoColor=white&label=Docs)](https://lessup.github.io/cuda-kernel-academy/)
+[![Docs](https://img.shields.io/github/actions/workflow/status/LessUp/cuda-kernel-academy/pages.yml?branch=master&logo=githubpages&logoColor=white&label=Docs)](https://lessup.github.io/cuda-kernel-academy/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 ![CUDA](https://img.shields.io/badge/CUDA-12.x-76B900?logo=nvidia&logoColor=white)
 ![C++](https://img.shields.io/badge/C%2B%2B-17%2F20-00599C?logo=c%2B%2B&logoColor=white)
 
 English | [简体中文](README.zh-CN.md)
 
-A structured CUDA programming course: from SGEMM optimization to production inference engines. Four progressive sub-projects covering GPU kernel development from basics to advanced.
+A structured CUDA learning repository covering matrix multiplication, reusable kernels, advanced optimization techniques, and a lightweight inference engine.
 
-## Sub-Projects
+## Sub-projects
 
-| # | Project | Focus | Tech |
-|---|---------|-------|------|
-| 01 | [SGEMM Tutorial](./01-sgemm-tutorial/) | Matrix multiplication optimization | CUDA C++, Makefile |
-| 02 | [TensorCraft Core](./02-tensorcraft-core/) | Header-only kernel library | C++17/20, CMake |
-| 03 | [HPC Advanced](./03-hpc-advanced/) | Advanced HPC techniques | CUDA, CMake, Benchmark |
-| 04 | [Inference Engine](./04-inference-engine/) | DL inference engine | CUDA, CMake, pybind11 |
+| # | Project | Focus | Build |
+|---|---------|-------|-------|
+| 01 | [SGEMM Tutorial](./01-sgemm-tutorial/) | Progressive SGEMM optimization | Standalone Makefile |
+| 02 | [TensorCraft Core](./02-tensorcraft-core/) | Header-only kernel library | CMake |
+| 03 | [HPC Advanced](./03-hpc-advanced/) | Advanced CUDA/HPC techniques | CMake |
+| 04 | [Inference Engine](./04-inference-engine/) | Lightweight DL inference engine | CMake |
 
-## Learning Path
+## Learning path
 
+```text
+01-SGEMM Tutorial
+    ↓
+02-TensorCraft Core
+    ↓
+03-HPC Advanced
+    ↓
+04-Inference Engine
 ```
-01-SGEMM Tutorial (Basics)
-    ↓
-02-TensorCraft Core (Library Design)
-    ↓
-03-HPC Advanced (Optimization)
-    ↓
-04-Inference Engine (Application)
-```
 
-## Quick Start
+## Quick start
 
 ```bash
 git clone https://github.com/LessUp/cuda-kernel-academy.git
 cd cuda-kernel-academy
 
-# Build all sub-projects
-cmake -B build -DCMAKE_BUILD_TYPE=Release
-cmake --build build -j$(nproc)
-
-# Run tests
-cd build && ctest --output-on-failure
+cmake --preset default
+cmake --build --preset default
+ctest --preset default
 ```
 
-### Build Options
+List available presets with:
+
+```bash
+cmake --list-presets
+```
+
+## Build notes
+
+- The root CMake build covers `02-tensorcraft-core`, `03-hpc-advanced`, `04-inference-engine`, `common`, and `examples`.
+- `01-sgemm-tutorial` is intentionally standalone and uses its own `Makefile`.
+- GitHub Actions currently runs CPU-safe checks (formatting, docs, links, preset validation). Full CUDA builds/tests should be run on a local machine with a GPU.
+
+## Build options
 
 | Option | Default | Description |
 |--------|---------|-------------|
 | `BUILD_TENSORCRAFT` | ON | Build TensorCraft Core |
 | `BUILD_HPC_ADVANCED` | ON | Build HPC Advanced |
 | `BUILD_INFERENCE_ENGINE` | ON | Build Inference Engine |
-
-## Key Topics
-
-- **GEMM Optimization**: Naive → Tiled → Register Blocked → Tensor Core
-- **Memory Hierarchy**: Global → Shared → Register, bank conflict avoidance
-- **Parallel Patterns**: Reduction, scan, histogram, sort
-- **Kernel Fusion**: Bias+Activation, LayerNorm+Residual
-- **Mixed Precision**: FP16/BF16 Tensor Core, INT8 quantization
+| `BUILD_EXAMPLES` | ON | Build examples |
+| `BUILD_TESTS` | ON | Build tests |
+| `BUILD_BENCHMARKS` | ON | Build benchmarks |
+| `BUILD_PYTHON_BINDINGS` | OFF | Build optional Python bindings |
 
 ## Requirements
 
 - CUDA Toolkit 12.x+
 - CMake 3.20+
 - C++17/20 compiler
-- GPU: Volta (SM 7.0) or newer
+- NVIDIA GPU with SM 7.0+
 
 ## References
 

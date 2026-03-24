@@ -41,7 +41,7 @@
 
 **A:** 推荐按以下顺序：
 
-```
+```text
 01-sgemm-tutorial (1-2周)
         ↓
 02-tensorcraft-core (2-3周)
@@ -167,16 +167,18 @@ rm -rf build && mkdir build && cd build && cmake ..
 **A:**
 
 ```bash
-# 方法 1: 使用 CMake 选项
-cmake .. -DBUILD_SGEMM_TUTORIAL=ON \
-         -DBUILD_TENSORCRAFT=OFF \
+# 方法 1: 使用根目录 CMake 选项构建某些模块
+cmake -S . -B build/minimal \
+         -DBUILD_TENSORCRAFT=ON \
          -DBUILD_HPC_ADVANCED=OFF \
-         -DBUILD_INFERENCE_ENGINE=OFF
+         -DBUILD_INFERENCE_ENGINE=OFF \
+         -DBUILD_EXAMPLES=OFF
+cmake --build build/minimal -j$(nproc)
 
 # 方法 2: 直接进入模块目录构建
 cd 02-tensorcraft-core
-mkdir build && cd build
-cmake .. && make -j
+cmake -S . -B build
+cmake --build build -j$(nproc)
 ```
 
 ### Q: 如何加速编译？
@@ -308,7 +310,7 @@ pre-commit run --all-files
 
 **A:** 如果在学术论文中使用，可以引用：
 
-```bibtex
+```text
 @misc{cuda-kernel-academy,
   author = {CUDA Kernel Academy Contributors},
   title = {CUDA Kernel Academy: A Comprehensive Learning Path for High-Performance CUDA Kernel Development},
