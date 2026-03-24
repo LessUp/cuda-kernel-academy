@@ -1,26 +1,36 @@
 #include <gtest/gtest.h>
-#include "logger.h"
+
+#include <filesystem>
 #include <fstream>
+#include <regex>
 #include <sstream>
 #include <thread>
-#include <regex>
+
+#include "logger.h"
+
+namespace {
+std::string make_test_path(const char* filename) {
+    return (std::filesystem::temp_directory_path() / filename).string();
+}
+}  // namespace
 
 using namespace mini_inference;
 
 class LoggerTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Reset logger to default state
         Logger::instance().set_level(LogLevel::INFO);
-        Logger::instance().set_console(false);  // Disable console for tests
+        Logger::instance().set_console(false);
         Logger::instance().set_colors(false);
+        log_path_ = make_test_path(log_path_);
     }
-    
+
     void TearDown() override {
-        // Clean up test files
-        std::remove("test_log.txt");
+        std::remove(log_path_.c_str());
         Logger::instance().set_console(true);
     }
+
+    std::string log_path_;
 };
 
 // ============================================================================
@@ -30,7 +40,7 @@ protected:
 TEST_F(LoggerTest, SetAndGetLevel) {
     Logger::instance().set_level(LogLevel::DEBUG);
     EXPECT_EQ(Logger::instance().get_level(), LogLevel::DEBUG);
-    
+
     Logger::instance().set_level(LogLevel::ERROR);
     EXPECT_EQ(Logger::instance().get_level(), LogLevel::ERROR);
 }
@@ -59,47 +69,44 @@ TEST_F(LoggerTest, LogLevelColors) {
 // ============================================================================
 
 TEST_F(LoggerTest, LogToFile) {
-    Logger::instance().set_file("test_log.txt");
+    Logger::instance().set_file(log_path_);
     Logger::instance().set_level(LogLevel::INFO);
-    
+
     LOG_INFO("Test message");
-    
+
     // Read the log file
-    std::ifstream file("test_log.txt");
-    std::string content((std::istreambuf_iterator<char>(file)),
-                        std::istreambuf_iterator<char>());
-    
+    std::ifstream file(log_path_);
+    std::string content((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+
     EXPECT_TRUE(content.find("Test message") != std::string::npos);
     EXPECT_TRUE(content.find("INFO") != std::string::npos);
 }
 
 TEST_F(LoggerTest, LogWithFormatting) {
-    Logger::instance().set_file("test_log.txt");
+    Logger::instance().set_file(log_path_);
     Logger::instance().set_level(LogLevel::INFO);
-    
+
     LOG_INFO("Value: %d, Float: %.2f", 42, 3.14);
-    
-    std::ifstream file("test_log.txt");
-    std::string content((std::istreambuf_iterator<char>(file)),
-                        std::istreambuf_iterator<char>());
-    
+
+    std::ifstream file(log_path_);
+    std::string content((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+
     EXPECT_TRUE(content.find("Value: 42") != std::string::npos);
     EXPECT_TRUE(content.find("Float: 3.14") != std::string::npos);
 }
 
 TEST_F(LoggerTest, LogLevelFiltering) {
-    Logger::instance().set_file("test_log.txt");
+    Logger::instance().set_file(log_path_);
     Logger::instance().set_level(LogLevel::WARN);
-    
+
     LOG_DEBUG("Debug message");
     LOG_INFO("Info message");
     LOG_WARN("Warn message");
     LOG_ERROR("Error message");
-    
-    std::ifstream file("test_log.txt");
-    std::string content((std::istreambuf_iterator<char>(file)),
-                        std::istreambuf_iterator<char>());
-    
+
+    std::ifstream file(log_path_);
+    std::string content((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+
     EXPECT_TRUE(content.find("Debug message") == std::string::npos);
     EXPECT_TRUE(content.find("Info message") == std::string::npos);
     EXPECT_TRUE(content.find("Warn message") != std::string::npos);
@@ -107,20 +114,19 @@ TEST_F(LoggerTest, LogLevelFiltering) {
 }
 
 TEST_F(LoggerTest, LogOff) {
-    Logger::instance().set_file("test_log.txt");
+    Logger::instance().set_file(log_path_);
     Logger::instance().set_level(LogLevel::OFF);
-    
+
     LOG_TRACE("Trace");
     LOG_DEBUG("Debug");
     LOG_INFO("Info");
     LOG_WARN("Warn");
     LOG_ERROR("Error");
     LOG_FATAL("Fatal");
-    
-    std::ifstream file("test_log.txt");
-    std::string content((std::istreambuf_iterator<char>(file)),
-                        std::istreambuf_iterator<char>());
-    
+
+    std::ifstream file(log_path_);
+    std::string content((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+
     EXPECT_TRUE(content.empty());
 }
 
@@ -129,30 +135,28 @@ TEST_F(LoggerTest, LogOff) {
 // ============================================================================
 
 TEST_F(LoggerTest, LogContainsTimestamp) {
-    Logger::instance().set_file("test_log.txt");
+    Logger::instance().set_file(log_path_);
     Logger::instance().set_level(LogLevel::INFO);
-    
+
     LOG_INFO("Timestamp test");
-    
-    std::ifstream file("test_log.txt");
-    std::string content((std::istreambuf_iterator<char>(file)),
-                        std::istreambuf_iterator<char>());
-    
+
+    std::ifstream file(log_path_);
+    std::string content((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+
     // Check for timestamp pattern: [YYYY-MM-DD HH:MM:SS.mmm]
     std::regex timestamp_pattern(R"(\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}\])");
     EXPECT_TRUE(std::regex_search(content, timestamp_pattern));
 }
 
 TEST_F(LoggerTest, LogContainsFileAndLine) {
-    Logger::instance().set_file("test_log.txt");
+    Logger::instance().set_file(log_path_);
     Logger::instance().set_level(LogLevel::INFO);
-    
+
     LOG_INFO("File and line test");
-    
-    std::ifstream file("test_log.txt");
-    std::string content((std::istreambuf_iterator<char>(file)),
-                        std::istreambuf_iterator<char>());
-    
+
+    std::ifstream file(log_path_);
+    std::string content((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+
     // Should contain filename (without path) and line number
     EXPECT_TRUE(content.find("test_logger.cpp") != std::string::npos);
     EXPECT_TRUE(content.find(":") != std::string::npos);
@@ -163,20 +167,19 @@ TEST_F(LoggerTest, LogContainsFileAndLine) {
 // ============================================================================
 
 TEST_F(LoggerTest, AllLogLevels) {
-    Logger::instance().set_file("test_log.txt");
+    Logger::instance().set_file(log_path_);
     Logger::instance().set_level(LogLevel::TRACE);
-    
+
     LOG_TRACE("Trace message");
     LOG_DEBUG("Debug message");
     LOG_INFO("Info message");
     LOG_WARN("Warn message");
     LOG_ERROR("Error message");
     LOG_FATAL("Fatal message");
-    
-    std::ifstream file("test_log.txt");
-    std::string content((std::istreambuf_iterator<char>(file)),
-                        std::istreambuf_iterator<char>());
-    
+
+    std::ifstream file(log_path_);
+    std::string content((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+
     EXPECT_TRUE(content.find("TRACE") != std::string::npos);
     EXPECT_TRUE(content.find("DEBUG") != std::string::npos);
     EXPECT_TRUE(content.find("INFO") != std::string::npos);
@@ -190,12 +193,12 @@ TEST_F(LoggerTest, AllLogLevels) {
 // ============================================================================
 
 TEST_F(LoggerTest, ConcurrentLogging) {
-    Logger::instance().set_file("test_log.txt");
+    Logger::instance().set_file(log_path_);
     Logger::instance().set_level(LogLevel::INFO);
-    
+
     const int num_threads = 4;
     const int logs_per_thread = 100;
-    
+
     std::vector<std::thread> threads;
     for (int t = 0; t < num_threads; t++) {
         threads.emplace_back([t, logs_per_thread]() {
@@ -204,13 +207,13 @@ TEST_F(LoggerTest, ConcurrentLogging) {
             }
         });
     }
-    
+
     for (auto& thread : threads) {
         thread.join();
     }
-    
+
     // Count lines in log file
-    std::ifstream file("test_log.txt");
+    std::ifstream file(log_path_);
     int line_count = 0;
     std::string line;
     while (std::getline(file, line)) {
@@ -218,7 +221,7 @@ TEST_F(LoggerTest, ConcurrentLogging) {
             line_count++;
         }
     }
-    
+
     EXPECT_EQ(line_count, num_threads * logs_per_thread);
 }
 
@@ -229,13 +232,13 @@ TEST_F(LoggerTest, ConcurrentLogging) {
 TEST_F(LoggerTest, SingletonInstance) {
     Logger& instance1 = Logger::instance();
     Logger& instance2 = Logger::instance();
-    
+
     EXPECT_EQ(&instance1, &instance2);
 }
 
 TEST_F(LoggerTest, SingletonPersistence) {
     Logger::instance().set_level(LogLevel::DEBUG);
-    
+
     // Access through another reference
     EXPECT_EQ(Logger::instance().get_level(), LogLevel::DEBUG);
 }
@@ -263,41 +266,38 @@ TEST_F(LoggerTest, ColorToggle) {
 // ============================================================================
 
 TEST_F(LoggerTest, EmptyMessage) {
-    Logger::instance().set_file("test_log.txt");
+    Logger::instance().set_file(log_path_);
     Logger::instance().set_level(LogLevel::INFO);
-    
+
     LOG_INFO("");
-    
-    std::ifstream file("test_log.txt");
-    std::string content((std::istreambuf_iterator<char>(file)),
-                        std::istreambuf_iterator<char>());
-    
+
+    std::ifstream file(log_path_);
+    std::string content((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+
     EXPECT_TRUE(content.find("INFO") != std::string::npos);
 }
 
 TEST_F(LoggerTest, LongMessage) {
-    Logger::instance().set_file("test_log.txt");
+    Logger::instance().set_file(log_path_);
     Logger::instance().set_level(LogLevel::INFO);
-    
+
     std::string long_msg(10000, 'x');
     LOG_INFO("%s", long_msg.c_str());
-    
-    std::ifstream file("test_log.txt");
-    std::string content((std::istreambuf_iterator<char>(file)),
-                        std::istreambuf_iterator<char>());
-    
+
+    std::ifstream file(log_path_);
+    std::string content((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+
     EXPECT_TRUE(content.find(long_msg) != std::string::npos);
 }
 
 TEST_F(LoggerTest, SpecialCharacters) {
-    Logger::instance().set_file("test_log.txt");
+    Logger::instance().set_file(log_path_);
     Logger::instance().set_level(LogLevel::INFO);
-    
+
     LOG_INFO("Special chars: %%d %%s %%f");
-    
-    std::ifstream file("test_log.txt");
-    std::string content((std::istreambuf_iterator<char>(file)),
-                        std::istreambuf_iterator<char>());
-    
+
+    std::ifstream file(log_path_);
+    std::string content((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+
     EXPECT_TRUE(content.find("%d %s %f") != std::string::npos);
 }
