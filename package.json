@@ -4,9 +4,24 @@
   "description": "HonKit docs build for GitHub Pages",
   "scripts": {
     "docs:build": "honkit build . _site",
-    "docs:serve": "honkit serve"
+    "docs:serve": "honkit serve",
+    "docs:build-prod": "honkit build . _site && npm run post-build",
+    "post-build": "node scripts/post-build.js"
   },
   "devDependencies": {
-    "honkit": "^3.7.1"
+    "honkit": "^3.7.1",
+    "gitbook-plugin-search-plus": "^1.0.3",
+    "gitbook-plugin-github-buttons": "^1.0.0",
+    "gitbook-plugin-edit-link": "^2.1.1",
+    "gitbook-plugin-anchorjs": "^0.2.0",
+    "gitbook-plugin-prism": "^2.4.0",
+    "gitbook-plugin-copy-code-button": "^0.0.2",
+    "gitbook-plugin-alerts": "^0.2.0",
+    "gitbook-plugin-include-csv": "^1.0.0",
+    "gitbook-plugin-favicon-absolute": "^0.1.0",
+    "prismjs": "^1.29.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

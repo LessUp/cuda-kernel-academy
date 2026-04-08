@@ -22,6 +22,8 @@ on:
       - ".gitbook.yaml"
       - "package.json"
       - "package-lock.json"
+      - "assets/**"
+      - "scripts/**"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -38,7 +40,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           sparse-checkout: |
             docs
@@ -59,22 +62,50 @@ jobs:
             .gitbook.yaml
             package.json
             package-lock.json
+            assets
+            scripts
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
         with:
           enablement: true
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
 
-      - name: Install honkit
+      - name: Cache HonKit plugins
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
         run: npm ci
 
       - name: Build docs
-        run: npx honkit build . _site
+        run: npm run docs:build
+
+      - name: Post-build optimization
+        run: npm run post-build
+
+      - name: Verify build
+        run: |
+          echo "Build contents:"
+          ls -la _site/
+          echo ""
+          echo "Checking for sitemap.xml:"
+          test -f _site/sitemap.xml && echo "✓ sitemap.xml exists" || echo "✗ sitemap.xml missing"
+          echo ""
+          echo "Checking for robots.txt:"
+          test -f _site/robots.txt && echo "✓ robots.txt exists" || echo "✗ robots.txt missing"
+          echo ""
+          echo "Checking for 404.html:"
+          test -f _site/404.html && echo "✓ 404.html exists" || echo "✗ 404.html missing"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

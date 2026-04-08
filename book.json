@@ -3,15 +3,91 @@
   "description": "从零到极致：系统性学习 CUDA 高性能算子开发",
   "language": "zh-hans",
   "gitbook": ">=3.2.0",
+  "author": "LessUp",
   "links": {
     "sidebar": {
-      "GitHub": "https://github.com/LessUp/cuda-kernel-academy"
+      "GitHub": "https://github.com/LessUp/cuda-kernel-academy",
+      "Star": "https://github.com/LessUp/cuda-kernel-academy/stargazers"
     }
   },
   "plugins": [
     "-sharing",
     "-fontsettings",
-    "theme-default"
+    "-lunr",
+    "-search",
+    "theme-default",
+    "search-plus",
+    "github-buttons",
+    "edit-link",
+    "anchorjs",
+    "prism",
+    "copy-code-button",
+    "alerts",
+    "include-csv",
+    "favicon-absolute"
   ],
-  "pluginsConfig": {}
+  "pluginsConfig": {
+    "github-buttons": {
+      "buttons": [
+        {
+          "user": "LessUp",
+          "repo": "cuda-kernel-academy",
+          "type": "star",
+          "size": "small",
+          "count": true
+        }
+      ]
+    },
+    "edit-link": {
+      "base": "https://github.com/LessUp/cuda-kernel-academy/edit/master",
+      "label": "编辑此页"
+    },
+    "anchorjs": {
+      "selector": "h2, h3, h4, h5",
+      "placement": "left",
+      "visible": "always"
+    },
+    "prism": {
+      "css": [
+        "prismjs/themes/prism-tomorrow.css"
+      ],
+      "lang": {
+        "c": "c",
+        "cpp": "cpp",
+        "cuda": "cuda",
+        "python": "python",
+        "bash": "bash",
+        "shell": "shell",
+        "json": "json",
+        "yaml": "yaml",
+        "cmake": "cmake",
+        "makefile": "makefile"
+      }
+    },
+    "favicon-absolute": {
+      "bookmark": "assets/images/favicon.ico",
+      "appleTouchIcon": "assets/images/apple-touch-icon.png",
+      "appleTouchIcon152x152": "assets/images/apple-touch-icon-152x152.png"
+    },
+    "search-plus": {
+      "limit": 20,
+      "teaser": 100
+    }
+  },
+  "structure": {
+    "readme": "README.md",
+    "summary": "SUMMARY.md"
+  },
+  "pdf": {
+    "pageNumbers": true,
+    "fontFamily": "Noto Sans CJK SC",
+    "fontSize": 12,
+    "paperSize": "a4",
+    "margin": {
+      "right": 62,
+      "left": 62,
+      "top": 56,
+      "bottom": 56
+    }
+  }
 }
