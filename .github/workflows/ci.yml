@@ -46,11 +46,30 @@ jobs:
           node-version: 22
           cache: npm
 
-      - name: Install docs dependencies
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
         run: npm ci
 
       - name: Build docs
         run: npm run docs:build
+
+      - name: Post-build optimization
+        run: npm run post-build
+
+      - name: Verify build artifacts
+        run: |
+          test -f _site/index.html || exit 1
+          test -f _site/sitemap.xml || exit 1
+          test -f _site/robots.txt || exit 1
+          test -f _site/404.html || exit 1
+          echo "✓ All required build artifacts present"
 
   markdown-links:
     name: Markdown Link Check
