@@ -16,8 +16,10 @@ Thanks for your interest in contributing.
 ### Clone and build
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/cuda-kernel-academy.git
+git clone https://github.com/LessUp/cuda-kernel-academy.git
 cd cuda-kernel-academy
+
+# If you forked the repository, also add the upstream remote:
 git remote add upstream https://github.com/LessUp/cuda-kernel-academy.git
 
 cmake --preset debug
