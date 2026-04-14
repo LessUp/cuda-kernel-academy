@@ -60,7 +60,7 @@ representative at an online or offline event.
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
 reported to the community leaders responsible for enforcement at
-**[INSERT CONTACT EMAIL]**.
+**[github@lessup.dev](mailto:github@lessup.dev)** or by opening a private report via [GitHub Security Advisories](https://github.com/LessUp/cuda-kernel-academy/security/advisories/new).
 
 All complaints will be reviewed and investigated promptly and fairly.
 
