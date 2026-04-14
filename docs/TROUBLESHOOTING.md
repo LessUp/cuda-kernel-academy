@@ -1,4 +1,4 @@
-# 🔧 故障排除指南 | Troubleshooting Guide
+# 故障排除指南
 
 本文档收集了 CUDA Kernel Academy 项目的常见问题及解决方案。
 

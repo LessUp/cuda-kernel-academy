@@ -2,7 +2,7 @@
 
 本文档介绍 CUDA Kernel Academy 文档站点的构建和部署流程。
 
-## 🚀 快速开始
+## 快速开始
 
 ### 本地开发
 
@@ -20,7 +20,7 @@ npm run docs:build
 npm run docs:build-prod
 ```
 
-## 📁 项目结构
+## 项目结构
 
 ```
 .
@@ -39,7 +39,7 @@ npm run docs:build-prod
     └── ci.yml            # 持续集成
 ```
 
-## 🔧 主要优化项
+## 主要优化项
 
 ### 1. SEO 优化
 
@@ -71,7 +71,7 @@ npm run docs:build-prod
 - **Search Plus**: 增强版搜索插件，支持中文分词
 - **搜索结果预览**: 显示匹配的文本片段
 
-## 📝 配置文件说明
+## 配置文件说明
 
 ### book.json
 
@@ -101,7 +101,7 @@ npm run docs:build-prod
 4. 生成 `404.html`
 5. 注入自定义 CSS
 
-## 🎨 自定义样式
+## 自定义样式
 
 自定义样式位于 `assets/styles/website.css`，包含：
 
@@ -112,7 +112,7 @@ npm run docs:build-prod
 - 响应式布局优化
 - 暗色模式支持 (prefers-color-scheme)
 
-## 🔄 CI/CD 流程
+## CI/CD 流程
 
 ### 自动部署触发条件
 
@@ -138,7 +138,7 @@ npm run docs:build-prod
    - 后处理优化
    - 部署到 GitHub Pages
 
-## 🛠️ 故障排除
+## 故障排除
 
 ### 构建失败
 
@@ -159,7 +159,7 @@ npm run docs:build-prod
 
 确保 `assets/styles/website.css` 存在，并且 post-build 脚本正确执行。
 
-## 📊 性能监控
+## 性能监控
 
 部署后可通过以下工具检查站点性能：
 
@@ -167,12 +167,12 @@ npm run docs:build-prod
 - [GTmetrix](https://gtmetrix.com/)
 - [WebPageTest](https://www.webpagetest.org/)
 
-## 🔗 相关链接
+## 相关链接
 
 - [HonKit 文档](https://honkit.netlify.app/)
 - [GitHub Pages 文档](https://docs.github.com/pages)
 - [GitBook 插件列表](https://github.com/honkit/honkit/wiki/Plugins)
 
-## 📝 更新日志
+## 更新日志
 
 查看 [CHANGELOG.md](../CHANGELOG.md) 了解文档站点的更新历史。

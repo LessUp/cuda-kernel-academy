@@ -1,6 +1,6 @@
-# 📚 CUDA Kernel Academy 文档
+# CUDA Kernel Academy 文档
 
-欢迎来到 CUDA Kernel Academy 文档中心！
+欢迎来到 CUDA Kernel Academy 文档中心。
 
 ## 文档索引
 
@@ -55,19 +55,19 @@
 
 ## 学习路径建议
 
-### 🎓 初学者 (1-2周)
+### 初学者 (1-2周)
 
 1. 阅读主 README 了解项目结构
 2. 进入 `01-sgemm-tutorial`，按顺序学习 5 种 GEMM 优化
 3. 运行 benchmark，理解性能差异
 
-### 📈 进阶者 (2-4周)
+### 进阶者 (2-4周)
 
 1. 学习 `02-tensorcraft-core` 的 API 设计
 2. 阅读 `architecture.md` 理解设计思想
 3. 尝试在自己的项目中集成 tensorcraft
 
-### 🚀 专家 (4-8周)
+### 专家 (4-8周)
 
 1. 深入 `03-hpc-advanced` 的 CUDA 13 特性
 2. 学习 Flash Attention 实现

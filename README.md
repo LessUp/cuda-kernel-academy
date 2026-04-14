@@ -10,6 +10,15 @@ English | [简体中文](README.zh-CN.md)
 
 A structured CUDA learning repository covering matrix multiplication, reusable kernels, advanced optimization techniques, and a lightweight inference engine.
 
+## Documentation
+
+- [Installation Guide](docs/INSTALLATION.md)
+- [Coding Style](docs/CODING_STYLE.md)
+- [Integration Examples](docs/integration_examples.md)
+- [FAQ](docs/FAQ.md)
+- [Troubleshooting](docs/TROUBLESHOOTING.md)
+- [Contributing](CONTRIBUTING.md)
+
 ## Sub-projects
 
 | # | Project | Focus | Build |

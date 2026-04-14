@@ -80,9 +80,16 @@ cmake --list-presets
 
 - [安装指南](docs/INSTALLATION.md)
 - [代码风格](docs/CODING_STYLE.md)
+- [集成示例](docs/integration_examples.md)
 - [常见问题](docs/FAQ.md)
 - [故障排除](docs/TROUBLESHOOTING.md)
 - [贡献指南](CONTRIBUTING.md)
+
+## 参考资料
+
+- [CUDA C++ Programming Guide](https://docs.nvidia.com/cuda/cuda-c-programming-guide/)
+- [CUTLASS](https://github.com/NVIDIA/cutlass)
+- [Simon Boehm's CUDA Tutorials](https://siboehm.com/articles/22/CUDA-MMM)
 
 ## License
 
