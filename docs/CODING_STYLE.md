@@ -1,4 +1,4 @@
-# 🎨 CUDA Kernel Academy 代码风格指南
+# CUDA Kernel Academy 代码风格指南
 
 本文档定义了 CUDA Kernel Academy 项目的统一代码风格和技术标准。
 
@@ -567,7 +567,3 @@ find src include -name "*.cpp" -o -name "*.cu" -o -name "*.hpp" -o -name "*.cuh"
 - [ ] 更新相关文档
 
 ---
-
-<p align="center">
-  <b>保持代码整洁，让 CUDA 更优雅！</b>
-</p>

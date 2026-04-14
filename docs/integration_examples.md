@@ -1,4 +1,4 @@
-# 🔗 Integration Examples
+# Integration Examples
 
 本文档展示如何在你的项目中集成和使用 CUDA Kernel Academy 的各个模块。
 
@@ -370,7 +370,3 @@ target_include_directories(my_app PRIVATE
 3. 确保内存已正确分配
 
 ---
-
-<p align="center">
-  <b>更多示例请参考 04-inference-engine 的完整实现</b>
-</p>
