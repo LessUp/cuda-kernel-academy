@@ -2,31 +2,31 @@
 /**
  * @file cuda_academy.hpp
  * @brief Main header for CUDA Kernel Academy common utilities
- * 
+ *
  * Include this header to get access to all common utilities:
  * - Error checking macros (CA_CUDA_CHECK, etc.)
  * - Device memory RAII wrappers
  * - Timing utilities
  * - GPU information
- * 
+ *
  * @example
  * @code
  * #include <cuda_academy/cuda_academy.hpp>
- * 
+ *
  * int main() {
  *     // Print GPU info
  *     cuda_academy::print_all_gpus();
- *     
+ *
  *     // Allocate device memory
  *     cuda_academy::DeviceMemory<float> d_data(1024);
- *     
+ *
  *     // Time a kernel
  *     cuda_academy::CudaTimer timer;
  *     timer.start();
  *     my_kernel<<<grid, block>>>(d_data.get(), 1024);
  *     timer.stop();
  *     std::cout << "Time: " << timer.elapsed_ms() << " ms" << std::endl;
- *     
+ *
  *     return 0;
  * }
  * @endcode
@@ -34,8 +34,8 @@
 
 #include "core/cuda_check.hpp"
 #include "core/device_memory.hpp"
-#include "core/timer.hpp"
 #include "core/gpu_info.hpp"
+#include "core/timer.hpp"
 
 namespace cuda_academy {
 
@@ -57,10 +57,10 @@ inline const char* version() {
  * @brief Common constants
  */
 namespace constants {
-    constexpr int WARP_SIZE = 32;
-    constexpr int MAX_BLOCK_SIZE = 1024;
-    constexpr int DEFAULT_TILE_SIZE = 32;
-    constexpr int DEFAULT_BLOCK_DIM = 16;
-}
+constexpr int WARP_SIZE = 32;
+constexpr int MAX_BLOCK_SIZE = 1024;
+constexpr int DEFAULT_TILE_SIZE = 32;
+constexpr int DEFAULT_BLOCK_DIM = 16;
+}  // namespace constants
 
-} // namespace cuda_academy
+}  // namespace cuda_academy

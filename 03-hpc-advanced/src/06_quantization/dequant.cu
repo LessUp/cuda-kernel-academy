@@ -10,7 +10,7 @@ __global__ void dequantize_kernel(const int8_t* __restrict__ quantized,
                                    int rows, int cols) {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
     int total = rows * cols;
-    
+
     if (idx < total) {
         int row = idx / cols;
         output[idx] = static_cast<T>(static_cast<float>(quantized[idx]) * scale[row]);

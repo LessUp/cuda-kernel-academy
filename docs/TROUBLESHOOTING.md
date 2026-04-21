@@ -18,6 +18,7 @@
 ### 1. nvcc: command not found
 
 **症状**：
+
 ```
 nvcc: command not found
 ```
@@ -25,6 +26,7 @@ nvcc: command not found
 **原因**：CUDA Toolkit 未安装或未添加到 PATH。
 
 **解决方案**：
+
 ```bash
 # 检查 CUDA 安装
 ls /usr/local/cuda
@@ -42,6 +44,7 @@ source ~/.bashrc
 ### 2. unsupported GNU version
 
 **症状**：
+
 ```
 #error -- unsupported GNU version! gcc versions later than X are not supported!
 ```
@@ -68,6 +71,7 @@ cmake .. -DCMAKE_CXX_COMPILER=/usr/bin/g++-11 \
 ### 3. no kernel image is available for execution
 
 **症状**：
+
 ```
 CUDA error: no kernel image is available for execution on the device
 ```
@@ -75,6 +79,7 @@ CUDA error: no kernel image is available for execution on the device
 **原因**：编译的 GPU 架构与运行的 GPU 不匹配。
 
 **解决方案**：
+
 ```bash
 # 查询 GPU 计算能力
 nvidia-smi --query-gpu=compute_cap --format=csv
@@ -88,6 +93,7 @@ cmake .. -DCMAKE_CUDA_ARCHITECTURES=90  # H100
 ### 4. undefined reference to `cudaXXX`
 
 **症状**：
+
 ```
 undefined reference to `cudaMalloc'
 undefined reference to `cudaFree'
@@ -98,6 +104,7 @@ undefined reference to `cudaFree'
 **解决方案**：
 
 在 CMakeLists.txt 中添加：
+
 ```cmake
 find_package(CUDAToolkit REQUIRED)
 target_link_libraries(your_target PRIVATE CUDA::cudart)
@@ -106,6 +113,7 @@ target_link_libraries(your_target PRIVATE CUDA::cudart)
 ### 5. error: identifier "half" is undefined
 
 **症状**：
+
 ```
 error: identifier "half" is undefined
 error: identifier "__half" is undefined
@@ -114,6 +122,7 @@ error: identifier "__half" is undefined
 **原因**：未包含 CUDA FP16 头文件。
 
 **解决方案**：
+
 ```cpp
 #include <cuda_fp16.h>
 
@@ -124,6 +133,7 @@ error: identifier "__half" is undefined
 ### 6. ptxas error: Entry function uses too much shared memory
 
 **症状**：
+
 ```
 ptxas error: Entry function 'kernel_name' uses too much shared memory
 ```
@@ -131,6 +141,7 @@ ptxas error: Entry function 'kernel_name' uses too much shared memory
 **原因**：共享内存使用超过硬件限制。
 
 **解决方案**：
+
 ```cpp
 // 检查共享内存限制
 cudaDeviceProp prop;
@@ -149,6 +160,7 @@ kernel<<<grid, block, shared_mem_size>>>();
 ### 1. CUDA error: out of memory
 
 **症状**：
+
 ```
 CUDA error: out of memory
 ```
@@ -156,6 +168,7 @@ CUDA error: out of memory
 **原因**：GPU 显存不足。
 
 **解决方案**：
+
 ```bash
 # 检查显存使用
 nvidia-smi
@@ -176,6 +189,7 @@ printf("Free: %zu MB, Total: %zu MB\n", free_mem/1024/1024, total_mem/1024/1024)
 ### 2. CUDA error: illegal memory access
 
 **症状**：
+
 ```
 CUDA error: an illegal memory access was encountered
 ```
@@ -183,12 +197,14 @@ CUDA error: an illegal memory access was encountered
 **原因**：访问了无效的 GPU 内存地址。
 
 **解决方案**：
+
 ```bash
 # 使用 compute-sanitizer 调试
 compute-sanitizer --tool memcheck ./your_program
 ```
 
 常见原因：
+
 - 数组越界访问
 - 使用已释放的内存
 - 主机指针传给 GPU kernel
@@ -197,6 +213,7 @@ compute-sanitizer --tool memcheck ./your_program
 ### 3. CUDA error: misaligned address
 
 **症状**：
+
 ```
 CUDA error: misaligned address
 ```
@@ -204,6 +221,7 @@ CUDA error: misaligned address
 **原因**：内存访问未对齐。
 
 **解决方案**：
+
 ```cpp
 // 确保内存对齐
 float* d_ptr;
@@ -218,6 +236,7 @@ struct __align__(16) AlignedStruct {
 ### 4. CUDA error: device-side assert triggered
 
 **症状**：
+
 ```
 CUDA error: device-side assert triggered
 ```
@@ -225,6 +244,7 @@ CUDA error: device-side assert triggered
 **原因**：GPU 代码中的 assert 失败。
 
 **解决方案**：
+
 ```bash
 # 启用设备端调试
 export CUDA_LAUNCH_BLOCKING=1
@@ -240,6 +260,7 @@ export CUDA_LAUNCH_BLOCKING=1
 **原因**：主机端代码错误或 CUDA 错误未检查。
 
 **解决方案**：
+
 ```cpp
 // 始终检查 CUDA 错误
 #define CUDA_CHECK(call) \
@@ -265,6 +286,7 @@ CUDA_CHECK(cudaDeviceSynchronize());
 ### 1. Kernel 运行很慢
 
 **诊断**：
+
 ```bash
 # 使用 nsys 分析
 nsys profile --stats=true ./your_program
@@ -286,12 +308,14 @@ ncu --set full ./your_program
 ### 2. 内存传输瓶颈
 
 **诊断**：
+
 ```bash
 # 检查 PCIe 带宽
 nvidia-smi topo -m
 ```
 
 **解决方案**：
+
 ```cpp
 // 使用 pinned memory
 float* h_data;
@@ -308,12 +332,14 @@ kernel<<<grid, block, 0, stream2>>>(d_b);
 ### 3. GPU 利用率低
 
 **诊断**：
+
 ```bash
 # 监控 GPU 利用率
 nvidia-smi dmon -s u
 ```
 
 **解决方案**：
+
 - 增加并行度（更大的 grid/block）
 - 使用多 stream 并发执行
 - 减少 CPU-GPU 同步点
@@ -359,11 +385,13 @@ endif()
 ### 1. Could not find CUDA
 
 **症状**：
+
 ```
 CMake Error: Could not find CUDA
 ```
 
 **解决方案**：
+
 ```bash
 # 设置 CUDA 路径
 export CUDA_HOME=/usr/local/cuda
@@ -373,11 +401,13 @@ cmake .. -DCMAKE_CUDA_COMPILER=$CUDA_HOME/bin/nvcc
 ### 2. CMake 版本过低
 
 **症状**：
+
 ```
 CMake 3.20 or higher is required
 ```
 
 **解决方案**：
+
 ```bash
 # Ubuntu: 使用 snap 安装最新版
 sudo snap install cmake --classic
@@ -391,11 +421,13 @@ sudo ./cmake-3.28.0-linux-x86_64.sh --prefix=/usr/local --skip-license
 ### 3. Ninja not found
 
 **症状**：
+
 ```
 CMake Error: CMake was unable to find a build program corresponding to "Ninja"
 ```
 
 **解决方案**：
+
 ```bash
 # 安装 Ninja
 sudo apt-get install ninja-build  # Ubuntu
@@ -412,12 +444,14 @@ cmake .. -G "Unix Makefiles"
 ### 1. 数值精度问题
 
 **症状**：
+
 ```
 Expected: 1.0
 Actual: 0.99999994
 ```
 
 **解决方案**：
+
 ```cpp
 // 使用适当的容差
 EXPECT_NEAR(expected, actual, 1e-5);
@@ -432,11 +466,13 @@ EXPECT_LT(rel_error, 1e-4);
 **症状**：测试有时通过，有时失败。
 
 **原因**：
+
 - 未初始化的内存
 - 竞态条件
 - 随机数种子问题
 
 **解决方案**：
+
 ```cpp
 // 初始化所有内存
 cudaMemset(d_ptr, 0, size);
@@ -452,11 +488,13 @@ cudaDeviceSynchronize();
 ### 3. 测试超时
 
 **症状**：
+
 ```
 Test timeout after 300 seconds
 ```
 
 **解决方案**：
+
 ```cmake
 # 增加测试超时时间
 set_tests_properties(your_test PROPERTIES TIMEOUT 600)

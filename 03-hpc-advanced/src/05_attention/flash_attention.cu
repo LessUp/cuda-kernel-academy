@@ -118,14 +118,14 @@ void flash_attention_forward<float>(const float* Q, const float* K, const float*
                                     cudaStream_t stream) {
     constexpr int BLOCK_SIZE = 64;
     constexpr int HEAD_DIM = 64;
-    
+
     dim3 grid(config.batch_size * config.num_heads,
               (config.seq_len + BLOCK_SIZE - 1) / BLOCK_SIZE);
     dim3 block(BLOCK_SIZE);
-    
-    size_t smem_size = 3 * BLOCK_SIZE * HEAD_DIM * sizeof(float) + 
+
+    size_t smem_size = 3 * BLOCK_SIZE * HEAD_DIM * sizeof(float) +
                        BLOCK_SIZE * BLOCK_SIZE * sizeof(float);
-    
+
     flash_attention_kernel<float, BLOCK_SIZE, HEAD_DIM><<<grid, block, smem_size, stream>>>(
         Q, K, V, O,
         config.batch_size, config.num_heads,

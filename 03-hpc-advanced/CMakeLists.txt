@@ -16,8 +16,13 @@ find_package(CUDAToolkit REQUIRED)
 
 # Auto-detect GPU architecture
 if(NOT DEFINED CMAKE_CUDA_ARCHITECTURES)
-    set(CMAKE_CUDA_ARCHITECTURES "70;80;86" CACHE STRING "CUDA architectures" FORCE)
-    message(STATUS "CMAKE_CUDA_ARCHITECTURES not set, defaulting to: ${CMAKE_CUDA_ARCHITECTURES}")
+  set(CMAKE_CUDA_ARCHITECTURES
+      "70;80;86"
+      CACHE STRING "CUDA architectures" FORCE)
+  message(
+    STATUS
+      "CMAKE_CUDA_ARCHITECTURES not set, defaulting to: ${CMAKE_CUDA_ARCHITECTURES}"
+  )
 endif()
 
 # FetchContent for dependencies
@@ -25,77 +30,68 @@ include(FetchContent)
 
 # GoogleTest
 FetchContent_Declare(
-    googletest
-    GIT_REPOSITORY https://github.com/google/googletest.git
-    GIT_TAG v1.14.0
-)
+  googletest
+  GIT_REPOSITORY https://github.com/google/googletest.git
+  GIT_TAG v1.14.0)
 
 # fmt library
 FetchContent_Declare(
-    fmt
-    GIT_REPOSITORY https://github.com/fmtlib/fmt.git
-    GIT_TAG 10.2.1
-)
+  fmt
+  GIT_REPOSITORY https://github.com/fmtlib/fmt.git
+  GIT_TAG 10.2.1)
 
 # RapidCheck for property-based testing
 FetchContent_Declare(
-    rapidcheck
-    GIT_REPOSITORY https://github.com/emil-e/rapidcheck.git
-    GIT_TAG        ff6af6fc683159deb51c543b065eba14dfcf329b
-    GIT_SHALLOW    FALSE
-    GIT_SUBMODULES ""
-)
+  rapidcheck
+  GIT_REPOSITORY https://github.com/emil-e/rapidcheck.git
+  GIT_TAG ff6af6fc683159deb51c543b065eba14dfcf329b
+  GIT_SHALLOW FALSE
+  GIT_SUBMODULES "")
 
 FetchContent_MakeAvailable(googletest fmt rapidcheck)
 
 # CUTLASS (header-only)
 FetchContent_Declare(
-    cutlass
-    GIT_REPOSITORY https://github.com/NVIDIA/cutlass.git
-    GIT_TAG v3.5.0
-)
+  cutlass
+  GIT_REPOSITORY https://github.com/NVIDIA/cutlass.git
+  GIT_TAG v3.5.0)
 FetchContent_GetProperties(cutlass)
 if(NOT cutlass_POPULATED)
-    FetchContent_Populate(cutlass)
+  FetchContent_Populate(cutlass)
 endif()
 
 # Nanobind (optional, for Python bindings)
 option(BUILD_PYTHON_BINDINGS "Build Python bindings" OFF)
 if(BUILD_PYTHON_BINDINGS)
-    find_package(Python 3.8 COMPONENTS Interpreter Development.Module REQUIRED)
-    FetchContent_Declare(
-        nanobind
-        GIT_REPOSITORY https://github.com/wjakob/nanobind.git
-        GIT_TAG v2.0.0
-    )
-    FetchContent_MakeAvailable(nanobind)
+  find_package(
+    Python 3.8
+    COMPONENTS Interpreter Development.Module
+    REQUIRED)
+  FetchContent_Declare(
+    nanobind
+    GIT_REPOSITORY https://github.com/wjakob/nanobind.git
+    GIT_TAG v2.0.0)
+  FetchContent_MakeAvailable(nanobind)
 endif()
-
 
 # Common library (header-only)
 add_library(hpc_common INTERFACE)
-target_include_directories(hpc_common INTERFACE 
-    ${CMAKE_CURRENT_SOURCE_DIR}/src
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/common
-    ${cutlass_SOURCE_DIR}/include
-)
+target_include_directories(
+  hpc_common
+  INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/src
+            ${CMAKE_CURRENT_SOURCE_DIR}/src/common
+            ${cutlass_SOURCE_DIR}/include)
 target_link_libraries(hpc_common INTERFACE fmt::fmt)
 
 # CUDA compile options
 function(hpc_add_cuda_library target)
-    add_library(${target} ${ARGN})
-    target_link_libraries(${target} PUBLIC hpc_common)
-    target_compile_options(${target} PRIVATE
-        $<$<COMPILE_LANGUAGE:CUDA>:
-            --expt-relaxed-constexpr
-            --extended-lambda
-            -Xcompiler=-Wall
-        >
-    )
-    set_target_properties(${target} PROPERTIES
-        CUDA_SEPARABLE_COMPILATION ON
-        POSITION_INDEPENDENT_CODE ON
-    )
+  add_library(${target} ${ARGN})
+  target_link_libraries(${target} PUBLIC hpc_common)
+  target_compile_options(
+    ${target} PRIVATE $<$<COMPILE_LANGUAGE:CUDA>: --expt-relaxed-constexpr
+                      --extended-lambda -Xcompiler=-Wall >)
+  set_target_properties(${target} PROPERTIES CUDA_SEPARABLE_COMPILATION ON
+                                             POSITION_INDEPENDENT_CODE ON)
 endfunction()
 
 # Kernel modules
@@ -109,7 +105,7 @@ add_subdirectory(src/07_cuda13_features)
 
 # Python bindings
 if(BUILD_PYTHON_BINDINGS)
-    add_subdirectory(python)
+  add_subdirectory(python)
 endif()
 
 # Tests

@@ -121,12 +121,14 @@ if(BUILD_HPC_ADVANCED)
       WARNING
         "Skipping 03-hpc-advanced (requires CUDA >= 12.0). Configure with -DBUILD_HPC_ADVANCED=OFF to disable this warning."
     )
-  elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "11.0")
+  elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION
+                                                  VERSION_LESS "11.0")
     message(
       WARNING
         "Skipping 03-hpc-advanced (requires GCC >= 11 for C++20 concepts support). Configure with -DBUILD_HPC_ADVANCED=OFF to disable this warning."
     )
-  elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "14.0")
+  elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang" AND CMAKE_CXX_COMPILER_VERSION
+                                                   VERSION_LESS "14.0")
     message(
       WARNING
         "Skipping 03-hpc-advanced (requires Clang >= 14 for C++20 concepts support). Configure with -DBUILD_HPC_ADVANCED=OFF to disable this warning."

@@ -15,17 +15,17 @@ __global__ void tiled_gemm(const float* A, const float* B, float* C,
                             int M, int N, int K) {
     __shared__ float As[TILE_SIZE][TILE_SIZE];
     __shared__ float Bs[TILE_SIZE][TILE_SIZE];
-    
+
     int bx = blockIdx.x;
     int by = blockIdx.y;
     int tx = threadIdx.x;
     int ty = threadIdx.y;
-    
+
     int row = by * TILE_SIZE + ty;
     int col = bx * TILE_SIZE + tx;
-    
+
     float sum = 0.0f;
-    
+
     // Loop over tiles
     int num_tiles = (K + TILE_SIZE - 1) / TILE_SIZE;
     for (int t = 0; t < num_tiles; t++) {
@@ -36,7 +36,7 @@ __global__ void tiled_gemm(const float* A, const float* B, float* C,
         } else {
             As[ty][tx] = 0.0f;
         }
-        
+
         // Load tile from B
         int b_row = t * TILE_SIZE + ty;
         if (b_row < K && col < N) {
@@ -44,18 +44,18 @@ __global__ void tiled_gemm(const float* A, const float* B, float* C,
         } else {
             Bs[ty][tx] = 0.0f;
         }
-        
+
         __syncthreads();
-        
+
         // Compute partial dot product
         #pragma unroll
         for (int k = 0; k < TILE_SIZE; k++) {
             sum += As[ty][k] * Bs[k][tx];
         }
-        
+
         __syncthreads();
     }
-    
+
     // Write result
     if (row < M && col < N) {
         C[row * N + col] = sum;

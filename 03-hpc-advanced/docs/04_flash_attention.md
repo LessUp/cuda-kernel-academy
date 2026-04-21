@@ -11,6 +11,7 @@ Attention(Q, K, V) = softmax(Q @ K^T / sqrt(d)) @ V
 ```
 
 其中:
+
 - Q: (batch, heads, seq_len, head_dim)
 - K: (batch, heads, seq_len, head_dim)
 - V: (batch, heads, seq_len, head_dim)

@@ -476,7 +476,7 @@ __global__ void gemm_mma_ptx_kernel(const __half* __restrict__ A,
                                      int M, int N, int K) {
     // This is a simplified demonstration of MMA PTX usage
     // Full implementation would require careful register management
-    
+
     constexpr int MMA_M = 16;
     constexpr int MMA_N = 8;
     constexpr int MMA_K = 16;
@@ -502,7 +502,7 @@ __global__ void gemm_mma_ptx_kernel(const __half* __restrict__ A,
 
         // In a real implementation, we would load data here
         // For demonstration, we use WMMA as fallback
-        
+
         // Perform MMA
         // mma_m16n8k16_fp16(c_regs, a_regs, b_regs, c_regs);
     }

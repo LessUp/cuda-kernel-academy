@@ -36,30 +36,30 @@ __global__ void half_gemm(
     const half* __restrict__ B,
     half* __restrict__ C,
     int M, int N, int K) {
-    
+
     __shared__ half As[BK][BM + 8];  // Extra padding for half
     __shared__ half Bs[BK][BN + 8];
-    
+
     const int tx = threadIdx.x;
     const int ty = threadIdx.y;
     const int bx = blockIdx.x;
     const int by = blockIdx.y;
-    
+
     const int THREADS_X = BN / TN;
     const int THREADS_Y = BM / TM;
     const int NUM_THREADS = THREADS_X * THREADS_Y;
     const int tid = ty * THREADS_X + tx;
-    
+
     const int row_start = by * BM + ty * TM;
     const int col_start = bx * BN + tx * TN;
-    
+
     // Accumulate in FP32 for precision
     float regC[TM][TN] = {0.0f};
     half regA[TM];
     half regB[TN];
-    
+
     const int num_tiles = (K + BK - 1) / BK;
-    
+
     for (int tile = 0; tile < num_tiles; tile++) {
         // Load A tile
         #pragma unroll
@@ -69,14 +69,14 @@ __global__ void half_gemm(
             int a_m = idx / BK;
             int global_row = by * BM + a_m;
             int global_col = tile * BK + a_k;
-            
+
             if (global_row < M && global_col < K) {
                 As[a_k][a_m] = A[global_row * K + global_col];
             } else {
                 As[a_k][a_m] = __float2half(0.0f);
             }
         }
-        
+
         // Load B tile
         #pragma unroll
         for (int i = 0; i < (BK * BN) / NUM_THREADS; i++) {
@@ -85,16 +85,16 @@ __global__ void half_gemm(
             int b_n = idx % BN;
             int global_row = tile * BK + b_k;
             int global_col = bx * BN + b_n;
-            
+
             if (global_row < K && global_col < N) {
                 Bs[b_k][b_n] = B[global_row * N + global_col];
             } else {
                 Bs[b_k][b_n] = __float2half(0.0f);
             }
         }
-        
+
         __syncthreads();
-        
+
         // Compute
         #pragma unroll
         for (int k = 0; k < BK; k++) {
@@ -102,27 +102,27 @@ __global__ void half_gemm(
             for (int m = 0; m < TM; m++) {
                 regA[m] = As[k][ty * TM + m];
             }
-            
+
             #pragma unroll
             for (int n = 0; n < TN; n++) {
                 regB[n] = Bs[k][tx * TN + n];
             }
-            
+
             // FMA in FP32
             #pragma unroll
             for (int m = 0; m < TM; m++) {
                 #pragma unroll
                 for (int n = 0; n < TN; n++) {
-                    regC[m][n] = fmaf(__half2float(regA[m]), 
-                                      __half2float(regB[n]), 
+                    regC[m][n] = fmaf(__half2float(regA[m]),
+                                      __half2float(regB[n]),
                                       regC[m][n]);
                 }
             }
         }
-        
+
         __syncthreads();
     }
-    
+
     // Write results (convert back to half)
     #pragma unroll
     for (int m = 0; m < TM; m++) {
@@ -146,29 +146,29 @@ __global__ void mixed_precision_gemm(
     const half* __restrict__ B,
     float* __restrict__ C,
     int M, int N, int K) {
-    
+
     __shared__ half As[BK][BM + 8];
     __shared__ half Bs[BK][BN + 8];
-    
+
     const int tx = threadIdx.x;
     const int ty = threadIdx.y;
     const int bx = blockIdx.x;
     const int by = blockIdx.y;
-    
+
     const int THREADS_X = BN / TN;
     const int THREADS_Y = BM / TM;
     const int NUM_THREADS = THREADS_X * THREADS_Y;
     const int tid = ty * THREADS_X + tx;
-    
+
     const int row_start = by * BM + ty * TM;
     const int col_start = bx * BN + tx * TN;
-    
+
     float regC[TM][TN] = {0.0f};
     half regA[TM];
     half regB[TN];
-    
+
     const int num_tiles = (K + BK - 1) / BK;
-    
+
     for (int tile = 0; tile < num_tiles; tile++) {
         #pragma unroll
         for (int i = 0; i < (BM * BK) / NUM_THREADS; i++) {
@@ -177,12 +177,12 @@ __global__ void mixed_precision_gemm(
             int a_m = idx / BK;
             int global_row = by * BM + a_m;
             int global_col = tile * BK + a_k;
-            
-            As[a_k][a_m] = (global_row < M && global_col < K) 
-                ? A[global_row * K + global_col] 
+
+            As[a_k][a_m] = (global_row < M && global_col < K)
+                ? A[global_row * K + global_col]
                 : __float2half(0.0f);
         }
-        
+
         #pragma unroll
         for (int i = 0; i < (BK * BN) / NUM_THREADS; i++) {
             int idx = tid + i * NUM_THREADS;
@@ -190,40 +190,40 @@ __global__ void mixed_precision_gemm(
             int b_n = idx % BN;
             int global_row = tile * BK + b_k;
             int global_col = bx * BN + b_n;
-            
+
             Bs[b_k][b_n] = (global_row < K && global_col < N)
                 ? B[global_row * N + global_col]
                 : __float2half(0.0f);
         }
-        
+
         __syncthreads();
-        
+
         #pragma unroll
         for (int k = 0; k < BK; k++) {
             #pragma unroll
             for (int m = 0; m < TM; m++) {
                 regA[m] = As[k][ty * TM + m];
             }
-            
+
             #pragma unroll
             for (int n = 0; n < TN; n++) {
                 regB[n] = Bs[k][tx * TN + n];
             }
-            
+
             #pragma unroll
             for (int m = 0; m < TM; m++) {
                 #pragma unroll
                 for (int n = 0; n < TN; n++) {
-                    regC[m][n] = fmaf(__half2float(regA[m]), 
-                                      __half2float(regB[n]), 
+                    regC[m][n] = fmaf(__half2float(regA[m]),
+                                      __half2float(regB[n]),
                                       regC[m][n]);
                 }
             }
         }
-        
+
         __syncthreads();
     }
-    
+
     // Write FP32 results
     #pragma unroll
     for (int m = 0; m < TM; m++) {

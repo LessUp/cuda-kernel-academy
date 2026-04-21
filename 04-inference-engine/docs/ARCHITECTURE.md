@@ -83,6 +83,7 @@ class InferenceEngine {
 ```
 
 **设计决策**:
+
 - 使用 RAII 模式管理 GPU 资源
 - 支持多层网络的链式前向传播
 - 使用融合 kernel 减少内存带宽消耗
@@ -107,6 +108,7 @@ class Tensor {
 ```
 
 **设计决策**:
+
 - 使用内存池减少分配开销
 - 禁用拷贝构造，强制使用移动语义
 - 支持任意维度的张量
@@ -128,6 +130,7 @@ class MemoryPool {
 ```
 
 **设计决策**:
+
 - 使用 best-fit 策略匹配缓存块
 - 256 字节对齐以支持向量化加载
 - 线程安全设计
@@ -150,6 +153,7 @@ class StreamManager {
 ```
 
 **设计决策**:
+
 - 单例模式确保全局一致性
 - 轮询分配实现负载均衡
 - 支持细粒度同步
@@ -195,6 +199,7 @@ __global__ void optimized_gemm(...);
 ```
 
 **参数约束**:
+
 ```
 threads_per_block = (BM / TM) * (BN / TN) <= 1024
 shared_memory = (BM * BK + BK * BN) * sizeof(float) <= 48KB

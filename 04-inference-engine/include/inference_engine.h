@@ -1,8 +1,9 @@
 #pragma once
 
+#include <fstream>
+
 #include "common.h"
 #include "kernels.cuh"
-#include <fstream>
 
 namespace mini_inference {
 
@@ -21,7 +22,7 @@ struct WeightFileHeader {
 };
 
 struct LayerMeta {
-    uint32_t type;          // 0 = Linear
+    uint32_t type;  // 0 = Linear
     uint32_t in_features;
     uint32_t out_features;
     uint32_t has_bias;
@@ -43,44 +44,44 @@ class InferenceEngine {
 public:
     InferenceEngine() = default;
     ~InferenceEngine() { cleanup(); }
-    
+
     // Disable copy
     InferenceEngine(const InferenceEngine&) = delete;
     InferenceEngine& operator=(const InferenceEngine&) = delete;
-    
+
     // Initialize engine
     void init(int device_id = 0);
-    
+
     // Load model weights from file
     bool load_weights(const std::string& path);
-    
+
     // Save model weights to file
     bool save_weights(const std::string& path) const;
-    
+
     // Add a layer manually
-    void add_layer(int in_features, int out_features, bool has_bias,
-                   const float* weights_data, const float* bias_data = nullptr);
-    
+    void add_layer(int in_features, int out_features, bool has_bias, const float* weights_data,
+                   const float* bias_data = nullptr);
+
     // Forward pass
     void forward(const float* input, float* output, int batch_size);
-    
+
     // Forward pass with timing info
     void forward_with_timing(const float* input, float* output, int batch_size,
                              std::vector<float>& layer_times_ms);
-    
+
     // Get layer count
     size_t num_layers() const { return layers_.size(); }
-    
+
     // Get input/output dimensions
     int input_dim() const { return layers_.empty() ? 0 : layers_[0].in_features; }
     int output_dim() const { return layers_.empty() ? 0 : layers_.back().out_features; }
-    
+
     // Cleanup resources
     void cleanup();
-    
+
     // Check if initialized
     bool is_initialized() const { return initialized_; }
-    
+
 private:
     std::vector<LayerWeights> layers_;
     cublasHandle_t cublas_handle_ = nullptr;
@@ -95,13 +96,12 @@ private:
 // ============================================================================
 
 // Create random weights for testing
-void create_random_weights(const std::string& path, 
+void create_random_weights(const std::string& path,
                            const std::vector<std::pair<int, int>>& layer_dims,
                            bool with_bias = true);
 
 // Load weights from host arrays
-void load_weights_from_host(LayerWeights& layer, 
-                            int in_features, int out_features,
+void load_weights_from_host(LayerWeights& layer, int in_features, int out_features,
                             const float* weights, const float* bias = nullptr);
 
-} // namespace mini_inference
+}  // namespace mini_inference

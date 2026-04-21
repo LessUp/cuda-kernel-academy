@@ -10,7 +10,7 @@ void launch_cublas_gemm(cublasHandle_t handle, const float* A, const float* B, f
                         int M, int N, int K, cudaStream_t stream) {
     const float alpha = 1.0f;
     const float beta = 0.0f;
-    
+
     // cuBLAS uses column-major, so we compute C^T = B^T * A^T
     // which gives us C in row-major format
     CUBLAS_CHECK(cublasSetStream(handle, stream));
@@ -33,7 +33,7 @@ PerfStats benchmark_kernel(GemmKernelType type, const float* A, const float* B, 
                            cublasHandle_t cublas_handle, cudaStream_t stream) {
     GpuTimer timer;
     PerfStats stats;
-    
+
     // Warmup
     for (int i = 0; i < warmup_iters; i++) {
         switch (type) {
@@ -63,7 +63,7 @@ PerfStats benchmark_kernel(GemmKernelType type, const float* A, const float* B, 
         }
     }
     CUDA_CHECK(cudaStreamSynchronize(stream));
-    
+
     // Benchmark
     timer.start(stream);
     for (int i = 0; i < bench_iters; i++) {
@@ -94,15 +94,15 @@ PerfStats benchmark_kernel(GemmKernelType type, const float* A, const float* B, 
         }
     }
     timer.stop(stream);
-    
+
     stats.kernel_time_ms = timer.elapsed_ms() / bench_iters;
     stats.compute_gflops(M, N, K);
-    
+
     // Memory bandwidth: read A (M*K) + B (K*N), write C (M*N)
-    double bytes = (static_cast<double>(M) * K + static_cast<double>(K) * N + 
+    double bytes = (static_cast<double>(M) * K + static_cast<double>(K) * N +
                    static_cast<double>(M) * N) * sizeof(float);
     stats.memory_bandwidth_gb = static_cast<float>(bytes / (stats.kernel_time_ms * 1e6));
-    
+
     return stats;
 }
 

@@ -489,6 +489,7 @@ repos:
 #### CODE_OF_CONDUCT.md
 
 基于 Contributor Covenant v2.1，包含：
+
 - 行为准则
 - 执行标准
 - 报告机制
@@ -516,6 +517,7 @@ Do NOT create public issues for security vulnerabilities.
 #### docs/README.md
 
 文档索引页，提供所有文档的导航入口：
+
 - 链接到 INSTALLATION.md、FAQ.md、TROUBLESHOOTING.md
 - 链接到 CODING_STYLE.md、integration_examples.md
 - 链接到根目录的 CONTRIBUTING.md、CHANGELOG.md
@@ -523,6 +525,7 @@ Do NOT create public issues for security vulnerabilities.
 #### docs/integration_examples.md
 
 跨模块集成示例，展示如何将各子项目组合使用：
+
 - tensorcraft-core 与 inference-engine 的集成
 - 算子融合示例
 - Python 绑定调用示例
@@ -633,6 +636,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 文件存在性测试
 
 验证所有必需文件存在：
+
 - [ ] CONTRIBUTING.md
 - [ ] CODE_OF_CONDUCT.md
 - [ ] SECURITY.md
@@ -669,4 +673,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - 每个示例独立编译测试
 - 验证示例可以正常运行
-

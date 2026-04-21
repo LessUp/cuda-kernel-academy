@@ -15,7 +15,7 @@ __global__ void fp8_gemm_kernel(const T* __restrict__ A,
                                  float scale_a, float scale_b) {
     int row = blockIdx.y * blockDim.y + threadIdx.y;
     int col = blockIdx.x * blockDim.x + threadIdx.x;
-    
+
     if (row < M && col < N) {
         float sum = 0.0f;
         for (int k = 0; k < K; ++k) {

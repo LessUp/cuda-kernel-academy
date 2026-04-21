@@ -34,6 +34,7 @@ CUDA Kernel Academy is a structured educational repository for learning high-per
 ## Technology Stack
 
 ### Core Technologies
+
 - **CUDA Toolkit**: 11.0+ (modules 01, 02, 04), 12.0+ (module 03)
 - **CMake**: 3.20+ (minimum), 3.24+ (recommended)
 - **C++ Standards**: C++17 (default), C++20 (module 03 required)
@@ -101,6 +102,7 @@ option(BUILD_PYTHON_BINDINGS "Build Python bindings" OFF)
 ### Module-Specific Builds
 
 **01-sgemm-tutorial** (Standalone Makefile):
+
 ```bash
 cd 01-sgemm-tutorial
 make GPU_ARCH=sm_86        # Build benchmark
@@ -109,6 +111,7 @@ make clean                  # Clean build
 ```
 
 **Individual module with CMake**:
+
 ```bash
 cd 02-tensorcraft-core
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
@@ -209,6 +212,7 @@ Use `#pragma once` instead of include guards.
 ### Documentation
 
 Doxygen-style comments required for public APIs:
+
 ```cpp
 /**
  * @brief Brief description
@@ -259,6 +263,7 @@ pre-commit run --all-files
 **Enabled**: `bugprone-*`, `clang-analyzer-*`, `cppcoreguidelines-*`, `modernize-*`, `performance-*`, `readability-*`
 
 **Disabled** (HPC context):
+
 - `modernize-use-trailing-return-type`
 - `readability-magic-numbers`
 - `cppcoreguidelines-avoid-magic-numbers`
@@ -346,6 +351,7 @@ cuda-kernel-academy/
 ### Commit Messages
 
 Use Conventional Commits:
+
 ```
 feat(scope): short description
 fix(scope): short description
@@ -356,6 +362,7 @@ ci(scope): short description
 ### CUDA Error Handling
 
 Always use the provided error checking macros:
+
 ```cpp
 #include "cuda_academy/cuda_academy.hpp"
 
@@ -369,6 +376,7 @@ CUDA_CHECK(cudaDeviceSynchronize());
 ### CUDA Compilation Flags
 
 Common flags used:
+
 - `--expt-relaxed-constexpr` - Allow constexpr in device code
 - `--extended-lambda` - Allow lambda capture in device code
 - `--use_fast_math` - Enable fast math (Release builds)
@@ -384,12 +392,14 @@ Common flags used:
 ## Troubleshooting Common Issues
 
 ### CUDA Not Found
+
 ```bash
 export PATH=/usr/local/cuda/bin:$PATH
 export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 ```
 
 ### Unsupported GCC Version
+
 ```bash
 # Use compatible GCC version
 sudo apt install gcc-11 g++-11
@@ -398,6 +408,7 @@ cmake .. -DCMAKE_CXX_COMPILER=/usr/bin/g++-11 \
 ```
 
 ### Wrong GPU Architecture
+
 ```bash
 # Find your GPU compute capability
 nvidia-smi --query-gpu=compute_cap --format=csv

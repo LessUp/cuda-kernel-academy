@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
 - Stream Manager for multi-stream concurrent execution
 - Batched GEMM operations with stream parallelism
 - INT8 quantization support with per-channel quantization
@@ -24,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2024-12-31
 
 ### Added
+
 - Complete GEMM optimization implementation
   - Level 1: Naive MatMul
   - Level 2: Tiled GEMM with shared memory
@@ -45,6 +47,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Test suite with Google Test
 
 ### Infrastructure
+
 - CMake build system with CUDA support
 - Optional test building (BUILD_TESTS flag)
 - Support for CUDA architectures 75, 80, 86, 89, 90
@@ -52,6 +55,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.0] - 2024-12-30
 
 ### Added
+
 - Initial project structure
 - Basic GEMM kernels (Naive, Tiled)
 - Core data structures (MatrixDesc, GemmConfig)
@@ -91,16 +95,19 @@ None.
 ## Roadmap
 
 ### Planned for 1.1.0
+
 - [ ] Tensor Core support (WMMA API)
 - [ ] Multi-GPU support
 - [ ] ONNX model loading
 
 ### Planned for 1.2.0
+
 - [ ] INT4 quantization
 - [ ] Sparse matrix support
 - [ ] Custom activation functions
 
 ### Long-term
+
 - [ ] Transformer layer support
 - [ ] Convolution operations
 - [ ] Graph optimization

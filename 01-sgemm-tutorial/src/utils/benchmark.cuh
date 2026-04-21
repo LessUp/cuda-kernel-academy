@@ -24,7 +24,7 @@ struct BenchmarkResult {
     bool correct;
     float max_error;
     float efficiency;  // Percentage of theoretical peak
-    
+
     void print() const {
         printf("  %-25s | %4d x %4d x %4d | %8.3f ms | %8.2f GFLOPS | %s | err: %.2e\n",
                kernel_name.c_str(), M, K, N, time_ms, gflops,
@@ -43,16 +43,16 @@ public:
         CUDA_CHECK(cudaEventCreate(&stop_));
         CUBLAS_CHECK(cublasCreate(&cublas_handle_));
     }
-    
+
     ~SGEMMBenchmark() {
         cudaEventDestroy(start_);
         cudaEventDestroy(stop_);
         cublasDestroy(cublas_handle_);
     }
-    
+
     /**
      * Run benchmark for a single kernel
-     * 
+     *
      * @param name Kernel name for reporting
      * @param kernel_func Function that launches the kernel
      * @param M, K, N Matrix dimensions
@@ -77,23 +77,23 @@ public:
         result.M = M;
         result.K = K;
         result.N = N;
-        
+
         // Allocate memory
         std::vector<float> h_A(M * K), h_B(K * N), h_C(M * N), h_C_ref(M * N);
         float *d_A, *d_B, *d_C, *d_C_ref;
-        
+
         CUDA_CHECK(cudaMalloc(&d_A, M * K * sizeof(float)));
         CUDA_CHECK(cudaMalloc(&d_B, K * N * sizeof(float)));
         CUDA_CHECK(cudaMalloc(&d_C, M * N * sizeof(float)));
         CUDA_CHECK(cudaMalloc(&d_C_ref, M * N * sizeof(float)));
-        
+
         // Initialize with random data
         initRandomMatrix(h_A.data(), M, K, -1.0f, 1.0f, 42);
         initRandomMatrix(h_B.data(), K, N, -1.0f, 1.0f, 123);
-        
+
         CUDA_CHECK(cudaMemcpy(d_A, h_A.data(), M * K * sizeof(float), cudaMemcpyHostToDevice));
         CUDA_CHECK(cudaMemcpy(d_B, h_B.data(), K * N * sizeof(float), cudaMemcpyHostToDevice));
-        
+
         // Compute reference using cuBLAS
         float alpha = 1.0f, beta = 0.0f;
         CUBLAS_CHECK(cublasSgemm(cublas_handle_,
@@ -101,14 +101,14 @@ public:
                                  N, M, K,
                                  &alpha, d_B, N, d_A, K,
                                  &beta, d_C_ref, N));
-        
+
         // Warm-up runs
         for (int i = 0; i < warmup_runs; ++i) {
             CUDA_CHECK(cudaMemset(d_C, 0, M * N * sizeof(float)));
             kernel_func(d_A, d_B, d_C, M, K, N);
         }
         CUDA_CHECK(cudaDeviceSynchronize());
-        
+
         // Benchmark runs
         CUDA_CHECK(cudaEventRecord(start_));
         for (int i = 0; i < benchmark_runs; ++i) {
@@ -116,39 +116,39 @@ public:
         }
         CUDA_CHECK(cudaEventRecord(stop_));
         CUDA_CHECK(cudaEventSynchronize(stop_));
-        
+
         float total_time_ms;
         CUDA_CHECK(cudaEventElapsedTime(&total_time_ms, start_, stop_));
         result.time_ms = total_time_ms / benchmark_runs;
-        
+
         // Calculate GFLOPS
         // GEMM: 2 * M * N * K FLOPs (multiply + add for each output element)
         double flops = 2.0 * M * N * K;
         result.gflops = (flops / (result.time_ms * 1e-3)) / 1e9;
-        
+
         // Calculate memory bandwidth (approximate)
         // Read: A (M*K) + B (K*N), Write: C (M*N)
         double bytes = (M * K + K * N + M * N) * sizeof(float);
         result.bandwidth_gb_s = (bytes / (result.time_ms * 1e-3)) / 1e9;
-        
+
         // Verify correctness
         CUDA_CHECK(cudaMemcpy(h_C.data(), d_C, M * N * sizeof(float), cudaMemcpyDeviceToHost));
         CUDA_CHECK(cudaMemcpy(h_C_ref.data(), d_C_ref, M * N * sizeof(float), cudaMemcpyDeviceToHost));
-        
+
         VerifyResult verify_result = compareMatrices(h_C.data(), h_C_ref.data(), M, N, rtol, atol);
         result.correct = verify_result.passed;
         result.max_error = verify_result.max_rel_error;
-        
+
         // Cleanup
         cudaFree(d_A);
         cudaFree(d_B);
         cudaFree(d_C);
         cudaFree(d_C_ref);
-        
+
         results_.push_back(result);
         return result;
     }
-    
+
     /**
      * Run cuBLAS benchmark for comparison
      */
@@ -158,21 +158,21 @@ public:
         result.M = M;
         result.K = K;
         result.N = N;
-        
+
         float *d_A, *d_B, *d_C;
         CUDA_CHECK(cudaMalloc(&d_A, M * K * sizeof(float)));
         CUDA_CHECK(cudaMalloc(&d_B, K * N * sizeof(float)));
         CUDA_CHECK(cudaMalloc(&d_C, M * N * sizeof(float)));
-        
+
         std::vector<float> h_A(M * K), h_B(K * N);
         initRandomMatrix(h_A.data(), M, K, -1.0f, 1.0f, 42);
         initRandomMatrix(h_B.data(), K, N, -1.0f, 1.0f, 123);
-        
+
         CUDA_CHECK(cudaMemcpy(d_A, h_A.data(), M * K * sizeof(float), cudaMemcpyHostToDevice));
         CUDA_CHECK(cudaMemcpy(d_B, h_B.data(), K * N * sizeof(float), cudaMemcpyHostToDevice));
-        
+
         float alpha = 1.0f, beta = 0.0f;
-        
+
         // Warm-up
         for (int i = 0; i < warmup_runs; ++i) {
             CUBLAS_CHECK(cublasSgemm(cublas_handle_,
@@ -182,7 +182,7 @@ public:
                                      &beta, d_C, N));
         }
         CUDA_CHECK(cudaDeviceSynchronize());
-        
+
         // Benchmark
         CUDA_CHECK(cudaEventRecord(start_));
         for (int i = 0; i < benchmark_runs; ++i) {
@@ -194,28 +194,28 @@ public:
         }
         CUDA_CHECK(cudaEventRecord(stop_));
         CUDA_CHECK(cudaEventSynchronize(stop_));
-        
+
         float total_time_ms;
         CUDA_CHECK(cudaEventElapsedTime(&total_time_ms, start_, stop_));
         result.time_ms = total_time_ms / benchmark_runs;
-        
+
         double flops = 2.0 * M * N * K;
         result.gflops = (flops / (result.time_ms * 1e-3)) / 1e9;
-        
+
         double bytes = (M * K + K * N + M * N) * sizeof(float);
         result.bandwidth_gb_s = (bytes / (result.time_ms * 1e-3)) / 1e9;
-        
+
         result.correct = true;
         result.max_error = 0.0f;
-        
+
         cudaFree(d_A);
         cudaFree(d_B);
         cudaFree(d_C);
-        
+
         results_.push_back(result);
         return result;
     }
-    
+
     /**
      * Print summary of all benchmark results
      */
@@ -227,14 +227,14 @@ public:
         printf("  %-25s | %-17s | %10s | %14s | %4s | %s\n",
                "Kernel", "Dimensions", "Time", "Performance", "Pass", "Max Error");
         printf("--------------------------------------------------------------------------------\n");
-        
+
         for (const auto& result : results_) {
             result.print();
         }
-        
+
         printf("================================================================================\n");
     }
-    
+
     /**
      * Export results for Roofline model analysis
      */
@@ -244,15 +244,15 @@ public:
             fprintf(stderr, "Failed to open file: %s\n", filename.c_str());
             return;
         }
-        
+
         file << "kernel,M,K,N,time_ms,gflops,bandwidth_gb_s,arithmetic_intensity\n";
-        
+
         for (const auto& result : results_) {
             // Arithmetic intensity = FLOPs / Bytes
             double flops = 2.0 * result.M * result.N * result.K;
             double bytes = (result.M * result.K + result.K * result.N + result.M * result.N) * sizeof(float);
             double ai = flops / bytes;
-            
+
             file << result.kernel_name << ","
                  << result.M << "," << result.K << "," << result.N << ","
                  << result.time_ms << ","
@@ -260,32 +260,32 @@ public:
                  << result.bandwidth_gb_s << ","
                  << ai << "\n";
         }
-        
+
         file.close();
         printf("Roofline data exported to: %s\n", filename.c_str());
     }
-    
+
     /**
      * Get all results
      */
     const std::vector<BenchmarkResult>& getResults() const {
         return results_;
     }
-    
+
     /**
      * Clear results
      */
     void clearResults() {
         results_.clear();
     }
-    
+
     /**
      * Get cuBLAS handle for external use
      */
     cublasHandle_t getCublasHandle() const {
         return cublas_handle_;
     }
-    
+
 private:
     cudaEvent_t start_, stop_;
     cublasHandle_t cublas_handle_;
@@ -306,7 +306,7 @@ inline void printPerformanceComparison(const std::vector<BenchmarkResult>& resul
     printf("--------------------------------------------------------------------------------\n");
     printf("  %-25s | %14s | %10s\n", "Kernel", "GFLOPS", "% of cuBLAS");
     printf("--------------------------------------------------------------------------------\n");
-    
+
     for (const auto& result : results) {
         float percentage = (result.gflops / cublas_gflops) * 100.0f;
         printf("  %-25s | %10.2f     | %8.1f%%\n",
@@ -323,10 +323,10 @@ inline void printPerformanceComparison(const std::vector<BenchmarkResult>& resul
 inline float getTheoreticalPeakGflops() {
     int device;
     CUDA_CHECK(cudaGetDevice(&device));
-    
+
     cudaDeviceProp prop;
     CUDA_CHECK(cudaGetDeviceProperties(&prop, device));
-    
+
     // FP32 cores per SM varies by architecture
     int coresPerSM;
     switch (prop.major) {
@@ -335,12 +335,12 @@ inline float getTheoreticalPeakGflops() {
         case 9: coresPerSM = 128; break;  // Hopper
         default: coresPerSM = 64;
     }
-    
+
     // clockRate is in kHz → convert to GHz
     float clockGHz = prop.clockRate / 1e6f;
     // Peak GFLOPS = SMs × cores × 2 (FMA) × clock (GHz)
     float peakGflops = prop.multiProcessorCount * coresPerSM * 2.0f * clockGHz;
-    
+
     return peakGflops;
 }
 
@@ -352,15 +352,15 @@ inline float getTheoreticalPeakGflops() {
 inline float getTheoreticalPeakBandwidth() {
     int device;
     CUDA_CHECK(cudaGetDevice(&device));
-    
+
     cudaDeviceProp prop;
     CUDA_CHECK(cudaGetDeviceProperties(&prop, device));
-    
+
     // memoryClockRate is in kHz, memoryBusWidth in bits
     // Effective bandwidth = memClk (Hz) × busWidth (bytes) × 2 (DDR) / 1e9
     float memClockHz = prop.memoryClockRate * 1e3f;
     float busWidthBytes = prop.memoryBusWidth / 8.0f;
     float peakBandwidth = memClockHz * busWidthBytes * 2.0f / 1e9f;
-    
+
     return peakBandwidth;
 }

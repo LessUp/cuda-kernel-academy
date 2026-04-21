@@ -9,26 +9,19 @@ set(CMAKE_CUDA_STANDARD_REQUIRED ON)
 
 # CUDA 架构 (默认支持 Volta 到 Hopper)
 if(NOT DEFINED CMAKE_CUDA_ARCHITECTURES)
-    set(CMAKE_CUDA_ARCHITECTURES "70;80;86")
+  set(CMAKE_CUDA_ARCHITECTURES "70;80;86")
 endif()
 
 # 创建可执行文件
 add_executable(tensor_operations main.cu)
 
 # 编译选项
-target_compile_options(tensor_operations PRIVATE
-    $<$<COMPILE_LANGUAGE:CUDA>:
-        --expt-relaxed-constexpr
-        -Xcompiler=-Wall
-    >
-)
+target_compile_options(
+  tensor_operations PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:
+                            --expt-relaxed-constexpr -Xcompiler=-Wall >)
 
 # Release 优化
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
-    target_compile_options(tensor_operations PRIVATE
-        $<$<COMPILE_LANGUAGE:CUDA>:
-            -O3
-            --use_fast_math
-        >
-    )
+  target_compile_options(tensor_operations PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:
+                                                   -O3 --use_fast_math >)
 endif()

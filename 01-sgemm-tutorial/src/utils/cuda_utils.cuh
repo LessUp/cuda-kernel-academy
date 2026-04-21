@@ -140,7 +140,7 @@ inline void initRandomMatrix(float* data, int rows, int cols,
                              unsigned int seed = 42) {
     std::mt19937 gen(seed);
     std::uniform_real_distribution<float> dist(min_val, max_val);
-    
+
     for (int i = 0; i < rows * cols; ++i) {
         data[i] = dist(gen);
     }
@@ -180,15 +180,15 @@ inline void initRandomMatrixGPU(float* d_data, int rows, int cols,
     curandGenerator_t gen;
     CURAND_CHECK(curandCreateGenerator(&gen, CURAND_RNG_PSEUDO_DEFAULT));
     CURAND_CHECK(curandSetPseudoRandomGeneratorSeed(gen, seed));
-    
+
     // Generate uniform [0, 1)
     CURAND_CHECK(curandGenerateUniform(gen, d_data, rows * cols));
-    
+
     // Scale to [min_val, max_val]
     float scale = max_val - min_val;
     // Simple kernel to scale values
     // For simplicity, we'll do this on CPU for now
-    
+
     curandDestroyGenerator(gen);
 }
 
@@ -215,10 +215,10 @@ inline void printMatrix(const float* data, int rows, int cols,
 inline void printGPUInfo() {
     int device;
     CUDA_CHECK(cudaGetDevice(&device));
-    
+
     cudaDeviceProp prop;
     CUDA_CHECK(cudaGetDeviceProperties(&prop, device));
-    
+
     printf("GPU Device: %s\n", prop.name);
     printf("  Compute Capability: %d.%d\n", prop.major, prop.minor);
     printf("  SM Count: %d\n", prop.multiProcessorCount);
