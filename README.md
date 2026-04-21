@@ -1,14 +1,31 @@
 # CUDA Kernel Academy
 
-[![CI](https://github.com/LessUp/cuda-kernel-academy/actions/workflows/ci.yml/badge.svg)](https://github.com/LessUp/cuda-kernel-academy/actions/workflows/ci.yml)
-[![Docs](https://img.shields.io/github/actions/workflow/status/LessUp/cuda-kernel-academy/pages.yml?branch=master&logo=githubpages&logoColor=white&label=Docs)](https://lessup.github.io/cuda-kernel-academy/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-![CUDA](https://img.shields.io/badge/CUDA-12.x-76B900?logo=nvidia&logoColor=white)
-![C++](https://img.shields.io/badge/C%2B%2B-17%2F20-00599C?logo=c%2B%2B&logoColor=white)
+<p align="center">
+  <b>From Zero to Hero: Systematic CUDA High-Performance Kernel Development</b><br>
+  <b>从零到极致：系统性学习 CUDA 高性能算子开发</b>
+</p>
 
-English | [简体中文](README.zh-CN.md)
+<p align="center">
+  <a href="https://github.com/LessUp/cuda-kernel-academy/actions/workflows/ci.yml">
+    <img src="https://img.shields.io/github/actions/workflow/status/LessUp/cuda-kernel-academy/ci.yml?style=flat-square&logo=github&label=CI" alt="CI">
+  </a>
+  <a href="https://lessup.github.io/cuda-kernel-academy/">
+    <img src="https://img.shields.io/github/actions/workflow/status/LessUp/cuda-kernel-academy/pages.yml?branch=master&style=flat-square&logo=githubpages&logoColor=white&label=Docs" alt="Docs">
+  </a>
+  <img src="https://img.shields.io/badge/CUDA-12.x-76B900?style=flat-square&logo=nvidia" alt="CUDA">
+  <img src="https://img.shields.io/badge/C++-17%2F20-00599C?style=flat-square&logo=cplusplus" alt="C++">
+  <a href="LICENSE">
+    <img src="https://img.shields.io/badge/License-MIT-blue?style=flat-square" alt="License">
+  </a>
+</p>
 
-A structured CUDA learning repository covering matrix multiplication, reusable kernels, advanced optimization techniques, and a lightweight inference engine.
+<p align="center">
+  <a href="README.md">English</a> | <a href="README.zh-CN.md">简体中文</a>
+</p>
+
+---
+
+A structured CUDA learning repository covering matrix multiplication, reusable kernels, advanced optimization techniques, and a lightweight inference engine. Master GPU programming from SGEMM basics to Tensor Core optimization.
 
 ## Documentation
 
@@ -18,6 +35,14 @@ A structured CUDA learning repository covering matrix multiplication, reusable k
 - [FAQ](docs/FAQ.md)
 - [Troubleshooting](docs/TROUBLESHOOTING.md)
 - [Contributing](CONTRIBUTING.md)
+
+## Highlights
+
+- **Progressive Learning Path**: 4 interconnected modules from basics to production
+- **Performance-Focused**: Real benchmarks against cuBLAS, not toy examples
+- **Modern C++**: Leverages C++17/20 features for clean, safe GPU code
+- **Production Patterns**: Header-only library design, memory pools, stream management
+- **Multi-Architecture**: Supports Volta (sm_70) through Hopper (sm_90)
 
 ## Sub-projects
 
@@ -31,14 +56,17 @@ A structured CUDA learning repository covering matrix multiplication, reusable k
 ## Learning path
 
 ```text
-01-SGEMM Tutorial
-    ↓
-02-TensorCraft Core
-    ↓
-03-HPC Advanced
-    ↓
-04-Inference Engine
+01-SGEMM Tutorial (1-2 weeks)
+        ↓  Master shared memory, bank conflicts, WMMA
+02-TensorCraft Core (2-3 weeks)
+        ↓  Build reusable kernels, API design
+03-HPC Advanced (3-4 weeks)
+        ↓  CUDA 13 features, FlashAttention
+04-Inference Engine (2-3 weeks)
+        ↓  Complete inference framework
 ```
+
+**Prerequisites**: C/C++ basics, linear algebra fundamentals. CUDA experience helpful but not required.
 
 ## Quick start
 
@@ -77,16 +105,43 @@ cmake --list-presets
 
 ## Requirements
 
-- CUDA Toolkit 12.x+
-- CMake 3.20+
-- C++17/20 compiler
-- NVIDIA GPU with SM 7.0+
+| Component | Minimum | Recommended |
+|-----------|---------|-------------|
+| CUDA Toolkit | 11.0 | 12.x |
+| CMake | 3.20 | 3.24+ |
+| Compiler | GCC 9 / Clang 10 | GCC 11+ |
+| GPU | Volta (sm_70) | Ampere/Ada (sm_80+) |
+
+**Supported Architectures**:
+
+| Arch | sm | GPUs |
+|------|-----|------|
+| Volta | 70 | V100 |
+| Turing | 75 | RTX 2080, T4 |
+| Ampere | 80, 86 | A100, RTX 3090 |
+| Ada | 89 | RTX 4090, L40 |
+| Hopper | 90 | H100 |
 
 ## References
 
 - [CUDA C++ Programming Guide](https://docs.nvidia.com/cuda/cuda-c-programming-guide/)
-- [CUTLASS](https://github.com/NVIDIA/cutlass)
-- [Simon Boehm's CUDA Tutorials](https://siboehm.com/articles/22/CUDA-MMM)
+- [CUTLASS](https://github.com/NVIDIA/cutlass) - CUDA Templates for Linear Algebra
+- [Simon Boehm's GEMM Tutorial](https://siboehm.com/articles/22/CUDA-MMM) - Excellent optimization walkthrough
+- [NVIDIA Developer Blog](https://developer.nvidia.com/blog/) - Latest techniques and best practices
+
+## Citation
+
+If you find this project helpful in your research or work:
+
+```bibtex
+@misc{cuda-kernel-academy,
+  author = {CUDA Kernel Academy Contributors},
+  title = {CUDA Kernel Academy: A Comprehensive Learning Path for High-Performance CUDA Kernel Development},
+  year = {2026},
+  publisher = {GitHub},
+  url = {https://github.com/LessUp/cuda-kernel-academy}
+}
+```
 
 ## License
 

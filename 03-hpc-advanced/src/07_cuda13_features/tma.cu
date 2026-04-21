@@ -13,7 +13,7 @@ __global__ void async_copy_kernel(const T* __restrict__ src,
     // Using cuda::memcpy_async for demonstration
     int row = blockIdx.y;
     int col_start = blockIdx.x * blockDim.x + threadIdx.x;
-    
+
     if (row < rows && col_start < cols) {
         dst[row * cols + col_start] = src[row * cols + col_start];
     }

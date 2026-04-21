@@ -18,7 +18,9 @@ find_package(CUDAToolkit REQUIRED)
 
 # CUDA architectures (Volta to Hopper)
 if(NOT DEFINED CMAKE_CUDA_ARCHITECTURES)
-    set(CMAKE_CUDA_ARCHITECTURES "70;75;80;86" CACHE STRING "CUDA architectures")
+  set(CMAKE_CUDA_ARCHITECTURES
+      "70;75;80;86"
+      CACHE STRING "CUDA architectures")
 endif()
 
 # ============================================================================
@@ -27,29 +29,25 @@ endif()
 add_library(cuda_academy_common INTERFACE)
 add_library(CudaAcademy::common ALIAS cuda_academy_common)
 
-target_include_directories(cuda_academy_common INTERFACE
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:include>
-)
+target_include_directories(
+  cuda_academy_common
+  INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+            $<INSTALL_INTERFACE:include>)
 
-target_link_libraries(cuda_academy_common INTERFACE
-    CUDA::cudart
-    CUDA::cublas
-)
+target_link_libraries(cuda_academy_common INTERFACE CUDA::cudart CUDA::cublas)
 
 # ============================================================================
 # Installation
 # ============================================================================
 include(GNUInstallDirs)
 
-install(TARGETS cuda_academy_common
-    EXPORT CudaAcademyTargets
-    INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
-)
+install(
+  TARGETS cuda_academy_common
+  EXPORT CudaAcademyTargets
+  INCLUDES
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-install(DIRECTORY include/
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
-)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 # ============================================================================
 # Summary

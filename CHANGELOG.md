@@ -8,12 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
 - Nothing yet
 
 ### Changed
+
 - Nothing yet
 
 ### Fixed
+
 - Nothing yet
 
 ## [1.0.0] - 2026-01-07
@@ -21,11 +24,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 #### Project Structure
+
 - Comprehensive 4-module learning path for CUDA kernel development
 - Unified project organization with shared common utilities
 - Complete documentation system with coding style guide
 
 #### 01-sgemm-tutorial
+
 - Naive SGEMM implementation (baseline)
 - Shared memory tiled SGEMM
 - Bank conflict-free SGEMM optimization
@@ -35,6 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Correctness verification utilities
 
 #### 02-tensorcraft-core
+
 - Header-only high-performance kernel library
 - GEMM implementations (Naive, Tiled, Double Buffer, Tensor Core)
 - Attention mechanisms (Flash Attention style, RoPE)
@@ -49,6 +55,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Performance benchmarks
 
 #### 03-hpc-advanced
+
 - 7-step GEMM optimization path
 - Register tiling implementation
 - Software pipelining techniques
@@ -62,6 +69,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Docker environment for CUDA 13.1
 
 #### 04-inference-engine
+
 - Complete inference engine framework
 - GPU Memory Pool management
 - CUDA Stream Manager for concurrent execution
@@ -73,6 +81,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Logging system
 
 #### Documentation
+
 - Main README with learning path visualization
 - Coding style guide (docs/CODING_STYLE.md)
 - Integration examples
@@ -80,6 +89,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API references
 
 #### Build System
+
 - CMake-based build for all modules except 01-sgemm-tutorial
 - Makefile for 01-sgemm-tutorial (beginner-friendly)
 - Support for CUDA architectures sm_70 through sm_90

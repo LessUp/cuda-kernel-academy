@@ -16,19 +16,19 @@ __global__ void coalesced_gemm(const float* A, const float* B, float* C,
     // Use padding to avoid bank conflicts
     __shared__ float As[TILE_SIZE][TILE_SIZE + 1];
     __shared__ float Bs[TILE_SIZE][TILE_SIZE + 1];
-    
+
     int bx = blockIdx.x;
     int by = blockIdx.y;
     int tx = threadIdx.x;
     int ty = threadIdx.y;
-    
+
     int row = by * TILE_SIZE + ty;
     int col = bx * TILE_SIZE + tx;
-    
+
     float sum = 0.0f;
-    
+
     int num_tiles = (K + TILE_SIZE - 1) / TILE_SIZE;
-    
+
     for (int t = 0; t < num_tiles; t++) {
         // Coalesced load from A: threads in same warp access consecutive addresses
         int a_col = t * TILE_SIZE + tx;
@@ -37,7 +37,7 @@ __global__ void coalesced_gemm(const float* A, const float* B, float* C,
         } else {
             As[ty][tx] = 0.0f;
         }
-        
+
         // Coalesced load from B: threads in same warp access consecutive addresses
         int b_row = t * TILE_SIZE + ty;
         if (b_row < K && col < N) {
@@ -45,18 +45,18 @@ __global__ void coalesced_gemm(const float* A, const float* B, float* C,
         } else {
             Bs[ty][tx] = 0.0f;
         }
-        
+
         __syncthreads();
-        
+
         // Compute with unrolling for better ILP
         #pragma unroll
         for (int k = 0; k < TILE_SIZE; k++) {
             sum += As[ty][k] * Bs[k][tx];
         }
-        
+
         __syncthreads();
     }
-    
+
     if (row < M && col < N) {
         C[row * N + col] = sum;
     }

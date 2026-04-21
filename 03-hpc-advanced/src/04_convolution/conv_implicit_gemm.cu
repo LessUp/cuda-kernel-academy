@@ -16,22 +16,22 @@ __global__ void conv2d_implicit_gemm_kernel(const T* __restrict__ input,
                                              int dilation_h, int dilation_w) {
     int out_idx = blockIdx.x * blockDim.x + threadIdx.x;
     int total_out = batch * out_c * out_h * out_w;
-    
+
     if (out_idx >= total_out) return;
-    
+
     int ow = out_idx % out_w;
     int oh = (out_idx / out_w) % out_h;
     int oc = (out_idx / (out_w * out_h)) % out_c;
     int b = out_idx / (out_w * out_h * out_c);
-    
+
     float sum = 0.0f;
-    
+
     for (int ic = 0; ic < in_c; ++ic) {
         for (int kh = 0; kh < k_h; ++kh) {
             for (int kw = 0; kw < k_w; ++kw) {
                 int ih = oh * stride_h - pad_h + kh * dilation_h;
                 int iw = ow * stride_w - pad_w + kw * dilation_w;
-                
+
                 if (ih >= 0 && ih < in_h && iw >= 0 && iw < in_w) {
                     int in_idx = b * (in_c * in_h * in_w) + ic * (in_h * in_w) + ih * in_w + iw;
                     int w_idx = oc * (in_c * k_h * k_w) + ic * (k_h * k_w) + kh * k_w + kw;
@@ -40,7 +40,7 @@ __global__ void conv2d_implicit_gemm_kernel(const T* __restrict__ input,
             }
         }
     }
-    
+
     output[out_idx] = static_cast<T>(sum);
 }
 
@@ -50,10 +50,10 @@ void conv2d_implicit_gemm<float>(const float* input, const float* weight, float*
     int out_h = (p.in_height + 2 * p.pad_h - p.dilation_h * (p.kernel_h - 1) - 1) / p.stride_h + 1;
     int out_w = (p.in_width + 2 * p.pad_w - p.dilation_w * (p.kernel_w - 1) - 1) / p.stride_w + 1;
     int total = p.batch * p.out_channels * out_h * out_w;
-    
+
     int block_size = 256;
     int grid_size = (total + block_size - 1) / block_size;
-    
+
     conv2d_implicit_gemm_kernel<float><<<grid_size, block_size, 0, stream>>>(
         input, weight, output,
         p.batch, p.in_channels, p.out_channels,

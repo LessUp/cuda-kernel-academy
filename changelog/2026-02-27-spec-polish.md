@@ -46,18 +46,22 @@
 在对 22 个文件进行全量审核后，修正了以下实际项目文件问题：
 
 ### SECURITY.md
+
 - 移除占位符邮箱 `[INSERT SECURITY EMAIL]`，仅保留 GitHub 私密漏洞报告作为唯一报告渠道
 
 ### GitHub 用户名统一
+
 - 将所有文件中的 `OWNER`、`yourusername`、`ORIGINAL_OWNER` 占位符统一替换为实际用户名 `LessUp`
 - 涉及文件：README.md、SECURITY.md、CONTRIBUTING.md、CHANGELOG.md、CMakeLists.txt、docs/FAQ.md、docs/INSTALLATION.md、docs/TROUBLESHOOTING.md、docs/integration_examples.md、.github/ISSUE_TEMPLATE/config.yml、.github/markdown-link-check-config.json、04-inference-engine/docs/QUICK_START.md、04-inference-engine/docs/CONTRIBUTING.md、.kiro/specs/open-source-project-polish/design.md
 - 合并 markdown-link-check-config.json 中重复的忽略模式
 
 ### README.md
+
 - 更新项目结构图：添加 examples/、docs/ 下新增文件、.github/、CMakeLists.txt、CMakePresets.json、CONTRIBUTING.md、CHANGELOG.md
 - 贡献指南部分添加 CONTRIBUTING.md 引用链接
 
 ### docs/README.md
+
 - 修正误导性引用："各模块的 CONTRIBUTING.md" → 指向根目录的 CONTRIBUTING.md
 
 ## 影响

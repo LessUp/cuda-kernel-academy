@@ -26,10 +26,10 @@ void launch_half_gemm(const half* A, const half* B, half* C,
                       int M, int N, int K, cudaStream_t stream) {
     const int THREADS_X = BN / TN;
     const int THREADS_Y = BM / TM;
-    
+
     dim3 block(THREADS_X, THREADS_Y);
     dim3 grid((N + BN - 1) / BN, (M + BM - 1) / BM);
-    
+
     half_gemm<BM, BN, BK, TM, TN><<<grid, block, 0, stream>>>(A, B, C, M, N, K);
     CUDA_CHECK(cudaGetLastError());
 }
@@ -38,10 +38,10 @@ void launch_mixed_precision_gemm(const half* A, const half* B, float* C,
                                   int M, int N, int K, cudaStream_t stream) {
     const int THREADS_X = BN / TN;
     const int THREADS_Y = BM / TM;
-    
+
     dim3 block(THREADS_X, THREADS_Y);
     dim3 grid((N + BN - 1) / BN, (M + BM - 1) / BM);
-    
+
     mixed_precision_gemm<BM, BN, BK, TM, TN><<<grid, block, 0, stream>>>(A, B, C, M, N, K);
     CUDA_CHECK(cudaGetLastError());
 }

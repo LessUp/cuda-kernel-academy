@@ -19,16 +19,19 @@
 ### 定义
 
 GEMM (General Matrix Multiply) 计算:
+
 ```
 C = α × A × B + β × C
 ```
 
 简化版本 (α=1, β=0):
+
 ```
 C = A × B
 ```
 
 其中:
+
 - A: M × K 矩阵
 - B: K × N 矩阵
 - C: M × N 矩阵
@@ -42,6 +45,7 @@ C = A × B
 ### 为什么 GEMM 重要?
 
 神经网络中的主要计算:
+
 - 全连接层: `Y = X × W + b`
 - 卷积层 (im2col): 转换为 GEMM
 - 注意力机制: `Attention = softmax(Q × K^T / √d) × V`
@@ -69,10 +73,12 @@ __global__ void naive_matmul(const float* A, const float* B, float* C,
 ### 分析
 
 **优点**:
+
 - 实现简单，易于理解
 - 正确性容易验证
 
 **缺点**:
+
 - 每个输出元素需要 2K 次全局内存访问
 - 总内存访问: `2 × M × N × K` 次
 - 内存带宽成为瓶颈
@@ -141,12 +147,14 @@ __global__ void tiled_gemm(const float* A, const float* B, float* C,
 ### 分析
 
 **内存访问优化**:
+
 ```
 原始: 2 × M × N × K 次全局内存访问
 优化后: 2 × M × N × K / TILE_SIZE 次全局内存访问
 ```
 
 **共享内存使用**:
+
 ```
 2 × TILE_SIZE × TILE_SIZE × sizeof(float) = 2 × 32 × 32 × 4 = 8 KB
 ```

@@ -84,18 +84,21 @@ GemmConfig large = {
 ### 约束条件
 
 1. **共享内存限制**
+
    ```
    shared_mem = (BM * BK + BK * BN) * sizeof(float) * (double_buffer ? 2 : 1)
    shared_mem <= 48KB (typical)
    ```
 
 2. **线程数限制**
+
    ```
    threads_per_block = (BM / TM) * (BN / TN)
    threads_per_block <= 1024
    ```
 
 3. **寄存器限制**
+
    ```
    registers_per_thread ≈ TM * TN + TM + TN + overhead
    registers_per_thread <= 255
@@ -210,7 +213,7 @@ ncu --kernel-name "optimized_gemm" ./benchmark
 3. **Compute Throughput**: 实际 FLOPS / 峰值 FLOPS
    - 目标: >70%
 
-4. **Stall Reasons**: 
+4. **Stall Reasons**:
    - Memory dependency
    - Execution dependency
    - Synchronization
@@ -220,6 +223,7 @@ ncu --kernel-name "optimized_gemm" ./benchmark
 ### Q: 为什么小矩阵性能差?
 
 A: 小矩阵无法充分利用 GPU 并行性。解决方案:
+
 - 使用批量 GEMM
 - 减小 block size
 - 考虑 CPU 执行
@@ -227,12 +231,14 @@ A: 小矩阵无法充分利用 GPU 并行性。解决方案:
 ### Q: 为什么 double buffer 有时更慢?
 
 A: Double buffer 增加共享内存使用，可能降低 occupancy。
+
 - 检查共享内存使用量
 - 对于小矩阵可能不值得
 
 ### Q: 如何选择 FP16 vs FP32?
 
-A: 
+A:
+
 - FP16: 2x 内存带宽，可能有精度损失
 - FP32: 更高精度，更低带宽
 - 建议: 权重用 FP16，累加用 FP32
@@ -240,6 +246,7 @@ A:
 ### Q: Bank conflict 如何检测?
 
 A: 使用 Nsight Compute:
+
 ```bash
 ncu --metrics l1tex__data_bank_conflicts_pipe_lsu_mem_shared_op_ld ./benchmark
 ```

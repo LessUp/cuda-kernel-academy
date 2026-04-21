@@ -113,4 +113,3 @@
 2. WHEN a user runs an example, THE Example SHALL compile and run without modification
 3. THE Examples SHALL cover basic usage of each major module
 4. THE Examples SHALL include comments explaining key concepts
-

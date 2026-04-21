@@ -51,36 +51,36 @@ __global__ void vectorized_gemm(
     const float* __restrict__ B,
     float* __restrict__ C,
     int M, int N, int K) {
-    
+
     // Shared memory with padding to avoid bank conflicts
     __shared__ float As[BK][BM + 4];
     __shared__ float Bs[BK][BN + 4];
-    
+
     const int tx = threadIdx.x;
     const int ty = threadIdx.y;
     const int bx = blockIdx.x;
     const int by = blockIdx.y;
-    
+
     const int THREADS_X = BN / TN;
     const int THREADS_Y = BM / TM;
     const int NUM_THREADS = THREADS_X * THREADS_Y;
     const int tid = ty * THREADS_X + tx;
-    
+
     // Starting position for this thread's output tile
     const int row_start = by * BM + ty * TM;
     const int col_start = bx * BN + tx * TN;
-    
+
     // Register storage
     float regC[TM][TN] = {0.0f};
     float regA[TM];
     float regB[TN];
-    
+
     const int num_tiles = (K + BK - 1) / BK;
-    
+
     // Elements per thread for loading
     const int A_STRIDE = NUM_THREADS / BK;  // 32
     const int B_STRIDE = NUM_THREADS / BK;  // 32
-    
+
     for (int tile = 0; tile < num_tiles; tile++) {
         // Cooperative loading of A tile (transposed storage)
         // Each thread loads multiple elements
@@ -91,14 +91,14 @@ __global__ void vectorized_gemm(
             int a_m = idx / BK;
             int global_row = by * BM + a_m;
             int global_col = tile * BK + a_k;
-            
+
             if (global_row < M && global_col < K) {
                 As[a_k][a_m] = A[global_row * K + global_col];
             } else {
                 As[a_k][a_m] = 0.0f;
             }
         }
-        
+
         // Cooperative loading of B tile
         #pragma unroll
         for (int i = 0; i < (BK * BN) / NUM_THREADS; i++) {
@@ -107,16 +107,16 @@ __global__ void vectorized_gemm(
             int b_n = idx % BN;
             int global_row = tile * BK + b_k;
             int global_col = bx * BN + b_n;
-            
+
             if (global_row < K && global_col < N) {
                 Bs[b_k][b_n] = B[global_row * N + global_col];
             } else {
                 Bs[b_k][b_n] = 0.0f;
             }
         }
-        
+
         __syncthreads();
-        
+
         // Compute on this tile
         #pragma unroll
         for (int k = 0; k < BK; k++) {
@@ -125,20 +125,20 @@ __global__ void vectorized_gemm(
             for (int m = 0; m < TM; m++) {
                 regA[m] = As[k][ty * TM + m];
             }
-            
+
             // Load B fragment
             #pragma unroll
             for (int n = 0; n < TN; n++) {
                 regB[n] = Bs[k][tx * TN + n];
             }
-            
+
             // Outer product using FMA
             warp_mma<TM, TN>(regA, regB, regC);
         }
-        
+
         __syncthreads();
     }
-    
+
     // Write results with vectorized stores where possible
     #pragma unroll
     for (int m = 0; m < TM; m++) {

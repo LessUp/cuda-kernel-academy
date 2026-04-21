@@ -287,6 +287,7 @@ void InferenceEngine::relu_activation(float* data, int size) {
 #### 3. 移除重复代码
 
 集成后，可以删除以下重复文件：
+
 - `src/naive_matmul.cu` → 使用 `tensorcraft::kernels::GemmVersion::NAIVE`
 - `src/tiled_gemm.cu` → 使用 `tensorcraft::kernels::GemmVersion::TILED`
 - `src/double_buffer_gemm.cu` → 使用 `tensorcraft::kernels::GemmVersion::DOUBLE_BUFFER`
@@ -357,6 +358,7 @@ pool.deallocate(ptr);
 ### Q: 编译时找不到头文件？
 
 确保 include 路径正确：
+
 ```cmake
 target_include_directories(my_app PRIVATE 
     ${TENSORCRAFT_ROOT}/include
