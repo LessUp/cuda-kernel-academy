@@ -8,9 +8,11 @@
 <p align="center">
   <a href="https://github.com/LessUp/cuda-kernel-academy/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/LessUp/cuda-kernel-academy/ci.yml?style=flat-square&logo=github&label=CI" alt="CI"></a>
   <a href="https://lessup.github.io/cuda-kernel-academy/"><img src="https://img.shields.io/github/actions/workflow/status/LessUp/cuda-kernel-academy/pages.yml?branch=master&style=flat-square&logo=githubpages&logoColor=white&label=Docs" alt="Docs"></a>
+  <a href="https://github.com/LessUp/cuda-kernel-academy/releases"><img src="https://img.shields.io/github/v/release/LessUp/cuda-kernel-academy?style=flat-square&logo=github" alt="Release"></a>
   <img src="https://img.shields.io/badge/CUDA-12.x-76B900?style=flat-square&logo=nvidia" alt="CUDA">
   <img src="https://img.shields.io/badge/C++-17%2F20-00599C?style=flat-square&logo=cplusplus" alt="C++">
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue?style=flat-square" alt="License"></a>
+  <a href="https://github.com/LessUp/cuda-kernel-academy/stargazers"><img src="https://img.shields.io/github/stars/LessUp/cuda-kernel-academy?style=flat-square&logo=github" alt="Stars"></a>
 </p>
 
 <p align="center">
@@ -23,11 +25,13 @@
 
 ## 项目特色
 
-- **渐进式学习路径**：4 个相互关联的模块，从入门到生产级
-- **性能导向**：与 cuBLAS 对比的真实性能基准，非玩具示例
-- **现代 C++**：利用 C++17/20 特性编写简洁、安全的 GPU 代码
-- **生产级模式**：Header-only 库设计、内存池、流管理
-- **多架构支持**：支持 Volta (sm_70) 到 Hopper (sm_90)
+| 特性 | 说明 |
+|------|------|
+| **渐进式学习路径** | 4 个相互关联的模块，从入门到生产级 |
+| **性能导向** | 与 cuBLAS 对比的真实性能基准，非玩具示例 |
+| **现代 C++** | 利用 C++17/20 特性编写简洁、安全的 GPU 代码 |
+| **生产级模式** | Header-only 库设计、内存池、流管理 |
+| **多架构支持** | 支持 Volta (sm_70) 到 Hopper (sm_90) |
 
 ## 项目结构
 

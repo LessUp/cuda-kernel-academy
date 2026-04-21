@@ -23,9 +23,7 @@
     "anchorjs",
     "prism",
     "copy-code-button",
-    "alerts",
-    "include-csv",
-    "favicon-absolute"
+    "alerts"
   ],
   "pluginsConfig": {
     "github-buttons": {
@@ -72,11 +70,6 @@
         "cmake": "cmake",
         "makefile": "makefile"
       }
-    },
-    "favicon-absolute": {
-      "bookmark": "assets/images/favicon.svg",
-      "appleTouchIcon": "assets/images/apple-touch-icon.png",
-      "appleTouchIcon152x152": "assets/images/apple-touch-icon.png"
     },
     "search-plus": {
       "limit": 20,
