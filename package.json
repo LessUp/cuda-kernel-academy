@@ -12,13 +12,11 @@
     "honkit": "^3.7.1",
     "gitbook-plugin-search-plus": "^1.0.3",
     "gitbook-plugin-github-buttons": "^1.0.0",
-    "gitbook-plugin-edit-link": "^2.1.1",
-    "gitbook-plugin-anchorjs": "^0.2.0",
+    "gitbook-plugin-edit-link": "^2.0.2",
+    "gitbook-plugin-anchorjs": "^2.1.0",
     "gitbook-plugin-prism": "^2.4.0",
     "gitbook-plugin-copy-code-button": "^0.0.2",
     "gitbook-plugin-alerts": "^0.2.0",
-    "gitbook-plugin-include-csv": "^1.0.0",
-    "gitbook-plugin-favicon-absolute": "^0.1.0",
     "prismjs": "^1.29.0"
   },
   "engines": {

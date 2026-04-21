@@ -12,10 +12,16 @@
   <a href="https://lessup.github.io/cuda-kernel-academy/">
     <img src="https://img.shields.io/github/actions/workflow/status/LessUp/cuda-kernel-academy/pages.yml?branch=master&style=flat-square&logo=githubpages&logoColor=white&label=Docs" alt="Docs">
   </a>
+  <a href="https://github.com/LessUp/cuda-kernel-academy/releases">
+    <img src="https://img.shields.io/github/v/release/LessUp/cuda-kernel-academy?style=flat-square&logo=github" alt="Release">
+  </a>
   <img src="https://img.shields.io/badge/CUDA-12.x-76B900?style=flat-square&logo=nvidia" alt="CUDA">
   <img src="https://img.shields.io/badge/C++-17%2F20-00599C?style=flat-square&logo=cplusplus" alt="C++">
   <a href="LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-blue?style=flat-square" alt="License">
+  </a>
+  <a href="https://github.com/LessUp/cuda-kernel-academy/stargazers">
+    <img src="https://img.shields.io/github/stars/LessUp/cuda-kernel-academy?style=flat-square&logo=github" alt="Stars">
   </a>
 </p>
 
@@ -27,6 +33,16 @@
 
 A structured CUDA learning repository covering matrix multiplication, reusable kernels, advanced optimization techniques, and a lightweight inference engine. Master GPU programming from SGEMM basics to Tensor Core optimization.
 
+## Features
+
+| Feature | Description |
+|---------|-------------|
+| **Progressive Learning Path** | 4 interconnected modules from basics to production |
+| **Performance-Focused** | Real benchmarks against cuBLAS, not toy examples |
+| **Modern C++** | Leverages C++17/20 features for clean, safe GPU code |
+| **Production Patterns** | Header-only library design, memory pools, stream management |
+| **Multi-Architecture** | Supports Volta (sm_70) through Hopper (sm_90) |
+
 ## Documentation
 
 - [Installation Guide](docs/INSTALLATION.md)
@@ -35,14 +51,6 @@ A structured CUDA learning repository covering matrix multiplication, reusable k
 - [FAQ](docs/FAQ.md)
 - [Troubleshooting](docs/TROUBLESHOOTING.md)
 - [Contributing](CONTRIBUTING.md)
-
-## Highlights
-
-- **Progressive Learning Path**: 4 interconnected modules from basics to production
-- **Performance-Focused**: Real benchmarks against cuBLAS, not toy examples
-- **Modern C++**: Leverages C++17/20 features for clean, safe GPU code
-- **Production Patterns**: Header-only library design, memory pools, stream management
-- **Multi-Architecture**: Supports Volta (sm_70) through Hopper (sm_90)
 
 ## Sub-projects
 
