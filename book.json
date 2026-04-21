@@ -1,13 +1,14 @@
 {
   "title": "CUDA Kernel Academy",
-  "description": "从零到极致：系统性学习 CUDA 高性能算子开发",
-  "language": "zh-hans",
+  "description": "Systematic learning path for high-performance CUDA kernel development - from SGEMM basics to Tensor Core mastery | 从零到极致：系统性学习 CUDA 高性能算子开发",
+  "language": "en",
   "gitbook": ">=3.2.0",
   "author": "LessUp",
   "links": {
     "sidebar": {
-      "GitHub": "https://github.com/LessUp/cuda-kernel-academy",
-      "Star": "https://github.com/LessUp/cuda-kernel-academy/stargazers"
+      "GitHub Repository": "https://github.com/LessUp/cuda-kernel-academy",
+      "Star on GitHub": "https://github.com/LessUp/cuda-kernel-academy/stargazers",
+      "Report Issue": "https://github.com/LessUp/cuda-kernel-academy/issues"
     }
   },
   "plugins": [
@@ -35,12 +36,20 @@
           "type": "star",
           "size": "small",
           "count": true
+        },
+        {
+          "user": "LessUp",
+          "repo": "cuda-kernel-academy",
+          "type": "watch",
+          "size": "small",
+          "count": false,
+          "subtype": "watch"
         }
       ]
     },
     "edit-link": {
       "base": "https://github.com/LessUp/cuda-kernel-academy/edit/master",
-      "label": "编辑此页"
+      "label": "Edit this page"
     },
     "anchorjs": {
       "selector": "h2, h3, h4, h5",
@@ -65,13 +74,13 @@
       }
     },
     "favicon-absolute": {
-      "bookmark": "assets/images/favicon.ico",
+      "bookmark": "assets/images/favicon.svg",
       "appleTouchIcon": "assets/images/apple-touch-icon.png",
-      "appleTouchIcon152x152": "assets/images/apple-touch-icon-152x152.png"
+      "appleTouchIcon152x152": "assets/images/apple-touch-icon.png"
     },
     "search-plus": {
       "limit": 20,
-      "teaser": 100
+      "teaser": 150
     }
   },
   "structure": {
