@@ -379,4 +379,4 @@ __global__ void rms_norm_kernel(const float* input, const float* gamma,
 
 - [Online Softmax Paper](https://arxiv.org/abs/2205.14135)
 - [Welford's Algorithm](https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance)
-- [NVIDIA CUB Library](https://nvlabs.github.io/cub/)
+- [NVIDIA CUB Library](https://github.com/NVIDIA/cub)

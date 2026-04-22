@@ -416,4 +416,4 @@ cudaDeviceGetAttribute(&cluster_support, cudaDevAttrClusterLaunch, device);
 
 - [CUDA C++ Programming Guide - Hopper](https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#hopper-architecture)
 - [NVIDIA H100 Whitepaper](https://resources.nvidia.com/en-us-tensor-core)
-- [CUTLASS 3.0 - Hopper Support](https://github.com/NVIDIA/cutlass/blob/main/media/docs/hopper.md)
+- [CUTLASS Documentation](https://github.com/NVIDIA/cutlass/blob/main/README.md)

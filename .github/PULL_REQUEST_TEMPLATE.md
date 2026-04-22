@@ -80,7 +80,7 @@ Fixes #
 
 ### Code Quality
 
-- [ ] My code follows the project's [coding style](docs/CODING_STYLE.md)
+- [ ] My code follows the project's [coding style](https://github.com/LessUp/cuda-kernel-academy/blob/master/docs/CODING_STYLE.md)
 - [ ] I have run `clang-format` on my changes
 - [ ] I have added CUDA error checking where appropriate
 - [ ] My changes generate no new compiler warnings
