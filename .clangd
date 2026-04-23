@@ -1,0 +1,8 @@
+CompileFlags:
+  CompilationDatabase: .
+Index:
+  Background: Build
+Hover:
+  ShowAKA: true
+Diagnostics:
+  UnusedIncludes: Strict

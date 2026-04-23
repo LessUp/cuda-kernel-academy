@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "llvm-vs-code-extensions.vscode-clangd",
+    "ms-vscode.cmake-tools",
+    "redhat.vscode-yaml",
+    "github.copilot",
+    "github.copilot-chat",
+    "davidanson.vscode-markdownlint"
+  ]
+}
