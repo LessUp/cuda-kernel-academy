@@ -1,0 +1,20 @@
+{
+  "C_Cpp.intelliSenseEngine": "disabled",
+  "clangd.arguments": [
+    "--background-index",
+    "--clang-tidy",
+    "--completion-style=detailed",
+    "--header-insertion=never"
+  ],
+  "cmake.useCMakePresets": "always",
+  "cmake.configureOnOpen": false,
+  "files.associations": {
+    "*.cuh": "cpp",
+    "CMakeLists.txt": "cmake"
+  },
+  "search.exclude": {
+    "_site": true,
+    "build": true,
+    "node_modules": true
+  }
+}
