@@ -1,8 +1,8 @@
-name: Deploy Docs
+name: Deploy Pages
 
 on:
   push:
-    branches: [master, main]
+    branches: [master]
     paths:
       - "docs/**"
       - "01-sgemm-tutorial/README.md"
@@ -36,71 +36,35 @@ concurrency:
   group: pages
   cancel-in-progress: true
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          sparse-checkout: |
-            docs
-            01-sgemm-tutorial/README.md
-            02-tensorcraft-core/README.md
-            02-tensorcraft-core/docs
-            03-hpc-advanced/README.md
-            03-hpc-advanced/docs
-            04-inference-engine/README.md
-            04-inference-engine/docs
-            examples/README.md
-            README.md
-            README.zh-CN.md
-            SUMMARY.md
-            CHANGELOG.md
-            CONTRIBUTING.md
-            book.json
-            .gitbook.yaml
-            package.json
-            package-lock.json
-            assets
-            scripts
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
-        with:
-          enablement: true
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 22
           cache: npm
 
       - name: Install dependencies
         run: npm ci
 
       - name: Build docs
-        run: npm run docs:build
-
-      - name: Post-build optimization
-        run: npm run post-build
+        run: npm run docs:build-prod
 
       - name: Verify build
         run: |
-          echo "Build contents:"
-          ls -la _site/
-          echo ""
-          echo "Checking for sitemap.xml:"
-          test -f _site/sitemap.xml && echo "✓ sitemap.xml exists" || echo "✗ sitemap.xml missing"
-          echo ""
-          echo "Checking for robots.txt:"
-          test -f _site/robots.txt && echo "✓ robots.txt exists" || echo "✗ robots.txt missing"
-          echo ""
-          echo "Checking for 404.html:"
-          test -f _site/404.html && echo "✓ 404.html exists" || echo "✗ 404.html missing"
+          test -f _site/index.html
+          test -f _site/sitemap.xml
+          test -f _site/robots.txt
+          test -f _site/404.html
+          test -f _site/assets/styles/website.css
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4

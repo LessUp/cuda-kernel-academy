@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "cuda-kernel-academy",
-  "description": "HonKit docs build for GitHub Pages",
+  "description": "Showcase-first HonKit site for CUDA Kernel Academy",
   "scripts": {
     "docs:build": "honkit build . _site",
     "docs:serve": "honkit serve",

@@ -4,8 +4,8 @@ contact_links:
     url: https://github.com/LessUp/cuda-kernel-academy/discussions
     about: Ask questions and discuss ideas in GitHub Discussions
   - name: 📚 Documentation
-    url: https://github.com/LessUp/cuda-kernel-academy/tree/main/docs
-    about: Check the documentation for guides and references
+    url: https://lessup.github.io/cuda-kernel-academy/
+    about: Start from the landing page, docs overview, and module entry points
   - name: 🔒 Security Issues
     url: https://github.com/LessUp/cuda-kernel-academy/security/policy
     about: Report security vulnerabilities privately (do NOT create public issues)

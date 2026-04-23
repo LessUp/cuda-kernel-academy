@@ -1,112 +1,47 @@
 # Security Policy
 
-## Supported Versions
+CUDA Kernel Academy is an educational CUDA repository, but security issues still matter, especially in build scripts, dependency handling, and example code that may be reused elsewhere.
 
-The following versions of CUDA Kernel Academy are currently supported with security updates:
+## Supported versions
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 1.x.x   | :white_check_mark: |
-| < 1.0   | :x:                |
+| Version | Status |
+| --- | --- |
+| `1.x` | supported |
+| `< 1.0` | unsupported |
 
-## Reporting a Vulnerability
+## Reporting a vulnerability
 
-We take security vulnerabilities seriously. If you discover a security issue, please report it responsibly.
+**Do not open a public issue for a security problem.**
 
-### How to Report
+Please use GitHub private vulnerability reporting:
 
-**Please do NOT create a public GitHub issue for security vulnerabilities.**
+- <https://github.com/LessUp/cuda-kernel-academy/security/advisories/new>
 
-Instead, please report security vulnerabilities through:
+Include:
 
-1. **GitHub Security Advisories** (preferred): Use [GitHub's private vulnerability reporting](https://github.com/LessUp/cuda-kernel-academy/security/advisories/new)
+- a clear description of the issue
+- affected files or modules
+- realistic impact
+- reproduction steps
+- a suggested fix if you have one
 
-### What to Include
+## Scope
 
-When reporting a vulnerability, please include:
+The most relevant security areas for this repository are:
 
-- **Description**: A clear description of the vulnerability
-- **Impact**: Potential impact and severity assessment
-- **Reproduction**: Steps to reproduce the issue
-- **Affected versions**: Which versions are affected
-- **Suggested fix**: If you have a suggested fix or mitigation
+- dependency and workflow configuration
+- shell scripts and developer tooling
+- unsafe example patterns that could be copied into downstream code
+- GPU memory handling in reusable components
 
-### Response Timeline
+## Expectations
 
-- **Acknowledgment**: We will acknowledge receipt within 48 hours
-- **Initial assessment**: We will provide an initial assessment within 7 days
-- **Resolution**: We aim to resolve critical issues within 30 days
+- prefer responsible disclosure
+- give maintainers time to assess and fix the issue
+- avoid publishing exploit details before a fix or mitigation is available
 
-### Disclosure Policy
+## Notes for users
 
-- We follow responsible disclosure practices
-- We will coordinate with you on disclosure timing
-- We will credit reporters in security advisories (unless you prefer anonymity)
-
-## Security Best Practices
-
-When using CUDA Kernel Academy in your projects:
-
-### Memory Safety
-
-- Always use CUDA error checking macros (`TC_CUDA_CHECK`)
-- Validate input dimensions before kernel launches
-- Use bounds checking in debug builds
-
-### Input Validation
-
-```cpp
-// Example: Validate matrix dimensions
-if (M <= 0 || N <= 0 || K <= 0) {
-    throw std::invalid_argument("Matrix dimensions must be positive");
-}
-
-// Example: Check for null pointers
-if (A == nullptr || B == nullptr || C == nullptr) {
-    throw std::invalid_argument("Matrix pointers cannot be null");
-}
-```
-
-### Resource Management
-
-- Use RAII wrappers for GPU memory (`DeviceMemory<T>`)
-- Always free allocated resources
-- Handle CUDA errors gracefully
-
-## Known Security Considerations
-
-### GPU Memory
-
-- GPU memory is not automatically cleared on allocation
-- Sensitive data should be explicitly zeroed before deallocation
-- Consider using `cudaMemset` for sensitive buffers
-
-### Shared Memory
-
-- Shared memory persists between kernel launches on the same SM
-- Be cautious with sensitive data in shared memory
-
-### Error Messages
-
-- Error messages may contain system information
-- Consider sanitizing error output in production environments
-
-## Security Updates
-
-Security updates will be released as:
-
-- **Patch releases** for critical vulnerabilities
-- **Minor releases** for non-critical security improvements
-
-Subscribe to releases to stay informed about security updates.
-
-## Contact
-
-For security-related questions that are not vulnerabilities, you can:
-
-- Open a [Discussion](https://github.com/LessUp/cuda-kernel-academy/discussions)
-- Contact maintainers through GitHub
-
----
-
-Thank you for helping keep CUDA Kernel Academy secure!
+- treat example code as learning material, not automatically production-hardened code
+- validate dimensions, pointers, and resource lifetimes in downstream integrations
+- clear sensitive GPU buffers explicitly when your own application requires it
