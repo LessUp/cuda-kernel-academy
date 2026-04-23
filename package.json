@@ -9,7 +9,7 @@
     "post-build": "node scripts/post-build.js"
   },
   "devDependencies": {
-    "honkit": "^3.7.1",
+    "honkit": "^6.1.7",
     "gitbook-plugin-search-plus": "^1.0.3",
     "gitbook-plugin-github-buttons": "^1.0.0",
     "gitbook-plugin-edit-link": "^2.0.2",
