@@ -1,14 +1,14 @@
 {
   "title": "CUDA Kernel Academy",
-  "description": "Systematic learning path for high-performance CUDA kernel development - from SGEMM basics to Tensor Core mastery | 从零到极致：系统性学习 CUDA 高性能算子开发",
+  "description": "Showcase-first documentation for a multi-module CUDA learning repository covering SGEMM, reusable kernels, advanced optimization, and lightweight inference.",
   "language": "en",
   "gitbook": ">=3.2.0",
   "author": "LessUp",
   "links": {
     "sidebar": {
       "GitHub Repository": "https://github.com/LessUp/cuda-kernel-academy",
-      "Star on GitHub": "https://github.com/LessUp/cuda-kernel-academy/stargazers",
-      "Report Issue": "https://github.com/LessUp/cuda-kernel-academy/issues"
+      "GitHub Pages": "https://lessup.github.io/cuda-kernel-academy/",
+      "Open an Issue": "https://github.com/LessUp/cuda-kernel-academy/issues"
     }
   },
   "plugins": [
@@ -47,7 +47,7 @@
     },
     "edit-link": {
       "base": "https://github.com/LessUp/cuda-kernel-academy/edit/master",
-      "label": "Edit this page"
+      "label": "Suggest an edit"
     },
     "anchorjs": {
       "selector": "h2, h3, h4, h5",

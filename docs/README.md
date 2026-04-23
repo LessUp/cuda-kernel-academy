@@ -1,78 +1,52 @@
-# CUDA Kernel Academy Documentation
+# Documentation Overview
 
-Welcome to the CUDA Kernel Academy documentation center.
+This directory contains the small set of durable documents that explain how to build, use, and maintain CUDA Kernel Academy.
 
-## Documentation Index
+## Start here
 
-### Getting Started
+| Goal | Document |
+| --- | --- |
+| understand the repository at a glance | [../README.md](../README.md) |
+| build the repository correctly | [INSTALLATION.md](INSTALLATION.md) |
+| understand the contribution and review flow | [DEVELOPMENT_WORKFLOW.md](DEVELOPMENT_WORKFLOW.md) |
+| understand AI-assisted workflow choices | [AI_TOOLING.md](AI_TOOLING.md) |
+| follow the coding rules | [CODING_STYLE.md](CODING_STYLE.md) |
+| debug common problems | [TROUBLESHOOTING.md](TROUBLESHOOTING.md) |
 
-- [Main README](../README.md) - Project overview and quick start
-- [Installation Guide](INSTALLATION.md) - Detailed installation and build instructions
-- [FAQ](FAQ.md) - Frequently asked questions
-- [Troubleshooting](TROUBLESHOOTING.md) - Common issues and solutions
+## Core repo docs
 
-### Project Standards
+- [Development Workflow](DEVELOPMENT_WORKFLOW.md)
+- [AI Tooling Guide](AI_TOOLING.md)
+- [Installation Guide](INSTALLATION.md)
+- [Coding Style](CODING_STYLE.md)
+- [FAQ](FAQ.md)
+- [Troubleshooting](TROUBLESHOOTING.md)
+- [Integration Examples](integration_examples.md)
 
-- [Coding Style Guide](CODING_STYLE.md) - Unified code style and technical standards
-- [Integration Examples](integration_examples.md) - How to integrate modules in your project
+## Module entry points
 
-### Example Code
+| Module | Entry point |
+| --- | --- |
+| 01 | [../01-sgemm-tutorial/README.md](../01-sgemm-tutorial/README.md) |
+| 02 | [../02-tensorcraft-core/README.md](../02-tensorcraft-core/README.md) |
+| 03 | [../03-hpc-advanced/README.md](../03-hpc-advanced/README.md) |
+| 04 | [../04-inference-engine/README.md](../04-inference-engine/README.md) |
 
-- [Examples Directory](../examples/README.md) - Standalone runnable example code
+## Deep dives
 
-### Module Documentation
+- [TensorCraft Architecture](../02-tensorcraft-core/docs/architecture.md)
+- [TensorCraft API Reference](../02-tensorcraft-core/docs/api_reference.md)
+- [TensorCraft Optimization Guide](../02-tensorcraft-core/docs/optimization_guide.md)
+- [HPC GEMM Optimization](../03-hpc-advanced/docs/01_gemm_optimization.md)
+- [HPC Flash Attention](../03-hpc-advanced/docs/04_flash_attention.md)
+- [Inference Engine Architecture](../04-inference-engine/docs/ARCHITECTURE.md)
+- [Inference Engine Performance Tuning](../04-inference-engine/docs/PERFORMANCE_TUNING.md)
 
-| Module | Documentation | Description |
-|--------|---------------|-------------|
-| 01-sgemm-tutorial | [README](../01-sgemm-tutorial/README.md) | SGEMM optimization tutorial |
-| 02-tensorcraft-core | [docs/](../02-tensorcraft-core/docs/) | Core kernel library documentation |
-| 03-hpc-advanced | [docs/](../03-hpc-advanced/docs/) | Advanced optimization documentation |
-| 04-inference-engine | [docs/](../04-inference-engine/docs/) | Inference engine documentation |
+## Repository posture
 
-### Technical Deep Dives
+The repository is intentionally biased toward **high-signal maintenance**:
 
-#### 02-tensorcraft-core
-
-- [architecture.md](../02-tensorcraft-core/docs/architecture.md) - Architecture design
-- [api_reference.md](../02-tensorcraft-core/docs/api_reference.md) - API reference
-- [optimization_guide.md](../02-tensorcraft-core/docs/optimization_guide.md) - Optimization guide
-- [modern_cpp_cuda.md](../02-tensorcraft-core/docs/modern_cpp_cuda.md) - Modern C++ CUDA
-
-#### 03-hpc-advanced
-
-- [01_gemm_optimization.md](../03-hpc-advanced/docs/01_gemm_optimization.md) - GEMM optimization details
-- [02_memory_optimization.md](../03-hpc-advanced/docs/02_memory_optimization.md) - Memory optimization
-- [03_reduction_optimization.md](../03-hpc-advanced/docs/03_reduction_optimization.md) - Reduction optimization
-- [04_flash_attention.md](../03-hpc-advanced/docs/04_flash_attention.md) - Flash Attention
-- [05_cuda13_features.md](../03-hpc-advanced/docs/05_cuda13_features.md) - CUDA 13 new features
-
-#### 04-inference-engine
-
-- [ARCHITECTURE.md](../04-inference-engine/docs/ARCHITECTURE.md) - Architecture design
-- [API_REFERENCE.md](../04-inference-engine/docs/API_REFERENCE.md) - API reference
-- [QUICK_START.md](../04-inference-engine/docs/QUICK_START.md) - Quick start guide
-- [PERFORMANCE_TUNING.md](../04-inference-engine/docs/PERFORMANCE_TUNING.md) - Performance tuning
-
-## Recommended Learning Path
-
-### Beginners (1-2 weeks)
-
-1. Read the main README to understand the project structure
-2. Navigate to `01-sgemm-tutorial` and learn the 5 GEMM optimization techniques in order
-3. Run benchmarks to understand performance differences
-
-### Intermediate (2-4 weeks)
-
-1. Study the API design of `02-tensorcraft-core`
-2. Read `architecture.md` to understand design principles
-3. Try integrating tensorcraft into your own project
-
-### Advanced (4-8 weeks)
-
-1. Dive into CUDA 13 features in `03-hpc-advanced`
-2. Study Flash Attention implementation
-3. Build a complete inference engine
-
-## Contributing
-
-Contributions to improve documentation are welcome! Please refer to [CONTRIBUTING.md](../CONTRIBUTING.md) in the root directory.
+- one OpenSpec workflow
+- concise, repository-specific docs
+- lean automation
+- real GPU validation left to local machines

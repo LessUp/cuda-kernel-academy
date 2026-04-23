@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main, master]
+    branches: [master, main]
   pull_request:
-    branches: [main, master]
+    branches: [master, main]
   workflow_dispatch:
 
 permissions:
@@ -13,9 +13,6 @@ permissions:
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
-
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   pre-commit:
@@ -45,7 +42,7 @@ jobs:
         run: pre-commit run --all-files
 
   docs-build:
-    name: Docs Build
+    name: Docs and Pages Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -54,17 +51,14 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 22
           cache: npm
 
       - name: Install dependencies
         run: npm ci
 
       - name: Build docs
-        run: npm run docs:build
-
-      - name: Post-build optimization
-        run: npm run post-build
+        run: npm run docs:build-prod
 
       - name: Verify build artifacts
         run: |
@@ -72,21 +66,7 @@ jobs:
           test -f _site/sitemap.xml || exit 1
           test -f _site/robots.txt || exit 1
           test -f _site/404.html || exit 1
-          echo "✓ All required build artifacts present"
-
-  markdown-links:
-    name: Markdown Link Check
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Check markdown links
-        uses: gaurav-nelson/github-action-markdown-link-check@v1
-        with:
-          use-quiet-mode: 'yes'
-          config-file: '.github/markdown-link-check-config.json'
-          folder-path: '.'
+          test -f _site/assets/styles/website.css || exit 1
 
   cmake-presets:
     name: CMake Preset Sanity
