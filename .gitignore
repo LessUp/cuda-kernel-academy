@@ -4,7 +4,9 @@ cmake-build-*/
 out/
 
 # IDE
-.vscode/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
 .idea/
 *.swp
 *.swo
@@ -30,6 +32,7 @@ cmake_install.cmake
 Makefile
 *.cmake
 !CMakeLists.txt
+compile_commands.json
 
 # Python
 __pycache__/
@@ -52,9 +55,8 @@ dist/
 .DS_Store
 Thumbs.db
 
-# Kiro (keep specs for documentation)
-.kiro/sessions/
-.kiro/settings/
+# Legacy Kiro artifacts
+.kiro/
 
 # Additional CUDA/GPU files
 *.sass
@@ -106,6 +108,10 @@ core.*
 .env.local
 .env.*.local
 
+# Claude / local AI preferences
+CLAUDE.local.md
+.claude/settings.local.json
+
 # Package managers
 node_modules/
 .npm/
@@ -120,3 +126,7 @@ coverage/
 # Memory debugging
 *.memcheck
 valgrind-out.*
+
+# BMad Method V6
+_bmad/
+_bmad-output/
