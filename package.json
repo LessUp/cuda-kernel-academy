@@ -11,7 +11,7 @@
   "devDependencies": {
     "honkit": "^3.7.1",
     "gitbook-plugin-search-plus": "^1.0.3",
-    "gitbook-plugin-github-buttons": "^1.0.0",
+    "gitbook-plugin-github-buttons": "^3.0.0",
     "gitbook-plugin-edit-link": "^2.0.2",
     "gitbook-plugin-anchorjs": "^2.1.0",
     "gitbook-plugin-prism": "^2.4.0",
