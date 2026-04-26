@@ -39,6 +39,7 @@ GitHub Actions only runs CPU-safe checks. CUDA runtime validation belongs on a r
 ## Workflow rules
 
 - use **OpenSpec** for non-trivial changes
+- while a repo-wide closeout program is active, extend its umbrella change instead of opening parallel umbrella specs
 - keep specs under `openspec/changes/<change-name>/`
 - archive completed changes under `openspec/changes/archive/`
 - do not introduce or revive `.kiro/`-based workflows
@@ -57,4 +58,7 @@ GitHub Actions only runs CPU-safe checks. CUDA runtime validation belongs on a r
 - prefer `clangd` backed by repo compile commands for navigation
 - use `scripts/dev/sync-compile-commands.sh <preset>` after configuring CMake
 - keep MCP usage minimal unless it clearly pays for itself
+- keep durable agent guidance in visible repo docs and OpenSpec artifacts; do not add hidden shadow instruction trees
+- use `gh` for repository metadata updates instead of hand-editing descriptions or homepage settings in docs only
+- treat `.github/workflows/copilot-setup-steps.yml` as a manual support workflow rather than routine CI
 - avoid `/fleet` unless a task truly needs large parallel context

@@ -12,6 +12,7 @@ Use these in order:
 4. the active OpenSpec change in `openspec/changes/<change-name>/`
 
 Do not create competing instruction systems.
+Do not re-introduce hidden agent-specific skill bundles such as tracked `.claude/skills/` trees when the same guidance can live in visible repo docs or OpenSpec artifacts.
 
 ## Recommended workflow by tool
 
@@ -21,6 +22,7 @@ Do not create competing instruction systems.
 - use `/review` before merge on non-trivial work
 - use `/research` only when you need current external information
 - use `/remote` for bounded background tasks
+- treat `.github/workflows/copilot-setup-steps.yml` as a manual support workflow, not routine CI
 - avoid `/fleet` unless the task clearly needs large parallel context
 
 ### Claude Code
@@ -92,6 +94,22 @@ cmake --preset default
 Keep MCP usage lean.
 
 Use extra MCP integrations only when they provide recurring value that outweighs context cost. For this repository, lightweight repo instructions plus built-in tooling are usually better than large always-on MCP stacks.
+
+## GitHub integration policy
+
+- prefer `gh` CLI for repository metadata changes such as description, homepage URL, and topics
+- keep workflow triggers narrow and repository-specific
+- avoid “helper” workflows that trigger on every change when a manual workflow is sufficient
+
+## Copilot plugin policy
+
+This repository does **not** check in a project-specific Copilot plugin configuration by default.
+
+Reason:
+
+- the durable value is in repo instructions plus OpenSpec, not another tool-specific config surface
+- plugin ecosystems and schemas drift faster than the repository itself
+- workspace recommendations should stay minimal and focused on broadly useful tooling
 
 ## Recommended editor extensions
 

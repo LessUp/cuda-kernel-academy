@@ -43,6 +43,7 @@ repos:
     hooks:
       - id: markdownlint
         args: ['--fix', '--disable', 'MD013', 'MD024', 'MD033', 'MD036', 'MD040', 'MD041', '--']
+        exclude: '^openspec/changes/archive/'
 
   # YAML linting
   - repo: https://github.com/adrienverge/yamllint

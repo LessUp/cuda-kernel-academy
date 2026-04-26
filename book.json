@@ -1,6 +1,6 @@
 {
   "title": "CUDA Kernel Academy",
-  "description": "Showcase-first documentation for a multi-module CUDA learning repository covering SGEMM, reusable kernels, advanced optimization, and lightweight inference.",
+  "description": "Systematic CUDA kernel engineering from SGEMM fundamentals to reusable kernels, advanced optimization experiments, and lightweight inference components.",
   "language": "en",
   "gitbook": ">=3.2.0",
   "author": "LessUp",
