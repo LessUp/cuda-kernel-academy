@@ -112,13 +112,14 @@ ctest --test-dir build --output-on-failure
 
 ```bash
 npm ci
-npx honkit build . _site
+npm run docs:build
 ```
 
 ## 本地质量检查
 
 ```bash
 pre-commit run --all-files
+npm run docs:build
 cmake --list-presets
 ```
 
@@ -127,8 +128,7 @@ cmake --list-presets
 GitHub-hosted CI 当前主要执行 CPU-safe 检查：
 
 - pre-commit
-- 文档构建
-- 链接检查
-- preset 合法性检查
+- 文档与 Pages 构建
+- CMake preset 合法性检查
 
 完整 CUDA 编译和运行测试请在本地或自有 GPU 环境完成。
