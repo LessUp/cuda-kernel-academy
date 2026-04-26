@@ -14,7 +14,6 @@ on:
       - "04-inference-engine/docs/**"
       - "examples/README.md"
       - "README.md"
-      - "README.zh-CN.md"
       - "SUMMARY.md"
       - "CHANGELOG.md"
       - "CONTRIBUTING.md"
@@ -23,7 +22,7 @@ on:
       - "package.json"
       - "package-lock.json"
       - "assets/**"
-      - "scripts/**"
+      - "scripts/post-build.js"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 

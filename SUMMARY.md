@@ -3,20 +3,12 @@
 * [CUDA Kernel Academy](README.md)
 * [Docs Overview](docs/README.md)
 
-## Workflow
+## Start Here
 
+* [Installation Guide](docs/INSTALLATION.md)
 * [Development Workflow](docs/DEVELOPMENT_WORKFLOW.md)
 * [AI Tooling Guide](docs/AI_TOOLING.md)
 * [Contributing](CONTRIBUTING.md)
-* [Changelog](CHANGELOG.md)
-
-## Getting Started
-
-* [Installation Guide](docs/INSTALLATION.md)
-* [Coding Style](docs/CODING_STYLE.md)
-* [FAQ](docs/FAQ.md)
-* [Troubleshooting](docs/TROUBLESHOOTING.md)
-* [Integration Examples](docs/integration_examples.md)
 
 ## Learning Modules
 
@@ -34,6 +26,14 @@
 * [HPC Flash Attention](03-hpc-advanced/docs/04_flash_attention.md)
 * [Inference Engine Architecture](04-inference-engine/docs/ARCHITECTURE.md)
 * [Inference Engine Performance Tuning](04-inference-engine/docs/PERFORMANCE_TUNING.md)
+
+## Reference
+
+* [Coding Style](docs/CODING_STYLE.md)
+* [FAQ](docs/FAQ.md)
+* [Troubleshooting](docs/TROUBLESHOOTING.md)
+* [Integration Examples](docs/integration_examples.md)
+* [Changelog](CHANGELOG.md)
 
 ## Examples
 

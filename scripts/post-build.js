@@ -4,7 +4,7 @@ const path = require('path');
 const SITE_URL = 'https://lessup.github.io/cuda-kernel-academy';
 const SITE_NAME = 'CUDA Kernel Academy';
 const SITE_DESCRIPTION =
-    'Showcase-first documentation for a multi-module CUDA learning repository covering SGEMM, reusable kernels, advanced optimization, and lightweight inference.';
+    'Systematic CUDA kernel engineering from SGEMM fundamentals to reusable kernels, advanced optimization experiments, and lightweight inference components.';
 const BUILD_DIR = path.join(__dirname, '..', '_site');
 const INJECT_START = '<!-- cuda-kernel-academy:meta:start -->';
 const INJECT_END = '<!-- cuda-kernel-academy:meta:end -->';
