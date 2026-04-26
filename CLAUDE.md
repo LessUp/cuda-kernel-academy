@@ -66,8 +66,10 @@ npm run docs:build
 
 - prefer `clangd` with repo compile commands
 - prefer repo guidance files over custom hidden prompts
+- do not commit hidden `.claude/skills` trees or other shadow instruction bundles; keep durable guidance in visible repo docs and OpenSpec
 - keep MCP usage lean; use built-in tools and skills first
 - avoid `/fleet` unless a task clearly benefits from heavy parallelization
+- future handoff work should start from the active OpenSpec change plus visible repo docs, not from prior chat transcripts
 
 ## Local overrides
 

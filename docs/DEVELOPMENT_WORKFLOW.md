@@ -9,6 +9,7 @@ This repository follows a single, lightweight workflow designed for **shipping f
 - **review before merge**
 - **minimal ceremony**
 - **no parallel spec systems**
+- **while a repo-wide closeout program is active, keep it in one umbrella change unless a subdomain becomes truly independent**
 
 ## The canonical loop
 

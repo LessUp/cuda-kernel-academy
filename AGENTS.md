@@ -121,6 +121,7 @@ Do not add generic “best practice” docs unless they change contributor behav
 - prefer `clangd` backed by `compile_commands.json` for C/C++/CUDA navigation
 - prefer `scripts/dev/sync-compile-commands.sh <preset>` after CMake configure
 - prefer built-in tool features and lightweight skills over heavy MCP stacks
+- keep agent guidance in visible repo docs; do not commit hidden `.claude/skills` bundles or other shadow instruction trees
 - use `/research` only for external facts that are actually needed
 - use `/remote` for contained background tasks, not as the default
 - avoid `/fleet` unless a task genuinely needs a large parallel context; prefer fewer, longer, focused sessions
@@ -137,6 +138,7 @@ Tool-specific guidance lives in:
 - merge once reviewed; do not accumulate unrelated local/cloud divergence
 - use `/review` before merge on non-trivial work
 - update specs and docs in the same change when behavior or workflow changes
+- when handing work to another model or maintainer, make the active OpenSpec change and visible repo docs sufficient; do not rely on chat history as the source of truth
 
 ## 9. Key paths
 

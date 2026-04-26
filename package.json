@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "cuda-kernel-academy",
-  "description": "Showcase-first HonKit site for CUDA Kernel Academy",
+  "description": "Systematic CUDA kernel engineering from SGEMM fundamentals to reusable kernels, advanced optimization experiments, and lightweight inference components",
   "scripts": {
     "docs:build": "honkit build . _site",
     "docs:serve": "honkit serve",

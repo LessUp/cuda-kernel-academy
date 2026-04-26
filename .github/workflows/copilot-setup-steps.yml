@@ -2,12 +2,6 @@ name: Copilot Setup Steps
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - ".github/workflows/copilot-setup-steps.yml"
-  pull_request:
-    paths:
-      - ".github/workflows/copilot-setup-steps.yml"
 
 jobs:
   copilot-setup-steps:
@@ -38,4 +32,4 @@ jobs:
       - name: Smoke-check repo commands
         run: |
           cmake --list-presets
-          test -x scripts/dev/sync-compile-commands.sh || chmod +x scripts/dev/sync-compile-commands.sh
+          test -f scripts/dev/sync-compile-commands.sh
