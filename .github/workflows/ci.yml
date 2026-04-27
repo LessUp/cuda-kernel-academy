@@ -76,7 +76,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install CMake
-        uses: lukka/get-cmake@latest
+        uses: lukka/get-cmake@v4
 
       - name: List presets
         run: cmake --list-presets

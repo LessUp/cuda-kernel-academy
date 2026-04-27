@@ -19,9 +19,8 @@ This directory contains the small set of durable documents that explain how to b
 - [AI Tooling Guide](AI_TOOLING.md)
 - [Installation Guide](INSTALLATION.md)
 - [Coding Style](CODING_STYLE.md)
-- [FAQ](FAQ.md)
 - [Troubleshooting](TROUBLESHOOTING.md)
-- [Integration Examples](integration_examples.md)
+- [Integration Examples](integration-examples.md)
 
 ## Module entry points
 
