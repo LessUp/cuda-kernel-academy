@@ -27,6 +27,7 @@ AGENTS.md
 .gitignore
 .gitattributes
 .gitbook.yaml
+.bookignore
 
 # Node modules and build artifacts
 node_modules/
@@ -36,7 +37,28 @@ package-lock.json
 # OMC agent state
 .omc/
 
-# Misc
+# Editor configs
+.vscode/
+
+# GitHub metadata (not needed in docs)
+.github/
+
+# OpenSpec change management (internal)
+openspec/
+
+# Scripts (build-time only)
+scripts/
+
+# Examples source code
+examples/
+
+# Misc repo files
+LICENSE
 VERSION
 SECURITY.md
 CODE_OF_CONDUCT.md
+CONTRIBUTING.md
+CHANGELOG.md
+
+# Chinese README (redundant in docs output)
+README.zh-CN.md
