@@ -95,7 +95,6 @@ make test
 - [AI tooling guide](docs/AI_TOOLING.md)
 - [Installation guide](docs/INSTALLATION.md)
 - [Troubleshooting](docs/TROUBLESHOOTING.md)
-- [FAQ](docs/FAQ.md)
 - [Contributing](CONTRIBUTING.md)
 
 ## Requirements

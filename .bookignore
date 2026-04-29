@@ -1,0 +1,42 @@
+# Source files (not needed in output)
+*.c
+*.cpp
+*.cu
+*.cuh
+*.h
+*.hpp
+*.inl
+
+# Build configs
+CMakeLists.txt
+CMakePresets.json
+Makefile
+cmake/
+
+# AI configs
+CLAUDE.md
+AGENTS.md
+.claude/
+
+# Dev tools
+.clang-format
+.clang-tidy
+.clangd
+.editorconfig
+.pre-commit-config.yaml
+.gitignore
+.gitattributes
+.gitbook.yaml
+
+# Node modules and build artifacts
+node_modules/
+package.json
+package-lock.json
+
+# OMC agent state
+.omc/
+
+# Misc
+VERSION
+SECURITY.md
+CODE_OF_CONDUCT.md

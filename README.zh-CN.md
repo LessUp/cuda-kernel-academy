@@ -95,7 +95,6 @@ make test
 - [AI 工具协作指南](docs/AI_TOOLING.md)
 - [安装指南](docs/INSTALLATION.md)
 - [故障排除](docs/TROUBLESHOOTING.md)
-- [常见问题](docs/FAQ.md)
 - [贡献指南](CONTRIBUTING.md)
 
 ## 环境要求
