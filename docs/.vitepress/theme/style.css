@@ -1,0 +1,505 @@
+/* ============================================
+   CUDA Kernel Academy - NVIDIA Dark Theme
+   ============================================ */
+
+/* ---------- Dark mode (default) ---------- */
+:root {
+  --vp-c-bg: #0d1117;
+  --vp-c-bg-alt: #161b22;
+  --vp-c-bg-elv: #1c2128;
+  --vp-c-divider: #30363d;
+  --vp-c-border: #30363d;
+  --vp-c-text-1: #e6edf3;
+  --vp-c-text-2: #8b949e;
+  --vp-c-text-3: #484f58;
+  --vp-c-brand-1: #76B900;
+  --vp-c-brand-2: #8ce600;
+  --vp-c-brand-3: #00E676;
+  --vp-c-brand-soft: rgba(118, 185, 0, 0.15);
+  --vp-c-tip-1: #76B900;
+  --vp-c-tip-2: #8ce600;
+  --vp-c-tip-3: #00E676;
+  --vp-c-tip-soft: rgba(118, 185, 0, 0.15);
+
+  --vp-c-warning-1: #ffab00;
+  --vp-c-warning-2: #ffc400;
+  --vp-c-warning-3: #ffab00;
+  --vp-c-warning-soft: rgba(255, 171, 0, 0.15);
+
+  --vp-c-danger-1: #f85149;
+  --vp-c-danger-2: #ff6b6b;
+  --vp-c-danger-3: #f85149;
+  --vp-c-danger-soft: rgba(248, 81, 73, 0.15);
+
+  --vp-c-gutter: #30363d;
+  --vp-c-default-soft: rgba(118, 185, 0, 0.08);
+
+  --vp-button-brand-bg: #76B900;
+  --vp-button-brand-hover-bg: #8ce600;
+  --vp-button-brand-active-bg: #00E676;
+  --vp-button-brand-text: #0d1117;
+
+  --vp-c-bg-mute: #1c2128;
+  --vp-c-bg-soft: rgba(22, 27, 34, 0.8);
+
+  --vp-font-family-base: 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans SC', sans-serif;
+  --vp-font-family-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', Consolas, Monaco, monospace;
+}
+
+/* ---------- Light mode ---------- */
+html:not(.dark) {
+  --vp-c-bg: #ffffff;
+  --vp-c-bg-alt: #f7f9fb;
+  --vp-c-bg-elv: #ffffff;
+  --vp-c-divider: #d0d7de;
+  --vp-c-border: #d0d7de;
+  --vp-c-text-1: #1f2937;
+  --vp-c-text-2: #5b6472;
+  --vp-c-text-3: #8c959f;
+  --vp-c-brand-1: #5c9100;
+  --vp-c-brand-2: #76B900;
+  --vp-c-brand-3: #5c9100;
+  --vp-c-brand-soft: rgba(118, 185, 0, 0.12);
+  --vp-c-tip-1: #5c9100;
+  --vp-c-tip-2: #76B900;
+  --vp-c-tip-3: #5c9100;
+  --vp-c-tip-soft: rgba(118, 185, 0, 0.12);
+  --vp-c-gutter: #d0d7de;
+  --vp-c-default-soft: rgba(118, 185, 0, 0.06);
+  --vp-button-brand-bg: #5c9100;
+  --vp-button-brand-hover-bg: #76B900;
+  --vp-button-brand-active-bg: #5c9100;
+  --vp-button-brand-text: #ffffff;
+}
+
+/* ---------- Code blocks ---------- */
+.vp-doc div[class*="language-"] {
+  background-color: #0d1117;
+  border-radius: 8px;
+  border: 1px solid #30363d;
+  position: relative;
+}
+
+html:not(.dark) .vp-doc div[class*="language-"] {
+  background-color: #f6f8fa;
+  border-color: #d0d7de;
+}
+
+.vp-doc div[class*="language-"] pre {
+  background-color: transparent !important;
+}
+
+.vp-doc div[class*="language-"] code {
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.85em;
+  line-height: 1.6;
+  color: #e6edf3;
+}
+
+html:not(.dark) .vp-doc div[class*="language-"] code {
+  color: #1f2937;
+}
+
+/* Green accent for keywords */
+.token.keyword,
+.token.builtin,
+.token.selector .token.keyword {
+  color: #8ce600 !important;
+}
+
+.token.string,
+.token.attr-value {
+  color: #a5d6ff !important;
+}
+
+.token.number,
+.token.boolean {
+  color: #79c0ff !important;
+}
+
+.token.function,
+.token.method {
+  color: #d2a8ff !important;
+}
+
+.token.comment {
+  color: #8b949e !important;
+  font-style: italic;
+}
+
+.token.operator,
+.token.punctuation {
+  color: #e6edf3 !important;
+}
+
+.token.class-name,
+.token.type {
+  color: #ffa657 !important;
+}
+
+/* Line highlight */
+.vp-doc .highlight-lines .highlighted {
+  background-color: rgba(118, 185, 0, 0.12);
+  border-left: 3px solid #76B900;
+}
+
+/* ---------- Tables ---------- */
+.vp-doc table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--vp-c-border);
+  margin: 16px 0;
+}
+
+.vp-doc thead tr {
+  background-color: #161b22;
+}
+
+html:not(.dark) .vp-doc thead tr {
+  background-color: #f3f4f6;
+}
+
+.vp-doc th {
+  padding: 12px 16px;
+  font-weight: 600;
+  text-align: left;
+  border-bottom: 1px solid var(--vp-c-border);
+  color: var(--vp-c-text-1);
+}
+
+.vp-doc td {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--vp-c-divider);
+  color: var(--vp-c-text-2);
+}
+
+.vp-doc tbody tr:nth-child(odd) {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.vp-doc tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ---------- Blockquotes ---------- */
+.vp-doc blockquote {
+  border-left: 4px solid #76B900;
+  background: rgba(118, 185, 0, 0.08);
+  border-radius: 0 8px 8px 0;
+  padding: 12px 16px;
+  margin: 16px 0;
+}
+
+.vp-doc blockquote p {
+  margin: 0;
+  color: var(--vp-c-text-2);
+}
+
+/* ---------- Links ---------- */
+.vp-doc a {
+  color: #76B900;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.vp-doc a:hover {
+  color: #8ce600;
+  text-decoration: underline;
+}
+
+/* ---------- Custom utility classes ---------- */
+
+/* Hero section */
+.hero-section {
+  position: relative;
+  width: 100%;
+  min-height: 480px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0d1117 0%, #1a2332 50%, #0f1f0a 100%);
+  overflow: hidden;
+  border-radius: 0 0 24px 24px;
+  margin: -24px -24px 0 -24px;
+  padding: 48px 24px;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(118, 185, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(118, 185, 0, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+
+html:not(.dark) .hero-section {
+  background: linear-gradient(135deg, #f7f9fb 0%, #eef2f7 50%, #e8f5e9 100%);
+}
+
+html:not(.dark) .hero-section::before {
+  background-image:
+    linear-gradient(rgba(118, 185, 0, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(118, 185, 0, 0.08) 1px, transparent 1px);
+}
+
+/* Feature cards */
+.feature-card {
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  padding: 24px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(118, 185, 0, 0.15);
+}
+
+html:not(.dark) .feature-card {
+  background-color: #ffffff;
+  border-color: #d0d7de;
+}
+
+html:not(.dark) .feature-card:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(118, 185, 0, 0.2);
+}
+
+/* Metric badges */
+.metric-badge {
+  text-align: center;
+  padding: 16px;
+}
+
+.metric-badge .metric-value {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #76B900;
+  line-height: 1.1;
+  font-family: var(--vp-font-family-mono);
+}
+
+.metric-badge .metric-label {
+  font-size: 0.875rem;
+  color: var(--vp-c-text-2);
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ---------- Navbar ---------- */
+.VPNav {
+  background-color: rgba(13, 17, 23, 0.85) !important;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid #30363d;
+}
+
+html:not(.dark) .VPNav {
+  background-color: rgba(255, 255, 255, 0.85) !important;
+  border-bottom-color: #d0d7de;
+}
+
+.VPNavBar .title {
+  font-weight: 700;
+  color: var(--vp-c-text-1);
+}
+
+/* ---------- Sidebar ---------- */
+.VPSidebar {
+  background-color: var(--vp-c-bg) !important;
+  border-right: 1px solid var(--vp-c-divider);
+}
+
+.VPSidebarItem .text {
+  font-size: 0.9rem;
+  color: var(--vp-c-text-2);
+}
+
+.VPSidebarItem.is-active .text {
+  color: #76B900;
+  font-weight: 600;
+}
+
+.VPSidebarItem .items {
+  padding-left: 12px;
+}
+
+/* ---------- Home hero override ---------- */
+.VPHero {
+  background: transparent !important;
+}
+
+.VPHero .name,
+.VPHero .text,
+.VPHero .tagline {
+  color: var(--vp-c-text-1);
+}
+
+.VPHero .VPButton {
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.VPHero .VPButton.brand {
+  background-color: #76B900;
+  color: #0d1117;
+}
+
+.VPHero .VPButton.brand:hover {
+  background-color: #8ce600;
+}
+
+/* ---------- Footer ---------- */
+.VPFooter {
+  background-color: var(--vp-c-bg-alt) !important;
+  border-top: 1px solid var(--vp-c-divider);
+}
+
+/* ---------- Scrollbar ---------- */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--vp-c-bg-alt);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #30363d;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #484f58;
+}
+
+html:not(.dark) ::-webkit-scrollbar-thumb {
+  background: #c1c9d0;
+}
+
+html:not(.dark) ::-webkit-scrollbar-thumb:hover {
+  background: #9fa6ad;
+}
+
+/* ---------- Selection ---------- */
+::selection {
+  background-color: rgba(118, 185, 0, 0.3);
+  color: var(--vp-c-text-1);
+}
+
+/* ---------- Mark / Highlight ---------- */
+.vp-doc mark {
+  background-color: rgba(118, 185, 0, 0.2);
+  color: var(--vp-c-text-1);
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+/* ---------- Details / Summary ---------- */
+.vp-doc details {
+  background-color: var(--vp-c-bg-alt);
+  border: 1px solid var(--vp-c-border);
+  border-radius: 8px;
+  padding: 12px 16px;
+}
+
+.vp-doc details summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--vp-c-text-1);
+}
+
+/* ---------- Callout / Custom containers ---------- */
+.custom-block {
+  border-radius: 8px;
+  border-left-width: 4px;
+}
+
+.custom-block.tip {
+  border-color: #76B900;
+  background-color: rgba(118, 185, 0, 0.08);
+}
+
+.custom-block.warning {
+  border-color: #ffab00;
+  background-color: rgba(255, 171, 0, 0.08);
+}
+
+.custom-block.danger {
+  border-color: #f85149;
+  background-color: rgba(248, 81, 73, 0.08);
+}
+
+.custom-block-title {
+  color: var(--vp-c-text-1);
+}
+
+.custom-block.tip .custom-block-title {
+  color: #76B900;
+}
+
+/* ---------- Mermaid Charts ---------- */
+.mermaid {
+  background-color: #161b22;
+  border: 1px solid #76B900;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 16px 0;
+  overflow-x: auto;
+}
+
+html:not(.dark) .mermaid {
+  background-color: #f6f8fa;
+  border-color: #76B900;
+}
+
+.mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.mermaid .node rect,
+.mermaid .node circle,
+.mermaid .node polygon,
+.mermaid .node ellipse {
+  fill: #161b22 !important;
+  stroke: #76B900 !important;
+  stroke-width: 1.5px !important;
+}
+
+html:not(.dark) .mermaid .node rect,
+html:not(.dark) .mermaid .node circle,
+html:not(.dark) .mermaid .node polygon,
+html:not(.dark) .mermaid .node ellipse {
+  fill: #f6f8fa !important;
+}
+
+.mermaid .node .label,
+.mermaid .nodeLabel,
+.mermaid .edgeLabel {
+  color: #e6edf3 !important;
+  fill: #e6edf3 !important;
+}
+
+html:not(.dark) .mermaid .node .label,
+html:not(.dark) .mermaid .nodeLabel,
+html:not(.dark) .mermaid .edgeLabel {
+  color: #1f2937 !important;
+  fill: #1f2937 !important;
+}
+
+.mermaid .edge-thickness-normal {
+  stroke: #76B900 !important;
+}
+
+.mermaid .arrowheadPath {
+  fill: #76B900 !important;
+}

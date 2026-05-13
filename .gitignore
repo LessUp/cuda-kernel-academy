@@ -88,7 +88,9 @@ test_results/
 docs/_build/
 docs/html/
 docs/latex/
-_site/
+docs/.vitepress/dist/
+docs/.vitepress/cache/
+docs/node_modules/
 _book/
 *.dox
 
