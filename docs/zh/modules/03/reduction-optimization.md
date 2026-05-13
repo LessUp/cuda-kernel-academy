@@ -1,0 +1,176 @@
+---
+outline: [2, 3]
+---
+
+# 归约优化详解
+
+本文档详细介绍 CUDA 归约操作的优化技术，包括 Warp Shuffle、Block Reduce 和 Online Softmax。
+
+## 1. 归约基础
+
+### 什么是归约？
+
+归约是将一组数据通过某种操作（如求和、求最大值）合并为单个值的过程。
+
+### Naive 实现（原子操作）
+
+```cpp
+__global__ void reduce_naive(const float* input, float* output, int n) {
+    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+    if (idx < n) {
+        atomicAdd(output, input[idx]);  // 极慢！所有线程竞争同一地址
+    }
+}
+```
+
+**问题**: 原子操作串行化，性能极差。
+
+## 2. Warp Shuffle 归约
+
+### Warp Shuffle 原语
+
+Warp Shuffle 允许 Warp 内线程直接交换寄存器数据，无需 Shared Memory。
+
+```cpp
+float val = __shfl_down_sync(0xffffffff, var, delta);
+```
+
+### Warp 级归约
+
+```cpp
+__device__ float warp_reduce_sum(float val) {
+    for (int offset = 16; offset > 0; offset /= 2) {
+        val += __shfl_down_sync(0xffffffff, val, offset);
+    }
+    return val;
+}
+```
+
+### 归约过程示意
+
+```mermaid
+flowchart LR
+    subgraph Init["初始状态"]
+        I0["0"] --- I1["1"] --- I2["2"] --- I3["3"] --- I4["..."] --- I31["31"]
+    end
+
+    subgraph Off16["offset = 16"]
+        O0["0+16"] --- O1["1+17"] --- O2["..."] --- O15["15+31"]
+    end
+
+    subgraph Off1["offset = 1"]
+        F0["Sum of 32"]
+    end
+
+    Init --> Off16 --> Off8["offset = 8"] --> Off4 --> Off2 --> Off1
+
+    style Init fill:#161b22,stroke:#76B900,color:#e6edf3
+    style Off16 fill:#161b22,stroke:#76B900,color:#e6edf3
+    style Off8 fill:#161b22,stroke:#76B900,color:#e6edf3
+    style Off4 fill:#161b22,stroke:#76B900,color:#e6edf3
+    style Off2 fill:#161b22,stroke:#76B900,color:#e6edf3
+    style Off1 fill:#161b22,stroke:#76B900,color:#e6edf3
+    style I0 fill:#161b22,stroke:#76B900,color:#e6edf3
+    style I1 fill:#161b22,stroke:#76B900,color:#e6edf3
+    style I2 fill:#161b22,stroke:#76B900,color:#e6edf3
+    style I3 fill:#161b22,stroke:#76B900,color:#e6edf3
+    style I4 fill:#161b22,stroke:#76B900,color:#e6edf3
+    style I31 fill:#161b22,stroke:#76B900,color:#e6edf3
+    style O0 fill:#161b22,stroke:#76B900,color:#e6edf3
+    style O1 fill:#161b22,stroke:#76B900,color:#e6edf3
+    style O2 fill:#161b22,stroke:#76B900,color:#e6edf3
+    style O15 fill:#161b22,stroke:#76B900,color:#e6edf3
+    style F0 fill:#161b22,stroke:#76B900,color:#e6edf3
+```
+
+## 3. Block 级归约
+
+### 结合 Warp Shuffle 和 Shared Memory
+
+```cpp
+__device__ float block_reduce_sum(float val) {
+    __shared__ float shared[32];  // 每个 Warp 一个槽位
+
+    int lane = threadIdx.x % 32;
+    int warp_id = threadIdx.x / 32;
+
+    // Step 1: Warp 内归约
+    val = warp_reduce_sum(val);
+
+    // Step 2: Warp 0 的 lane 0 写入 Shared Memory
+    if (lane == 0) {
+        shared[warp_id] = val;
+    }
+    __syncthreads();
+
+    // Step 3: 第一个 Warp 归约所有 Warp 的结果
+    if (warp_id == 0) {
+        val = (threadIdx.x < blockDim.x / 32) ? shared[lane] : 0.0f;
+        val = warp_reduce_sum(val);
+    }
+
+    return val;
+}
+```
+
+## 4. Softmax 优化
+
+### Online Softmax（单次遍历）
+
+**核心思想**: 在遍历过程中同时维护 max 和 sum。
+
+```cpp
+__device__ void online_softmax(const float* input, float* output, int n) {
+    float max_val = -INFINITY;
+    float sum = 0.0f;
+
+    for (int i = 0; i < n; ++i) {
+        float x = input[i];
+        float old_max = max_val;
+        max_val = fmaxf(max_val, x);
+        sum = sum * expf(old_max - max_val) + expf(x - max_val);
+    }
+
+    for (int i = 0; i < n; ++i) {
+        output[i] = expf(input[i] - max_val) / sum;
+    }
+}
+```
+
+## 5. LayerNorm 优化
+
+### Welford 算法（数值稳定）
+
+```cpp
+__device__ void welford_update(float& mean, float& m2, float& count, float x) {
+    count += 1.0f;
+    float delta = x - mean;
+    mean += delta / count;
+    float delta2 = x - mean;
+    m2 += delta * delta2;
+}
+```
+
+## 6. 性能对比
+
+### Softmax 性能
+
+| 实现 | 遍历次数 | 相对性能 |
+|------|----------|----------|
+| Naive（原子操作） | 3 | 1× |
+| Warp Shuffle | 3 | 10× |
+| Online Softmax | 2 | 15× |
+| Fused Online | 1 | 20× |
+
+### LayerNorm vs RMSNorm
+
+| 操作 | 计算量 | 相对性能 |
+|------|--------|----------|
+| LayerNorm | mean + var + norm | 1× |
+| RMSNorm | rms + norm | 1.3× |
+
+## References
+
+[^1]: Dao, T., et al. "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness." *NeurIPS* 2022. https://arxiv.org/abs/2205.14135
+[^2]: Welford, B. P. "Note on a Method for Calculating Corrected Sums of Squares and Products." *Technometrics* 1962.
+[^3]: NVIDIA CUB Library. https://github.com/NVIDIA/cub

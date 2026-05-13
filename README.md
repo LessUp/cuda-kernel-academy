@@ -96,6 +96,7 @@ make test
 - [Installation guide](docs/INSTALLATION.md)
 - [Troubleshooting](docs/TROUBLESHOOTING.md)
 - [Contributing](CONTRIBUTING.md)
+- 📖 [技术文档站](https://lessup.github.io/cuda-kernel-academy/) 由 VitePress 驱动，支持 NVIDIA 风格深色主题、交互式图表和学术论文引用。
 
 ## Requirements
 

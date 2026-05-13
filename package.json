@@ -1,25 +1,11 @@
 {
   "private": true,
   "name": "cuda-kernel-academy",
-  "description": "Systematic CUDA kernel engineering from SGEMM fundamentals to reusable kernels, advanced optimization experiments, and lightweight inference components",
   "scripts": {
-    "docs:build": "honkit build . _site",
-    "docs:serve": "honkit serve",
-    "docs:build-prod": "honkit build . _site && npm run post-build",
-    "post-build": "node scripts/post-build.js"
+    "docs:dev": "cd docs && npm install && npm run dev",
+    "docs:build": "cd docs && npm install && npm run build",
+    "docs:preview": "cd docs && npm run preview"
   },
-  "devDependencies": {
-    "honkit": "^3.7.1",
-    "gitbook-plugin-search-plus": "^1.0.3",
-    "gitbook-plugin-github-buttons": "^1.0.0",
-    "gitbook-plugin-edit-link": "^2.0.2",
-    "gitbook-plugin-anchorjs": "^2.1.0",
-    "gitbook-plugin-prism": "^2.4.0",
-    "gitbook-plugin-copy-code-button": "^0.0.2",
-    "gitbook-plugin-alerts": "^0.2.0",
-    "prismjs": "^1.29.0"
-  },
-  "engines": {
-    "node": ">=18.0.0"
-  }
+  "devDependencies": {},
+  "engines": { "node": ">=22.0.0" }
 }

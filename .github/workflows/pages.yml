@@ -5,24 +5,15 @@ on:
     branches: [master]
     paths:
       - "docs/**"
-      - "01-sgemm-tutorial/README.md"
-      - "02-tensorcraft-core/README.md"
-      - "02-tensorcraft-core/docs/**"
-      - "03-hpc-advanced/README.md"
-      - "03-hpc-advanced/docs/**"
-      - "04-inference-engine/README.md"
-      - "04-inference-engine/docs/**"
-      - "examples/README.md"
       - "README.md"
-      - "SUMMARY.md"
+      - "README.zh-CN.md"
+      - "01-sgemm-tutorial/README.md"
+      - "02-tensorcraft-core/**"
+      - "03-hpc-advanced/**"
+      - "04-inference-engine/**"
+      - "examples/**"
       - "CHANGELOG.md"
       - "CONTRIBUTING.md"
-      - "book.json"
-      - ".gitbook.yaml"
-      - "package.json"
-      - "package-lock.json"
-      - "assets/**"
-      - "scripts/post-build.js"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -50,25 +41,29 @@ jobs:
         with:
           node-version: 22
           cache: npm
+          cache-dependency-path: docs/package-lock.json
 
       - name: Install dependencies
+        working-directory: docs
         run: npm ci
 
       - name: Build docs
-        run: npm run docs:build-prod
+        working-directory: docs
+        run: npm run build
+
+      - name: Copy static 404 page
+        working-directory: docs
+        run: cp public/404.html .vitepress/dist/404.html
 
       - name: Verify build
         run: |
-          test -f _site/index.html
-          test -f _site/sitemap.xml
-          test -f _site/robots.txt
-          test -f _site/404.html
-          test -f _site/assets/styles/website.css
+          test -f docs/.vitepress/dist/index.html
+          test -f docs/.vitepress/dist/sitemap.xml
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: _site
+          path: docs/.vitepress/dist
 
   deploy:
     needs: build
