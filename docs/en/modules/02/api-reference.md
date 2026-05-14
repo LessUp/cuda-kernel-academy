@@ -51,7 +51,7 @@ class MemoryPool {
 
 ## Kernels Module
 
-See the Chinese version for full API details: [API Reference](../../zh/modules/02/api-reference.md)
+See the Chinese version for full API details: [API Reference](/zh/modules/02/api-reference)
 
 ## References
 

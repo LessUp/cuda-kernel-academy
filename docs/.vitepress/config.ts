@@ -1,7 +1,8 @@
 import { defineConfig } from 'vitepress'
+import { withMermaid } from 'vitepress-plugin-mermaid'
 import llmstxt from 'vitepress-plugin-llms'
 
-export default defineConfig({
+export default withMermaid(defineConfig({
   base: '/cuda-kernel-academy/',
   title: 'CUDA Kernel Academy',
   description: 'Systematic CUDA kernel engineering from SGEMM to inference',
@@ -10,10 +11,15 @@ export default defineConfig({
 
   lastUpdated: true,
 
-  ignoreDeadLinks: true,
+  cleanUrls: true,
 
   sitemap: {
     hostname: 'https://lessup.github.io/cuda-kernel-academy/'
+  },
+
+  markdown: {
+    lineNumbers: true,
+    theme: { light: 'github-light', dark: 'github-dark' }
   },
 
   head: [
@@ -49,32 +55,54 @@ export default defineConfig({
       {
         text: '指南',
         items: [
-          { text: '快速开始', link: '/zh/guides/getting-started' },
-          { text: '工作流', link: '/zh/guides/workflow' }
+          { text: '快速开始', link: '/zh/guides/getting-started', activeMatch: '/zh/guides/' },
+          { text: '工作流', link: '/zh/guides/workflow', activeMatch: '/zh/guides/' }
         ]
       },
       {
         text: '模块',
         items: [
-          { text: '01-SGEMM', link: '/zh/modules/01-sgemm' },
-          { text: '02-TensorCraft', link: '/zh/modules/02-tensorcraft' },
-          { text: '03-HPC', link: '/zh/modules/03-hpc' },
-          { text: '04-Inference', link: '/zh/modules/04-inference' }
+          { text: '01-SGEMM', link: '/zh/modules/01-sgemm', activeMatch: '/zh/modules/01' },
+          { text: '02-TensorCraft', link: '/zh/modules/02-tensorcraft', activeMatch: '/zh/modules/02' },
+          { text: '03-HPC', link: '/zh/modules/03-hpc', activeMatch: '/zh/modules/03' },
+          { text: '04-Inference', link: '/zh/modules/04-inference', activeMatch: '/zh/modules/04' }
+        ]
+      },
+      {
+        text: '技术白皮书',
+        items: [
+          { text: '系统架构', link: '/zh/whitepaper/architecture', activeMatch: '/zh/whitepaper/' },
+          { text: 'SGEMM 优化', link: '/zh/whitepaper/sgemm-optimization', activeMatch: '/zh/whitepaper/' },
+          { text: '推理引擎设计', link: '/zh/whitepaper/inference-engine-design', activeMatch: '/zh/whitepaper/' },
+          { text: 'TensorCraft 设计', link: '/zh/whitepaper/tensorcraft-design', activeMatch: '/zh/whitepaper/' },
+          { text: '高级技术', link: '/zh/whitepaper/advanced-showcase', activeMatch: '/zh/whitepaper/' }
         ]
       },
       {
         text: '参考',
         items: [
-          { text: '编码风格', link: '/zh/reference/coding-style' },
-          { text: '故障排查', link: '/zh/reference/troubleshooting' },
-          { text: '集成示例', link: '/zh/reference/integration-examples' }
+          { text: '编码风格', link: '/zh/reference/coding-style', activeMatch: '/zh/reference/' },
+          { text: '故障排查', link: '/zh/reference/troubleshooting', activeMatch: '/zh/reference/' },
+          { text: '集成示例', link: '/zh/reference/integration-examples', activeMatch: '/zh/reference/' }
         ]
       },
-      { text: 'Benchmarks', link: '/zh/benchmarks/' },
+      { text: 'Benchmarks', link: '/zh/benchmarks/', activeMatch: '/zh/benchmarks/' },
       { text: '路线图', link: '/zh/roadmap' }
     ],
 
     sidebar: {
+      '/zh/whitepaper/': [
+        {
+          text: '技术白皮书',
+          items: [
+            { text: '系统架构设计', link: '/zh/whitepaper/architecture' },
+            { text: 'SGEMM 优化旅程', link: '/zh/whitepaper/sgemm-optimization' },
+            { text: '推理引擎设计', link: '/zh/whitepaper/inference-engine-design' },
+            { text: 'TensorCraft 设计', link: '/zh/whitepaper/tensorcraft-design' },
+            { text: '高级技术展示', link: '/zh/whitepaper/advanced-showcase' }
+          ]
+        }
+      ],
       '/zh/modules/01-sgemm': [
         {
           text: '01-SGEMM 教程',
@@ -182,31 +210,53 @@ export default defineConfig({
           {
             text: 'Guides',
             items: [
-              { text: 'Getting Started', link: '/en/guides/getting-started' },
-              { text: 'Workflow', link: '/en/guides/workflow' }
+              { text: 'Getting Started', link: '/en/guides/getting-started', activeMatch: '/en/guides/' },
+              { text: 'Workflow', link: '/en/guides/workflow', activeMatch: '/en/guides/' }
             ]
           },
           {
             text: 'Modules',
             items: [
-              { text: '01-SGEMM', link: '/en/modules/01-sgemm' },
-              { text: '02-TensorCraft', link: '/en/modules/02-tensorcraft' },
-              { text: '03-HPC', link: '/en/modules/03-hpc' },
-              { text: '04-Inference', link: '/en/modules/04-inference' }
+              { text: '01-SGEMM', link: '/en/modules/01-sgemm', activeMatch: '/en/modules/01' },
+              { text: '02-TensorCraft', link: '/en/modules/02-tensorcraft', activeMatch: '/en/modules/02' },
+              { text: '03-HPC', link: '/en/modules/03-hpc', activeMatch: '/en/modules/03' },
+              { text: '04-Inference', link: '/en/modules/04-inference', activeMatch: '/en/modules/04' }
+            ]
+          },
+          {
+            text: 'Whitepaper',
+            items: [
+              { text: 'Architecture', link: '/en/whitepaper/architecture', activeMatch: '/en/whitepaper/' },
+              { text: 'SGEMM Optimization', link: '/en/whitepaper/sgemm-optimization', activeMatch: '/en/whitepaper/' },
+              { text: 'Inference Engine', link: '/en/whitepaper/inference-engine-design', activeMatch: '/en/whitepaper/' },
+              { text: 'TensorCraft', link: '/en/whitepaper/tensorcraft-design', activeMatch: '/en/whitepaper/' },
+              { text: 'Advanced Tech', link: '/en/whitepaper/advanced-showcase', activeMatch: '/en/whitepaper/' }
             ]
           },
           {
             text: 'Reference',
             items: [
-              { text: 'Coding Style', link: '/en/reference/coding-style' },
-              { text: 'Troubleshooting', link: '/en/reference/troubleshooting' },
-              { text: 'Integration', link: '/en/reference/integration-examples' }
+              { text: 'Coding Style', link: '/en/reference/coding-style', activeMatch: '/en/reference/' },
+              { text: 'Troubleshooting', link: '/en/reference/troubleshooting', activeMatch: '/en/reference/' },
+              { text: 'Integration', link: '/en/reference/integration-examples', activeMatch: '/en/reference/' }
             ]
           },
-          { text: 'Benchmarks', link: '/en/benchmarks/' },
+          { text: 'Benchmarks', link: '/en/benchmarks/', activeMatch: '/en/benchmarks/' },
           { text: 'Roadmap', link: '/en/roadmap' }
         ],
         sidebar: {
+          '/en/whitepaper/': [
+            {
+              text: 'Technical Whitepaper',
+              items: [
+                { text: 'System Architecture', link: '/en/whitepaper/architecture' },
+                { text: 'SGEMM Optimization', link: '/en/whitepaper/sgemm-optimization' },
+                { text: 'Inference Engine Design', link: '/en/whitepaper/inference-engine-design' },
+                { text: 'TensorCraft Design', link: '/en/whitepaper/tensorcraft-design' },
+                { text: 'Advanced Tech Showcase', link: '/en/whitepaper/advanced-showcase' }
+              ]
+            }
+          ],
           '/en/modules/01-sgemm': [
             {
               text: '01-SGEMM Tutorial',
@@ -305,6 +355,10 @@ export default defineConfig({
         includeAll: true,
         customInfo: 'CUDA Kernel Academy: 系统性 CUDA 算子工程学习项目，涵盖 SGEMM 优化、TensorCraft 核心库、HPC 高级特性和轻量级推理引擎。适合面试展示和进阶学习。'
       })
-    ]
+    ],
+    build: {
+      chunkSizeWarningLimit: 1500
+    }
   }
-})
+}))
+
