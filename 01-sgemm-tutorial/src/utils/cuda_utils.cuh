@@ -1,5 +1,14 @@
 #pragma once
 
+/**
+ * @file cuda_utils.cuh
+ * @brief CUDA utilities for SGEMM tutorial
+ *
+ * Note: This module uses exit() on error for simplicity in educational contexts.
+ * For production code or library usage, prefer the exception-based error handling
+ * and RAII wrappers from cuda_academy: <cuda_academy/cuda_academy.hpp>
+ */
+
 #include <cuda_runtime.h>
 #include <cublas_v2.h>
 #include <curand.h>

@@ -11,7 +11,7 @@
 #include "../core/features.hpp"
 #include "../core/type_traits.hpp"
 #include "../memory/aligned_vector.hpp"
-#include "softmax.hpp"  // For warp reduction utilities
+#include "warp_reduction.hpp"
 
 namespace tensorcraft {
 namespace kernels {

@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "common.h"
-#include "memory_pool.h"
+#include "memory_wrapper.hpp"
 
 namespace mini_inference {
 
@@ -19,20 +19,22 @@ class Tensor {
 public:
     Tensor() = default;
 
-    // Create tensor with shape
-    explicit Tensor(const std::vector<int>& shape) : shape_(shape) {
+    // Create tensor with shape (uses default allocator - MemoryPool)
+    explicit Tensor(const std::vector<int>& shape, MemoryAllocator* allocator = nullptr)
+        : shape_(shape), allocator_(allocator) {
         size_ = compute_size();
         if (size_ > 0) {
-            data_.allocate(size_ * sizeof(float));
+            data_.allocate(size_ * sizeof(float), allocator_);
         }
         compute_strides();
     }
 
     // Create tensor with shape and data
-    Tensor(const std::vector<int>& shape, const float* data) : shape_(shape) {
+    Tensor(const std::vector<int>& shape, const float* data, MemoryAllocator* allocator = nullptr)
+        : shape_(shape), allocator_(allocator) {
         size_ = compute_size();
         if (size_ > 0) {
-            data_.allocate(size_ * sizeof(float));
+            data_.allocate(size_ * sizeof(float), allocator_);
             data_.copy_from_host(data, size_ * sizeof(float));
         }
         compute_strides();
@@ -147,7 +149,8 @@ private:
     std::vector<int> shape_;
     std::vector<int> strides_;
     size_t size_ = 0;
-    PooledMemory data_;
+    MemoryWrapper data_;
+    MemoryAllocator* allocator_ = nullptr;
 };
 
 // ============================================================================

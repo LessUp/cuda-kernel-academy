@@ -1,5 +1,14 @@
 #pragma once
 
+/**
+ * @file cuda_check.cuh
+ * @brief CUDA error handling for HPC Advanced module
+ *
+ * Note: This module uses exit() on error for simplicity in educational contexts.
+ * For production code or library usage, prefer the exception-based error handling
+ * from cuda_academy: <cuda_academy/core/cuda_check.hpp>
+ */
+
 #include <cuda_runtime.h>
 #include <cstdio>
 #include <cstdlib>
