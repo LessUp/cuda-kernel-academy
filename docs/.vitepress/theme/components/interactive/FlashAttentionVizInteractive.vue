@@ -148,19 +148,19 @@ const resetAnimation = () => {
 }
 
 .step-dot:hover {
-  border-color: #76B900;
+  border-color: var(--vp-c-brand-1);
 }
 
 .step-dot.active {
-  background: #76B900;
-  border-color: #76B900;
-  color: #0d1117;
+  background: var(--vp-c-brand-1);
+  border-color: var(--vp-c-brand-1);
+  color: var(--vp-c-bg);
 }
 
 .step-dot.completed {
-  background: rgba(118, 185, 0, 0.2);
-  border-color: #76B900;
-  color: #76B900;
+  background: var(--vp-c-brand-soft);
+  border-color: var(--vp-c-brand-1);
+  color: var(--vp-c-brand-1);
 }
 
 .step-content {
@@ -186,7 +186,7 @@ const resetAnimation = () => {
 .step-name {
   margin: 0;
   font-size: 1rem;
-  color: #76B900;
+  color: var(--vp-c-brand-1);
 }
 
 .step-description {
@@ -208,10 +208,10 @@ const resetAnimation = () => {
 
 .memory-value {
   padding: 4px 8px;
-  background: rgba(118, 185, 0, 0.1);
+  background: var(--vp-c-brand-soft);
   border-radius: 4px;
   font-size: 0.85rem;
-  color: #76B900;
+  color: var(--vp-c-brand-1);
 }
 
 .controls {
@@ -233,18 +233,18 @@ const resetAnimation = () => {
 }
 
 .control-btn:hover {
-  border-color: #76B900;
-  color: #76B900;
+  border-color: var(--vp-c-brand-1);
+  color: var(--vp-c-brand-1);
 }
 
 .control-btn.primary {
-  background: #76B900;
-  border-color: #76B900;
-  color: #0d1117;
+  background: var(--vp-c-brand-1);
+  border-color: var(--vp-c-brand-1);
+  color: var(--vp-c-bg);
 }
 
 .control-btn.primary:hover {
-  background: #8ce600;
+  background: var(--vp-c-brand-2);
 }
 
 .memory-comparison {
@@ -280,6 +280,6 @@ const resetAnimation = () => {
 }
 
 .comparison-value.good {
-  color: #76B900;
+  color: var(--vp-c-brand-1);
 }
 </style>

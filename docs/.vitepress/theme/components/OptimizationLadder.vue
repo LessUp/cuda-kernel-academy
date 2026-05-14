@@ -105,8 +105,8 @@ const steps: Step[] = [
 
 .step-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(118, 185, 0, 0.2);
-  border-color: rgba(118, 185, 0, 0.5);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35), 0 0 0 1px var(--vp-c-brand-soft);
+  border-color: var(--vp-c-brand-1);
 }
 
 .step-header {
@@ -119,7 +119,7 @@ const steps: Step[] = [
 .step-number {
   font-size: 2rem;
   font-weight: 800;
-  color: #76B900;
+  color: var(--vp-c-brand-1);
   line-height: 1;
   font-family: var(--vp-font-family-mono);
 }
@@ -127,8 +127,8 @@ const steps: Step[] = [
 .step-speedup {
   font-size: 0.75rem;
   font-weight: 700;
-  color: #0d1117;
-  background: #76B900;
+  color: var(--vp-c-bg);
+  background: var(--vp-c-brand-1);
   padding: 4px 8px;
   border-radius: 999px;
 }
@@ -162,7 +162,7 @@ const steps: Step[] = [
   top: 7px;
   width: 6px;
   height: 6px;
-  background: #76B900;
+  background: var(--vp-c-brand-1);
   border-radius: 50%;
 }
 
@@ -176,7 +176,7 @@ const steps: Step[] = [
 
 .arrow-icon {
   font-size: 1.25rem;
-  color: #76B900;
+  color: var(--vp-c-brand-1);
   opacity: var(--arrow-opacity);
   font-weight: 700;
 }

@@ -64,7 +64,7 @@ const props = defineProps<{
 
 .ref-id {
   font-weight: 700;
-  color: #76B900;
+  color: var(--vp-c-brand-1);
   font-family: var(--vp-font-family-mono);
   flex-shrink: 0;
   min-width: 32px;
@@ -86,13 +86,13 @@ const props = defineProps<{
 
 .ref-title-link {
   font-style: italic;
-  color: #76B900;
+  color: var(--vp-c-brand-1);
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .ref-title-link:hover {
-  color: #00E676;
+  color: var(--vp-c-brand-3);
   text-decoration: underline;
 }
 

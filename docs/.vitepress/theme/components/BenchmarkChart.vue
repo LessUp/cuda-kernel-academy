@@ -29,6 +29,8 @@ const axisColor = computed(() => isDark.value ? '#8b949e' : '#5b6472')
 const tooltipBg = computed(() => isDark.value ? '#161b22' : '#ffffff')
 const tooltipBorder = computed(() => isDark.value ? '#30363d' : '#d0d7de')
 const textColor = computed(() => isDark.value ? '#e6edf3' : '#1f2937')
+const brandColor1 = computed(() => isDark.value ? '#76B900' : '#5c9100')
+const brandColor2 = computed(() => isDark.value ? '#a8ff00' : '#76B900')
 
 function getOption(): echarts.EChartsOption {
   const names = props.data.map(d => d.name)
@@ -60,8 +62,8 @@ function getOption(): echarts.EChartsOption {
       value: d.value,
       itemStyle: {
         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-          { offset: 0, color: '#a8ff00' },
-          { offset: 1, color: '#76B900' }
+          { offset: 0, color: brandColor2.value },
+          { offset: 1, color: brandColor1.value }
         ])
       }
     }
@@ -104,7 +106,7 @@ function getOption(): echarts.EChartsOption {
     xAxis: {
       type: 'category',
       data: names,
-      axisLine: { lineStyle: { color: '#30363d' } },
+      axisLine: { lineStyle: { color: isDark.value ? '#30363d' : '#d0d7de' } },
       axisTick: { show: false },
       axisLabel: {
         color: axisColor.value,
@@ -143,13 +145,13 @@ function getOption(): echarts.EChartsOption {
           borderRadius: props.type === 'bar' ? [6, 6, 0, 0] : 0
         },
         lineStyle: {
-          color: '#76B900',
+          color: brandColor1.value,
           width: 3
         },
         areaStyle: props.type === 'line' ? {
           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            { offset: 0, color: 'rgba(118,185,0,0.3)' },
-            { offset: 1, color: 'rgba(118,185,0,0.02)' }
+            { offset: 0, color: isDark.value ? 'rgba(118,185,0,0.3)' : 'rgba(92,145,0,0.3)' },
+            { offset: 1, color: isDark.value ? 'rgba(118,185,0,0.02)' : 'rgba(92,145,0,0.02)' }
           ])
         } : undefined,
         symbol: 'circle',
@@ -157,7 +159,7 @@ function getOption(): echarts.EChartsOption {
         emphasis: {
           itemStyle: {
             shadowBlur: 10,
-            shadowColor: 'rgba(118,185,0,0.5)'
+            shadowColor: isDark.value ? 'rgba(118,185,0,0.5)' : 'rgba(92,145,0,0.5)'
           }
         },
         animationDuration: 1000,

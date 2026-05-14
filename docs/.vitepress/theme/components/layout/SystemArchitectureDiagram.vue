@@ -82,7 +82,7 @@ const selectModule = (module: Module) => {
           <path
             d="M 100 50 Q 150 50 200 100"
             fill="none"
-            stroke="#76B900"
+            stroke="var(--vp-c-brand-1)"
             stroke-width="2"
             stroke-dasharray="5,5"
             class="dep-line"
@@ -91,7 +91,7 @@ const selectModule = (module: Module) => {
           <path
             d="M 200 100 Q 250 50 300 50"
             fill="none"
-            stroke="#76B900"
+            stroke="var(--vp-c-brand-1)"
             stroke-width="2"
             stroke-dasharray="5,5"
             class="dep-line"
@@ -100,7 +100,7 @@ const selectModule = (module: Module) => {
           <path
             d="M 200 100 Q 250 150 300 150"
             fill="none"
-            stroke="#76B900"
+            stroke="var(--vp-c-brand-1)"
             stroke-width="2"
             stroke-dasharray="5,5"
             class="dep-line"
@@ -109,7 +109,7 @@ const selectModule = (module: Module) => {
           <path
             d="M 300 50 Q 300 100 300 150"
             fill="none"
-            stroke="#76B900"
+            stroke="var(--vp-c-brand-1)"
             stroke-width="2"
             stroke-dasharray="5,5"
             class="dep-line"
@@ -192,14 +192,14 @@ const selectModule = (module: Module) => {
 
 .module-node:hover,
 .module-node.hovered {
-  border-color: #76B900;
+  border-color: var(--vp-c-brand-1);
   transform: translateY(-4px);
   box-shadow: 0 8px 24px rgba(118, 185, 0, 0.15);
 }
 
 .module-node.selected {
-  border-color: #76B900;
-  background: rgba(118, 185, 0, 0.1);
+  border-color: var(--vp-c-brand-1);
+  background: var(--vp-c-brand-soft);
 }
 
 .module-header {
@@ -210,7 +210,7 @@ const selectModule = (module: Module) => {
   font-family: var(--vp-font-family-mono);
   font-size: 0.75rem;
   font-weight: 700;
-  color: #76B900;
+  color: var(--vp-c-brand-1);
 }
 
 .module-name {
@@ -244,7 +244,7 @@ const selectModule = (module: Module) => {
 .module-details {
   padding: 20px;
   background: var(--vp-c-bg);
-  border: 1px solid #76B900;
+  border: 1px solid var(--vp-c-brand-1);
   border-radius: 8px;
 }
 
@@ -258,7 +258,7 @@ const selectModule = (module: Module) => {
 .details-header h5 {
   margin: 0;
   font-size: 1rem;
-  color: #76B900;
+  color: var(--vp-c-brand-1);
 }
 
 .close-btn {
@@ -295,23 +295,23 @@ const selectModule = (module: Module) => {
 
 .feature-tag {
   padding: 4px 12px;
-  background: rgba(118, 185, 0, 0.1);
+  background: var(--vp-c-brand-soft);
   border-radius: 4px;
   font-size: 0.8rem;
-  color: #76B900;
+  color: var(--vp-c-brand-1);
 }
 
 .details-link {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  color: #76B900;
+  color: var(--vp-c-brand-1);
   font-weight: 600;
   text-decoration: none;
 }
 
 .details-link:hover {
-  color: #8ce600;
+  color: var(--vp-c-brand-2);
 }
 
 .instructions {

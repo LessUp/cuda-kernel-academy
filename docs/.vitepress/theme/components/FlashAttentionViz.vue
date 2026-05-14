@@ -111,7 +111,7 @@ const flashSteps = [
 }
 
 .flash-panel {
-  border-top: 3px solid #76B900;
+  border-top: 3px solid var(--vp-c-brand-1);
 }
 
 .panel-header {
@@ -139,7 +139,7 @@ const flashSteps = [
 }
 
 .hbm-count.green {
-  color: #76B900;
+  color: var(--vp-c-brand-1);
 }
 
 .panel-subtitle {
@@ -167,7 +167,7 @@ const flashSteps = [
 }
 
 .green-border {
-  border-left-color: #76B900;
+  border-left-color: var(--vp-c-brand-1);
 }
 
 .step-label {
@@ -208,8 +208,8 @@ const flashSteps = [
 
 .sram-band {
   margin-top: 16px;
-  background: rgba(118, 185, 0, 0.06);
-  border: 1px dashed rgba(118, 185, 0, 0.3);
+  background: var(--vp-c-brand-soft);
+  border: 1px dashed var(--vp-c-brand-1);
   border-radius: 8px;
   padding: 12px;
 }
@@ -217,7 +217,7 @@ const flashSteps = [
 .sram-label {
   font-size: 0.75rem;
   font-weight: 600;
-  color: #76B900;
+  color: var(--vp-c-brand-1);
   margin-bottom: 8px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -230,8 +230,8 @@ const flashSteps = [
 
 .sram-block {
   flex: 1;
-  background: rgba(118, 185, 0, 0.12);
-  color: #76B900;
+  background: var(--vp-c-default-soft);
+  color: var(--vp-c-brand-1);
   text-align: center;
   padding: 8px;
   border-radius: 6px;
@@ -253,7 +253,7 @@ const flashSteps = [
 }
 
 .panel-footer.green {
-  color: #76B900;
+  color: var(--vp-c-brand-1);
 }
 
 /* VS 中间列 */
@@ -295,7 +295,7 @@ const flashSteps = [
 .arrow-line {
   width: 2px;
   flex: 1;
-  background: linear-gradient(to bottom, #f85149, #76B900);
+  background: linear-gradient(to bottom, #f85149, var(--vp-c-brand-1));
 }
 
 .arrow-head {
@@ -303,7 +303,7 @@ const flashSteps = [
   height: 0;
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
-  border-top: 8px solid #76B900;
+  border-top: 8px solid var(--vp-c-brand-1);
 }
 
 .reduction-label {
@@ -321,7 +321,7 @@ const flashSteps = [
   display: block;
   font-size: 0.9rem;
   font-weight: 700;
-  color: #76B900;
+  color: var(--vp-c-brand-1);
   font-family: var(--vp-font-family-mono);
 }
 
@@ -343,12 +343,12 @@ const flashSteps = [
     width: auto;
     height: 2px;
     flex: 1;
-    background: linear-gradient(to right, #f85149, #76B900);
+    background: linear-gradient(to right, #f85149, var(--vp-c-brand-1));
   }
   .arrow-head {
     border-top: 6px solid transparent;
     border-bottom: 6px solid transparent;
-    border-left: 8px solid #76B900;
+    border-left: 8px solid var(--vp-c-brand-1);
     border-right: none;
   }
 }

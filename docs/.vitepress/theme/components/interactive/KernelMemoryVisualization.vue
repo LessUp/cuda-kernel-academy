@@ -168,7 +168,7 @@ const currentLevel = computed(() => levels[selectedLevel.value])
 .level-details h5 {
   margin: 0 0 12px 0;
   font-size: 1rem;
-  color: #76B900;
+  color: var(--vp-c-brand-1);
 }
 
 .detail-grid {
@@ -224,7 +224,7 @@ const currentLevel = computed(() => levels[selectedLevel.value])
 }
 
 .padding-toggle input[type="checkbox"] {
-  accent-color: #76B900;
+  accent-color: var(--vp-c-brand-1);
 }
 
 .conflict-status {
@@ -233,7 +233,7 @@ const currentLevel = computed(() => levels[selectedLevel.value])
 }
 
 .conflict-status.good {
-  color: #76B900;
+  color: var(--vp-c-brand-1);
 }
 
 .conflict-status.bad {

@@ -46,8 +46,8 @@ const tagsList = props.tags ?? []
 
 .feature-card-component:hover {
   transform: translateY(-4px);
-  border-color: rgba(118, 185, 0, 0.5);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(118, 185, 0, 0.1);
+  border-color: var(--vp-c-brand-1);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px var(--vp-c-brand-soft);
 }
 
 .card-header {
@@ -87,8 +87,8 @@ const tagsList = props.tags ?? []
   font-weight: 600;
   padding: 3px 10px;
   border-radius: 999px;
-  background: rgba(118, 185, 0, 0.12);
-  color: #76B900;
+  background: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand-1);
   text-transform: uppercase;
   letter-spacing: 0.03em;
 }

@@ -1,15 +1,22 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch, computed } from 'vue'
+import { useData } from 'vitepress'
 import { useECharts, gemmPerformanceData } from '../../composables/useECharts'
 
 const chartContainer = ref<HTMLElement | null>(null)
 const { chart, setOption } = useECharts(chartContainer)
 
+const { isDark } = useData()
+
 const props = defineProps<{
   title?: string
 }>()
 
-onMounted(() => {
+const brandColor1 = computed(() => isDark.value ? '#76B900' : '#5c9100')
+const brandColor2 = computed(() => isDark.value ? '#8ce600' : '#76B900')
+const textColor = computed(() => isDark.value ? '#e6edf3' : '#1f2937')
+
+const updateChart = () => {
   setOption({
     tooltip: {
       trigger: 'axis',
@@ -40,9 +47,9 @@ onMounted(() => {
         position: 'left',
         axisLine: {
           show: true,
-          lineStyle: { color: '#76B900' }
+          lineStyle: { color: brandColor1.value }
         },
-        axisLabel: { color: '#76B900' }
+        axisLabel: { color: brandColor1.value }
       },
       {
         type: 'value',
@@ -51,9 +58,9 @@ onMounted(() => {
         max: 100,
         axisLine: {
           show: true,
-          lineStyle: { color: '#8ce600' }
+          lineStyle: { color: brandColor2.value }
         },
-        axisLabel: { color: '#8ce600' }
+        axisLabel: { color: brandColor2.value }
       }
     ],
     series: [
@@ -63,14 +70,14 @@ onMounted(() => {
         yAxisIndex: 0,
         data: gemmPerformanceData.gflops,
         itemStyle: {
-          color: '#76B900',
+          color: brandColor1.value,
           borderRadius: [4, 4, 0, 0]
         },
         label: {
           show: true,
           position: 'top',
           formatter: '{c}',
-          color: '#e6edf3',
+          color: textColor.value,
           fontSize: 11
         }
       },
@@ -84,12 +91,20 @@ onMounted(() => {
         symbolSize: 8,
         lineStyle: {
           width: 3,
-          color: '#8ce600'
+          color: brandColor2.value
         },
-        itemStyle: { color: '#8ce600' }
+        itemStyle: { color: brandColor2.value }
       }
     ]
   })
+}
+
+onMounted(() => {
+  updateChart()
+})
+
+watch(isDark, () => {
+  updateChart()
 })
 </script>
 
