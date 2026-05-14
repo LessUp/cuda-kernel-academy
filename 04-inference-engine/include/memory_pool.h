@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "common.h"
+#include "memory_allocator.hpp"
 
 namespace mini_inference {
 
@@ -14,7 +15,7 @@ namespace mini_inference {
 // Efficient memory allocation with caching to reduce cudaMalloc overhead
 // ============================================================================
 
-class MemoryPool {
+class MemoryPool : public MemoryAllocator {
 public:
     static MemoryPool& instance() {
         static MemoryPool pool;
@@ -22,7 +23,7 @@ public:
     }
 
     // Allocate memory from pool
-    void* allocate(size_t size) {
+    void* allocate(size_t size) override {
         std::lock_guard<std::mutex> lock(mutex_);
 
         // Round up to alignment
@@ -58,7 +59,7 @@ public:
     }
 
     // Return memory to pool
-    void deallocate(void* ptr) {
+    void deallocate(void* ptr) override {
         if (!ptr)
             return;
 
@@ -132,6 +133,8 @@ public:
                    ? 100.0 * stats.cache_hits / (stats.cache_hits + stats.cache_misses)
                    : 0.0);
     }
+
+    const char* name() const override { return "MemoryPool"; }
 
 private:
     MemoryPool() = default;

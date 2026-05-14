@@ -12,38 +12,12 @@
 #include "../core/cuda_check.hpp"
 #include "../core/features.hpp"
 #include "../core/type_traits.hpp"
+#include "warp_reduction.hpp"
 
 namespace tensorcraft {
 namespace kernels {
 
-// ============================================================================
-// Warp Reduction Utilities
-// ============================================================================
-
-/**
- * @brief Warp-level max reduction using shuffle
- */
-template <typename T>
-TC_DEVICE_INLINE T warp_reduce_max(T val) {
-#pragma unroll
-    for (int offset = 16; offset > 0; offset /= 2) {
-        T other = __shfl_down_sync(0xffffffff, val, offset);
-        val = val > other ? val : other;
-    }
-    return val;
-}
-
-/**
- * @brief Warp-level sum reduction using shuffle
- */
-template <typename T>
-TC_DEVICE_INLINE T warp_reduce_sum(T val) {
-#pragma unroll
-    for (int offset = 16; offset > 0; offset /= 2) {
-        val += __shfl_down_sync(0xffffffff, val, offset);
-    }
-    return val;
-}
+// Warp reduction utilities are now in warp_reduction.hpp
 
 // ============================================================================
 // Online Softmax Kernel

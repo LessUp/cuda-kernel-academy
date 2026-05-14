@@ -1,5 +1,14 @@
 #pragma once
 
+/**
+ * @file common.h
+ * @brief Common utilities for mini_inference module
+ *
+ * This file provides common utilities and backward-compatible aliases
+ * for the mini_inference module. Core CUDA utilities are now provided
+ * by cuda_academy in common/.
+ */
+
 #include <cublas_v2.h>
 #include <cuda_runtime.h>
 
@@ -14,41 +23,22 @@
 #include <string>
 #include <vector>
 
+// Include common cuda_academy utilities
+#include <cuda_academy/core/cuda_check.hpp>
+
 namespace mini_inference {
 
 // ============================================================================
-// CUDA Error Handling
+// CUDA Error Handling (backward compatible)
 // ============================================================================
 
-class CudaException : public std::exception {
-public:
-    CudaException(cudaError_t err, const char* file, int line)
-        : error_(err), file_(file), line_(line) {
-        std::ostringstream oss;
-        oss << "CUDA Error: " << cudaGetErrorName(error_) << " at " << file_ << ":" << line_
-            << "\n  " << cudaGetErrorString(error_);
-        message_ = oss.str();
-    }
+// Use cuda_academy's CudaError as CudaException for compatibility
+using CudaException = cuda_academy::core::CudaError;
 
-    const char* what() const noexcept override { return message_.c_str(); }
+// Backward-compatible macro
+#define CUDA_CHECK(call) CA_CUDA_CHECK(call)
 
-    cudaError_t error() const { return error_; }
-
-private:
-    cudaError_t error_;
-    const char* file_;
-    int line_;
-    std::string message_;
-};
-
-#define CUDA_CHECK(call)                                  \
-    do {                                                  \
-        cudaError_t err = call;                           \
-        if (err != cudaSuccess) {                         \
-            throw CudaException(err, __FILE__, __LINE__); \
-        }                                                 \
-    } while (0)
-
+// cuBLAS check (kept here as it's not in cuda_academy)
 #define CUBLAS_CHECK(call)                                                       \
     do {                                                                         \
         cublasStatus_t status = call;                                            \
@@ -137,92 +127,11 @@ inline const char* kernel_type_name(GemmKernelType type) {
 }
 
 // ============================================================================
-// Device Memory RAII Wrapper
+// Device Memory RAII Wrapper (backward compatible alias)
 // ============================================================================
 
-class DeviceMemory {
-public:
-    DeviceMemory() = default;
-
-    explicit DeviceMemory(size_t bytes) {
-        if (bytes > 0) {
-            CUDA_CHECK(cudaMalloc(&ptr_, bytes));
-            size_ = bytes;
-        }
-    }
-
-    ~DeviceMemory() {
-        if (ptr_) {
-            cudaFree(ptr_);
-            ptr_ = nullptr;
-            size_ = 0;
-        }
-    }
-
-    // Disable copy
-    DeviceMemory(const DeviceMemory&) = delete;
-    DeviceMemory& operator=(const DeviceMemory&) = delete;
-
-    // Enable move
-    DeviceMemory(DeviceMemory&& other) noexcept : ptr_(other.ptr_), size_(other.size_) {
-        other.ptr_ = nullptr;
-        other.size_ = 0;
-    }
-
-    DeviceMemory& operator=(DeviceMemory&& other) noexcept {
-        if (this != &other) {
-            if (ptr_)
-                cudaFree(ptr_);
-            ptr_ = other.ptr_;
-            size_ = other.size_;
-            other.ptr_ = nullptr;
-            other.size_ = 0;
-        }
-        return *this;
-    }
-
-    void allocate(size_t bytes) {
-        if (ptr_)
-            cudaFree(ptr_);
-        ptr_ = nullptr;
-        size_ = 0;
-        if (bytes > 0) {
-            CUDA_CHECK(cudaMalloc(&ptr_, bytes));
-            size_ = bytes;
-        }
-    }
-
-    void free() {
-        if (ptr_) {
-            cudaFree(ptr_);
-            ptr_ = nullptr;
-            size_ = 0;
-        }
-    }
-
-    float* get() { return ptr_; }
-    const float* get() const { return ptr_; }
-    size_t size() const { return size_; }
-    bool empty() const { return ptr_ == nullptr; }
-
-    void copy_from_host(const float* host_data, size_t bytes) {
-        CUDA_CHECK(cudaMemcpy(ptr_, host_data, bytes, cudaMemcpyHostToDevice));
-    }
-
-    void copy_to_host(float* host_data, size_t bytes) const {
-        CUDA_CHECK(cudaMemcpy(host_data, ptr_, bytes, cudaMemcpyDeviceToHost));
-    }
-
-    void zero() {
-        if (ptr_ && size_ > 0) {
-            CUDA_CHECK(cudaMemset(ptr_, 0, size_));
-        }
-    }
-
-private:
-    float* ptr_ = nullptr;
-    size_t size_ = 0;
-};
+// Use cuda_academy's DeviceMemory - float specialization
+using DeviceMemory = cuda_academy::DeviceMemory<float>;
 
 // ============================================================================
 // Utility Functions
