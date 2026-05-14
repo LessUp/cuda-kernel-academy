@@ -141,9 +141,8 @@ GitHub-hosted CI 当前主要执行 CPU-safe 检查：
 
 | 目标 | 文档 |
 |------|------|
-| 理解仓库全貌 | [README](../README.md) |
+| 理解仓库全貌 | [GitHub README](https://github.com/LessUp/cuda-kernel-academy) |
 | 构建仓库 | 本文档 |
 | 开发流程 | [workflow](./workflow.md) |
-| AI 工具协作 | [AI Tooling Guide](../../docs/AI_TOOLING.md) |
 | 编码风格 | [coding-style](../reference/coding-style.md) |
 | 故障排除 | [troubleshooting](../reference/troubleshooting.md) |
