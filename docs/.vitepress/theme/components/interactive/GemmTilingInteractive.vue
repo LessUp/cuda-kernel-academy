@@ -178,8 +178,8 @@ const applyPreset = (preset: typeof presets[0]) => {
 }
 
 .preset-btn:hover {
-  border-color: #76B900;
-  color: #76B900;
+  border-color: var(--vp-c-brand-1);
+  color: var(--vp-c-brand-1);
 }
 
 .parameters {
@@ -208,14 +208,14 @@ label {
 
 input[type="range"] {
   flex: 1;
-  accent-color: #76B900;
+  accent-color: var(--vp-c-brand-1);
 }
 
 .param-value {
   min-width: 40px;
   font-family: var(--vp-font-family-mono);
   font-size: 0.85rem;
-  color: #76B900;
+  color: var(--vp-c-brand-1);
 }
 
 .results {
@@ -236,7 +236,7 @@ input[type="range"] {
 }
 
 .result-item.valid {
-  border-color: #76B900;
+  border-color: var(--vp-c-brand-1);
 }
 
 .result-item.invalid {
@@ -260,7 +260,7 @@ input[type="range"] {
 }
 
 .valid .result-status {
-  color: #76B900;
+  color: var(--vp-c-brand-1);
 }
 
 .invalid .result-status {
@@ -278,9 +278,9 @@ input[type="range"] {
 }
 
 .performance.valid {
-  background: rgba(118, 185, 0, 0.1);
-  border: 1px solid #76B900;
-  color: #76B900;
+  background: var(--vp-c-brand-soft);
+  border: 1px solid var(--vp-c-brand-1);
+  color: var(--vp-c-brand-1);
 }
 
 .performance.invalid {

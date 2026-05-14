@@ -101,7 +101,7 @@ const nodes: TimelineNode[] = [
   height: 3px;
   width: 100%;
   border-radius: 2px;
-  background: linear-gradient(90deg, #5c9100, #76B900, #a8ff00);
+  background: linear-gradient(90deg, var(--vp-c-brand-1), var(--vp-c-brand-2), var(--vp-c-brand-3));
   position: relative;
 }
 
@@ -115,7 +115,7 @@ const nodes: TimelineNode[] = [
   height: 0;
   border-top: 5px solid transparent;
   border-bottom: 5px solid transparent;
-  border-left: 7px solid #a8ff00;
+  border-left: 7px solid var(--vp-c-brand-3);
 }
 
 .node-card {
@@ -133,13 +133,13 @@ const nodes: TimelineNode[] = [
 .node-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  border-color: rgba(118, 185, 0, 0.5);
+  border-color: var(--vp-c-brand-1);
 }
 
 .node-version {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #76B900;
+  color: var(--vp-c-brand-1);
   margin-bottom: 4px;
   font-family: var(--vp-font-family-mono);
 }
@@ -170,14 +170,14 @@ const nodes: TimelineNode[] = [
 }
 
 .feature-tag.highlighted {
-  background: rgba(118, 185, 0, 0.12);
-  color: #76B900;
-  border-color: rgba(118, 185, 0, 0.4);
+  background: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand-1);
+  border-color: var(--vp-c-brand-1);
   font-weight: 600;
 }
 
 .node-card:hover .feature-tag.highlighted {
-  background: rgba(118, 185, 0, 0.2);
+  background: var(--vp-c-default-soft);
 }
 
 @media (max-width: 768px) {
@@ -197,7 +197,7 @@ const nodes: TimelineNode[] = [
   .connector-line {
     width: 3px;
     height: 24px;
-    background: linear-gradient(180deg, #5c9100, #76B900, #a8ff00);
+    background: linear-gradient(180deg, var(--vp-c-brand-1), var(--vp-c-brand-2), var(--vp-c-brand-3));
   }
   .connector-line::after {
     right: auto;
@@ -205,7 +205,7 @@ const nodes: TimelineNode[] = [
     bottom: -6px;
     left: 50%;
     transform: translateX(-50%);
-    border-top: 7px solid #a8ff00;
+    border-top: 7px solid var(--vp-c-brand-3);
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
     border-bottom: none;

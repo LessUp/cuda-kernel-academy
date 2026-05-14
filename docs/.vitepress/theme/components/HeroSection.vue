@@ -121,7 +121,7 @@ defineProps<Props>()
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #76B900 0%, #8ce600 40%, #00E676 100%);
+  background: linear-gradient(135deg, var(--vp-c-brand-1) 0%, var(--vp-c-brand-2) 40%, var(--vp-c-brand-3) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -153,14 +153,14 @@ defineProps<Props>()
 }
 
 .hero-btn-primary {
-  background: #76B900;
-  color: #0d1117;
-  border: 1px solid #76B900;
+  background: var(--vp-c-brand-1);
+  color: var(--vp-c-bg);
+  border: 1px solid var(--vp-c-brand-1);
 }
 
 .hero-btn-primary:hover {
-  background: #8ce600;
-  border-color: #8ce600;
+  background: var(--vp-c-brand-2);
+  border-color: var(--vp-c-brand-2);
 }
 
 .hero-btn-secondary {
@@ -170,8 +170,8 @@ defineProps<Props>()
 }
 
 .hero-btn-secondary:hover {
-  border-color: #76B900;
-  color: #76B900;
+  border-color: var(--vp-c-brand-1);
+  color: var(--vp-c-brand-1);
 }
 
 .hero-right {

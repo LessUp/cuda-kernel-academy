@@ -25,7 +25,7 @@ const props = defineProps<{
   font-size: 1.5rem;
   margin-bottom: 6px;
   line-height: 1;
-  color: #76B900;
+  color: var(--vp-c-brand-1);
 }
 
 .badge-value {
