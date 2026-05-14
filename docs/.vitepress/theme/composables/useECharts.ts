@@ -62,9 +62,11 @@ export function useECharts(container: Ref<HTMLElement | null>) {
   }
 
   const dispose = () => {
-    chart.value?.dispose()
-    chart.value = null
-    isReady.value = false
+    if (chart.value) {
+      chart.value.dispose()
+      chart.value = null
+      isReady.value = false
+    }
   }
 
   onMounted(() => {

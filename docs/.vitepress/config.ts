@@ -32,7 +32,7 @@ export default withMermaid(defineConfig({
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:url', content: 'https://lessup.github.io/cuda-kernel-academy/' }],
     ['meta', { property: 'og:site_name', content: 'CUDA Kernel Academy' }],
-    ['meta', { property: 'og:image', content: 'https://lessup.github.io/cuda-kernel-academy/og-image.png' }],
+    ['meta', { property: 'og:image', content: 'https://lessup.github.io/cuda-kernel-academy/og-image.svg' }],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
     ['meta', { name: 'twitter:title', content: 'CUDA Kernel Academy' }],
     ['meta', { name: 'twitter:description', content: 'Systematic CUDA kernel engineering from SGEMM fundamentals to reusable inference components' }],
