@@ -102,7 +102,7 @@ _book/
 *.rej
 
 # Core dumps
-core
+/core
 core.*
 
 # Environment files
