@@ -503,3 +503,31 @@ html:not(.dark) .mermaid .edgeLabel {
 .mermaid .arrowheadPath {
   fill: #76B900 !important;
 }
+
+/* ---------- Feature Icon Styles ---------- */
+/* Feature card icon styling */
+.feature-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-family: var(--vp-font-family-mono);
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #76B900;
+}
+
+/* Light mode adjustments */
+html:not(.dark) .feature-icon {
+  color: #5c9100; /* Darker green for better contrast on light background */
+}
+
+/* VPFeature icon container override for better visibility */
+.VPFeature .icon {
+  background-color: rgba(118, 185, 0, 0.12) !important;
+}
+
+html:not(.dark) .VPFeature .icon {
+  background-color: rgba(118, 185, 0, 0.15) !important; /* Higher opacity in light mode */
+}
