@@ -99,3 +99,25 @@ FlashAttention 通过 Tiling 和 Online Softmax 减少 HBM 访问[^1]。
 [^1]: Dao, T., et al. "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness." *NeurIPS* 2022. https://arxiv.org/abs/2205.14135
 [^2]: NVIDIA. "CUDA C++ Programming Guide." v12.6, 2024. https://docs.nvidia.com/cuda/cuda-c-programming-guide/
 ```
+
+## Post-migration stabilization requirements
+
+### Theme-adaptive diagrams
+
+- Mermaid 图示内容必须避免硬编码会破坏浅色 / 深色模式切换的 `fill` / `color` 十六进制颜色。
+- 文档构建路径必须包含针对该约束的静态回归测试。
+
+### Academy-style content
+
+- 中英双语的首页、架构白皮书、benchmark、roadmap 应提供：
+  - 目标读者说明
+  - 阅读顺序 / 学习路径
+  - 模块之间的连接关系
+  - benchmark 解释与边界
+  - 对应论文或外部参考锚点
+
+### Inference-engine build seam
+
+- `04-inference-engine` 在父项目构建时必须优先消费稳定的 `TensorCraft::tensorcraft` target。
+- 只有 standalone 构建场景才允许通过 sibling path 探测 `../02-tensorcraft-core`。
+- 当父项目构建启用 TensorCraft 集成但上游 target 缺失时，配置阶段必须明确失败，而不是静默回退到 repo 布局探测。

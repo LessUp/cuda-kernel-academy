@@ -22,7 +22,7 @@
   <p class="showcase-kicker">A repository for people who want to understand how CUDA kernels evolve from a first correct GEMM into reusable kernels, advanced optimization experiments, and lightweight inference plumbing.</p>
   <div class="showcase-cta">
     <a href="https://lessup.github.io/cuda-kernel-academy/">Visit GitHub Pages</a>
-    <a href="docs/README.md">Read the docs</a>
+    <a href="docs/en/index.md">Read the docs</a>
     <a href="01-sgemm-tutorial/README.md">Start with module 01</a>
   </div>
 </div>
@@ -59,7 +59,7 @@ Most CUDA learning material is either too small to feel like engineering or too 
 | inspect a reusable kernel library layout | [02-tensorcraft-core](02-tensorcraft-core/README.md) |
 | study advanced CUDA/HPC experiments | [03-hpc-advanced](03-hpc-advanced/README.md) |
 | see kernels embedded in a tiny system | [04-inference-engine](04-inference-engine/README.md) |
-| understand how to build, verify, and contribute | [docs/README.md](docs/README.md) |
+| understand how to build, verify, and contribute | [docs/en/index.md](docs/en/index.md) |
 
 ## Quick start
 
@@ -90,11 +90,12 @@ make test
 
 ## Documentation
 
-- [Documentation index](docs/README.md)
-- [Development workflow](docs/DEVELOPMENT_WORKFLOW.md)
-- [AI tooling guide](docs/AI_TOOLING.md)
-- [Installation guide](docs/INSTALLATION.md)
-- [Troubleshooting](docs/TROUBLESHOOTING.md)
+- [Documentation index](docs/en/index.md)
+- [Getting started](docs/en/guides/getting-started.md)
+- [Development workflow](docs/en/guides/workflow.md)
+- [Coding style](docs/en/reference/coding-style.md)
+- [Troubleshooting](docs/en/reference/troubleshooting.md)
+- [中文文档首页](docs/zh/index.md)
 - [Contributing](CONTRIBUTING.md)
 - 📖 [技术文档站](https://lessup.github.io/cuda-kernel-academy/) 由 VitePress 驱动，支持 NVIDIA 风格深色主题、交互式图表和学术论文引用。
 

@@ -15,10 +15,6 @@ graph TD
     B --> D[Backward Compatibility]
     C --> D
 
-    style A fill:#161b22,stroke:#76B900,color:#e6edf3
-    style B fill:#161b22,stroke:#76B900,color:#e6edf3
-    style C fill:#161b22,stroke:#76B900,color:#e6edf3
-    style D fill:#161b22,stroke:#76B900,color:#e6edf3
 ```
 
 ## Core Features

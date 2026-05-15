@@ -88,14 +88,6 @@ flowchart TB
 
     Q_mat -->|"每个 Q block 遍历所有 KV blocks"| KV_mat
 
-    style Q_mat fill:#161b22,stroke:#76B900,color:#e6edf3
-    style KV_mat fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Q1 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Q2 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Q3 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style K1 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style K2 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style K3 fill:#161b22,stroke:#76B900,color:#e6edf3
 ```
 
 Br, Bc 选择使得块能放入 SRAM。
@@ -211,17 +203,6 @@ flowchart LR
         F_note["总计: O(N)"]
     end
 
-    style Std fill:#161b22,stroke:#76B900,color:#e6edf3
-    style FA fill:#161b22,stroke:#76B900,color:#e6edf3
-    style S0 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style S1 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style S2 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style S3 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style S_note fill:#161b22,stroke:#76B900,color:#e6edf3
-    style F0 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style F1 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style F2 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style F_note fill:#161b22,stroke:#76B900,color:#e6edf3
 ```
 
 <FlashAttentionViz />

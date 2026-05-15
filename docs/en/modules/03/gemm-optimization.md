@@ -17,13 +17,6 @@ flowchart LR
     Vectorized -->|"1.4×"| TensorCore["Tensor Core<br/>18.0 TFLOPS"]
     TensorCore -->|"1.17×"| CuBLAS["cuBLAS<br/>21.0 TFLOPS"]
 
-    style Naive fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Tiled fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Coalesced fill:#161b22,stroke:#76B900,color:#e6edf3
-    style DoubleBuffer fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Vectorized fill:#161b22,stroke:#76B900,color:#e6edf3
-    style TensorCore fill:#161b22,stroke:#76B900,color:#e6edf3
-    style CuBLAS fill:#161b22,stroke:#76B900,color:#e6edf3
 ```
 
 ## Summary

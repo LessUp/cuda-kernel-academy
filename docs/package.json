@@ -3,8 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "test": "node --test tests/*.test.mjs",
     "dev": "vitepress dev",
-    "build": "vitepress build",
+    "build": "npm run test && vitepress build",
     "preview": "vitepress preview"
   },
   "devDependencies": {

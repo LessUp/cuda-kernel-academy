@@ -48,16 +48,6 @@ flowchart LR
         M1["一个线程发起 TMA 请求"] --> M2["TMA 硬件自动搬运"] --> M3["其他线程继续计算"] --> M4["通过 barrier 同步"]
     end
 
-    style Traditional fill:#161b22,stroke:#76B900,color:#e6edf3
-    style TMA_mode fill:#161b22,stroke:#76B900,color:#e6edf3
-    style T1 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style T2 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style T3 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style T4 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style M1 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style M2 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style M3 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style M4 fill:#161b22,stroke:#76B900,color:#e6edf3
 ```
 
 ## 3. Thread Block Clusters
@@ -79,16 +69,6 @@ flowchart TB
         C_note["Distributed Shared Memory"]
     end
 
-    style Old fill:#161b22,stroke:#76B900,color:#e6edf3
-    style ClusterModel fill:#161b22,stroke:#76B900,color:#e6edf3
-    style B0 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style B1 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style B2 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style O_note fill:#161b22,stroke:#76B900,color:#e6edf3
-    style C0 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style C1 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style C2 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style C_note fill:#161b22,stroke:#76B900,color:#e6edf3
 ```
 
 ### Cluster 配置

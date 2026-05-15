@@ -30,10 +30,6 @@ flowchart LR
         Kernel["Your Kernel"] --> Slope
     end
 
-    style Roofline fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Peak fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Slope fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Kernel fill:#161b22,stroke:#76B900,color:#e6edf3
 ```
 
 ## Block Size 选择

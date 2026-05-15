@@ -71,16 +71,6 @@ flowchart TB
     A -->|"×"| B
     B -->|"="| C
 
-    style A fill:#161b22,stroke:#76B900,color:#e6edf3
-    style B fill:#161b22,stroke:#76B900,color:#e6edf3
-    style C fill:#161b22,stroke:#76B900,color:#e6edf3
-    style A1 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style A2 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style A3 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style B1 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style B2 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style B3 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style C1 fill:#161b22,stroke:#76B900,color:#e6edf3
 ```
 
 每个 Block 处理一个 TILE_SIZE × TILE_SIZE 的输出块，通过迭代加载 K 维度的 Tile 进行累加。
