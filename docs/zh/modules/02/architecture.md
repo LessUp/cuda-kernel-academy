@@ -16,11 +16,6 @@ graph TD
     C --> D
     D --> E[零配置集成]
 
-    style A fill:#161b22,stroke:#76B900,color:#e6edf3
-    style B fill:#161b22,stroke:#76B900,color:#e6edf3
-    style C fill:#161b22,stroke:#76B900,color:#e6edf3
-    style D fill:#161b22,stroke:#76B900,color:#e6edf3
-    style E fill:#161b22,stroke:#76B900,color:#e6edf3
 ```
 
 ### 1. Header-Only 设计
@@ -45,10 +40,6 @@ tensorcraft::kernels::gemm(A, B, C, M, N, K);
 flowchart LR
     N["Naive<br/>基础实现"] --> T["Tiled<br/>共享内存"] --> D["Double Buffer<br/>隐藏延迟"] --> TC["Tensor Core<br/>硬件加速"]
 
-    style N fill:#161b22,stroke:#76B900,color:#e6edf3
-    style T fill:#161b22,stroke:#76B900,color:#e6edf3
-    style D fill:#161b22,stroke:#76B900,color:#e6edf3
-    style TC fill:#161b22,stroke:#76B900,color:#e6edf3
 ```
 
 ### 3. 现代 C++ 优先
@@ -84,10 +75,6 @@ flowchart TB
         memory["memory/"] --> kernels
     end
 
-    style tensorcraft fill:#161b22,stroke:#76B900,color:#e6edf3
-    style core fill:#161b22,stroke:#76B900,color:#e6edf3
-    style memory fill:#161b22,stroke:#76B900,color:#e6edf3
-    style kernels fill:#161b22,stroke:#76B900,color:#e6edf3
 ```
 
 ### Core 层

@@ -20,6 +20,14 @@ CUDA Kernel Academy 的 GitHub Pages 目前基于 **HonKit**（GitBook 的旧 fo
 - **学术引用体系**：每篇技术文档末尾附 References 区块，仿学术论文格式
 - **LLMs.txt + SEO**：让 AI 搜索引擎（Perplexity、ChatGPT、Claude 等）能精准索引本站
 
+## Closeout Extension
+
+在迁移完成后的收尾阶段，本变更继续覆盖三类直接相关的问题：
+
+1. **图示主题适配收口**：清理文档内容里会破坏浅色模式的 Mermaid 深色硬编码样式，并加入可持续的回归保护。
+2. **学院化内容增强**：把首页、架构、benchmark、roadmap 从“项目说明”提升到“导读 + 学习地图 + 论文锚点”。
+3. **推理模块构建 seam 收紧**：让 `04-inference-engine` 在父项目构建中消费稳定的 `TensorCraft::tensorcraft` 接口，而不是默认依赖 repo 邻接目录布局。
+
 ## Scope
 
 | In Scope | Out of Scope |
@@ -42,3 +50,6 @@ CUDA Kernel Academy 的 GitHub Pages 目前基于 **HonKit**（GitBook 的旧 fo
 5. 每篇技术文档有 References 区块
 6. 生成 `sitemap.xml` 和 `.well-known/llms.txt`
 7. GitHub Actions Pages 部署成功
+8. 浅色 / 深色模式下的 Mermaid 图示可读性稳定，且有自动化回归保护
+9. 首页、架构页、benchmark、roadmap 具备学院型导读价值，而非仅有占位内容
+10. `04-inference-engine` 的 TensorCraft 依赖在父项目构建中通过稳定 target seam 消费

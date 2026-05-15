@@ -64,23 +64,6 @@ flowchart LR
 
     Init --> Off16 --> Off8["offset = 8"] --> Off4 --> Off2 --> Off1
 
-    style Init fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Off16 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Off8 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Off4 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Off2 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Off1 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style I0 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style I1 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style I2 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style I3 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style I4 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style I31 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style O0 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style O1 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style O2 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style O15 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style F0 fill:#161b22,stroke:#76B900,color:#e6edf3
 ```
 
 ## 3. Block 级归约

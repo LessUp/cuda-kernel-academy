@@ -39,9 +39,6 @@ flowchart LR
         B0["B[0,0] → B[K-1,0]<br/>跨步访问 ✗"]
     end
 
-    style Thread00 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style A0 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style B0 fill:#161b22,stroke:#76B900,color:#e6edf3
 ```
 
 A 矩阵的访问是连续的（行优先），但 B 矩阵的访问是跨步的（列优先），导致无法充分利用合并访问。

@@ -28,13 +28,6 @@ flowchart LR
     Vectorized -->|"1.4×"| TensorCore["Tensor Core<br/>18.0 TFLOPS"]
     TensorCore -->|"1.17×"| CuBLAS["cuBLAS<br/>21.0 TFLOPS"]
 
-    style Naive fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Tiled fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Coalesced fill:#161b22,stroke:#76B900,color:#e6edf3
-    style DoubleBuffer fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Vectorized fill:#161b22,stroke:#76B900,color:#e6edf3
-    style TensorCore fill:#161b22,stroke:#76B900,color:#e6edf3
-    style CuBLAS fill:#161b22,stroke:#76B900,color:#e6edf3
 ```
 
 ## Step 1: Naive Global Memory
@@ -132,16 +125,6 @@ flowchart TB
     A_mat -->|"×"| B_mat
     B_mat -->|"="| C_mat
 
-    style A_mat fill:#161b22,stroke:#76B900,color:#e6edf3
-    style B_mat fill:#161b22,stroke:#76B900,color:#e6edf3
-    style C_mat fill:#161b22,stroke:#76B900,color:#e6edf3
-    style A1 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style A2 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style A3 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style B1 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style B2 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style B3 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style C1 fill:#161b22,stroke:#76B900,color:#e6edf3
 ```
 
 ## Step 3: Double Buffering
@@ -204,15 +187,6 @@ flowchart LR
         D1["Load T1"] --> D2["Compute T1<br/>Load T2"] --> D3["Compute T2<br/>Load T3"]
     end
 
-    style W fill:#161b22,stroke:#76B900,color:#e6edf3
-    style D fill:#161b22,stroke:#76B900,color:#e6edf3
-    style W1 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style W2 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style W3 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style W4 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style D1 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style D2 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style D3 fill:#161b22,stroke:#76B900,color:#e6edf3
 ```
 
 ## Step 4: Register Tiling
@@ -308,11 +282,6 @@ flowchart TB
         M --> C_tc["C (16 × 16, FP32)"]
     end
 
-    style TC fill:#161b22,stroke:#76B900,color:#e6edf3
-    style A_tc fill:#161b22,stroke:#76B900,color:#e6edf3
-    style B_tc fill:#161b22,stroke:#76B900,color:#e6edf3
-    style M fill:#161b22,stroke:#76B900,color:#e6edf3
-    style C_tc fill:#161b22,stroke:#76B900,color:#e6edf3
 ```
 
 ## Step 6: Tensor Core (MMA PTX)
@@ -389,9 +358,6 @@ flowchart LR
     S0["Stage 0: Load → Compute → Load → Compute"] --> S1["Stage 1:     Load → Compute → Load → Compute"]
     S1 --> S2["Stage 2:          Load → Compute → Load → Compute"]
 
-    style S0 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style S1 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style S2 fill:#161b22,stroke:#76B900,color:#e6edf3
 ```
 
 ## 性能对比总结

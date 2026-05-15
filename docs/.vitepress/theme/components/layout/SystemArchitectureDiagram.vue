@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useData, withBase } from 'vitepress'
 
 interface Module {
   id: string
@@ -9,36 +10,87 @@ interface Module {
   features: string[]
 }
 
-const modules: Module[] = [
-  {
-    id: 'sgemm',
-    name: '01-SGEMM Tutorial',
-    description: 'SGEMM optimization from naive to Tensor Core',
-    link: '/zh/modules/01-sgemm',
-    features: ['Naive', 'Tiled', 'Bank Conflict', 'Double Buffer', 'Tensor Core']
-  },
-  {
-    id: 'tensorcraft',
-    name: '02-TensorCraft Core',
-    description: 'Production-grade CUDA operator library',
-    link: '/zh/modules/02-tensorcraft',
-    features: ['Header-only', 'Multi-arch', 'Python bindings', 'Error handling']
-  },
-  {
-    id: 'hpc',
-    name: '03-HPC Advanced',
-    description: 'Advanced optimization patterns and CUDA features',
-    link: '/zh/modules/03-hpc',
-    features: ['FlashAttention', 'CUTLASS', 'CUDA 13', 'Quantization']
-  },
-  {
-    id: 'inference',
-    name: '04-Inference Engine',
-    description: 'End-to-end inference system',
-    link: '/zh/modules/04-inference',
-    features: ['Memory Pool', 'Stream Manager', 'AutoTuner', 'Profiler']
+const { lang } = useData()
+const isZh = computed(() => lang.value?.startsWith('zh'))
+
+const modules = computed<Module[]>(() => {
+  if (isZh.value) {
+    return [
+      {
+        id: 'sgemm',
+        name: '01-SGEMM 教程',
+        description: '从 naive 到 Tensor Core 的 SGEMM 优化阶梯。',
+        link: '/zh/modules/01-sgemm',
+        features: ['Naive', 'Tiled', 'Bank Conflict', 'Double Buffer', 'Tensor Core']
+      },
+      {
+        id: 'tensorcraft',
+        name: '02-TensorCraft Core',
+        description: '把教程 kernel 沉淀成可复用的 CUDA 算子库。',
+        link: '/zh/modules/02-tensorcraft',
+        features: ['Header-only', 'Multi-arch', 'Python bindings', 'Error handling']
+      },
+      {
+        id: 'hpc',
+        name: '03-HPC 进阶',
+        description: '继续推进到更高级的优化模式和 CUDA 新特性。',
+        link: '/zh/modules/03-hpc',
+        features: ['FlashAttention', 'CUTLASS', 'CUDA 12+', 'Quantization']
+      },
+      {
+        id: 'inference',
+        name: '04-Inference Engine',
+        description: '把优化后的 kernel 接入端到端推理系统。',
+        link: '/zh/modules/04-inference',
+        features: ['Memory Pool', 'Stream Manager', 'AutoTuner', 'Profiler']
+      }
+    ]
   }
-]
+
+  return [
+    {
+      id: 'sgemm',
+      name: '01-SGEMM Tutorial',
+      description: 'The kernel optimization ladder from naive SGEMM to Tensor Core variants.',
+      link: '/en/modules/01-sgemm',
+      features: ['Naive', 'Tiled', 'Bank Conflict', 'Double Buffer', 'Tensor Core']
+    },
+    {
+      id: 'tensorcraft',
+      name: '02-TensorCraft Core',
+      description: 'How tutorial kernels become reusable CUDA operator building blocks.',
+      link: '/en/modules/02-tensorcraft',
+      features: ['Header-only', 'Multi-arch', 'Python bindings', 'Error handling']
+    },
+    {
+      id: 'hpc',
+      name: '03-HPC Advanced',
+      description: 'Where the repo explores more advanced optimization patterns and newer CUDA features.',
+      link: '/en/modules/03-hpc',
+      features: ['FlashAttention', 'CUTLASS', 'CUDA 12+', 'Quantization']
+    },
+    {
+      id: 'inference',
+      name: '04-Inference Engine',
+      description: 'How optimized kernels are integrated into an end-to-end inference runtime.',
+      link: '/en/modules/04-inference',
+      features: ['Memory Pool', 'Stream Manager', 'AutoTuner', 'Profiler']
+    }
+  ]
+})
+
+const ui = computed(() => isZh.value
+  ? {
+      sectionTitle: '模块关系图',
+      viewDocs: '查看文档 →',
+      clickHint: '点击模块查看说明'
+    }
+  : {
+      sectionTitle: 'System Architecture',
+      viewDocs: 'View documentation →',
+      clickHint: 'Click a module to see details'
+    }
+)
 
 const selectedModule = ref<Module | null>(null)
 const hoveredModule = ref<string | null>(null)
@@ -50,11 +102,9 @@ const selectModule = (module: Module) => {
 
 <template>
   <div class="system-architecture">
-    <h4 class="section-title">System Architecture</h4>
+    <h4 class="section-title">{{ ui.sectionTitle }}</h4>
 
-    <!-- Architecture diagram -->
     <div class="architecture-diagram">
-      <!-- Module nodes -->
       <div class="modules-container">
         <div
           v-for="module in modules"
@@ -75,10 +125,8 @@ const selectModule = (module: Module) => {
         </div>
       </div>
 
-      <!-- Dependency arrows (simplified with CSS) -->
       <div class="dependencies">
         <svg class="dependency-lines" viewBox="0 0 400 200">
-          <!-- SGEMM → TensorCraft -->
           <path
             d="M 100 50 Q 150 50 200 100"
             fill="none"
@@ -87,7 +135,6 @@ const selectModule = (module: Module) => {
             stroke-dasharray="5,5"
             class="dep-line"
           />
-          <!-- TensorCraft → HPC -->
           <path
             d="M 200 100 Q 250 50 300 50"
             fill="none"
@@ -96,7 +143,6 @@ const selectModule = (module: Module) => {
             stroke-dasharray="5,5"
             class="dep-line"
           />
-          <!-- TensorCraft → Inference -->
           <path
             d="M 200 100 Q 250 150 300 150"
             fill="none"
@@ -105,7 +151,6 @@ const selectModule = (module: Module) => {
             stroke-dasharray="5,5"
             class="dep-line"
           />
-          <!-- HPC → Inference -->
           <path
             d="M 300 50 Q 300 100 300 150"
             fill="none"
@@ -118,7 +163,6 @@ const selectModule = (module: Module) => {
       </div>
     </div>
 
-    <!-- Module details panel -->
     <div v-if="selectedModule" class="module-details">
       <div class="details-header">
         <h5>{{ selectedModule.name }}</h5>
@@ -137,14 +181,13 @@ const selectModule = (module: Module) => {
         </span>
       </div>
 
-      <a :href="selectedModule.link" class="details-link">
-        View Documentation →
+      <a :href="withBase(selectedModule.link)" class="details-link">
+        {{ ui.viewDocs }}
       </a>
     </div>
 
-    <!-- Instructions -->
     <p v-else class="instructions">
-      Click on a module to see details
+      {{ ui.clickHint }}
     </p>
   </div>
 </template>

@@ -66,3 +66,14 @@
 - [ ] Search returns results
 - [ ] 404 page styled correctly
 - [ ] GitHub Actions deploys successfully
+
+## Phase 5: Post-migration closeout
+
+- [x] Add a Mermaid theme regression test and run it through the docs build path
+- [x] Remove theme-hostile Mermaid dark overrides from docs content
+- [x] Fix top-level documentation entry drift in root README files and related examples docs
+- [x] Expand bilingual homepage, architecture, benchmark, and roadmap pages into academy-style reading guides
+- [x] Reuse existing docs components for architecture maps, references, and benchmark explanation
+- [x] Tighten the `04-inference-engine` TensorCraft dependency seam for parent-project builds
+- [x] Add a static regression test that protects the parent/standalone TensorCraft seam
+- [x] Update directly related inference-engine build docs to match the tightened seam
