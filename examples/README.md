@@ -42,6 +42,6 @@ cmake --build build
 
 ## Related docs
 
-- [Installation Guide](../docs/INSTALLATION.md)
-- [Coding Style](../docs/CODING_STYLE.md)
-- [Troubleshooting](../docs/TROUBLESHOOTING.md)
+- [Getting Started](../docs/en/guides/getting-started.md)
+- [Coding Style](../docs/en/reference/coding-style.md)
+- [Troubleshooting](../docs/en/reference/troubleshooting.md)

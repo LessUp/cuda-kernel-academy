@@ -33,6 +33,24 @@ outline: [2, 3]
 
 ## 构建
 
+从仓库根目录添加 `04-inference-engine` 时，模块现在要求父项目先提供现成的
+`TensorCraft::tensorcraft` 目标；根 `CMakeLists.txt` 已在添加该模块前强制
+`BUILD_TENSORCRAFT=ON` 来满足这一条件。
+
+如果你是直接在 `04-inference-engine/` 目录下独立配置，模块仍会尝试从相邻的
+`../02-tensorcraft-core` 自动补入 TensorCraft；只有这种独立构建场景才会使用该
+仓库布局回退。若该目录不存在，则继续回退到本地 GEMM 实现。
+
+### 从仓库根目录构建（推荐）
+
+```bash
+cmake --preset default
+cmake --build --preset default
+ctest --preset default
+```
+
+### 独立构建 04 模块
+
 ```bash
 cd 04-inference-engine
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
@@ -45,7 +63,7 @@ ctest --test-dir build --output-on-failure
 | 选项 | 默认值 | 说明 |
 |------|--------|------|
 | `BUILD_TESTS` | ON | 构建 GoogleTest 测试 |
-| `USE_TENSORCRAFT` | ON | 若可用则链接 `02-tensorcraft-core` |
+| `USE_TENSORCRAFT` | ON | 优先链接父项目提供的 `TensorCraft::tensorcraft`；仅独立构建时才会尝试从 `../02-tensorcraft-core` 自动补入 |
 
 ## 生成产物
 

@@ -22,7 +22,7 @@
   <p class="showcase-kicker">这个仓库面向希望真正理解 CUDA 算子工程路径的读者：从第一个可运行 SGEMM，到可复用 kernel、进阶优化实验，以及轻量级推理系统拼装。</p>
   <div class="showcase-cta">
     <a href="https://lessup.github.io/cuda-kernel-academy/">访问 GitHub Pages</a>
-    <a href="docs/README.md">查看文档</a>
+    <a href="docs/zh/index.md">查看文档</a>
     <a href="01-sgemm-tutorial/README.md">从模块 01 开始</a>
   </div>
 </div>
@@ -59,7 +59,7 @@
 | 看一个可复用算子库怎么组织 | [02-tensorcraft-core](02-tensorcraft-core/README.md) |
 | 学更进阶的 CUDA / HPC 主题 | [03-hpc-advanced](03-hpc-advanced/README.md) |
 | 看 kernel 如何落到小系统里 | [04-inference-engine](04-inference-engine/README.md) |
-| 了解构建、验证、协作流程 | [docs/README.md](docs/README.md) |
+| 了解构建、验证、协作流程 | [docs/zh/index.md](docs/zh/index.md) |
 
 ## 快速开始
 
@@ -90,11 +90,12 @@ make test
 
 ## 文档入口
 
-- [文档总览](docs/README.md)
-- [开发流程](docs/DEVELOPMENT_WORKFLOW.md)
-- [AI 工具协作指南](docs/AI_TOOLING.md)
-- [安装指南](docs/INSTALLATION.md)
-- [故障排除](docs/TROUBLESHOOTING.md)
+- [文档总览](docs/zh/index.md)
+- [快速开始](docs/zh/guides/getting-started.md)
+- [开发流程](docs/zh/guides/workflow.md)
+- [编码风格](docs/zh/reference/coding-style.md)
+- [故障排除](docs/zh/reference/troubleshooting.md)
+- [English docs home](docs/en/index.md)
 - [贡献指南](CONTRIBUTING.md)
 
 ## 环境要求

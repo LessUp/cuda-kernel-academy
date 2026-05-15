@@ -18,14 +18,6 @@ flowchart LR
     P -->|"1.15×"| S["Software Pipeline"]
     S -->|"~30%"| C["cuBLAS"]
 
-    style N fill:#161b22,stroke:#76B900,color:#e6edf3
-    style T fill:#161b22,stroke:#76B900,color:#e6edf3
-    style D fill:#161b22,stroke:#76B900,color:#e6edf3
-    style R fill:#161b22,stroke:#76B900,color:#e6edf3
-    style TC fill:#161b22,stroke:#76B900,color:#e6edf3
-    style P fill:#161b22,stroke:#76B900,color:#e6edf3
-    style S fill:#161b22,stroke:#76B900,color:#e6edf3
-    style C fill:#161b22,stroke:#76B900,color:#e6edf3
 ```
 
 ### Level 1: Naive Implementation

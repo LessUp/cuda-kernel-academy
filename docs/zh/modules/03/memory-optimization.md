@@ -52,18 +52,6 @@ flowchart TB
         B_note["32 次 32B 事务"]
     end
 
-    style Good fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Bad fill:#161b22,stroke:#76B900,color:#e6edf3
-    style G0 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style G1 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style G2 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style G31 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style G_note fill:#161b22,stroke:#76B900,color:#e6edf3
-    style B0 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style B1 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style B2 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style B31 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style B_note fill:#161b22,stroke:#76B900,color:#e6edf3
 ```
 
 ## 2. 向量化加载 (Vectorized Load/Store)
@@ -145,10 +133,6 @@ Shared Memory 被分为 32 个 Bank，每个 Bank 宽度为 4 字节。
 flowchart LR
     B0["Bank 0<br/>addr 0, 32, 64..."] --- B1["Bank 1<br/>addr 4, 36, 68..."] --- B2["..."] --- B31["Bank 31<br/>addr 124, 156..."]
 
-    style B0 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style B1 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style B2 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style B31 fill:#161b22,stroke:#76B900,color:#e6edf3
 ```
 
 ### Padding 消除 Bank Conflict
