@@ -16,6 +16,26 @@ Lightweight CUDA inference engine demonstrating how to combine GEMM, Tensor, mem
 
 ## Build
 
+When `04-inference-engine` is added from the repository root, it expects the
+parent project to provide the existing `TensorCraft::tensorcraft` target. The
+root `CMakeLists.txt` already enforces this by requiring `BUILD_TENSORCRAFT=ON`
+before adding the inference module.
+
+Standalone module builds still support the lightweight repository-layout
+fallback: configuring from `04-inference-engine/` will try to add
+`../02-tensorcraft-core` if it exists, and otherwise fall back to the local
+GEMM implementations.
+
+### Build from the repository root (recommended)
+
+```bash
+cmake --preset default
+cmake --build --preset default
+ctest --preset default
+```
+
+### Build the module standalone
+
 ```bash
 cd 04-inference-engine
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Release

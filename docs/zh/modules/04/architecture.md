@@ -36,38 +36,6 @@ flowchart TB
     Kernel --> Infra
     Infra --> CUDA
 
-    style App fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Engine fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Kernel fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Infra fill:#161b22,stroke:#76B900,color:#e6edf3
-    style CUDA fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Benchmark fill:#161b22,stroke:#76B900,color:#e6edf3
-    style MNIST fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Tests fill:#161b22,stroke:#76B900,color:#e6edf3
-    style UserApp fill:#161b22,stroke:#76B900,color:#e6edf3
-    style IE fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Tensor fill:#161b22,stroke:#76B900,color:#e6edf3
-    style AutoTuner fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Profiler fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Config fill:#161b22,stroke:#76B900,color:#e6edf3
-    style N fill:#161b22,stroke:#76B900,color:#e6edf3
-    style T fill:#161b22,stroke:#76B900,color:#e6edf3
-    style C fill:#161b22,stroke:#76B900,color:#e6edf3
-    style D fill:#161b22,stroke:#76B900,color:#e6edf3
-    style O fill:#161b22,stroke:#76B900,color:#e6edf3
-    style F fill:#161b22,stroke:#76B900,color:#e6edf3
-    style V fill:#161b22,stroke:#76B900,color:#e6edf3
-    style H fill:#161b22,stroke:#76B900,color:#e6edf3
-    style B fill:#161b22,stroke:#76B900,color:#e6edf3
-    style MP fill:#161b22,stroke:#76B900,color:#e6edf3
-    style SM fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Logger fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Q fill:#161b22,stroke:#76B900,color:#e6edf3
-    style DM fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Timer fill:#161b22,stroke:#76B900,color:#e6edf3
-    style CUDART fill:#161b22,stroke:#76B900,color:#e6edf3
-    style cuBLAS fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Streams fill:#161b22,stroke:#76B900,color:#e6edf3
 ```
 
 ## 核心组件
@@ -166,13 +134,6 @@ flowchart TB
     L5 --> L6["Level 6: Fused"]
     L6 --> L7["Level 7: Vectorized"]
 
-    style L1 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style L2 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style L3 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style L4 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style L5 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style L6 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style L7 fill:#161b22,stroke:#76B900,color:#e6edf3
 ```
 
 ### 数据流
@@ -185,12 +146,6 @@ flowchart TB
     H1 -->|"Layer N: GEMM + Bias"| DOutput["Output (Device)"]
     DOutput -->|"cudaMemcpy D2H"| Output["Output (Host)"]
 
-    style Input fill:#161b22,stroke:#76B900,color:#e6edf3
-    style DInput fill:#161b22,stroke:#76B900,color:#e6edf3
-    style H0 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style H1 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style DOutput fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Output fill:#161b22,stroke:#76B900,color:#e6edf3
 ```
 
 ## 线程安全

@@ -54,11 +54,6 @@ flowchart TB
         M --> C1["C (16 × 16, FP32)"]
     end
 
-    style TC fill:#161b22,stroke:#76B900,color:#e6edf3
-    style A1 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style B1 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style M fill:#161b22,stroke:#76B900,color:#e6edf3
-    style C1 fill:#161b22,stroke:#76B900,color:#e6edf3
 ```
 
 ## MMA PTX

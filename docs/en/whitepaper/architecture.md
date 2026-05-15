@@ -1,223 +1,145 @@
+---
+outline: [2, 3]
+---
+
 # System Architecture Design
 
-CUDA Kernel Academy's system architecture follows the dual principles of "progressive learning" and "production-grade practice". This document provides an in-depth analysis of the overall architecture, module dependencies, build system design, and core design patterns.
+This page is for readers who already know the repo has four modules and now want to understand the technical contract between them.
 
-## Design Philosophy
+- **Use this page when** you need the big picture before diving into implementation details.
+- **Read it together with** [01-SGEMM Tutorial](/en/modules/01-sgemm), [TensorCraft design](/en/whitepaper/tensorcraft-design), and [Inference engine design](/en/whitepaper/inference-engine-design).
+- **Treat it as a reading map**: the goal is not just “what files exist,” but “why this repo teaches kernels in this order.”
 
-### Core Positioning
+## Architecture at a glance
 
-This project is positioned as a learning project **"between entry-level examples and production frameworks"**:
+<SystemArchitectureDiagram />
 
-- **Not a toy project**: Code quality, error handling, and API design follow production standards
-- **Not a heavyweight framework**: Maintains readability, avoids over-abstraction
-- **Progressive path**: Gradual evolution from naive implementations to optimized versions
+CUDA Kernel Academy is intentionally positioned between two extremes:
 
-### Architecture Principles
+- **More structured than a folder of CUDA examples**: each module has a clear teaching purpose and a place in the larger system story.
+- **Lighter than a production framework**: abstractions are kept readable so the connection between optimization idea and code remains visible.
 
-```mermaid
-mindmap
-  root((Design Principles))
-    Readability First
-      Clear naming
-      Comprehensive comments
-      Progressive complexity
-    Production Quality
-      RAII resource management
-      Unified error handling
-      Comprehensive testing
-    Modular Design
-      Loose coupling interfaces
-      Header-only library
-      Independent builds
-    Performance Oriented
-      Multi-architecture support
-      Auto-tuning
-      Benchmarking
-```
+The architecture therefore follows a progression from **single-kernel reasoning** to **library design** to **advanced optimization patterns** to **system-level inference integration**.
 
-## Module Architecture
+## How to read the repository by architectural layer
 
-### Overall Dependencies
+| Layer | Primary module | What this layer teaches | What it produces for later layers | Read next |
+| --- | --- | --- | --- | --- |
+| Kernel fundamentals | [01-SGEMM Tutorial](/en/modules/01-sgemm) | Tiling, memory hierarchy, bank conflicts, double buffering, vectorization, Tensor Core transition | A concrete optimization vocabulary | [Benchmarks](/en/benchmarks/) |
+| Reusable infrastructure | [02-TensorCraft Core](/en/modules/02-tensorcraft) | Turning one-off kernels into reusable APIs, resource management, and operator boundaries | Library scaffolding for later modules | [TensorCraft design](/en/whitepaper/tensorcraft-design) |
+| Performance frontier | [03-HPC Advanced](/en/modules/03-hpc) | CUTLASS-style thinking, FlashAttention, register tiling, newer CUDA features | Advanced kernel patterns and performance intuition | [Advanced showcase](/en/whitepaper/advanced-showcase) |
+| System integration | [04-Inference Engine](/en/modules/04-inference) | How optimized kernels become part of a stream-aware inference pipeline | End-to-end evidence that the earlier work composes | [Inference engine design](/en/whitepaper/inference-engine-design) |
+
+## Why the module graph looks the way it does
 
 ```mermaid
 flowchart TB
-    subgraph Learning Path
-        M1[01-sgemm-tutorial]
-        M2[02-tensorcraft-core]
-        M3[03-hpc-advanced]
-        M4[04-inference-engine]
+    subgraph Learning and code flow
+        M1[01-SGEMM Tutorial]
+        M2[02-TensorCraft Core]
+        M3[03-HPC Advanced]
+        M4[04-Inference Engine]
     end
-    
-    M1 --> M2
-    M2 --> M3
-    M2 --> M4
-    M3 --> M4
-    
-    subgraph External Dependencies
-        CUDA[CUDA Runtime]
-        cuBLAS[cuBLAS]
-        CUTLASS[CUTLASS]
-        GTest[GoogleTest]
-        pybind[pybind11]
-    end
-    
-    M1 --> CUDA
-    M1 --> cuBLAS
-    M1 --> GTest
-    M2 --> CUDA
-    M2 --> pybind
-    M2 --> GTest
-    M3 --> CUDA
-    M3 --> CUTLASS
-    M3 --> GTest
-    M4 --> M2
-    M4 --> CUDA
-    M4 --> cuBLAS
-    M4 --> GTest
+
+    M1 -->|optimization vocabulary| M2
+    M2 -->|reusable abstractions| M3
+    M2 -->|core tensor/runtime utilities| M4
+    M3 -->|advanced kernels and ideas| M4
 ```
 
-### Module Responsibilities
+The most important dependency is **conceptual**, not only build-time:
 
-| Module | Responsibility | Build System | Key Features |
-|--------|---------------|--------------|--------------|
-| **01-sgemm-tutorial** | SGEMM optimization introduction | Makefile | Standalone, self-contained, teaching-oriented |
-| **02-tensorcraft-core** | Reusable operator library | CMake | Header-only, multi-arch, Python bindings |
-| **03-hpc-advanced** | Advanced optimization patterns | CMake | CUTLASS integration, CUDA 12/13 features |
-| **04-inference-engine** | End-to-end inference | CMake | Memory pool, stream management, AutoTuner |
+- Module 01 explains *why* specific kernel transformations matter.
+- Module 02 decides which of those transformations deserve stable interfaces.
+- Module 03 explores techniques that are too advanced or architecture-specific for the beginner path.
+- Module 04 validates whether the earlier abstractions remain useful once execution becomes asynchronous and system-oriented.
 
-## Build System Design
+## Why the repo keeps two build systems
 
-### Dual Build System Strategy
+The build split is a teaching choice, not accidental drift.
 
-The project adopts a **hybrid build system** design:
+| Build path | Used by | Why it exists in this repo | What readers should infer |
+| --- | --- | --- | --- |
+| Standalone `Makefile` | `01-sgemm-tutorial/` | Keeps the first module close to the metal and easy to run in isolation. | Early learning should minimize build-system noise. |
+| Root / module CMake | `02`–`04`, `common/`, `examples/` | Supports cross-module dependencies, presets, testing, and shared infrastructure. | Later modules are about engineering reuse, not just isolated kernels. |
 
-```
-Project Root
-├── CMakeLists.txt          # Main build system (modules 02-04)
-├── cmake/                  # Shared CMake modules
-│   ├── CudaArch.cmake      # CUDA architecture detection
-│   ├── Dependencies.cmake  # Dependency management
-│   └── Testing.cmake       # Test configuration
-└── 01-sgemm-tutorial/
-    └── Makefile            # Standalone build system (teaching-oriented)
-```
+::: info Repository-specific implication
+`01-sgemm-tutorial/` is deliberately outside the root CMake graph. That separation reinforces its role as the “open the code and understand the kernel” starting point, while the later modules model the reality of shared infrastructure.
+:::
 
-#### Why Keep Makefile?
+## How evidence moves through the repository
 
 ```mermaid
 flowchart LR
-    subgraph Makefile Advantages
-        A1[Zero-dependency learning]
-        A2[Direct commands]
-        A3[Fast iteration]
-    end
-    
-    subgraph CMake Advantages
-        B1[Cross-platform]
-        B2[Dependency management]
-        B3[IDE integration]
-    end
-    
-    A1 --> Teaching Module
-    A2 --> Teaching Module
-    A3 --> Teaching Module
-    
-    B1 --> Production Modules
-    B2 --> Production Modules
-    B3 --> Production Modules
+    A[Kernel idea in module 01] --> B[Reusable API or utility in module 02]
+    B --> C[Advanced optimization variant in module 03]
+    B --> D[Runtime integration in module 04]
+    C --> D
+    D --> E[Benchmark pages and performance claims]
+    E --> F[Roadmap and whitepaper guidance]
 ```
 
-## Core Design Patterns
+This matters because the repo does not treat benchmarks as isolated charts.
 
-### 1. RAII Resource Management
+1. **An optimization idea appears first as a teaching example.**
+2. **Reusable parts are promoted into shared infrastructure.**
+3. **Advanced kernels test how far the same ideas can scale.**
+4. **Inference integration checks whether the optimization still helps in a system context.**
+5. **Benchmarks document the evidence, but also its limits.**
 
-All GPU resources are managed using RAII pattern:
+## How to interpret architecture claims with benchmark evidence
 
-```cpp
-// Tensor class: Automatic GPU memory management
-class Tensor {
-public:
-    Tensor(size_t size) : data_(cuda_malloc(size)), size_(size) {}
-    ~Tensor() { cudaFree(data_); }
-    
-    // Move semantics
-    Tensor(Tensor&& other) noexcept;
-    Tensor& operator=(Tensor&& other) noexcept;
-    
-    // Disable copy
-    Tensor(const Tensor&) = delete;
-    Tensor& operator=(const Tensor&) = delete;
-    
-private:
-    void* data_;
-    size_t size_;
-};
-```
+Architecture pages and benchmark pages should be read together.
 
-### 2. Unified Error Handling
+- A faster SGEMM kernel is meaningful only if [benchmark methodology](/en/benchmarks/) explains the comparison point and limitations.
+- A reusable abstraction is valuable only if later modules still use it without hiding the optimization story.
+- An inference-engine claim is stronger when it shows that stream scheduling, memory reuse, and kernel choice compose cleanly rather than as isolated demos.
 
-```cpp
-// Error check macro hierarchy
-#define TC_CUDA_CHECK(call)          // Check return value
-#define TC_CUDA_CHECK_LAST()         // Check last error
-#define TC_CUDA_SYNC_CHECK()         // Sync and check (for debugging)
+In practice, this means you should ask two questions while reading:
 
-// Usage example
-TC_CUDA_CHECK(cudaMemcpy(dst, src, size, cudaMemcpyDeviceToDevice));
-TC_CUDA_SYNC_CHECK();  // Catch async errors during debugging
-```
+1. **What optimization concept is being taught?**
+2. **Where does that concept reappear later as reusable code or measurable evidence?**
 
-### 3. Version Enumeration Pattern
+## Foundational papers and external anchors for this architecture
 
-```cpp
-enum class GemmVersion {
-    Naive,           // Basic implementation
-    Tiled,           // Tiled optimization
-    DoubleBuffer,    // Double buffering
-    TensorCore,      // Tensor Core acceleration
-    Auto             // Auto-select best
-};
+<ReferenceBlock
+  :references="[
+    {
+      id: '1',
+      authors: 'Volkov, V. and Demmel, J. W.',
+      title: 'Benchmarking GPUs to Tune Dense Linear Algebra',
+      venue: 'SC',
+      year: 2008
+    },
+    {
+      id: '2',
+      authors: 'Boehm, Simon',
+      title: 'How to Optimize a CUDA Matmul Kernel',
+      venue: 'Technical article',
+      year: 2022,
+      url: 'https://siboehm.com/articles/22/CUDA-MMM'
+    },
+    {
+      id: '3',
+      authors: 'Dao, Tri et al.',
+      title: 'FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness',
+      venue: 'NeurIPS',
+      year: 2022,
+      url: 'https://arxiv.org/abs/2205.14135'
+    },
+    {
+      id: '4',
+      authors: 'NVIDIA',
+      title: 'CUDA C++ Programming Guide',
+      venue: 'CUDA Toolkit documentation',
+      year: 2024,
+      url: 'https://docs.nvidia.com/cuda/cuda-c-programming-guide/'
+    }
+  ]"
+/>
 
-// Runtime selection
-template<GemmVersion V>
-void gemm(const Tensor& A, const Tensor& B, Tensor& C);
-```
+## Study next
 
-## Memory Hierarchy Optimization Strategy
-
-### GPU Memory Hierarchy
-
-```mermaid
-flowchart TB
-    subgraph Memory Hierarchy
-        HBM[HBM<br/>High Bandwidth Memory<br/>~1TB/s]
-        L2[L2 Cache<br/>~40MB]
-        SMEM[Shared Memory<br/>48-164KB per SM]
-        REG[Registers<br/>255 per thread]
-    end
-    
-    HBM -->|Global access| L2
-    L2 -->|Cache| SMEM
-    SMEM -->|Bank access| REG
-    
-    subgraph Optimization Strategies
-        S1[Data reuse → Shared Memory]
-        S2[Latency hiding → Double buffering]
-        S3[Bandwidth optimization → Coalesced access]
-        S4[Bank conflicts → Padding]
-    end
-```
-
----
-
-## Summary
-
-CUDA Kernel Academy's architecture design balances **teaching clarity** with **engineering quality**:
-
-1. **Modularity**: Clear responsibility division, progressive dependencies
-2. **Dual build system**: Makefile for teaching + CMake for production
-3. **RAII first**: All resources automatically managed, no memory leaks
-4. **Testability**: Unit tests, integration tests, property tests coverage
-5. **Extensibility**: Version enumeration, registration mechanism, plugin architecture
-
-This architecture is suitable for learning CUDA optimization principles while serving as a reference template for production-grade code.
+- Want the code-first path? Go back to [01-SGEMM Tutorial](/en/modules/01-sgemm).
+- Want the library boundary details? Continue with [TensorCraft design](/en/whitepaper/tensorcraft-design).
+- Want to understand what the architecture achieves in practice? Open [Benchmarks](/en/benchmarks/) and [Roadmap](/en/roadmap) side by side.

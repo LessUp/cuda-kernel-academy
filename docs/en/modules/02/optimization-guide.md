@@ -17,13 +17,6 @@ flowchart LR
     TensorCore -->|"1.2×"| PTX["MMA PTX"]
     PTX -->|"1.15×"| Pipeline["Software Pipeline"]
 
-    style Naive fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Tiled fill:#161b22,stroke:#76B900,color:#e6edf3
-    style DoubleBuffer fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Register fill:#161b22,stroke:#76B900,color:#e6edf3
-    style TensorCore fill:#161b22,stroke:#76B900,color:#e6edf3
-    style PTX fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Pipeline fill:#161b22,stroke:#76B900,color:#e6edf3
 ```
 
 ## Key Techniques

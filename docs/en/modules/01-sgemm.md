@@ -17,13 +17,6 @@ flowchart TD
     E --> F[Tensor Core WMMA]
     F --> G[cuBLAS Baseline]
 
-    style A fill:#161b22,stroke:#76B900,color:#e6edf3
-    style B fill:#161b22,stroke:#76B900,color:#e6edf3
-    style C fill:#161b22,stroke:#76B900,color:#e6edf3
-    style D fill:#161b22,stroke:#76B900,color:#e6edf3
-    style E fill:#161b22,stroke:#76B900,color:#e6edf3
-    style F fill:#161b22,stroke:#76B900,color:#e6edf3
-    style G fill:#161b22,stroke:#76B900,color:#e6edf3
 ```
 
 ## Build

@@ -28,10 +28,6 @@ flowchart TB
 
     App --> Engine --> Kernel --> Infra
 
-    style App fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Engine fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Kernel fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Infra fill:#161b22,stroke:#76B900,color:#e6edf3
 ```
 
 ## Core Components

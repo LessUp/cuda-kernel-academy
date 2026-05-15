@@ -64,16 +64,6 @@ flowchart LR
         Y1["Load T1"] --> Y2["Compute T1<br/>Load T2"] --> Y3["Compute T2<br/>Load T3"] --> Y4["Compute T3<br/>Load T4"]
     end
 
-    style Without fill:#161b22,stroke:#76B900,color:#e6edf3
-    style With fill:#161b22,stroke:#76B900,color:#e6edf3
-    style W1 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style W2 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style W3 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style W4 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Y1 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Y2 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Y3 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style Y4 fill:#161b22,stroke:#76B900,color:#e6edf3
 ```
 
 ## References

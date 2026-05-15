@@ -15,10 +15,6 @@ flowchart TB
         memory["memory/"] --> kernels
     end
 
-    style tensorcraft fill:#161b22,stroke:#76B900,color:#e6edf3
-    style core fill:#161b22,stroke:#76B900,color:#e6edf3
-    style memory fill:#161b22,stroke:#76B900,color:#e6edf3
-    style kernels fill:#161b22,stroke:#76B900,color:#e6edf3
 ```
 
 ## Core Layer

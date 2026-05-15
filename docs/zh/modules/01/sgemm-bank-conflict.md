@@ -56,16 +56,6 @@ flowchart TB
         P0["tile[0][0]<br/>Bank 0"] --- P1["tile[1][0]<br/>Bank 1"] --- P2["tile[2][0]<br/>Bank 2"] --- P3["..."]
     end
 
-    style NoPadding fill:#161b22,stroke:#76B900,color:#e6edf3
-    style WithPadding fill:#161b22,stroke:#76B900,color:#e6edf3
-    style N0 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style N1 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style N2 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style N3 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style P0 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style P1 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style P2 fill:#161b22,stroke:#76B900,color:#e6edf3
-    style P3 fill:#161b22,stroke:#76B900,color:#e6edf3
 ```
 
 ## References
