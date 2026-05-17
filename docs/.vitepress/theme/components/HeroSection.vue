@@ -221,7 +221,7 @@ defineProps<Props>()
 }
 
 .code-body code {
-  color: #e6edf3;
+  color: var(--vp-c-text-1);
   font-family: var(--vp-font-family-mono);
 }
 

@@ -31,14 +31,14 @@ const props = defineProps<{
 .badge-value {
   font-size: 2.5rem;
   font-weight: 800;
-  color: #ffffff;
+  color: var(--vp-c-text-1);
   line-height: 1.1;
   font-family: var(--vp-font-family-mono);
 }
 
 .badge-label {
   font-size: 0.875rem;
-  color: #8b949e;
+  color: var(--vp-c-text-2);
   margin-top: 6px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
