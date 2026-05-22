@@ -26,7 +26,6 @@
  */
 
 #include <cuda_academy/core/cuda_check.hpp>
-
 #include <vector>
 
 namespace cuda_academy {

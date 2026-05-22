@@ -43,6 +43,3 @@ int main() {
 ```
 
 ## References
-
-[^1]: NVIDIA. "CUDA C++ Programming Guide," v12.6. 2024. https://docs.nvidia.com/cuda/cuda-c-programming-guide/
-[^2]: CMake Documentation. https://cmake.org/cmake/help/latest/

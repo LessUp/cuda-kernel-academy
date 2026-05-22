@@ -133,6 +133,3 @@ pre-commit run --all-files
 - [ ] 添加单元测试
 
 ## References
-
-[^1]: Google C++ Style Guide. https://google.github.io/styleguide/cppguide.html
-[^2]: NVIDIA. "CUDA C++ Programming Guide," v12.6. 2024. https://docs.nvidia.com/cuda/cuda-c-programming-guide/

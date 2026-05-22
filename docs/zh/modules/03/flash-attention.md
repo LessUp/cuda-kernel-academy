@@ -225,8 +225,3 @@ flowchart LR
 | 加速比 | 3.75× | 3.75× |
 
 ## References
-
-[^1]: Dao, T., et al. "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness." *NeurIPS* 2022. https://arxiv.org/abs/2205.14135
-[^2]: Dao, T. "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning." *NeurIPS* 2023. https://arxiv.org/abs/2307.08691
-[^3]: FlashAttention GitHub. https://github.com/Dao-AILab/flash-attention
-[^4]: Milakov, M., and Gimelshein, N. "Online Softmax." 2021. https://arxiv.org/abs/2112.05682

@@ -32,6 +32,3 @@ for (int i = 0; i < n; ++i) {
 ```
 
 ## References
-
-[^1]: Dao, T., et al. "FlashAttention." *NeurIPS* 2022. https://arxiv.org/abs/2205.14135
-[^2]: NVIDIA CUB Library. https://github.com/NVIDIA/cub

@@ -34,6 +34,3 @@ __shared__ float tile[32][33];
 ```
 
 ## References
-
-[^1]: NVIDIA. "CUDA C++ Best Practices Guide." https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/
-[^2]: NVIDIA. "CUDA Memory Model." https://developer.nvidia.com/blog/cuda-refresher-cuda-programming-model/

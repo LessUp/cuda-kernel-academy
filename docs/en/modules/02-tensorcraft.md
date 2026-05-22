@@ -43,6 +43,3 @@ ctest --output-on-failure
 - [Optimization Guide](./02/optimization-guide.md)
 
 ## References
-
-[^1]: NVIDIA. "CUDA C++ Programming Guide," v12.6. 2024. https://docs.nvidia.com/cuda/cuda-c-programming-guide/
-[^2]: NVIDIA CUTLASS. https://github.com/NVIDIA/cutlass

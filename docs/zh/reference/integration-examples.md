@@ -30,7 +30,7 @@ include(FetchContent)
 
 FetchContent_Declare(
     tensorcraft
-    GIT_REPOSITORY https://github.com/LessUp/cuda-kernel-academy.git
+    GIT_REPOSITORY https://github.com/AICL-Lab/cuda-kernel-academy.git
     GIT_TAG main
     SOURCE_SUBDIR 02-tensorcraft-core
 )
@@ -273,7 +273,3 @@ target_include_directories(my_app PRIVATE
 3. 确保内存已正确分配
 
 ## References
-
-[^1]: NVIDIA. "CUDA C++ Programming Guide," v12.6. 2024. https://docs.nvidia.com/cuda/cuda-c-programming-guide/
-[^2]: NVIDIA CUTLASS. https://github.com/NVIDIA/cutlass
-[^3]: CMake Documentation. https://cmake.org/cmake/help/latest/

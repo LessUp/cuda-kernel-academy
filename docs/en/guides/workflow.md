@@ -36,5 +36,3 @@ cmake --list-presets
 GPU-dependent changes must be validated on a real CUDA machine.
 
 ## References
-
-[^1]: CUDA Kernel Academy OpenSpec. See `openspec/README.md`.

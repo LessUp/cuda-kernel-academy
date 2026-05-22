@@ -27,7 +27,3 @@ Completion of `01-sgemm-tutorial` and `02-tensorcraft-core` is recommended.
 - [CUDA 13 Features](./03/cuda13-features.md)
 
 ## References
-
-[^1]: NVIDIA. "CUDA C++ Programming Guide," v12.6. 2024. https://docs.nvidia.com/cuda/cuda-c-programming-guide/
-[^2]: Dao, T., et al. "FlashAttention." *NeurIPS* 2022. https://arxiv.org/abs/2205.14135
-[^3]: NVIDIA CUTLASS. https://github.com/NVIDIA/cutlass

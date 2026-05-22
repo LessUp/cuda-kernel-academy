@@ -6,9 +6,9 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/LessUp/cuda-kernel-academy/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/LessUp/cuda-kernel-academy/ci.yml?style=flat-square&logo=github&label=CI" alt="CI"></a>
-  <a href="https://lessup.github.io/cuda-kernel-academy/"><img src="https://img.shields.io/github/actions/workflow/status/LessUp/cuda-kernel-academy/pages.yml?branch=master&style=flat-square&logo=githubpages&logoColor=white&label=Pages" alt="Pages"></a>
-  <a href="https://github.com/LessUp/cuda-kernel-academy/releases"><img src="https://img.shields.io/github/v/release/LessUp/cuda-kernel-academy?style=flat-square&logo=github" alt="Release"></a>
+  <a href="https://github.com/AICL-Lab/cuda-kernel-academy/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/AICL-Lab/cuda-kernel-academy/ci.yml?style=flat-square&logo=github&label=CI" alt="CI"></a>
+  <a href="https://aicl-lab.github.io/cuda-kernel-academy/"><img src="https://img.shields.io/github/actions/workflow/status/AICL-Lab/cuda-kernel-academy/pages.yml?branch=master&style=flat-square&logo=githubpages&logoColor=white&label=Pages" alt="Pages"></a>
+  <a href="https://github.com/AICL-Lab/cuda-kernel-academy/releases"><img src="https://img.shields.io/github/v/release/AICL-Lab/cuda-kernel-academy?style=flat-square&logo=github" alt="Release"></a>
   <img src="https://img.shields.io/badge/CUDA-12.x-76B900?style=flat-square&logo=nvidia" alt="CUDA">
   <img src="https://img.shields.io/badge/C++-17%2F20-00599C?style=flat-square&logo=cplusplus" alt="C++">
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue?style=flat-square" alt="License"></a>
@@ -21,7 +21,7 @@
 <div class="showcase-hero">
   <p class="showcase-kicker">这个仓库面向希望真正理解 CUDA 算子工程路径的读者：从第一个可运行 SGEMM，到可复用 kernel、进阶优化实验，以及轻量级推理系统拼装。</p>
   <div class="showcase-cta">
-    <a href="https://lessup.github.io/cuda-kernel-academy/">访问 GitHub Pages</a>
+    <a href="https://aicl-lab.github.io/cuda-kernel-academy/">访问 GitHub Pages</a>
     <a href="docs/zh/index.md">查看文档</a>
     <a href="01-sgemm-tutorial/README.md">从模块 01 开始</a>
   </div>
@@ -64,7 +64,7 @@
 ## 快速开始
 
 ```bash
-git clone https://github.com/LessUp/cuda-kernel-academy.git
+git clone https://github.com/AICL-Lab/cuda-kernel-academy.git
 cd cuda-kernel-academy
 
 cmake --list-presets
@@ -122,7 +122,7 @@ make test
   title = {CUDA Kernel Academy},
   year = {2026},
   publisher = {GitHub},
-  url = {https://github.com/LessUp/cuda-kernel-academy}
+  url = {https://github.com/AICL-Lab/cuda-kernel-academy}
 }
 ```
 

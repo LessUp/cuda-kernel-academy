@@ -153,7 +153,3 @@ __device__ void welford_update(float& mean, float& m2, float& count, float x) {
 | RMSNorm | rms + norm | 1.3× |
 
 ## References
-
-[^1]: Dao, T., et al. "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness." *NeurIPS* 2022. https://arxiv.org/abs/2205.14135
-[^2]: Welford, B. P. "Note on a Method for Calculating Corrected Sums of Squares and Products." *Technometrics* 1962.
-[^3]: NVIDIA CUB Library. https://github.com/NVIDIA/cub

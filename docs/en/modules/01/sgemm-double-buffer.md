@@ -19,6 +19,3 @@ __shared__ float Bs[2][TILE_SIZE][TILE_SIZE];
 - **TFLOPS**: ~3.5
 
 ## References
-
-[^1]: NVIDIA CUTLASS. https://github.com/NVIDIA/cutlass
-[^2]: Simon Boehm. "How to Optimize a CUDA Matmul Kernel." 2022. https://siboehm.com/articles/22/CUDA-MMM

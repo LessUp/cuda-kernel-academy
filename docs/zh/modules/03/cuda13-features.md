@@ -199,8 +199,3 @@ if (prop.major >= 9) {
 ```
 
 ## References
-
-[^1]: NVIDIA. "CUDA C++ Programming Guide — Hopper." https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#hopper-architecture
-[^2]: NVIDIA. "H100 Whitepaper." https://resources.nvidia.com/en-us-tensor-core
-[^3]: NVIDIA CUTLASS. https://github.com/NVIDIA/cutlass
-[^4]: NVIDIA. "CUDA C++ Programming Guide," v12.6. 2024. https://docs.nvidia.com/cuda/cuda-c-programming-guide/

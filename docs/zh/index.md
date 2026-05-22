@@ -130,4 +130,5 @@ features:
 
 - 想先建立全局视图：继续读 [系统架构白皮书](/zh/whitepaper/architecture)。
 - 想先看证据：打开 [Benchmarks](/zh/benchmarks/)，并把 01-SGEMM 模块页面一起对照。
+- 想按目标选路径：打开 [阅读路径](/zh/guides/reading-paths)。
 - 想按步骤推进：跟着 [路线图](/zh/roadmap) 选择适合你的学习轨道。

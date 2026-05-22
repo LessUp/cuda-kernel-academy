@@ -200,7 +200,3 @@ launch_rope(d_x, d_cos, d_sin, batch_size, seq_len, num_heads, head_dim);
 | [04-Inference Engine](./04-inference.md) | 依赖方 | 使用本库构建推理引擎 |
 
 ## References
-
-[^1]: NVIDIA. "CUDA C++ Programming Guide," v12.6. 2024. https://docs.nvidia.com/cuda/cuda-c-programming-guide/
-[^2]: NVIDIA CUTLASS. https://github.com/NVIDIA/cutlass
-[^3]: Volkov, V., and Demmel, J. W. "Benchmarking GPUs to Tune Dense Linear Algebra." *SC'08*.

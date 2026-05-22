@@ -186,7 +186,3 @@ ncu --kernel-name "optimized_gemm" ./benchmark
 4. **Stall Reasons**: Memory dependency, Execution dependency, Synchronization
 
 ## References
-
-[^1]: NVIDIA. "Nsight Compute Documentation." https://docs.nvidia.com/nsight-compute/
-[^2]: NVIDIA. "Nsight Systems Documentation." https://docs.nvidia.com/nsight-systems/
-[^3]: NVIDIA. "CUDA C++ Best Practices Guide." https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/

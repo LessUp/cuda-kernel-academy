@@ -24,6 +24,3 @@ New features in the CUDA 12/13 era related to the Hopper architecture.
 | Shared Memory | 164 KB/SM | 228 KB/SM | 1.4× |
 
 ## References
-
-[^1]: NVIDIA. "CUDA C++ Programming Guide — Hopper." https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#hopper-architecture
-[^2]: NVIDIA. "H100 Whitepaper." https://resources.nvidia.com/en-us-tensor-core

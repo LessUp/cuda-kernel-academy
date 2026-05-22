@@ -29,7 +29,3 @@ flowchart LR
 - Software Pipelining
 
 ## References
-
-[^1]: NVIDIA. "CUDA C++ Best Practices Guide." https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/
-[^2]: Simon Boehm. "How to Optimize a CUDA Matmul Kernel." 2022. https://siboehm.com/articles/22/CUDA-MMM
-[^3]: NVIDIA CUTLASS. https://github.com/NVIDIA/cutlass

@@ -20,10 +20,10 @@
  * @endcode
  */
 
-#include <cuda_academy/core/cuda_check.hpp>
+#include <cuda_runtime.h>
 
 #include <cstdio>
-#include <cuda_runtime.h>
+#include <cuda_academy/core/cuda_check.hpp>
 #include <string>
 
 namespace cuda_academy {
@@ -92,9 +92,7 @@ public:
      * @brief Record the start event
      * @param stream CUDA stream to record on (default: default stream)
      */
-    void start(cudaStream_t stream = nullptr) {
-        CA_CUDA_CHECK(cudaEventRecord(start_, stream));
-    }
+    void start(cudaStream_t stream = nullptr) { CA_CUDA_CHECK(cudaEventRecord(start_, stream)); }
 
     /**
      * @brief Record the stop event and synchronize

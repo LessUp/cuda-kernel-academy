@@ -78,7 +78,3 @@ __device__ __forceinline__ void mma_m16n8k16_fp16(
 ```
 
 ## References
-
-[^1]: NVIDIA. "CUDA C++ Programming Guide — WMMA." https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#wmma
-[^2]: NVIDIA CUTLASS. https://github.com/NVIDIA/cutlass
-[^3]: Simon Boehm. "How to Optimize a CUDA Matmul Kernel." 2022. https://siboehm.com/articles/22/CUDA-MMM

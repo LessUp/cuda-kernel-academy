@@ -1,143 +1,46 @@
 ---
 layout: home
+
+hero:
+  name: "CUDA Kernel Academy"
+  text: "Choose your language, then choose your reading path"
+  tagline: "Stable bilingual entrypoint for SGEMM, reusable kernels, advanced CUDA topics, and inference integration."
+  actions:
+    - theme: brand
+      text: "English"
+      link: "/en/"
+    - theme: alt
+      text: "简体中文"
+      link: "/zh/"
+
+features:
+  - icon: 🌐
+    title: Bilingual docs
+    details: "Open either locale directly, then stay within a consistent nav and sidebar structure."
+  - icon: 🧭
+    title: Reading paths
+    details: "Pick a path by goal: first contact, kernel optimization, reusable library design, or system integration."
+  - icon: 🧪
+    title: Build-aware docs
+    details: "Documentation stays aligned with public build seams, Pages metadata, and repository workflow."
 ---
 
-<script setup>
-import { onMounted, ref } from 'vue'
+## Reading paths
 
-const redirecting = ref(false)
+| Goal | English | 中文 |
+| --- | --- | --- |
+| First contact with the repo | [/en/guides/reading-paths](/en/guides/reading-paths) | [/zh/guides/reading-paths](/zh/guides/reading-paths) |
+| Start from the docs home | [/en/](/en/) | [/zh/](/zh/) |
+| Build and verify locally | [/en/guides/getting-started](/en/guides/getting-started) | [/zh/guides/getting-started](/zh/guides/getting-started) |
 
-onMounted(() => {
-  // Auto-detect language preference
-  const lang = navigator.language.toLowerCase()
-  const preferZh = lang.startsWith('zh')
+## What this entrypoint does
 
-  if (preferZh) {
-    redirecting.value = true
-    setTimeout(() => {
-      window.location.href = '/cuda-kernel-academy/zh/'
-    }, 300)
-  } else {
-    redirecting.value = true
-    setTimeout(() => {
-      window.location.href = '/cuda-kernel-academy/en/'
-    }, 300)
-  }
-})
-</script>
+- gives you a stable root page instead of an automatic redirect shell
+- keeps locale choice explicit
+- points you to reading paths before you dive into module details
 
-<div v-if="redirecting" class="language-redirect">
-  <div class="redirect-content">
-    <div class="spinner"></div>
-    <p>Redirecting to your preferred language...</p>
-  </div>
-</div>
+## Recommended first click
 
-<div v-else class="language-selector">
-  <div class="selector-content">
-    <h1>CUDA Kernel Academy</h1>
-    <p class="tagline">Systematic CUDA kernel engineering from SGEMM to inference</p>
-    <p class="tagline-zh">从 SGEMM 基础到可复用推理组件的系统性 CUDA 算子工程学习路径</p>
-
-    <div class="language-buttons">
-      <a href="/cuda-kernel-academy/zh/" class="lang-btn">
-        <span class="lang-icon">中</span>
-        <span class="lang-label">简体中文</span>
-      </a>
-      <a href="/cuda-kernel-academy/en/" class="lang-btn">
-        <span class="lang-icon">EN</span>
-        <span class="lang-label">English</span>
-      </a>
-    </div>
-  </div>
-</div>
-
-<style scoped>
-.language-redirect,
-.language-selector {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 60vh;
-  text-align: center;
-}
-
-.redirect-content,
-.selector-content {
-  max-width: 600px;
-  padding: 40px;
-}
-
-.spinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid var(--vp-c-divider);
-  border-top-color: #76B900;
-  border-radius: 50%;
-  margin: 0 auto 20px;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-h1 {
-  font-size: 2.5rem;
-  font-weight: 800;
-  margin-bottom: 16px;
-  background: linear-gradient(135deg, #76B900, #8ce600);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.tagline {
-  font-size: 1.1rem;
-  color: var(--vp-c-text-2);
-  margin-bottom: 8px;
-}
-
-.tagline-zh {
-  font-size: 1rem;
-  color: var(--vp-c-text-3);
-  margin-bottom: 40px;
-}
-
-.language-buttons {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.lang-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 24px 48px;
-  border: 2px solid var(--vp-c-divider);
-  border-radius: 12px;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  background: var(--vp-c-bg-alt);
-}
-
-.lang-btn:hover {
-  border-color: #76B900;
-  transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(118, 185, 0, 0.15);
-}
-
-.lang-icon {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #76B900;
-  margin-bottom: 8px;
-}
-
-.lang-label {
-  font-size: 0.9rem;
-  color: var(--vp-c-text-2);
-}
-</style>
+1. Choose your language.
+2. Open the reading-path guide for your goal.
+3. Jump into the matching module or whitepaper from there.
