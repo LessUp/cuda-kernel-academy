@@ -46,6 +46,3 @@ sequenceDiagram
 Total HBM access: O(N) vs O(N²) for standard attention.
 
 ## References
-
-[^1]: Dao, T., et al. "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness." *NeurIPS* 2022. https://arxiv.org/abs/2205.14135
-[^2]: Dao, T. "FlashAttention-2." *NeurIPS* 2023. https://arxiv.org/abs/2307.08691

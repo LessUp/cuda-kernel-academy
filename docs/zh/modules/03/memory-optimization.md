@@ -214,7 +214,3 @@ float efficiency = actual_bandwidth / theoretical_bandwidth * 100.0f;
 | Padding | 消除 Bank Conflict | 1.2-1.5× |
 
 ## References
-
-[^1]: NVIDIA. "CUDA C++ Best Practices Guide." https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/
-[^2]: NVIDIA. "CUDA Memory Model." https://developer.nvidia.com/blog/cuda-refresher-cuda-programming-model/
-[^3]: NVIDIA. "CUDA C++ Programming Guide," v12.6. 2024. https://docs.nvidia.com/cuda/cuda-c-programming-guide/

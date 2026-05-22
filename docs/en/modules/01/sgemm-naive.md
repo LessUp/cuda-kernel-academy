@@ -31,6 +31,3 @@ __global__ void gemm_naive_kernel(const float* A, const float* B, float* C,
 - **TFLOPS**: ~0.5 (FP32, RTX 4090)
 
 ## References
-
-[^1]: NVIDIA. "CUDA C++ Programming Guide," v12.6. 2024. https://docs.nvidia.com/cuda/cuda-c-programming-guide/
-[^2]: Simon Boehm. "How to Optimize a CUDA Matmul Kernel." 2022. https://siboehm.com/articles/22/CUDA-MMM

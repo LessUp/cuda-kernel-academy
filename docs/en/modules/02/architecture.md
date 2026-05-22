@@ -30,6 +30,3 @@ Provides memory abstractions: `AlignedVector`, `Tensor`, `MemoryPool`.
 Operator implementations: GEMM, Attention, Normalization, Conv2D, Sparse, Fusion.
 
 ## References
-
-[^1]: NVIDIA. "CUDA C++ Programming Guide," v12.6. 2024. https://docs.nvidia.com/cuda/cuda-c-programming-guide/
-[^2]: NVIDIA CUTLASS. https://github.com/NVIDIA/cutlass

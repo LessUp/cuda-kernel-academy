@@ -76,7 +76,3 @@ flowchart TB
 每个 Block 处理一个 TILE_SIZE × TILE_SIZE 的输出块，通过迭代加载 K 维度的 Tile 进行累加。
 
 ## References
-
-[^1]: NVIDIA. "CUDA C++ Programming Guide," v12.6. 2024. https://docs.nvidia.com/cuda/cuda-c-programming-guide/
-[^2]: Simon Boehm. "How to Optimize a CUDA Matmul Kernel." 2022. https://siboehm.com/articles/22/CUDA-MMM
-[^3]: NVIDIA CUTLASS. https://github.com/NVIDIA/cutlass

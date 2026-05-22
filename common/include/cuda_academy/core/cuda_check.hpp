@@ -51,8 +51,8 @@ public:
 private:
     static std::string build_message(cudaError_t error, const char* expr, const char* file,
                                      int line) {
-        return std::string(file) + ":" + std::to_string(line) + ": CUDA error: " + expr +
-               " -> " + cudaGetErrorString(error);
+        return std::string(file) + ":" + std::to_string(line) + ": CUDA error: " + expr + " -> " +
+               cudaGetErrorString(error);
     }
 
     cudaError_t error_;
@@ -72,8 +72,8 @@ public:
 private:
     static std::string build_message(cublasStatus_t status, const char* expr, const char* file,
                                      int line) {
-        return std::string(file) + ":" + std::to_string(line) + ": cuBLAS error: " + expr +
-               " -> " + cublas_status_to_string(status);
+        return std::string(file) + ":" + std::to_string(line) + ": cuBLAS error: " + expr + " -> " +
+               cublas_status_to_string(status);
     }
 
     static const char* cublas_status_to_string(cublasStatus_t status) {
@@ -120,8 +120,8 @@ public:
 private:
     static std::string build_message(curandStatus_t status, const char* expr, const char* file,
                                      int line) {
-        return std::string(file) + ":" + std::to_string(line) + ": cuRAND error: " + expr +
-               " -> " + curand_status_to_string(status);
+        return std::string(file) + ":" + std::to_string(line) + ": cuRAND error: " + expr + " -> " +
+               curand_status_to_string(status);
     }
 
     static const char* curand_status_to_string(curandStatus_t status) {

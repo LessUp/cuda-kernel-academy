@@ -19,7 +19,7 @@ This document covers installation and build instructions for CUDA Kernel Academy
 ## Clone Repository
 
 ```bash
-git clone https://github.com/LessUp/cuda-kernel-academy.git
+git clone https://github.com/AICL-Lab/cuda-kernel-academy.git
 cd cuda-kernel-academy
 ```
 
@@ -75,5 +75,3 @@ cmake --list-presets
 ```
 
 ## References
-
-[^1]: NVIDIA. "CUDA C++ Programming Guide," v12.6. 2024. https://docs.nvidia.com/cuda/cuda-c-programming-guide/

@@ -251,8 +251,3 @@ __shared__ float tile[32][32 + 1];
 4. **Warp divergence**: 最小化条件分支
 
 ## References
-
-[^1]: NVIDIA. "CUDA C++ Best Practices Guide." https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/
-[^2]: Dao, T., et al. "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness." *NeurIPS* 2022. https://arxiv.org/abs/2205.14135
-[^3]: NVIDIA CUTLASS. https://github.com/NVIDIA/cutlass
-[^4]: Simon Boehm. "How to Optimize a CUDA Matmul Kernel." 2022. https://siboehm.com/articles/22/CUDA-MMM

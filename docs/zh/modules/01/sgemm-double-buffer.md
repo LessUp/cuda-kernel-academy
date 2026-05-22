@@ -67,7 +67,3 @@ flowchart LR
 ```
 
 ## References
-
-[^1]: NVIDIA. "CUDA C++ Programming Guide," v12.6. 2024. https://docs.nvidia.com/cuda/cuda-c-programming-guide/
-[^2]: NVIDIA CUTLASS. https://github.com/NVIDIA/cutlass
-[^3]: Simon Boehm. "How to Optimize a CUDA Matmul Kernel." 2022. https://siboehm.com/articles/22/CUDA-MMM

@@ -21,10 +21,10 @@
  * @endcode
  */
 
-#include <cuda_academy/core/cuda_check.hpp>
+#include <cuda_runtime.h>
 
 #include <cstdio>
-#include <cuda_runtime.h>
+#include <cuda_academy/core/cuda_check.hpp>
 
 namespace cuda_academy {
 
@@ -112,8 +112,7 @@ inline void print_gpu_info(int device = -1) {
     printf("  Warp Size:              %d\n", prop.warpSize);
     printf("  Shared Memory per Block:%zu KB\n", prop.sharedMemPerBlock / 1024);
     printf("  Shared Memory per SM:   %zu KB\n", prop.sharedMemPerMultiprocessor / 1024);
-    printf("  Global Memory:          %.2f GB\n",
-           prop.totalGlobalMem / (1024.0 * 1024.0 * 1024.0));
+    printf("  Global Memory:          %.2f GB\n", prop.totalGlobalMem / (1024.0 * 1024.0 * 1024.0));
     printf("  L2 Cache Size:          %d KB\n", prop.l2CacheSize / 1024);
     printf("  Memory Bus Width:       %d bits\n", prop.memoryBusWidth);
     printf("  Max Grid Size:          (%d, %d, %d)\n", prop.maxGridSize[0], prop.maxGridSize[1],
@@ -199,8 +198,7 @@ inline int optimal_block_size(KernelFunc kernel_func, int device = -1) {
     }
 
     int min_grid_size, block_size;
-    cudaError_t err =
-        cudaOccupancyMaxPotentialBlockSize(&min_grid_size, &block_size, kernel_func);
+    cudaError_t err = cudaOccupancyMaxPotentialBlockSize(&min_grid_size, &block_size, kernel_func);
 
     if (err != cudaSuccess) {
         return 256;  // Default fallback

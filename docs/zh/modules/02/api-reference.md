@@ -368,7 +368,3 @@ output = tc.transpose(input_data)
 ```
 
 ## References
-
-[^1]: NVIDIA. "CUDA C++ Programming Guide," v12.6. 2024. https://docs.nvidia.com/cuda/cuda-c-programming-guide/
-[^2]: NVIDIA CUTLASS. https://github.com/NVIDIA/cutlass
-[^3]: pybind11 Documentation. https://pybind11.readthedocs.io/

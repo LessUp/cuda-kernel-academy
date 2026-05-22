@@ -49,7 +49,9 @@ if(USE_TENSORCRAFT)
       endif()
       set(MINI_INFERENCE_TENSORCRAFT_TARGET TensorCraft::tensorcraft)
       add_compile_definitions(USE_TENSORCRAFT=1)
-      message(STATUS "Using TensorCraft from standalone fallback at ${TENSORCRAFT_ROOT}")
+      message(
+        STATUS
+          "Using TensorCraft from standalone fallback at ${TENSORCRAFT_ROOT}")
     else()
       message(
         WARNING

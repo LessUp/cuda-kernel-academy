@@ -2,6 +2,10 @@ import { defineConfig } from 'vitepress'
 import { withMermaid } from 'vitepress-plugin-mermaid'
 import llmstxt from 'vitepress-plugin-llms'
 
+const repoUrl = 'https://github.com/AICL-Lab/cuda-kernel-academy'
+const pagesUrl = 'https://aicl-lab.github.io/cuda-kernel-academy/'
+const docsEditPattern = `${repoUrl}/edit/master/docs/:path`
+
 export default withMermaid(defineConfig({
   base: '/cuda-kernel-academy/',
   title: 'CUDA Kernel Academy',
@@ -14,7 +18,7 @@ export default withMermaid(defineConfig({
   cleanUrls: true,
 
   sitemap: {
-    hostname: 'https://lessup.github.io/cuda-kernel-academy/'
+    hostname: pagesUrl
   },
 
   markdown: {
@@ -30,14 +34,14 @@ export default withMermaid(defineConfig({
     ['meta', { property: 'og:title', content: 'CUDA Kernel Academy' }],
     ['meta', { property: 'og:description', content: 'Systematic CUDA kernel engineering from SGEMM fundamentals to reusable inference components' }],
     ['meta', { property: 'og:type', content: 'website' }],
-    ['meta', { property: 'og:url', content: 'https://lessup.github.io/cuda-kernel-academy/' }],
+    ['meta', { property: 'og:url', content: pagesUrl }],
     ['meta', { property: 'og:site_name', content: 'CUDA Kernel Academy' }],
-    ['meta', { property: 'og:image', content: 'https://lessup.github.io/cuda-kernel-academy/og-image.svg' }],
+    ['meta', { property: 'og:image', content: `${pagesUrl}og-image.svg` }],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
     ['meta', { name: 'twitter:title', content: 'CUDA Kernel Academy' }],
     ['meta', { name: 'twitter:description', content: 'Systematic CUDA kernel engineering from SGEMM fundamentals to reusable inference components' }],
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
-    ['link', { rel: 'canonical', href: 'https://lessup.github.io/cuda-kernel-academy/' }],
+    ['link', { rel: 'canonical', href: pagesUrl }],
   ],
 
   themeConfig: {
@@ -48,7 +52,7 @@ export default withMermaid(defineConfig({
     },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/LessUp/cuda-kernel-academy' }
+      { icon: 'github', link: repoUrl }
     ],
 
     nav: [
@@ -56,7 +60,8 @@ export default withMermaid(defineConfig({
         text: '指南',
         items: [
           { text: '快速开始', link: '/zh/guides/getting-started', activeMatch: '/zh/guides/' },
-          { text: '工作流', link: '/zh/guides/workflow', activeMatch: '/zh/guides/' }
+          { text: '工作流', link: '/zh/guides/workflow', activeMatch: '/zh/guides/' },
+          { text: '阅读路径', link: '/zh/guides/reading-paths', activeMatch: '/zh/guides/' }
         ]
       },
       {
@@ -156,7 +161,8 @@ export default withMermaid(defineConfig({
           text: '指南',
           items: [
             { text: '快速开始', link: '/zh/guides/getting-started' },
-            { text: '工作流', link: '/zh/guides/workflow' }
+            { text: '工作流', link: '/zh/guides/workflow' },
+            { text: '阅读路径', link: '/zh/guides/reading-paths' }
           ]
         },
         {
@@ -173,7 +179,7 @@ export default withMermaid(defineConfig({
     },
 
     editLink: {
-      pattern: 'https://github.com/LessUp/cuda-kernel-academy/edit/main/docs/:path'
+      pattern: docsEditPattern
     },
 
     lastUpdated: {
@@ -211,7 +217,8 @@ export default withMermaid(defineConfig({
             text: 'Guides',
             items: [
               { text: 'Getting Started', link: '/en/guides/getting-started', activeMatch: '/en/guides/' },
-              { text: 'Workflow', link: '/en/guides/workflow', activeMatch: '/en/guides/' }
+              { text: 'Workflow', link: '/en/guides/workflow', activeMatch: '/en/guides/' },
+              { text: 'Reading Paths', link: '/en/guides/reading-paths', activeMatch: '/en/guides/' }
             ]
           },
           {
@@ -310,7 +317,8 @@ export default withMermaid(defineConfig({
               text: 'Guides',
               items: [
                 { text: 'Getting Started', link: '/en/guides/getting-started' },
-                { text: 'Workflow', link: '/en/guides/workflow' }
+                { text: 'Workflow', link: '/en/guides/workflow' },
+                { text: 'Reading Paths', link: '/en/guides/reading-paths' }
               ]
             },
             {
@@ -326,7 +334,7 @@ export default withMermaid(defineConfig({
           ]
         },
         editLink: {
-          pattern: 'https://github.com/LessUp/cuda-kernel-academy/edit/main/docs/:path'
+          pattern: docsEditPattern
         },
         lastUpdated: {
           text: 'Last updated'
@@ -361,4 +369,3 @@ export default withMermaid(defineConfig({
     }
   }
 }))
-

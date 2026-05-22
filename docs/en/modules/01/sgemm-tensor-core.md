@@ -29,6 +29,3 @@ wmma::store_matrix_sync(C + offset, c_frag, N, wmma::mem_row_major);
 - **TFLOPS**: ~50+ (FP16)
 
 ## References
-
-[^1]: NVIDIA. "CUDA C++ Programming Guide — WMMA." https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#wmma
-[^2]: NVIDIA CUTLASS. https://github.com/NVIDIA/cutlass

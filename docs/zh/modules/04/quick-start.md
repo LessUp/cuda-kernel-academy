@@ -135,6 +135,3 @@ int main() {
 - 如需完整 CUDA 验证，请在本地 GPU 环境运行。
 
 ## References
-
-[^1]: NVIDIA. "CUDA C++ Programming Guide," v12.6. 2024. https://docs.nvidia.com/cuda/cuda-c-programming-guide/
-[^2]: NVIDIA cuBLAS. https://docs.nvidia.com/cuda/cublas/

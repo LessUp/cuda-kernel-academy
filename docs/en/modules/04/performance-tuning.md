@@ -37,6 +37,3 @@ ncu --set full -o report ./benchmark
 ```
 
 ## References
-
-[^1]: NVIDIA. "Nsight Compute Documentation." https://docs.nvidia.com/nsight-compute/
-[^2]: NVIDIA. "CUDA C++ Best Practices Guide." https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/

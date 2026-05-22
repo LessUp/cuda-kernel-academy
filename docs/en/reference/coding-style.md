@@ -75,6 +75,3 @@ set(CMAKE_CUDA_ARCHITECTURES "70;75;80;86;89;90")
 - [ ] Adds unit tests
 
 ## References
-
-[^1]: Google C++ Style Guide. https://google.github.io/styleguide/cppguide.html
-[^2]: NVIDIA. "CUDA C++ Programming Guide," v12.6. 2024. https://docs.nvidia.com/cuda/cuda-c-programming-guide/

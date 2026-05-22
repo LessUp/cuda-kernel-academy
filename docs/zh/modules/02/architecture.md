@@ -341,7 +341,3 @@ float var = M2 / n;
 4. 添加类型转换工具
 
 ## References
-
-[^1]: NVIDIA. "CUDA C++ Programming Guide," v12.6. 2024. https://docs.nvidia.com/cuda/cuda-c-programming-guide/
-[^2]: NVIDIA CUTLASS. https://github.com/NVIDIA/cutlass
-[^3]: Stroustrup, B. "The C++ Programming Language, 4th Edition." Addison-Wesley, 2013.

@@ -9,7 +9,7 @@
 - `MemoryPool`：缓存式 GPU 内存池
 - `StreamManager`：简单的多流管理器
 - `Config` / `Logger`：配置与日志工具
-- `benchmark` / `detailed_benchmark` / `mnist_demo`
+- `mini_inference_benchmark` / `detailed_benchmark` / `mnist_demo`
 - `mini_inference_tests`：统一测试目标
 
 ## 目录结构
@@ -63,7 +63,7 @@ ctest --test-dir build --output-on-failure
 ## 生成产物
 
 - `mini_inference`：静态库
-- `benchmark`：GEMM benchmark
+- `mini_inference_benchmark`：GEMM benchmark
 - `detailed_benchmark`：更细粒度 benchmark
 - `mnist_demo`：随机权重的演示程序
 - `mini_inference_tests`：统一测试二进制
@@ -194,7 +194,7 @@ int main() {
 
 ```bash
 cd build
-./benchmark
+./mini_inference_benchmark
 ./detailed_benchmark
 ./mnist_demo
 ctest --output-on-failure

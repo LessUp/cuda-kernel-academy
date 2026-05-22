@@ -44,6 +44,3 @@ __global__ void gemm_shared_kernel(const float* A, const float* B, float* C,
 - **TFLOPS**: ~2.0
 
 ## References
-
-[^1]: NVIDIA. "CUDA C++ Programming Guide," v12.6. 2024. https://docs.nvidia.com/cuda/cuda-c-programming-guide/
-[^2]: NVIDIA CUTLASS. https://github.com/NVIDIA/cutlass

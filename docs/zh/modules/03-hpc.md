@@ -93,8 +93,3 @@ ctest --test-dir build --output-on-failure
 - [04-Inference Engine](./04-inference.md)
 
 ## References
-
-[^1]: NVIDIA. "CUDA C++ Programming Guide," v12.6. 2024. https://docs.nvidia.com/cuda/cuda-c-programming-guide/
-[^2]: Dao, T., et al. "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness." *NeurIPS* 2022. https://arxiv.org/abs/2205.14135
-[^3]: NVIDIA CUTLASS. https://github.com/NVIDIA/cutlass
-[^4]: Volkov, V., and Demmel, J. W. "Benchmarking GPUs to Tune Dense Linear Algebra." *SC'08*.

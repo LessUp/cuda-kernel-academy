@@ -130,4 +130,5 @@ The repo is intentionally layered.
 
 - Want the system view first? Read the [architecture whitepaper](/en/whitepaper/architecture).
 - Want evidence before theory? Read [benchmarks](/en/benchmarks/) with the SGEMM module open beside it.
+- Want a guided route by goal? Open [Reading Paths](/en/guides/reading-paths).
 - Want a guided sequence? Follow the [roadmap](/en/roadmap) and choose the track that matches your goal.
