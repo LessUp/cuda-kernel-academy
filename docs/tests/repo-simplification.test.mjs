@@ -1,6 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import path from 'node:path'
+import { existsSync } from 'node:fs'
 import { execFile } from 'node:child_process'
 import { promisify } from 'node:util'
 import { readFile } from 'node:fs/promises'
@@ -14,9 +15,6 @@ const guidanceFiles = [
   'README.md',
   'README.zh-CN.md',
   'CONTRIBUTING.md',
-  'AGENTS.md',
-  'CLAUDE.md',
-  '.github/copilot-instructions.md',
   '.github/PULL_REQUEST_TEMPLATE.md',
   'docs/en/guides/workflow.md',
   'docs/zh/guides/workflow.md',
@@ -54,10 +52,14 @@ test('repository guidance drops AI process-framework language', async () => {
 test('tracked repo surface keeps one root changelog and no AI control scaffolding', async () => {
   const { stdout } = await execFileAsync('git', ['ls-files'], { cwd: repoRoot })
   const trackedFiles = stdout.trim().split('\n').filter(Boolean)
+  const existingTrackedFiles = trackedFiles.filter((file) => existsSync(path.join(repoRoot, file)))
 
-  const trackedChangelogs = trackedFiles.filter((file) => /(^|\/)CHANGELOG\.md$/.test(file))
-  const trackedFrameworkArtifacts = trackedFiles.filter((file) =>
-    file === '.devin/config.local.json'
+  const trackedChangelogs = existingTrackedFiles.filter((file) => /(^|\/)CHANGELOG\.md$/.test(file))
+  const trackedFrameworkArtifacts = existingTrackedFiles.filter((file) =>
+    file === 'AGENTS.md'
+    || file === 'CLAUDE.md'
+    || file === '.github/copilot-instructions.md'
+    || file === '.devin/config.local.json'
     || file === '.github/workflows/copilot-setup-steps.yml'
     || file.startsWith('openspec/')
   )

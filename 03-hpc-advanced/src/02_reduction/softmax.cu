@@ -64,7 +64,7 @@ __global__ void softmax_online_kernel(const T* __restrict__ input,
 template <>
 void softmax<float, SoftmaxOpt::OnlineSoftmax>(const float* input, float* output,
                                                 int batch, int seq_len, cudaStream_t stream) {
-    int block_size = 256;
+    int block_size = 32;
     softmax_online_kernel<float><<<batch, block_size, 0, stream>>>(input, output, batch, seq_len);
     CUDA_CHECK_LAST();
 }
@@ -72,7 +72,7 @@ void softmax<float, SoftmaxOpt::OnlineSoftmax>(const float* input, float* output
 template <>
 void softmax<__half, SoftmaxOpt::OnlineSoftmax>(const __half* input, __half* output,
                                                  int batch, int seq_len, cudaStream_t stream) {
-    int block_size = 256;
+    int block_size = 32;
     softmax_online_kernel<__half><<<batch, block_size, 0, stream>>>(input, output, batch, seq_len);
     CUDA_CHECK_LAST();
 }

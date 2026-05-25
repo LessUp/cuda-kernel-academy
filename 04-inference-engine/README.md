@@ -31,10 +31,8 @@
 
 从仓库根目录构建时，`04-inference-engine` 现在要求父项目先提供
 `TensorCraft::tensorcraft` 目标；仓库根 `CMakeLists.txt` 已通过
-`BUILD_TENSORCRAFT=ON` 保证这一点。只有在独立进入
-`04-inference-engine/` 配置时，模块才会尝试从相邻的
-`../02-tensorcraft-core` 自动补入该目标；如果该目录不存在，则回退到本地
-GEMM 实现。
+`BUILD_TENSORCRAFT=ON` 保证这一点。该模块不再维护独立配置回退，也不再保留
+“没有 TensorCraft 就退回本地 GEMM”的双路径构建逻辑。
 
 ### 从仓库根目录构建（推荐）
 
@@ -44,21 +42,11 @@ cmake --build --preset default
 ctest --preset default
 ```
 
-### 独立构建 04 模块
-
-```bash
-cd 04-inference-engine
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
-cmake --build build -j$(nproc)
-ctest --test-dir build --output-on-failure
-```
-
 ## 可用 CMake 选项
 
 | 选项 | 默认值 | 说明 |
 |------|--------|------|
 | `BUILD_TESTS` | ON | 构建 GoogleTest 测试 |
-| `USE_TENSORCRAFT` | ON | 优先链接父项目已提供的 `TensorCraft::tensorcraft`；仅独立构建时才会尝试从 `../02-tensorcraft-core` 补入 |
 
 ## 生成产物
 
@@ -193,15 +181,19 @@ int main() {
 ## 运行方式
 
 ```bash
-cd build
+cd build/default/bin
 ./mini_inference_benchmark
 ./detailed_benchmark
 ./mnist_demo
+```
+
+```bash
+cd build/default
 ctest --output-on-failure
 ```
 
 如果你想直接运行测试二进制：
 
 ```bash
-./mini_inference_tests
+./build/default/bin/mini_inference_tests
 ```

@@ -10,9 +10,10 @@
 
 RC_GTEST_PROP(SigmoidTest, Correctness, ()) {
     auto size = *rc::gen::inRange<size_t>(1, 1024 * 64);
-    auto input = *rc::gen::container<std::vector<float>>(
-        size, rc::gen::map(rc::gen::arbitrary<float>(),
-                           [](float x) { return std::clamp(x, -10.0f, 10.0f); }));
+    auto input = *hpc::test::gen::sized_float_vector(size);
+    for (auto& value : input) {
+        value = std::clamp(value, -10.0f, 10.0f);
+    }
 
     // CPU reference
     std::vector<float> expected(size);

@@ -32,8 +32,9 @@ Performance tuning guide for the Mini-Inference Engine.
 ## Profiling Tools
 
 ```bash
-nsys profile -o report ./benchmark
-ncu --set full -o report ./benchmark
+cd build/default/bin
+nsys profile -o report ./mini_inference_benchmark
+ncu --set full -o report ./mini_inference_benchmark
 ```
 
 ## References

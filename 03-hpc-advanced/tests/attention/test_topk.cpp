@@ -12,7 +12,7 @@
 RC_GTEST_PROP(TopKTest, Correctness, ()) {
     auto n = *rc::gen::inRange<int>(10, 256);
     auto k = *rc::gen::inRange<int>(1, std::min(n, 10));
-    auto input = *rc::gen::container<std::vector<float>>(n, rc::gen::arbitrary<float>());
+    auto input = *hpc::test::gen::sized_float_vector(static_cast<size_t>(n));
 
     // CPU reference
     std::vector<std::pair<float, int>> indexed(n);

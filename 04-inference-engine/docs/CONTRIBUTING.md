@@ -6,44 +6,42 @@
 
 ```bash
 git clone https://github.com/LessUp/cuda-kernel-academy.git
-cd cuda-kernel-academy/04-inference-engine
+cd cuda-kernel-academy
 ```
 
 ## 构建与测试
 
 ```bash
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
-cmake --build build -j$(nproc)
-ctest --test-dir build --output-on-failure
+cmake --preset debug
+cmake --build --preset debug
+ctest --preset debug
 ```
 
 也可以直接运行统一测试二进制：
 
 ```bash
-./build/mini_inference_tests
+./build/debug/bin/mini_inference_tests
 ```
 
 ## 运行程序
 
 ```bash
-./build/benchmark
-./build/detailed_benchmark
-./build/mnist_demo
+./build/debug/bin/mini_inference_benchmark
+./build/debug/bin/detailed_benchmark
+./build/debug/bin/mnist_demo
 ```
 
 ## 修改代码时请注意
 
 - 以 `include/` 中的公开头文件为准维护 README 和示例
-- 当前公开 CMake 选项只有：
-  - `BUILD_TESTS`
-  - `USE_TENSORCRAFT`
+- 本模块必须从仓库根构建，并依赖父项目先提供 `TensorCraft::tensorcraft`
 - 测试目标是统一的 `mini_inference_tests`
 - 若修改了命令、目标名或 API，请同步更新 `README.md` 与 `docs/QUICK_START.md`
 
 ## 建议本地检查
 
 ```bash
-ctest --test-dir build --output-on-failure
+ctest --preset debug
 ```
 
 如修改了更上层文档或构建配置，请在仓库根目录补充运行：
@@ -51,5 +49,5 @@ ctest --test-dir build --output-on-failure
 ```bash
 pre-commit run --all-files
 npm ci
-npx honkit build . _site
+npm run docs:build
 ```

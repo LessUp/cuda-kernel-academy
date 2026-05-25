@@ -10,6 +10,10 @@
             "name": "base",
             "hidden": true,
             "binaryDir": "${sourceDir}/build/${presetName}",
+            "environment": {
+                "CC": "/usr/bin/gcc",
+                "CXX": "/usr/bin/g++"
+            },
             "cacheVariables": {
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
             }

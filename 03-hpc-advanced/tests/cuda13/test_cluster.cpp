@@ -11,9 +11,10 @@
 // Feature: hpc-ai-optimization-lab, Property 14: Cluster Reduce Correctness
 RC_GTEST_PROP(ClusterTest, ReduceCorrectness, ()) {
     auto n = *rc::gen::inRange<size_t>(256, 4096);
-    auto input = *rc::gen::container<std::vector<float>>(
-        n, rc::gen::map(rc::gen::arbitrary<float>(),
-                        [](float x) { return std::clamp(x, -1.0f, 1.0f); }));
+    auto input = *hpc::test::gen::sized_float_vector(n);
+    for (auto& value : input) {
+        value = std::clamp(value, -1.0f, 1.0f);
+    }
 
     // CPU reference
     float expected = std::accumulate(input.begin(), input.end(), 0.0f);

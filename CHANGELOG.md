@@ -6,6 +6,10 @@ The repository keeps a lightweight changelog focused on release-level milestones
 
 ### Changed
 
+- removed repository-tracked AI agent control files and dropped the docs `vitepress-plugin-llms` dependency
+- simplified `04-inference-engine` to a single root-build path that always consumes the parent `TensorCraft::tensorcraft` target
+- collapsed redundant 04-module GEMM wrapper files into one TensorCraft-backed dispatch unit and deleted dead duplicate kernel bodies
+- pinned root CMake presets to system GCC/G++ and restored 04 inference/common compatibility so CUDA 12 builds stop drifting onto incompatible Conda host compilers
 - removed legacy spec archives and AI control scaffolding from the tracked repository surface
 - consolidated change history into the root `CHANGELOG.md` and removed module-level changelog drift
 - simplified contributor and agent guidance around a small, verification-first workflow

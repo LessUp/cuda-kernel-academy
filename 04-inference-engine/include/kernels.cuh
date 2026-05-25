@@ -8,28 +8,12 @@ namespace mini_inference {
 // Kernel Declarations
 // ============================================================================
 
-// Level 1: Naive MatMul - each thread computes one output element
-__global__ void naive_matmul(const float* A, const float* B, float* C,
-                              int M, int N, int K);
-
-// Level 2: Tiled GEMM - uses shared memory
-__global__ void tiled_gemm(const float* A, const float* B, float* C,
-                            int M, int N, int K);
-
-// Level 3: Coalesced memory access GEMM
-__global__ void coalesced_gemm(const float* A, const float* B, float* C,
-                                int M, int N, int K);
-
-// Level 4: Double buffered GEMM
-__global__ void double_buffer_gemm(const float* A, const float* B, float* C,
-                                    int M, int N, int K);
-
-// Level 5: Register blocked optimized GEMM
+// Register blocked optimized GEMM
 template<int BM, int BN, int BK, int TM, int TN>
 __global__ void optimized_gemm(const float* A, const float* B, float* C,
                                 int M, int N, int K);
 
-// Level 6: Fused GEMM + Bias + ReLU
+// Fused GEMM + Bias + ReLU
 template<int BM, int BN, int BK, int TM, int TN, bool ADD_BIAS, bool APPLY_RELU>
 __global__ void fused_gemm_bias_relu(const float* A, const float* B, float* C,
                                       const float* bias, int M, int N, int K);

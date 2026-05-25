@@ -11,9 +11,10 @@
 RC_GTEST_PROP(QuantizationTest, RoundTrip, ()) {
     auto rows = *rc::gen::inRange<int>(1, 64);
     auto cols = *rc::gen::inRange<int>(64, 256);
-    auto input = *rc::gen::container<std::vector<float>>(
-        rows * cols, rc::gen::map(rc::gen::arbitrary<float>(),
-                                  [](float x) { return std::clamp(x, -1.0f, 1.0f); }));
+    auto input = *hpc::test::gen::sized_float_vector(static_cast<size_t>(rows * cols));
+    for (auto& value : input) {
+        value = std::clamp(value, -1.0f, 1.0f);
+    }
 
     hpc::Tensor<float> d_input(rows * cols);
     hpc::Tensor<int8_t> d_quantized(rows * cols);

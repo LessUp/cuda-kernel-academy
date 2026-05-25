@@ -10,7 +10,7 @@
 RC_GTEST_PROP(TMATest, DataIntegrity, ()) {
     auto rows = *rc::gen::inRange<int>(1, 128);
     auto cols = *rc::gen::inRange<int>(1, 128);
-    auto input = *rc::gen::container<std::vector<float>>(rows * cols, rc::gen::arbitrary<float>());
+    auto input = *hpc::test::gen::sized_float_vector(static_cast<size_t>(rows * cols));
 
     hpc::Tensor<float> d_src(rows * cols);
     hpc::Tensor<float> d_dst(rows * cols);

@@ -1,6 +1,8 @@
 #include "gemm.cuh"
 #include "../common/cuda_check.cuh"
 
+#include <cstdint>
+
 namespace hpc::gemm {
 
 constexpr int TILE_SIZE = 32;
@@ -192,9 +194,6 @@ void gemm<__half, GemmOpt::DoubleBuffer>(const __half* A, const __half* B, __hal
     gemm_double_buffer_kernel<__half><<<grid, block, 0, stream>>>(A, B, C, M, N, K, alpha, beta);
     CUDA_CHECK_LAST();
 }
-
-} // namespace hpc::gemm
-
 
 // Register tiling GEMM: each thread computes a small tile in registers
 constexpr int REG_TILE_M = 8;  // Each thread computes 8x8 output elements
@@ -756,3 +755,5 @@ void gemm<int8_t, GemmOpt::DoubleBuffer>(const int8_t* A, const int8_t* B, int8_
                                           float alpha, float beta, cudaStream_t stream) {
     gemm<int8_t, GemmOpt::SharedMemTiling>(A, B, C, M, N, K, alpha, beta, stream);
 }
+
+} // namespace hpc::gemm

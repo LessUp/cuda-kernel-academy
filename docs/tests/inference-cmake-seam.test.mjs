@@ -8,25 +8,13 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const repoRoot = path.resolve(__dirname, '..', '..')
 const cmakePath = path.join(repoRoot, '04-inference-engine', 'CMakeLists.txt')
 
-test('04-inference-engine only injects sibling TensorCraft in standalone builds', async () => {
+test('04-inference-engine requires the parent TensorCraft target and links through it', async () => {
   const cmake = await readFile(cmakePath, 'utf8')
 
   assert.match(
     cmake,
-    /if\(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR\)[\s\S]*set\(MINI_INFERENCE_STANDALONE ON\)/,
-    'Expected standalone-build detection guard in 04-inference-engine/CMakeLists.txt'
-  )
-
-  assert.match(
-    cmake,
-    /elseif\(MINI_INFERENCE_STANDALONE\)[\s\S]*add_subdirectory\("\$\{TENSORCRAFT_ROOT\}"\s+tensorcraft-from-parent[\s\S]*endif\(\)/,
-    'Expected sibling-path TensorCraft fallback to be limited to standalone builds'
-  )
-
-  assert.match(
-    cmake,
-    /message\(\s*FATAL_ERROR[\s\S]*USE_TENSORCRAFT=ON requires an upstream TensorCraft::tensorcraft target/,
-    'Expected parent builds to fail clearly when the upstream TensorCraft target is missing'
+    /message\(\s*FATAL_ERROR[\s\S]*TensorCraft::tensorcraft target[\s\S]*repository root/,
+    'Expected 04-inference-engine to fail clearly when TensorCraft is not provided by the parent build'
   )
 
   assert.match(
@@ -37,7 +25,7 @@ test('04-inference-engine only injects sibling TensorCraft in standalone builds'
 
   assert.doesNotMatch(
     cmake,
-    /target_include_directories\(mini_inference[\s\S]*TENSORCRAFT_ROOT\/include/,
-    'Expected TensorCraft headers to flow through the linked target instead of manual include injection'
+    /MINI_INFERENCE_STANDALONE|TENSORCRAFT_ROOT|USE_TENSORCRAFT/,
+    'Expected the standalone fallback seam and toggle option to be removed from 04-inference-engine/CMakeLists.txt'
   )
 })

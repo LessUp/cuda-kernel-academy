@@ -26,12 +26,14 @@ RC_GTEST_PROP(GemmTest, Correctness, ()) {
     auto N = *rc::gen::inRange<int>(1, 64);
     auto K = *rc::gen::inRange<int>(1, 64);
 
-    auto A = *rc::gen::container<std::vector<float>>(
-        M * K, rc::gen::map(rc::gen::arbitrary<float>(),
-                            [](float x) { return std::clamp(x, -1.0f, 1.0f); }));
-    auto B = *rc::gen::container<std::vector<float>>(
-        K * N, rc::gen::map(rc::gen::arbitrary<float>(),
-                            [](float x) { return std::clamp(x, -1.0f, 1.0f); }));
+    auto A = *hpc::test::gen::sized_float_vector(static_cast<size_t>(M * K));
+    auto B = *hpc::test::gen::sized_float_vector(static_cast<size_t>(K * N));
+    for (auto& value : A) {
+        value = std::clamp(value, -1.0f, 1.0f);
+    }
+    for (auto& value : B) {
+        value = std::clamp(value, -1.0f, 1.0f);
+    }
 
     std::vector<float> C_cpu(M * N, 0.0f);
     std::vector<float> C_gpu(M * N, 0.0f);

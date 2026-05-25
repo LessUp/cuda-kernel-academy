@@ -1,6 +1,5 @@
 import { defineConfig } from 'vitepress'
 import { withMermaid } from 'vitepress-plugin-mermaid'
-import llmstxt from 'vitepress-plugin-llms'
 
 const repoUrl = 'https://github.com/AICL-Lab/cuda-kernel-academy'
 const pagesUrl = 'https://aicl-lab.github.io/cuda-kernel-academy/'
@@ -358,12 +357,6 @@ export default withMermaid(defineConfig({
   },
 
   vite: {
-    plugins: [
-      llmstxt({
-        includeAll: true,
-        customInfo: 'CUDA Kernel Academy: 系统性 CUDA 算子工程学习项目，涵盖 SGEMM 优化、TensorCraft 核心库、HPC 高级特性和轻量级推理引擎。适合面试展示和进阶学习。'
-      })
-    ],
     build: {
       chunkSizeWarningLimit: 1500
     }

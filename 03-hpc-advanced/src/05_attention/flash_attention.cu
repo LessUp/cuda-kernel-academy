@@ -116,7 +116,7 @@ template <>
 void flash_attention_forward<float>(const float* Q, const float* K, const float* V,
                                     float* O, const FlashAttnConfig& config,
                                     cudaStream_t stream) {
-    constexpr int BLOCK_SIZE = 64;
+    constexpr int BLOCK_SIZE = 32;
     constexpr int HEAD_DIM = 64;
 
     dim3 grid(config.batch_size * config.num_heads,

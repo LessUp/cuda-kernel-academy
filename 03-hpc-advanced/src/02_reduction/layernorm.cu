@@ -51,7 +51,7 @@ template <>
 void layer_norm<float>(const float* input, const float* gamma, const float* beta,
                        float* output, int batch, int hidden_size,
                        float eps, cudaStream_t stream) {
-    int block_size = 256;
+    int block_size = 32;
     layer_norm_kernel<float><<<batch, block_size, 0, stream>>>(
         input, gamma, beta, output, hidden_size, eps);
     CUDA_CHECK_LAST();
@@ -61,7 +61,7 @@ template <>
 void layer_norm<__half>(const __half* input, const __half* gamma, const __half* beta,
                         __half* output, int batch, int hidden_size,
                         float eps, cudaStream_t stream) {
-    int block_size = 256;
+    int block_size = 32;
     layer_norm_kernel<__half><<<batch, block_size, 0, stream>>>(
         input, gamma, beta, output, hidden_size, eps);
     CUDA_CHECK_LAST();

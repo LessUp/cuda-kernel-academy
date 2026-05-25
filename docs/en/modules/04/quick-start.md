@@ -16,19 +16,23 @@ Quick start guide for the Inference Engine module.
 ## Build
 
 ```bash
-cd 04-inference-engine
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
-cmake --build build -j$(nproc)
+cmake --preset default
+cmake --build --preset default
+ctest --preset default
 ```
 
 ## Run
 
 ```bash
-cd build
-./benchmark
+cd build/default/bin
+./mini_inference_benchmark
 ./detailed_benchmark
 ./mnist_demo
-./mini_inference_tests
+```
+
+```bash
+cd build/default
+ctest --output-on-failure
 ```
 
 ## Minimal Example
@@ -44,6 +48,7 @@ int main() {
     engine.init(0);
     engine.load_weights("model.bin");
 
+    int batch_size = 32;
     DeviceMemory d_input(batch_size * engine.input_dim() * sizeof(float));
     DeviceMemory d_output(batch_size * engine.output_dim() * sizeof(float));
 

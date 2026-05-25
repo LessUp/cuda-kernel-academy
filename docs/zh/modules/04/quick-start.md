@@ -16,20 +16,23 @@ outline: [2, 3]
 ## 构建
 
 ```bash
-cd 04-inference-engine
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
-cmake --build build -j$(nproc)
-ctest --test-dir build --output-on-failure
+cmake --preset default
+cmake --build --preset default
+ctest --preset default
 ```
 
 ## 运行生成产物
 
 ```bash
-cd build
-./benchmark
+cd build/default/bin
+./mini_inference_benchmark
 ./detailed_benchmark
 ./mnist_demo
-./mini_inference_tests
+```
+
+```bash
+cd build/default
+ctest --output-on-failure
 ```
 
 ## 最小示例：InferenceEngine
@@ -131,7 +134,7 @@ int main() {
 ## 说明
 
 - 本模块的测试目标是统一的 `mini_inference_tests`，不是多个独立 `test_*` 可执行文件。
-- 当前 CMake 选项只有 `BUILD_TESTS` 与 `USE_TENSORCRAFT` 两个公开选项。
+- 本模块通过仓库根构建，默认直接复用 `02-tensorcraft-core` 提供的 `TensorCraft::tensorcraft`。
 - 如需完整 CUDA 验证，请在本地 GPU 环境运行。
 
 ## References
