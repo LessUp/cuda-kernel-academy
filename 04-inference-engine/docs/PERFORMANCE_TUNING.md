@@ -186,7 +186,8 @@ __pipeline_wait_prior(0);
 
 ```bash
 # 系统级分析
-nsys profile -o report ./benchmark
+cd build/default/bin
+nsys profile -o report ./mini_inference_benchmark
 
 # 查看报告
 nsys-ui report.nsys-rep
@@ -196,10 +197,10 @@ nsys-ui report.nsys-rep
 
 ```bash
 # Kernel 级分析
-ncu --set full -o report ./benchmark
+ncu --set full -o report ./mini_inference_benchmark
 
 # 特定 kernel
-ncu --kernel-name "optimized_gemm" ./benchmark
+ncu --kernel-name "optimized_gemm" ./mini_inference_benchmark
 ```
 
 ### 关键指标
@@ -248,7 +249,8 @@ A:
 A: 使用 Nsight Compute:
 
 ```bash
-ncu --metrics l1tex__data_bank_conflicts_pipe_lsu_mem_shared_op_ld ./benchmark
+cd build/default/bin
+ncu --metrics l1tex__data_bank_conflicts_pipe_lsu_mem_shared_op_ld ./mini_inference_benchmark
 ```
 
 ## 性能检查清单

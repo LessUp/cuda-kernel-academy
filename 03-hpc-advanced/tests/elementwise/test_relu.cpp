@@ -11,7 +11,7 @@
 // Feature: hpc-ai-optimization-lab, Property 3: Elementwise Operation Correctness
 RC_GTEST_PROP(ReluTest, Correctness, ()) {
     auto size = *rc::gen::inRange<size_t>(1, 1024 * 64);
-    auto input = *rc::gen::container<std::vector<float>>(size, rc::gen::arbitrary<float>());
+    auto input = *hpc::test::gen::sized_float_vector(size);
 
     // CPU reference
     std::vector<float> expected(size);

@@ -24,7 +24,7 @@
 #include <vector>
 
 // Include common cuda_academy utilities
-#include <cuda_academy/core/cuda_check.hpp>
+#include <cuda_academy/cuda_academy.hpp>
 
 namespace mini_inference {
 
@@ -127,11 +127,86 @@ inline const char* kernel_type_name(GemmKernelType type) {
 }
 
 // ============================================================================
-// Device Memory RAII Wrapper (backward compatible alias)
+// Device Memory RAII Wrapper
 // ============================================================================
 
-// Use cuda_academy's DeviceMemory - float specialization
-using DeviceMemory = cuda_academy::DeviceMemory<float>;
+class DeviceMemory {
+public:
+    DeviceMemory() = default;
+
+    explicit DeviceMemory(size_t bytes) {
+        allocate(bytes);
+    }
+
+    ~DeviceMemory() {
+        free();
+    }
+
+    DeviceMemory(const DeviceMemory&) = delete;
+    DeviceMemory& operator=(const DeviceMemory&) = delete;
+
+    DeviceMemory(DeviceMemory&& other) noexcept
+        : ptr_(other.ptr_), size_(other.size_) {
+        other.ptr_ = nullptr;
+        other.size_ = 0;
+    }
+
+    DeviceMemory& operator=(DeviceMemory&& other) noexcept {
+        if (this != &other) {
+            free();
+            ptr_ = other.ptr_;
+            size_ = other.size_;
+            other.ptr_ = nullptr;
+            other.size_ = 0;
+        }
+        return *this;
+    }
+
+    void allocate(size_t bytes) {
+        if (size_ == bytes && ptr_ != nullptr) {
+            return;
+        }
+
+        free();
+        if (bytes == 0) {
+            return;
+        }
+
+        CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&ptr_), bytes));
+        size_ = bytes;
+    }
+
+    void free() {
+        if (ptr_ != nullptr) {
+            cudaFree(ptr_);
+            ptr_ = nullptr;
+            size_ = 0;
+        }
+    }
+
+    float* get() noexcept { return ptr_; }
+    const float* get() const noexcept { return ptr_; }
+    size_t size() const noexcept { return size_; }
+    bool empty() const noexcept { return ptr_ == nullptr; }
+
+    void copy_from_host(const void* host_data, size_t bytes) {
+        CUDA_CHECK(cudaMemcpy(ptr_, host_data, bytes, cudaMemcpyHostToDevice));
+    }
+
+    void copy_to_host(void* host_data, size_t bytes) const {
+        CUDA_CHECK(cudaMemcpy(host_data, ptr_, bytes, cudaMemcpyDeviceToHost));
+    }
+
+    void zero() {
+        if (ptr_ != nullptr && size_ > 0) {
+            CUDA_CHECK(cudaMemset(ptr_, 0, size_));
+        }
+    }
+
+private:
+    float* ptr_ = nullptr;
+    size_t size_ = 0;
+};
 
 // ============================================================================
 // Utility Functions

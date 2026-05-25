@@ -167,15 +167,16 @@ __pipeline_wait_prior(0);
 ### NVIDIA Nsight Systems
 
 ```bash
-nsys profile -o report ./benchmark
+cd build/default/bin
+nsys profile -o report ./mini_inference_benchmark
 nsys-ui report.nsys-rep
 ```
 
 ### NVIDIA Nsight Compute
 
 ```bash
-ncu --set full -o report ./benchmark
-ncu --kernel-name "optimized_gemm" ./benchmark
+ncu --set full -o report ./mini_inference_benchmark
+ncu --kernel-name "optimized_gemm" ./mini_inference_benchmark
 ```
 
 ### 关键指标

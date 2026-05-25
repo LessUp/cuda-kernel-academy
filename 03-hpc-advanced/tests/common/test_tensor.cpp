@@ -8,7 +8,7 @@
 // Feature: hpc-ai-optimization-lab, Property 1: Tensor Host-Device Round Trip
 RC_GTEST_PROP(TensorTest, HostDeviceRoundTrip, ()) {
     auto size = *rc::gen::inRange<size_t>(1, 1024 * 64);
-    auto input = *rc::gen::container<std::vector<float>>(size, rc::gen::arbitrary<float>());
+    auto input = *hpc::test::gen::sized_float_vector(size);
 
     hpc::Tensor<float> tensor(size);
     tensor.copy_from_host(input);

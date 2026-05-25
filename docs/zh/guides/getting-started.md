@@ -37,6 +37,9 @@ cmake --build --preset default
 ctest --preset default
 ```
 
+根目录 presets 会显式导出 `/usr/bin/gcc` 与 `/usr/bin/g++`，避免 CUDA 12
+构建时误用排在 `PATH` 更前面的 Conda 新版编译器。
+
 常用预设：
 
 - `default`: 默认 Release 构建
@@ -106,11 +109,12 @@ ctest --test-dir build --output-on-failure
 ### 04-inference-engine
 
 ```bash
-cd 04-inference-engine
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
-cmake --build build -j$(nproc)
-ctest --test-dir build --output-on-failure
+cmake --preset default
+cmake --build --preset default
+ctest --preset default
 ```
+
+`04-inference-engine` 现在依赖父项目先提供 `TensorCraft::tensorcraft`，因此其标准构建入口就是仓库根目录，而不是模块内单独配置。
 
 ## 文档构建
 

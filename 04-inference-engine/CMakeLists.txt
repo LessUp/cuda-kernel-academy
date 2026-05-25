@@ -3,7 +3,6 @@ project(mini-inference-engine LANGUAGES CXX CUDA)
 
 # Options
 option(BUILD_TESTS "Build test suite" ON)
-option(USE_TENSORCRAFT "Use tensorcraft-core for GEMM operations" ON)
 
 # C++ and CUDA standards
 set(CMAKE_CXX_STANDARD 17)
@@ -24,57 +23,18 @@ find_package(CUDAToolkit REQUIRED)
 # (Release = -O3). Only add CUDA-specific flags here.
 set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} --use_fast_math")
 
-# Add tensorcraft-core dependency
-set(MINI_INFERENCE_STANDALONE OFF)
-if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
-  set(MINI_INFERENCE_STANDALONE ON)
-endif()
-
-set(MINI_INFERENCE_TENSORCRAFT_TARGET "")
-if(USE_TENSORCRAFT)
-  if(TARGET TensorCraft::tensorcraft)
-    set(MINI_INFERENCE_TENSORCRAFT_TARGET TensorCraft::tensorcraft)
-    add_compile_definitions(USE_TENSORCRAFT=1)
-    message(STATUS "Using TensorCraft from upstream target")
-  elseif(MINI_INFERENCE_STANDALONE)
-    set(TENSORCRAFT_ROOT "${CMAKE_CURRENT_LIST_DIR}/../02-tensorcraft-core")
-    if(EXISTS "${TENSORCRAFT_ROOT}/CMakeLists.txt")
-      add_subdirectory("${TENSORCRAFT_ROOT}" tensorcraft-from-parent
-                       EXCLUDE_FROM_ALL)
-      if(NOT TARGET TensorCraft::tensorcraft)
-        message(
-          FATAL_ERROR
-            "Expected TensorCraft::tensorcraft after adding ${TENSORCRAFT_ROOT}."
-        )
-      endif()
-      set(MINI_INFERENCE_TENSORCRAFT_TARGET TensorCraft::tensorcraft)
-      add_compile_definitions(USE_TENSORCRAFT=1)
-      message(
-        STATUS
-          "Using TensorCraft from standalone fallback at ${TENSORCRAFT_ROOT}")
-    else()
-      message(
-        WARNING
-          "tensorcraft-core not found at ${TENSORCRAFT_ROOT}, using local GEMM implementations"
-      )
-      set(USE_TENSORCRAFT OFF)
-    endif()
-  else()
-    message(
-      FATAL_ERROR
-        "USE_TENSORCRAFT=ON requires an upstream TensorCraft::tensorcraft target. Parent-project builds must add 02-tensorcraft-core before 04-inference-engine."
-    )
-  endif()
+if(NOT TARGET TensorCraft::tensorcraft)
+  message(
+    FATAL_ERROR
+      "04-inference-engine requires the upstream TensorCraft::tensorcraft target. Configure from the repository root so 02-tensorcraft-core is added before 04-inference-engine."
+  )
 endif()
 
 # Source files (explicit list — do not use GLOB_RECURSE)
 set(SOURCES
     src/inference_engine.cpp
     src/tensor.cu
-    src/naive_matmul.cu
-    src/coalesced_gemm.cu
-    src/tiled_gemm.cu
-    src/double_buffer_gemm.cu
+    src/gemm_dispatch.cu
     src/optimized_gemm.cu
     src/fused_gemm.cu
     src/half_gemm.cu
@@ -104,12 +64,11 @@ set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} --expt-relaxed-constexpr")
 add_library(mini_inference STATIC ${SOURCES} ${HEADERS})
 target_include_directories(mini_inference
                            PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_link_libraries(mini_inference CUDA::cudart CUDA::cublas)
-
-# Link tensorcraft if available
-if(USE_TENSORCRAFT AND MINI_INFERENCE_TENSORCRAFT_TARGET)
-  target_link_libraries(mini_inference TensorCraft::tensorcraft)
-endif()
+target_link_libraries(mini_inference
+                      CudaAcademy::common
+                      CUDA::cudart
+                      CUDA::cublas
+                      TensorCraft::tensorcraft)
 
 # Benchmark executable
 add_executable(mini_inference_benchmark benchmarks/benchmark.cpp)

@@ -10,7 +10,7 @@
 RC_GTEST_PROP(TransposeTest, Correctness, ()) {
     auto rows = *rc::gen::inRange<int>(1, 256);
     auto cols = *rc::gen::inRange<int>(1, 256);
-    auto input = *rc::gen::container<std::vector<float>>(rows * cols, rc::gen::arbitrary<float>());
+    auto input = *hpc::test::gen::sized_float_vector(static_cast<size_t>(rows * cols));
 
     // CPU reference
     std::vector<float> expected(rows * cols);
@@ -40,7 +40,7 @@ RC_GTEST_PROP(TransposeTest, Correctness, ()) {
 RC_GTEST_PROP(TransposeTest, Involution, ()) {
     auto rows = *rc::gen::inRange<int>(1, 128);
     auto cols = *rc::gen::inRange<int>(1, 128);
-    auto input = *rc::gen::container<std::vector<float>>(rows * cols, rc::gen::arbitrary<float>());
+    auto input = *hpc::test::gen::sized_float_vector(static_cast<size_t>(rows * cols));
 
     hpc::Tensor<float> d_input(rows * cols);
     hpc::Tensor<float> d_temp(rows * cols);

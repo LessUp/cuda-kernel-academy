@@ -13,9 +13,10 @@
 RC_GTEST_PROP(SoftmaxTest, OutputProperties, ()) {
     auto batch = *rc::gen::inRange<int>(1, 32);
     auto seq_len = *rc::gen::inRange<int>(32, 512);
-    auto input = *rc::gen::container<std::vector<float>>(
-        batch * seq_len, rc::gen::map(rc::gen::arbitrary<float>(),
-                                      [](float x) { return std::clamp(x, -10.0f, 10.0f); }));
+    auto input = *hpc::test::gen::sized_float_vector(static_cast<size_t>(batch * seq_len));
+    for (auto& value : input) {
+        value = std::clamp(value, -10.0f, 10.0f);
+    }
 
     hpc::Tensor<float> d_input(batch * seq_len);
     hpc::Tensor<float> d_output(batch * seq_len);

@@ -14,9 +14,10 @@
 RC_GTEST_PROP(LayerNormTest, OutputProperties, ()) {
     auto batch = *rc::gen::inRange<int>(1, 16);
     auto hidden = *rc::gen::inRange<int>(64, 512);
-    auto input = *rc::gen::container<std::vector<float>>(
-        batch * hidden, rc::gen::map(rc::gen::arbitrary<float>(),
-                                     [](float x) { return std::clamp(x, -10.0f, 10.0f); }));
+    auto input = *hpc::test::gen::sized_float_vector(static_cast<size_t>(batch * hidden));
+    for (auto& value : input) {
+        value = std::clamp(value, -10.0f, 10.0f);
+    }
 
     // Gamma = 1, Beta = 0 for testing normalized output
     std::vector<float> gamma(hidden, 1.0f);

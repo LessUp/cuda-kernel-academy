@@ -45,7 +45,7 @@ __global__ void quantize_kernel(const float* __restrict__ input,
 
 void quantize_int8(const float* input, int8_t* output, float* scale,
                    int rows, int cols, cudaStream_t stream) {
-    compute_scale_kernel<<<rows, 256, 0, stream>>>(input, scale, rows, cols);
+    compute_scale_kernel<<<rows, 32, 0, stream>>>(input, scale, rows, cols);
 
     int total = rows * cols;
     int block_size = 256;

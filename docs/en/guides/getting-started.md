@@ -32,6 +32,10 @@ cmake --build --preset default
 ctest --preset default
 ```
 
+The root presets intentionally export `/usr/bin/gcc` and `/usr/bin/g++` so CUDA
+12 builds do not accidentally pick up newer Conda toolchains that sit earlier
+in `PATH`.
+
 ## Build Individual Modules
 
 ### 01-sgemm-tutorial
@@ -61,10 +65,14 @@ cmake --build build -j$(nproc)
 ### 04-inference-engine
 
 ```bash
-cd 04-inference-engine
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
-cmake --build build -j$(nproc)
+cmake --preset default
+cmake --build --preset default
+ctest --preset default
 ```
+
+`04-inference-engine` now relies on the parent build to provide
+`TensorCraft::tensorcraft`, so treat the repository root as its canonical build
+entrypoint.
 
 ## Local Quality Checks
 

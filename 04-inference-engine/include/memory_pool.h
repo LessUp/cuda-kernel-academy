@@ -48,7 +48,7 @@ public:
                 err = cudaMalloc(&ptr, size);
             }
             if (err != cudaSuccess) {
-                throw CudaException(err, __FILE__, __LINE__);
+                throw CudaException(err, "cudaMalloc()", __FILE__, __LINE__);
             }
         }
 
