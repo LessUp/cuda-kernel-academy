@@ -8,21 +8,19 @@ This repository follows a single, lightweight workflow designed for shipping foc
 
 ## Principles
 
-- **OpenSpec first** for non-trivial work
+- **Small, focused changes**
+- **Targeted verification**
+- **Docs stay honest**
 - **Short-lived branches**
-- **Review before merge**
 - **Minimal ceremony**
-- **No parallel spec systems**
 
 ## The Canonical Loop
 
-1. Decide whether the work needs a spec
-2. Create or refresh the OpenSpec change
-3. Implement from the tasks list
-4. Verify only what matters
-5. Review before merge
-6. Merge promptly
-7. Archive completed work
+1. Pick one tightly scoped change
+2. Implement the smallest complete fix
+3. Run only the checks that match the change
+4. Update docs and the root changelog when the public surface changes
+5. Open a focused pull request and merge promptly
 
 ## Verification
 
@@ -34,5 +32,11 @@ cmake --list-presets
 ```
 
 GPU-dependent changes must be validated on a real CUDA machine.
+
+## Documentation and history
+
+- `CHANGELOG.md` in the repository root is the only changelog
+- GitHub Pages should stay focused on guides, references, and module learning paths
+- Prefer deleting stale instructions over keeping parallel explanations
 
 ## References

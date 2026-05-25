@@ -45,34 +45,13 @@ make GPU_ARCH=sm_86
 make test
 ```
 
-## Canonical workflow
+## Working loop
 
 ### 1. Keep the change small
 
-Use a short-lived branch and keep the scope focused. Do not let local branches and cloud-side branches diverge for long periods.
+Use a short-lived branch and keep the scope focused. This repository prefers narrow fixes, cleanup, and documentation corrections over broad speculative work.
 
-### 2. Start with OpenSpec for non-trivial work
-
-This repository uses [OpenSpec](https://github.com/Fission-AI/OpenSpec) as the only spec workflow.
-
-```text
-/opsx:propose "describe the change"
-```
-
-Work from:
-
-- `openspec/changes/<change-name>/proposal.md`
-- `openspec/changes/<change-name>/specs/spec.md`
-- `openspec/changes/<change-name>/design.md`
-- `openspec/changes/<change-name>/tasks.md`
-
-When the work is done, archive it to:
-
-`openspec/changes/archive/YYYY-MM-DD-<change-name>/`
-
-See `docs/DEVELOPMENT_WORKFLOW.md` for the full process.
-
-### 3. Implement and verify
+### 2. Implement and verify
 
 Run the checks that match your change:
 
@@ -91,9 +70,17 @@ cmake --build --preset default
 ctest --preset default
 ```
 
-### 4. Review before merge
+### 3. Keep docs and history aligned
 
-For non-trivial work, use `/review` before merging. The repo favors fast review and timely merge over long-lived branch stacks.
+If you change the public repository surface, update the matching docs in the same branch.
+
+- `CHANGELOG.md` at the repository root is the only changelog.
+- GitHub Pages should stay focused on learning and reference material, not release-history duplication.
+- Prefer deleting stale explanations over writing a parallel explanation beside them.
+
+### 4. Open a focused pull request
+
+Keep the summary concrete, list the commands you ran, and call out any GPU-only validation that still needs a real CUDA machine.
 
 ## Code and documentation rules
 
@@ -102,23 +89,12 @@ For non-trivial work, use `/review` before merging. The repo favors fast review 
 - update docs in the same change when commands, behavior, or workflow change
 - prefer deleting stale material over adding another layer of explanation beside it
 
-## AI-assisted development
-
-AI-assisted contributions are welcome when they stay specific to this repository and are actually verified.
-
-Use these repo docs as the source of truth:
-
-- `AGENTS.md`
-- `CLAUDE.md`
-- `.github/copilot-instructions.md`
-- `docs/AI_TOOLING.md`
-
 ## Pull requests
 
 A good pull request for this repository:
 
 - is scoped to one change or one tightly related fix set
-- links the relevant OpenSpec change for non-trivial work
+- explains why the change is needed without requiring chat history
 - explains user-facing or workflow-facing impact clearly
 - includes the exact local checks that were run when they matter
 

@@ -79,6 +79,12 @@ The repo is intentionally layered.
 - **Module 03** explores techniques that matter when you are chasing architectural limits rather than just correctness.
 - **Module 04** proves that the earlier modules are useful only if they can be integrated into a whole inference pipeline.
 
+## Build reality before you dive deeper
+
+- The root CMake graph covers `02-tensorcraft-core`, `03-hpc-advanced`, `04-inference-engine`, `common`, and `examples`.
+- `01-sgemm-tutorial` stays intentionally separate behind its own `Makefile`.
+- GitHub-hosted automation is CPU-safe only; real CUDA build and runtime validation belong on a local GPU machine.
+
 ## What each documentation area gives you
 
 | Documentation area | Best used for | Main question it answers |

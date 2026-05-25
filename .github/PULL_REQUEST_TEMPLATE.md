@@ -2,13 +2,6 @@
 
 Describe the change in one short paragraph.
 
-## OpenSpec
-
-<!-- Required for non-trivial work -->
-
-- Change path:
-- Proposal / spec updated:
-
 ## Affected areas
 
 - [ ] 01-sgemm-tutorial
@@ -24,6 +17,11 @@ Describe the change in one short paragraph.
 ```bash
 # List the commands you actually ran
 ```
+
+## Docs and changelog
+
+- [ ] Docs updated if public behavior or workflow changed
+- [ ] Root `CHANGELOG.md` updated if the change is user-facing
 
 ## Review notes
 

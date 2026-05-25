@@ -1,45 +1,27 @@
 # CLAUDE.md
 
-Repository-level instructions for Claude Code and Claude-compatible agents.
-
-## Read first
-
-1. `AGENTS.md`
-2. `docs/DEVELOPMENT_WORKFLOW.md`
-3. `docs/AI_TOOLING.md`
+Minimal repository guidance for Claude-compatible agents.
 
 ## Operating mode
 
-- this repository is in **stabilize and finish** mode
-- prefer bug fixes, cleanup, doc clarity, and workflow simplification
-- avoid speculative features and generic engineering ceremony
-- remove stale parallel process artifacts instead of preserving them
-
-## OpenSpec is mandatory
-
-Use only `openspec/changes/<change-name>/` and `openspec/changes/archive/`.
-
-Every non-trivial change should keep these artifacts aligned:
-
-- `proposal.md`
-- `specs/spec.md`
-- `design.md`
-- `tasks.md`
-
-Use `/review` before merge for non-trivial changes.
+- this repository is in stabilize-and-finish mode
+- prefer cleanup, correctness, and doc clarity over feature growth
+- remove stale process artifacts instead of preserving them
 
 ## Build commands
-
-### Root
 
 ```bash
 cmake --list-presets
 cmake --preset default
 cmake --build --preset default
 ctest --preset default
+
+pre-commit run --all-files
+npm ci
+npm run docs:build
 ```
 
-### Module 01
+For module 01:
 
 ```bash
 cd 01-sgemm-tutorial
@@ -47,30 +29,19 @@ make GPU_ARCH=sm_86
 make test
 ```
 
-### Docs and hygiene
+## Repository cautions
 
-```bash
-pre-commit run --all-files
-npm ci
-npm run docs:build
-```
+- `01-sgemm-tutorial` stays outside the root CMake graph
+- `03-hpc-advanced` needs CUDA 12+ and a modern compiler
+- `04-inference-engine` depends on `02-tensorcraft-core`
+- GPU validation must happen on a real CUDA machine
 
-## Repository-specific cautions
+## Documentation rules
 
-- `01-sgemm-tutorial` is not part of the root CMake graph
-- `03-hpc-advanced` needs CUDA 12+ and modern compiler support
-- `04-inference-engine` requires `02-tensorcraft-core`
-- GitHub Actions only covers CPU-safe checks; GPU validation stays local
-
-## Tooling expectations
-
-- prefer `clangd` with repo compile commands
-- prefer repo guidance files over custom hidden prompts
-- do not commit hidden `.claude/skills` trees or other shadow instruction bundles; keep durable guidance in visible repo docs and OpenSpec
-- keep MCP usage lean; use built-in tools and skills first
-- avoid `/fleet` unless a task clearly benefits from heavy parallelization
-- future handoff work should start from the active OpenSpec change plus visible repo docs, not from prior chat transcripts
+- keep Pages focused on learning and reference material
+- keep `CHANGELOG.md` at the repository root as the only changelog
+- avoid committing local tool state or generated agent artifacts
 
 ## Local overrides
 
-`CLAUDE.local.md` is reserved for untracked personal notes only and should not be committed.
+`CLAUDE.local.md` is reserved for untracked personal notes only.

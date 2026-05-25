@@ -113,7 +113,6 @@ core.*
 # Claude / local AI preferences
 CLAUDE.local.md
 .claude/settings.local.json
-.claude/skills/
 
 # Package managers
 node_modules/
@@ -129,9 +128,5 @@ coverage/
 # Memory debugging
 *.memcheck
 valgrind-out.*
-
-# BMad Method V6
-_bmad/
-_bmad-output/
 
 .worktrees/

@@ -6,9 +6,11 @@ The repository keeps a lightweight changelog focused on release-level milestones
 
 ### Changed
 
-- consolidated repository guidance around OpenSpec, review, and closeout-friendly maintenance
+- removed legacy spec archives and AI control scaffolding from the tracked repository surface
+- consolidated change history into the root `CHANGELOG.md` and removed module-level changelog drift
+- simplified contributor and agent guidance around a small, verification-first workflow
 - rebuilt the landing page and Pages navigation around a showcase-first information architecture
-- simplified AI tooling, contributor workflow, and engineering governance documentation
+- tightened Pages-facing docs around the repository's actual build seams and learning path
 
 ## [1.0.0] - 2026-01-07
 

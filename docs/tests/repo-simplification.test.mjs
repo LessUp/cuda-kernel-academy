@@ -1,0 +1,76 @@
+import test from 'node:test'
+import assert from 'node:assert/strict'
+import path from 'node:path'
+import { execFile } from 'node:child_process'
+import { promisify } from 'node:util'
+import { readFile } from 'node:fs/promises'
+import { fileURLToPath } from 'node:url'
+
+const execFileAsync = promisify(execFile)
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const repoRoot = path.resolve(__dirname, '..', '..')
+
+const guidanceFiles = [
+  'README.md',
+  'README.zh-CN.md',
+  'CONTRIBUTING.md',
+  'AGENTS.md',
+  'CLAUDE.md',
+  '.github/copilot-instructions.md',
+  '.github/PULL_REQUEST_TEMPLATE.md',
+  'docs/en/guides/workflow.md',
+  'docs/zh/guides/workflow.md',
+  'CHANGELOG.md'
+]
+
+const forbiddenFrameworkPatterns = [
+  /\bOpenSpec\b/,
+  /\bopenspec\b/,
+  /\/review\b/,
+  /docs\/AI_TOOLING\.md/,
+  /copilot-setup-steps/i
+]
+
+test('repository guidance drops AI process-framework language', async () => {
+  const violations = []
+
+  for (const relativePath of guidanceFiles) {
+    const content = await readFile(path.join(repoRoot, relativePath), 'utf8')
+
+    for (const pattern of forbiddenFrameworkPatterns) {
+      if (pattern.test(content)) {
+        violations.push(`${relativePath}: matched ${pattern}`)
+      }
+    }
+  }
+
+  assert.deepStrictEqual(
+    violations,
+    [],
+    `Found stale AI process-framework references:\n${violations.join('\n')}`
+  )
+})
+
+test('tracked repo surface keeps one root changelog and no AI control scaffolding', async () => {
+  const { stdout } = await execFileAsync('git', ['ls-files'], { cwd: repoRoot })
+  const trackedFiles = stdout.trim().split('\n').filter(Boolean)
+
+  const trackedChangelogs = trackedFiles.filter((file) => /(^|\/)CHANGELOG\.md$/.test(file))
+  const trackedFrameworkArtifacts = trackedFiles.filter((file) =>
+    file === '.devin/config.local.json'
+    || file === '.github/workflows/copilot-setup-steps.yml'
+    || file.startsWith('openspec/')
+  )
+
+  assert.deepStrictEqual(
+    trackedChangelogs,
+    ['CHANGELOG.md'],
+    `Expected only the root CHANGELOG.md to remain tracked, found:\n${trackedChangelogs.join('\n')}`
+  )
+
+  assert.deepStrictEqual(
+    trackedFrameworkArtifacts,
+    [],
+    `Expected AI control scaffolding to be removed, found:\n${trackedFrameworkArtifacts.join('\n')}`
+  )
+})

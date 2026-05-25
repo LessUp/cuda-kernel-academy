@@ -2,7 +2,7 @@
 
 ## Repository intent
 
-This repository is a multi-module CUDA learning project in **stabilization / closeout mode**. Favor targeted fixes, cleanup, documentation clarity, and workflow simplification over new feature growth.
+This repository is a multi-module CUDA learning project in stabilization mode. Favor targeted fixes, cleanup, documentation clarity, and workflow simplification over new feature growth.
 
 ## Repository shape
 
@@ -12,8 +12,6 @@ This repository is a multi-module CUDA learning project in **stabilization / clo
 - `03-hpc-advanced/` requires CUDA 12+ and modern compiler support
 
 ## Build and verification
-
-Use the existing commands:
 
 ```bash
 cmake --list-presets
@@ -36,29 +34,10 @@ make test
 
 GitHub Actions only runs CPU-safe checks. CUDA runtime validation belongs on a real GPU machine.
 
-## Workflow rules
+## Working rules
 
-- use **OpenSpec** for non-trivial changes
-- while a repo-wide closeout program is active, extend its umbrella change instead of opening parallel umbrella specs
-- keep specs under `openspec/changes/<change-name>/`
-- archive completed changes under `openspec/changes/archive/`
-- do not introduce or revive `.kiro/`-based workflows
-- use `/review` before merging non-trivial changes
-
-## Style and design rules
-
-- follow `.clang-format`, `.editorconfig`, and `docs/CODING_STYLE.md`
-- prefer editing existing files over adding new abstractions
-- do not add generic docs or generic engineering files
-- prefer deleting stale content over maintaining parallel explanations
-- keep GitHub Actions and engineering config minimal and repository-specific
-
-## Tooling rules
-
-- prefer `clangd` backed by repo compile commands for navigation
-- use `scripts/dev/sync-compile-commands.sh <preset>` after configuring CMake
-- keep MCP usage minimal unless it clearly pays for itself
-- keep durable agent guidance in visible repo docs and OpenSpec artifacts; do not add hidden shadow instruction trees
-- use `gh` for repository metadata updates instead of hand-editing descriptions or homepage settings in docs only
-- treat `.github/workflows/copilot-setup-steps.yml` as a manual support workflow rather than routine CI
-- avoid `/fleet` unless a task truly needs large parallel context
+- keep changes small and repository-specific
+- prefer deleting stale content over adding another abstraction or process layer
+- keep GitHub Pages focused on learning and reference material
+- keep `CHANGELOG.md` at the repository root as the only changelog
+- do not commit local tool state or generated agent artifacts

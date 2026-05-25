@@ -30,7 +30,7 @@
 <div class="showcase-metrics">
   <div><strong>4</strong><span>core modules</span></div>
   <div><strong>2</strong><span>build systems</span></div>
-  <div><strong>1</strong><span>OpenSpec workflow</span></div>
+  <div><strong>1</strong><span>root changelog</span></div>
 </div>
 
 ## Why this repo exists
@@ -95,6 +95,7 @@ make test
 - [Development workflow](docs/en/guides/workflow.md)
 - [Coding style](docs/en/reference/coding-style.md)
 - [Troubleshooting](docs/en/reference/troubleshooting.md)
+- [Changelog](CHANGELOG.md)
 - [中文文档首页](docs/zh/index.md)
 - [Contributing](CONTRIBUTING.md)
 - 📖 [技术文档站](https://aicl-lab.github.io/cuda-kernel-academy/) 由 VitePress 驱动，支持 NVIDIA 风格深色主题、交互式图表和学术论文引用。

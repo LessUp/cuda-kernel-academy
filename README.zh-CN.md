@@ -30,7 +30,7 @@
 <div class="showcase-metrics">
   <div><strong>4</strong><span>核心模块</span></div>
   <div><strong>2</strong><span>构建体系</span></div>
-  <div><strong>1</strong><span>OpenSpec 主流程</span></div>
+  <div><strong>1</strong><span>根目录变更日志</span></div>
 </div>
 
 ## 这个项目解决什么问题
@@ -95,6 +95,7 @@ make test
 - [开发流程](docs/zh/guides/workflow.md)
 - [编码风格](docs/zh/reference/coding-style.md)
 - [故障排除](docs/zh/reference/troubleshooting.md)
+- [变更日志](CHANGELOG.md)
 - [English docs home](docs/en/index.md)
 - [贡献指南](CONTRIBUTING.md)
 

@@ -79,6 +79,12 @@ features:
 - **模块 03** 把关注点从“能跑且正确”推进到“逼近架构上限”。
 - **模块 04** 则回答一个更系统的问题：前面这些优化如果不能接入完整推理流程，还有多少工程价值？
 
+## 深入之前先确认构建边界
+
+- 根目录 CMake 覆盖 `02-tensorcraft-core`、`03-hpc-advanced`、`04-inference-engine`、`common` 和 `examples`。
+- `01-sgemm-tutorial` 有意保持为独立 `Makefile` 教程模块。
+- GitHub 托管自动化只做 CPU-safe 检查；真实 CUDA 编译与运行验证仍应在本地 GPU 机器上完成。
+
 ## 文档不同区域分别解决什么问题
 
 | 文档区域 | 最适合什么时候看 | 它回答的核心问题 |
