@@ -6,6 +6,7 @@ The repository keeps a lightweight changelog focused on release-level milestones
 
 ### Changed
 
+- merged the useful RMSNorm verification from the retired HPC lab and fixed the kernel's cross-warp reduction so every thread in a row uses the same full-row statistic
 - established the four Academy modules as the sole maintained successors for the overlapping SGEMM, TensorCraft, HPC optimization, and mini-inference repositories
 - retired duplicate historical variants instead of importing them back into the maintained teaching surface
 - removed repository-tracked AI agent control files and dropped the docs `vitepress-plugin-llms` dependency
