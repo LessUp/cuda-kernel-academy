@@ -42,6 +42,12 @@ Most CUDA learning material is either too small to feel like engineering or too 
 - **module 03** explores more advanced CUDA and HPC patterns
 - **module 04** shows how kernels, memory, streams, and configuration fit into a small inference-oriented system
 
+## Consolidation boundary
+
+CUDA Kernel Academy is the maintained successor for the overlapping learning paths that previously lived in `sgemm-optimization`, `modern-ai-kernels`, `hpc-ai-optimization-lab`, and `mini-inference-engine`. Their focused histories remain available as archived repositories; new work belongs in the matching Academy module.
+
+`llm-speed` is also archived: its GEMM learning path is covered here, while the maintained deep FlashAttention implementation remains in [`cuflash-attn`](https://github.com/AICL-Lab/cuflash-attn). The Academy intentionally keeps only one implementation per teaching role instead of importing every historical variant.
+
 ## Project map
 
 | Module | What you learn | Build path |

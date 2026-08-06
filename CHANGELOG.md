@@ -6,6 +6,8 @@ The repository keeps a lightweight changelog focused on release-level milestones
 
 ### Changed
 
+- established the four Academy modules as the sole maintained successors for the overlapping SGEMM, TensorCraft, HPC optimization, and mini-inference repositories
+- retired duplicate historical variants instead of importing them back into the maintained teaching surface
 - removed repository-tracked AI agent control files and dropped the docs `vitepress-plugin-llms` dependency
 - simplified `04-inference-engine` to a single root-build path that always consumes the parent `TensorCraft::tensorcraft` target
 - collapsed redundant 04-module GEMM wrapper files into one TensorCraft-backed dispatch unit and deleted dead duplicate kernel bodies

@@ -42,6 +42,12 @@
 - **模块 03**：继续深入更复杂的 CUDA / HPC 主题
 - **模块 04**：把 kernel、内存、stream、配置组合成小型推理系统
 
+## 仓库收敛边界
+
+CUDA Kernel Academy 是 `sgemm-optimization`、`modern-ai-kernels`、`hpc-ai-optimization-lab` 和 `mini-inference-engine` 四条重叠学习路径的唯一维护入口。旧仓库以 Archive 保留各自历史；后续改进统一进入对应的 Academy 模块。
+
+`llm-speed` 也进入归档：GEMM 学习路径由本仓库覆盖，仍维护的深度 FlashAttention 实现位于 [`cuflash-attn`](https://github.com/AICL-Lab/cuflash-attn)。本仓库不会搬入每一种历史实现，只为每个教学角色保留一条清晰路径。
+
 ## 项目地图
 
 | 模块 | 你会学到什么 | 构建方式 |
