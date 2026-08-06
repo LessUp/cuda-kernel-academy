@@ -67,6 +67,8 @@ The former `llm-speed` GEMM learning path is covered here, while the maintained 
 | see kernels embedded in a tiny system | [04-inference-engine](04-inference-engine/README.md) |
 | understand how to build, verify, and contribute | [docs/en/index.md](docs/en/index.md) |
 
+For the repository sequence from CUDA fundamentals to LLM serving, see the Chinese [AI Infra beginner learning path](LEARNING_PATH.md). It also records the shared optimization and invariant-testing method used across the five retained projects.
+
 ## Quick start
 
 ```bash

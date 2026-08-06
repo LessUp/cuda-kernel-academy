@@ -15,7 +15,7 @@ project(
   VERSION ${VERSION_STRING}
   LANGUAGES CXX CUDA
   DESCRIPTION "Comprehensive CUDA kernel optimization learning project"
-  HOMEPAGE_URL "https://github.com/LessUp/cuda-kernel-academy")
+  HOMEPAGE_URL "https://github.com/AICL-Lab/cuda-kernel-academy")
 
 # =============================================================================
 # Build Options

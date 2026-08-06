@@ -5,7 +5,7 @@
 ## 获取代码
 
 ```bash
-git clone https://github.com/LessUp/cuda-kernel-academy.git
+git clone https://github.com/AICL-Lab/cuda-kernel-academy.git
 cd cuda-kernel-academy
 ```
 

@@ -67,6 +67,8 @@ CUDA Kernel Academy 是 `sgemm-optimization`、`modern-ai-kernels`、`hpc-ai-opt
 | 看 kernel 如何落到小系统里 | [04-inference-engine](04-inference-engine/README.md) |
 | 了解构建、验证、协作流程 | [docs/zh/index.md](docs/zh/index.md) |
 
+如果目标是从初学者逐步转向 AI Infra 岗位，请按 [AI Infra 初学者学习路径](LEARNING_PATH.md) 串联 CUDA、Triton、FlashAttention、推理运行时和 Serving 五个主仓。该文档也统一保留性能优化与不变量测试的方法。
+
 ## 快速开始
 
 ```bash

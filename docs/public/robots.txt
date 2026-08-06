@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://lessup.github.io/cuda-kernel-academy/sitemap.xml
+Sitemap: https://aicl-lab.github.io/cuda-kernel-academy/sitemap.xml
