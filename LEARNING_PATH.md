@@ -14,6 +14,10 @@
 
 建议按表格顺序推进。前两阶段是基础；后三阶段分别形成 kernel、runtime、serving 方向的作品证据。
 
+> ⚠️ **教学预览**：`cuda-kernel-academy` 的 [04-inference-engine](04-inference-engine/README.md)
+> 是 `tiny-llm` 的简化预习版（教学预览，**非独立作品**），用于演示 kernel/内存/流如何
+> 组装成小系统；真实推理运行时以 `tiny-llm` 为准。
+
 ## 一个可复用的优化循环
 
 ### 1. 先建立正确性基线

@@ -1,5 +1,10 @@
 # 04-inference-engine
 
+> ⚠️ **教学预览**：本模块是 tiny-llm 的简化预习版，用于展示 kernel/内存/流如何
+> 组装成小系统。**真实推理运行时见 [tiny-llm](https://github.com/AICL-Lab/tiny-llm)**。
+> 本模块不追求模型兼容性、量化精度或推理性能。
+
+
 轻量级 CUDA 推理引擎示例，演示如何把 GEMM、Tensor、内存管理和简单权重文件格式组合成一个可运行的推理流程。
 
 ## 当前模块包含的内容

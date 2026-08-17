@@ -76,7 +76,7 @@ The former `llm-speed` GEMM learning path is covered here, while the maintained 
 | [01-sgemm-tutorial](01-sgemm-tutorial/README.md) | tiled SGEMM, bank conflicts, double buffering, WMMA | root CMake + optional `Makefile` |
 | [02-tensorcraft-core](02-tensorcraft-core/README.md) | reusable kernel APIs, header-only layout, operator surface | root/module CMake |
 | [03-hpc-advanced](03-hpc-advanced/README.md) | advanced optimization topics, experiments, CUDA 12+ features | root/module CMake |
-| [04-inference-engine](04-inference-engine/README.md) | tensor plumbing, memory pools, streams, lightweight inference flow | root/module CMake |
+| [04-inference-engine](04-inference-engine/README.md)（教学预览） | tensor plumbing, memory pools, streams, lightweight inference flow | root/module CMake |
 
 ## Start here
 
