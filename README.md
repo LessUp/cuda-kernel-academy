@@ -55,6 +55,20 @@ CUDA Kernel Academy is the maintained successor for the overlapping learning pat
 
 The former `llm-speed` GEMM learning path is covered here, while the maintained deep FlashAttention implementation lives in [`cuflash-attn`](https://github.com/AICL-Lab/cuflash-attn). The Academy intentionally keeps only one implementation per teaching role instead of importing every historical variant.
 
+## Scope（IN / OUT）
+
+**IN（本仓库负责）**：
+- CUDA 编程模型与 kernel 编写（线程/块/共享内存/同步）
+- GEMM 优化阶梯（naive → tiled → bank-conflict-free → double buffering → WMMA）
+- 算子库设计（header-only 布局、operator surface）
+- profiling 与性能分析方法
+
+**OUT（明确不做，见对应仓库）**：
+- 生产级推理运行时（模型加载/采样/生成）→ [tiny-llm](https://github.com/AICL-Lab/tiny-llm)
+- 完整 FlashAttention 前后向与优化 → [cuflash-attn](https://github.com/AICL-Lab/cuflash-attn)
+- Serving / 分页 KV / continuous batching → [paged-infer](https://github.com/AICL-Lab/paged-infer)
+- 本仓库 [04-inference-engine](04-inference-engine/README.md) 为**教学预览**，非独立作品
+
 ## Project map
 
 | Module | What you learn | Build path |
