@@ -1,6 +1,11 @@
 cmake_minimum_required(VERSION 3.20)
 project(HPC-AI-Optimization-Lab LANGUAGES CXX CUDA)
 
+# Respect the repository root build options when configured from the root
+# CMakeLists.txt; default to ON when this module is built standalone.
+option(BUILD_TESTS "Build tests" ON)
+option(BUILD_BENCHMARKS "Build benchmarks" ON)
+
 # C++20 and CUDA standards
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -28,19 +33,13 @@ endif()
 # FetchContent for dependencies
 include(FetchContent)
 
-# GoogleTest
-FetchContent_Declare(
-  googletest
-  GIT_REPOSITORY https://github.com/google/googletest.git
-  GIT_TAG v1.14.0)
-
 # fmt library
 FetchContent_Declare(
   fmt
   GIT_REPOSITORY https://github.com/fmtlib/fmt.git
   GIT_TAG 10.2.1)
 
-# RapidCheck for property-based testing
+# RapidCheck for property-based testing (self-fetched, not provided by root)
 FetchContent_Declare(
   rapidcheck
   GIT_REPOSITORY https://github.com/emil-e/rapidcheck.git
@@ -48,7 +47,17 @@ FetchContent_Declare(
   GIT_SHALLOW FALSE
   GIT_SUBMODULES "")
 
-FetchContent_MakeAvailable(googletest fmt rapidcheck)
+FetchContent_MakeAvailable(fmt rapidcheck)
+
+# GoogleTest: provided by the repository root when configured from there;
+# fetch it locally only for standalone builds (target not yet defined).
+if(BUILD_TESTS AND NOT TARGET GTest::gtest)
+  FetchContent_Declare(
+    googletest
+    GIT_REPOSITORY https://github.com/google/googletest.git
+    GIT_TAG v1.14.0)
+  FetchContent_MakeAvailable(googletest)
+endif()
 
 # CUTLASS (header-only)
 FetchContent_Declare(
@@ -108,9 +117,11 @@ if(BUILD_PYTHON_BINDINGS)
   add_subdirectory(python)
 endif()
 
-# Tests
-enable_testing()
-add_subdirectory(tests)
+# Tests (honor the root BUILD_TESTS option)
+if(BUILD_TESTS)
+  enable_testing()
+  add_subdirectory(tests)
+endif()
 
 # Summary
 message(STATUS "")

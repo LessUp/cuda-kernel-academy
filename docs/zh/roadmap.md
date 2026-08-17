@@ -29,7 +29,7 @@ journey
       Shared Memory: 5: Tiling and Bank Conflict
       Double Buffer: 4: Hiding memory latency
     section 第二阶段：核心库
-      TensorCraft Core: 5: 工业级 API 设计
+      TensorCraft Core: 5: 可复用教学 API 设计
       Modern C++ CUDA: 4: 可复用接口
       Kernel Fusion: 4: 融合与 epilogue 思维
     section 第三阶段：高级 HPC

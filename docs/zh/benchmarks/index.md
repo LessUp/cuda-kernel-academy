@@ -18,33 +18,34 @@ outline: [2, 3]
 2. **模块级表格** 说明每个模块到底在验证什么。
 3. **与 cuBLAS 的对比** 是合理性校验，不代表仓库里的实现要在所有场景里取代 cuBLAS。
 
-::: warning 限制条件同样重要
-本页部分数值是针对 RTX 4090 级别 GPU 的占位参考值。它们适合帮助你理解优化阶梯的形状，但真实验证仍然必须在你自己的 GPU、编译器、时钟状态和 CUDA 版本上完成。
+::: tip 实测数据
+[rtx3060-laptop-2026-08-17](../../en/benchmarks/rtx3060-laptop-2026-08-17) 是当前仓库唯一发布的实测数据。
+占位参考值已从本页移除。
 :::
 
-## SGEMM 优化阶梯
+## SGEMM 优化阶梯（实测，1024^3）
 
-| Kernel | TFLOPS (FP32) | Bandwidth (GB/s) | vs cuBLAS |
-| --- | ---: | ---: | ---: |
-| Naive | 0.5 | 20 | 2% |
-| Tiled | 2.1 | 85 | 10% |
-| Coalesced | 4.5 | 180 | 22% |
-| Double Buffer | 8.2 | 320 | 40% |
-| Vectorized | 12.5 | 480 | 60% |
-| Tensor Core | 18.0 | 700 | 85% |
-| cuBLAS | 21.0 | 820 | 100% |
+硬件：RTX 3060 Laptop，sm_86。完整方法见链接页面。
+
+| Kernel | TFLOPS (FP32) | vs cuBLAS |
+| --- | ---: | ---: |
+| Naive | 0.58 | 10.4% |
+| Tiled | 0.92 | 16.6% |
+| Bank Conflict Free | 0.66 | 11.8% |
+| Double Buffer | 0.68 | 12.2% |
+| Tensor Core WMMA | 1.09 | 19.6% |
+| cuBLAS | 5.58 | 100% |
 
 <BenchmarkChart
-  title="SGEMM 优化阶梯（FP32，RTX 4090 级别参考值）"
+  title="SGEMM 优化阶梯（FP32，RTX 3060 Laptop 实测）"
   unit="TFLOPS"
   :data="[
-    { name: 'Naive', value: 0.5 },
-    { name: 'Tiled', value: 2.1 },
-    { name: 'Coalesced', value: 4.5 },
-    { name: 'Double Buffer', value: 8.2 },
-    { name: 'Vectorized', value: 12.5 },
-    { name: 'Tensor Core', value: 18.0 },
-    { name: 'cuBLAS', value: 21.0 }
+    { name: 'Naive', value: 0.58 },
+    { name: 'Tiled', value: 0.92 },
+    { name: 'Bank Conflict Free', value: 0.66 },
+    { name: 'Double Buffer', value: 0.68 },
+    { name: 'Tensor Core WMMA', value: 1.09 },
+    { name: 'cuBLAS', value: 5.58 }
   ]"
 />
 
@@ -53,12 +54,11 @@ outline: [2, 3]
   unit="% of cuBLAS"
   type="line"
   :data="[
-    { name: 'Naive', value: 2 },
-    { name: 'Tiled', value: 10 },
-    { name: 'Coalesced', value: 22 },
-    { name: 'Double Buffer', value: 40 },
-    { name: 'Vectorized', value: 60 },
-    { name: 'Tensor Core', value: 85 },
+    { name: 'Naive', value: 10.4 },
+    { name: 'Tiled', value: 16.6 },
+    { name: 'Bank Conflict Free', value: 11.8 },
+    { name: 'Double Buffer', value: 12.2 },
+    { name: 'Tensor Core WMMA', value: 19.6 },
     { name: 'cuBLAS', value: 100 }
   ]"
 />

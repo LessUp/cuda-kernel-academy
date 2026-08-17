@@ -1,6 +1,6 @@
 # TensorCraft Core Design
 
-TensorCraft Core (02-tensorcraft-core) is a production-grade CUDA operator library with Header-only design, providing zero-dependency integration, multi-architecture support, and Python bindings.
+TensorCraft Core (02-tensorcraft-core) is a **teaching-grade design study** for a reusable CUDA operator library. This whitepaper describes the intended design patterns; the executable headers are the source of truth and deliberately do not implement every sketch shown here.
 
 ## Design Philosophy
 
@@ -115,8 +115,8 @@ enum class GemmVersion {
     Naive,          // Basic implementation
     Tiled,          // Shared Memory tiling
     DoubleBuffer,   // Double buffering
-    TensorCore,     // Tensor Core acceleration
-    Auto            // Auto-select best
+    // Tensor Core / auto-tuning are deliberately NOT generic enum values.
+    // WMMA is exposed separately as launch_gemm_wmma(half*, half*, float*).
 };
 
 } // namespace tensorcraft
@@ -129,7 +129,7 @@ template<typename T>
 class Gemm {
 public:
     struct Config {
-        GemmVersion version = GemmVersion::Auto;
+        GemmVersion version = GemmVersion::Tiled;
         int BM = 128, BN = 128, BK = 8;  // Tile sizes
         int TM = 8, TN = 8;               // Thread tiles
         cudaStream_t stream = 0;          // CUDA stream
@@ -151,7 +151,7 @@ public:
 
 ## Summary
 
-TensorCraft Core demonstrates design patterns for a production-grade CUDA operator library:
+TensorCraft Core demonstrates design patterns worth studying before building a production CUDA operator library:
 
 1. **Header-only**: Zero-dependency integration, direct include usage
 2. **Multi-architecture support**: Full support from Volta to Hopper

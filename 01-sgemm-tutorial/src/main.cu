@@ -16,6 +16,7 @@
 
 #include <cstdio>
 #include <cstdlib>
+#include <cmath>
 #include <vector>
 #include <string>
 
@@ -106,10 +107,12 @@ void runBenchmarks(int size) {
 
     if (prop.major >= 7) {
         printf("Running Tensor Core SGEMM...\n");
-        // Tensor Core uses FP16 intermediate precision, needs relaxed tolerance
-        // For K=512, expect ~sqrt(K) * FP16_epsilon ≈ 0.01 error
+        // Tensor Core converts inputs to FP16 first. The absolute error grows
+        // roughly with sqrt(K); a fixed 1e-2 absolute tolerance is too strict
+        // for K=2048 and above (measured ~2e-2 max |delta| on sm_86).
+        const float tc_atol = 0.0015f * std::sqrt(static_cast<float>(K));
         benchmark.run("Tensor Core (WMMA)", tensor_core_kernel, M, K, N,
-                      WARMUP_RUNS, BENCHMARK_RUNS, 5e-2f, 1e-2f);
+                      WARMUP_RUNS, BENCHMARK_RUNS, 5e-2f, tc_atol);
     } else {
         printf("Skipping Tensor Core (requires sm_70+, current: sm_%d%d)\n",
                prop.major, prop.minor);
@@ -209,12 +212,10 @@ int main(int argc, char** argv) {
     printf("================================================================================\n");
     printf("\n");
     printf("Performance Evolution Summary:\n");
-    printf("  1. Naive:              Baseline - memory bound, non-coalesced access\n");
-    printf("  2. Tiled:              ~2-5x speedup - shared memory reduces global access\n");
-    printf("  3. Bank Conflict Free: ~1.1-1.3x over Tiled - eliminates bank conflicts\n");
-    printf("  4. Double Buffer:      ~1.1-1.2x over BCF - hides memory latency\n");
-    printf("  5. Tensor Core:        ~2-4x over Double Buffer - hardware acceleration\n");
-    printf("  6. cuBLAS:             Reference - highly optimized library\n");
+    printf("  Exact speedups are hardware-, shape- and compiler-dependent.\n");
+    printf("  Treat the measured table above as this machine's result; the general\n");
+    printf("  lesson is only: shared-memory reuse and hardware acceleration matter,\n");
+    printf("  while micro-optimizations can regress if not profiled (nsys/ncu).\n");
     printf("\n");
     printf("Key Optimization Concepts:\n");
     printf("  - Coalescing: Ensure threads access consecutive memory addresses\n");

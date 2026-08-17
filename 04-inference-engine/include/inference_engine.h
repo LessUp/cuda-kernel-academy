@@ -86,7 +86,9 @@ private:
     std::vector<LayerWeights> layers_;
     cublasHandle_t cublas_handle_ = nullptr;
     cudaStream_t stream_ = nullptr;
-    DeviceMemory temp_buffer_;
+    // CKA-002: ping-pong buffers to prevent in-place aliasing across layers
+    DeviceMemory temp_a_;
+    DeviceMemory temp_b_;
     bool initialized_ = false;
     int device_id_ = 0;
 };

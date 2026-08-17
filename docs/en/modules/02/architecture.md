@@ -4,6 +4,11 @@ outline: [2, 3]
 
 # TensorCraft Core Architecture
 
+::: warning Teaching architecture
+This page describes a teaching design. Headers and tests are authoritative.
+:::
+
+
 This document describes the overall architecture and design decisions of TensorCraft Core.
 
 ## Module Architecture

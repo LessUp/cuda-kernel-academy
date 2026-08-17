@@ -124,6 +124,18 @@ Tensor matmul(const Tensor& A, const Tensor& B) {
         throw std::invalid_argument("matmul dimension mismatch");
     }
 
+    // For batched matmul (ndim >= 3), B's batch dims must match A's batch dims.
+    if (A.ndim() >= 3) {
+        if (B.ndim() != A.ndim()) {
+            throw std::invalid_argument("matmul batch dimension mismatch");
+        }
+        for (int i = 0; i < A.ndim() - 2; i++) {
+            if (B.dim(i) != A.dim(i)) {
+                throw std::invalid_argument("matmul batch dimension mismatch");
+            }
+        }
+    }
+
     // Create output tensor
     std::vector<int> out_shape = A.shape();
     out_shape.back() = N;

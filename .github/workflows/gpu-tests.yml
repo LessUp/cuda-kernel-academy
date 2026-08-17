@@ -1,0 +1,56 @@
+# GPU test suite for CUDA Kernel Academy.
+#
+# Runs the full `ctest --preset default` on a machine with a real NVIDIA GPU.
+# GitHub-hosted runners do not expose GPUs, so this workflow requires a
+# self-hosted runner tagged `gpu` (and a Linux host with an NVIDIA driver +
+# CUDA toolkit 12.x installed).
+#
+# Triggered manually (workflow_dispatch) or on version tags (v*). The
+# CPU-only `cuda-build-smoke` job in ci.yml remains the primary compile check;
+# this workflow is the opt-in GPU verification.
+
+name: GPU Tests
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gpu-tests-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gpu-ctest:
+    name: GPU ctest (preset default)
+    runs-on: [self-hosted, linux, gpu]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install CMake
+        uses: lukka/get-cmake@v4.3.2
+
+      - name: Print GPU / CUDA info
+        run: |
+          nvidia-smi
+          nvcc --version | tail -2
+          cmake --version | head -1
+
+      - name: Configure
+        run: cmake --preset default
+
+      - name: Build
+        run: cmake --build --preset default -j 2
+
+      - name: Run tests
+        run: ctest --preset default
+
+      - name: Run 01 standalone tests
+        run: |
+          cd 01-sgemm-tutorial
+          make test

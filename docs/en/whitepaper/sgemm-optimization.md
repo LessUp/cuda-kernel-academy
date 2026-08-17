@@ -1,5 +1,10 @@
 # SGEMM Optimization Journey
 
+::: warning Performance numbers are teaching placeholders
+The GFLOPS values below are illustrative reference numbers, not repository-reproduced measurements.
+:::
+
+
 This document records the complete optimization path from the most basic SGEMM implementation to the high-performance Tensor Core version. Each step includes principle analysis, code implementation, and performance comparison.
 
 ## Optimization Ladder Overview

@@ -5,6 +5,7 @@
  */
 
 #include <cfloat>
+#include <stdexcept>
 
 #include "../core/cuda_check.hpp"
 #include "../core/features.hpp"
@@ -18,12 +19,19 @@ namespace kernels {
 // ============================================================================
 
 /**
- * @brief FlashAttention kernel with online softmax
+ * @brief FlashAttention kernel with online softmax (educational, simplified)
  *
  * Computes: O = softmax(Q @ K^T / sqrt(d)) @ V
  * Uses tiling and online softmax for memory efficiency.
+ *
+ * CKA-001: BLOCK_M/BLOCK_N defaults reduced to 8/32 to keep thread count
+ * within the 1024/block CUDA limit. K/V shared memory load uses a linear
+ * cooperative loop instead of ty-as-row (which breaks when BLOCK_M != BLOCK_N).
+ *
+ * Note: This is a non-causal, equal-head-count (dense) attention kernel.
+ * It does not support GQA, causal masking, or variable-length sequences.
  */
-template <typename T, int BLOCK_M = 64, int BLOCK_N = 64, int HEAD_DIM = 64>
+template <typename T, int BLOCK_M = 8, int BLOCK_N = 32, int HEAD_DIM = 64>
 __global__ void flash_attention_kernel(const T* TC_RESTRICT Q,  // [batch, heads, seq_len, head_dim]
                                        const T* TC_RESTRICT K,  // [batch, heads, seq_len, head_dim]
                                        const T* TC_RESTRICT V,  // [batch, heads, seq_len, head_dim]
@@ -42,7 +50,6 @@ __global__ void flash_attention_kernel(const T* TC_RESTRICT Q,  // [batch, heads
 
     const int tx = threadIdx.x;
     const int ty = threadIdx.y;
-    const int tid = ty * blockDim.x + tx;
 
     // Offset pointers for this batch/head
     const int offset = (batch_idx * num_heads + head_idx) * seq_len * HEAD_DIM;
@@ -75,11 +82,17 @@ __global__ void flash_attention_kernel(const T* TC_RESTRICT Q,  // [batch, heads
     for (int n_block = 0; n_block < num_kv_blocks; ++n_block) {
         const int n_start = n_block * BLOCK_N;
 
-        // Load K, V tiles
-        for (int d = tx; d < HEAD_DIM; d += blockDim.x) {
-            const int n_idx = n_start + ty;
-            Ks[ty][d] = (n_idx < seq_len) ? to_float(k_ptr[n_idx * HEAD_DIM + d]) : 0.0f;
-            Vs[ty][d] = (n_idx < seq_len) ? to_float(v_ptr[n_idx * HEAD_DIM + d]) : 0.0f;
+        // Load K, V tiles using linear tid cooperative loop.
+        // CKA-001 fix: must not use ty as row index when BLOCK_M != BLOCK_N,
+        // because ty only ranges [0, BLOCK_M) but we need to load BLOCK_N rows.
+        const int tid_lin = ty * blockDim.x + tx;
+        const int block_threads = blockDim.x * blockDim.y;
+        for (int lin = tid_lin; lin < BLOCK_N * HEAD_DIM; lin += block_threads) {
+            const int row = lin / HEAD_DIM;
+            const int col = lin % HEAD_DIM;
+            const int n_idx = n_start + row;
+            Ks[row][col] = (n_idx < seq_len) ? to_float(k_ptr[n_idx * HEAD_DIM + col]) : 0.0f;
+            Vs[row][col] = (n_idx < seq_len) ? to_float(v_ptr[n_idx * HEAD_DIM + col]) : 0.0f;
         }
         __syncthreads();
 
@@ -383,19 +396,39 @@ __global__ void moe_router_kernel(const T* TC_RESTRICT gate_logits,   // [batch,
 
 /**
  * @brief Launch FlashAttention kernel
+ *
+ * CKA-001 fix: Uses dim3(32, 8) = 256 threads (was 2048, exceeding the
+ * 1024 threads/block CUDA limit). Each (ty, tx) computes one QK score;
+ * ty indexes the query row within the BLOCK_M tile.
  */
 template <typename T>
 void launch_flash_attention(const T* Q, const T* K, const T* V, T* O, int batch_size, int num_heads,
                             int seq_len, int head_dim, float scale, cudaStream_t stream = nullptr) {
+    if (!Q || !K || !V || !O) {
+        throw std::invalid_argument("launch_flash_attention: null tensor pointer");
+    }
+    if (batch_size < 0 || seq_len < 0 || num_heads < 0) {
+        throw std::invalid_argument("launch_flash_attention: negative batch/seq/head size");
+    }
+    if (num_heads == 0 && batch_size != 0 && seq_len != 0) {
+        throw std::invalid_argument("launch_flash_attention: num_heads must be > 0");
+    }
     if (batch_size == 0 || seq_len == 0)
         return;
 
-    // Use fixed head_dim=64 for now
-    constexpr int BLOCK_M = 32;
+    // Only head_dim=64 is supported in this simplified educational kernel.
+    // Fail loudly instead of pretending the operator ran successfully.
+    if (head_dim != 64) {
+        throw std::invalid_argument(
+            "launch_flash_attention: only head_dim=64 is supported");
+    }
+
+    constexpr int BLOCK_M = 8;
     constexpr int BLOCK_N = 32;
     constexpr int HEAD_DIM = 64;
 
-    dim3 block(HEAD_DIM, BLOCK_M);
+    // 256 threads per block: dim3(32, 8)
+    dim3 block(BLOCK_N, BLOCK_M);
     dim3 grid((seq_len + BLOCK_M - 1) / BLOCK_M, 1, batch_size * num_heads);
 
     flash_attention_kernel<T, BLOCK_M, BLOCK_N, HEAD_DIM>
@@ -446,6 +479,19 @@ void launch_moe_router(const T* gate_logits, int* expert_indices, float* expert_
                        int batch_size, int num_experts, int top_k, cudaStream_t stream = nullptr) {
     if (batch_size == 0)
         return;
+
+    // The kernel is instantiated with MAX_EXPERTS=8; validate inputs so
+    // out-of-range values fail loudly instead of producing undefined behavior.
+    if (num_experts <= 0 || num_experts > 8) {
+        throw std::invalid_argument("launch_moe_router: num_experts must be in [1, 8]");
+    }
+    if (top_k < 1 || top_k > num_experts) {
+        throw std::invalid_argument(
+            "launch_moe_router: top_k must be in [1, num_experts]");
+    }
+    if (!gate_logits || !expert_indices || !expert_weights) {
+        throw std::invalid_argument("launch_moe_router: null tensor pointer");
+    }
 
     constexpr int BLOCK_SIZE = 256;
     const int grid_size = (batch_size + BLOCK_SIZE - 1) / BLOCK_SIZE;

@@ -162,7 +162,7 @@ private:
 
 ## Summary
 
-04-Inference Engine demonstrates the complete architecture from basic CUDA kernels to a production-grade inference engine:
+04-Inference Engine is a teaching demonstration of how kernels, memory pools and streams fit together. It is intentionally **not** a production-grade inference engine: it runs MLP-style weights, has no real tokenizer/scheduler/KV-cache integration.
 
 1. **Layered design**: Clear responsibility division, easy to understand and extend
 2. **RAII resource management**: All GPU resources automatically managed, no leaks

@@ -4,6 +4,11 @@ outline: [2, 3]
 
 # TensorCraft Core API 参考
 
+::: warning 教学 API 草图
+本页包含为教学演示预留的 API 草图，实际可用接口以头文件为准。部分签名（例如 mask、batched_gemm）可能尚未实现。
+:::
+
+
 本文档提供 TensorCraft Core 库的完整 API 参考。
 
 ## Core 模块
@@ -258,8 +263,8 @@ enum class GemmVersion {
     Naive,        // 朴素实现
     Tiled,        // 共享内存分块
     DoubleBuffer, // 双缓冲
-    TensorCore    // WMMA Tensor Core
 };
+// WMMA/Tensor Core 是独立接口（half -> float），不在通用枚举中。
 
 // 通用 GEMM: C = alpha * A * B + beta * C
 template<typename T>
@@ -272,9 +277,11 @@ void launch_gemm(const T* A, const T* B, T* C, int M, int N, int K,
                  float alpha, float beta, GemmVersion version,
                  cudaStream_t stream = 0);
 
-// WMMA Tensor Core GEMM (half -> float)
+// WMMA Tensor Core GEMM (half -> float)。M/N/K 必须为 16 的倍数；
+// 非倍数会抛 std::invalid_argument。
 void launch_gemm_wmma(const __half* A, const __half* B, float* C,
-                      int M, int N, int K, cudaStream_t stream = 0);
+                      int M, int N, int K, float alpha = 1.0f,
+                      float beta = 0.0f, cudaStream_t stream = 0);
 
 // 矩阵转置
 template<typename T>

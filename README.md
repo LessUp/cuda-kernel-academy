@@ -42,6 +42,13 @@ Most CUDA learning material is either too small to feel like engineering or too 
 - **module 03** explores more advanced CUDA and HPC patterns
 - **module 04** shows how kernels, memory, streams, and configuration fit into a small inference-oriented system
 
+## Repository status
+
+Teaching repository, **maintenance mode**. The four modules are complete and
+the full test suite is green (`ctest --preset default`); no new modules will be
+added here. Active development has moved to the follow-up projects recorded in
+[LEARNING_PATH.md](LEARNING_PATH.md) (e.g. `tiny-llm` and `paged-infer`).
+
 ## Consolidation boundary
 
 CUDA Kernel Academy is the maintained successor for the overlapping learning paths that previously lived in `sgemm-optimization`, `modern-ai-kernels`, `hpc-ai-optimization-lab`, and `mini-inference-engine`. Useful implementations and verification now live in the matching Academy modules; the duplicate repositories have been retired instead of remaining as parallel maintenance surfaces.
@@ -52,7 +59,7 @@ The former `llm-speed` GEMM learning path is covered here, while the maintained 
 
 | Module | What you learn | Build path |
 | --- | --- | --- |
-| [01-sgemm-tutorial](01-sgemm-tutorial/README.md) | tiled SGEMM, bank conflicts, double buffering, WMMA | standalone `Makefile` |
+| [01-sgemm-tutorial](01-sgemm-tutorial/README.md) | tiled SGEMM, bank conflicts, double buffering, WMMA | root CMake + optional `Makefile` |
 | [02-tensorcraft-core](02-tensorcraft-core/README.md) | reusable kernel APIs, header-only layout, operator surface | root/module CMake |
 | [03-hpc-advanced](03-hpc-advanced/README.md) | advanced optimization topics, experiments, CUDA 12+ features | root/module CMake |
 | [04-inference-engine](04-inference-engine/README.md) | tensor plumbing, memory pools, streams, lightweight inference flow | root/module CMake |
@@ -91,8 +98,8 @@ make test
 
 ## Build reality
 
-- the root CMake graph covers `02-tensorcraft-core`, `03-hpc-advanced`, `04-inference-engine`, `common`, and `examples`
-- `01-sgemm-tutorial` intentionally stays outside that graph
+- the root CMake graph covers `01-sgemm-tutorial`, `02-tensorcraft-core`, `03-hpc-advanced`, `04-inference-engine`, `common`, and `examples`
+- the `01-sgemm-tutorial/Makefile` remains available for quick standalone runs, but tests and CI use the root CMake graph
 - GitHub Actions only runs CPU-safe checks
 - real CUDA build and runtime validation should happen on a local GPU machine
 
@@ -105,6 +112,7 @@ make test
 - [Troubleshooting](docs/en/reference/troubleshooting.md)
 - [Changelog](CHANGELOG.md)
 - [中文文档首页](docs/zh/index.md)
+- [Follow-up development plan (executable by coding agents)](DEV_PLAN.md)
 - [Contributing](CONTRIBUTING.md)
 - 📖 [技术文档站](https://aicl-lab.github.io/cuda-kernel-academy/) 由 VitePress 驱动，支持 NVIDIA 风格深色主题、交互式图表和学术论文引用。
 

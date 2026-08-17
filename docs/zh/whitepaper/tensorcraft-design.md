@@ -1,6 +1,6 @@
 # TensorCraft Core 设计
 
-TensorCraft Core (02-tensorcraft-core) 是一个生产级的 CUDA 算子库，采用 Header-only 设计，提供零依赖集成、多架构支持和 Python 绑定。
+TensorCraft Core (02-tensorcraft-core) 是一份**教学级设计研究**，主题是可复用 CUDA 算子库。本文描述的是设计模式；可执行头文件才是事实来源，文中的设计草图并不全部实现。
 
 ## 设计哲学
 
@@ -222,8 +222,8 @@ enum class GemmVersion {
     Naive,          // 基础实现
     Tiled,          // Shared Memory 分块
     DoubleBuffer,   // 双缓冲
-    TensorCore,     // Tensor Core 加速
-    Auto            // 自动选择最优
+    // Tensor Core / 自动调优故意不放进通用枚举；
+    // WMMA 通过 launch_gemm_wmma(half*, half*, float*) 单独暴露。
 };
 
 } // namespace tensorcraft
@@ -239,7 +239,7 @@ class Gemm {
 public:
     // 配置
     struct Config {
-        GemmVersion version = GemmVersion::Auto;
+        GemmVersion version = GemmVersion::Tiled;
         int BM = 128, BN = 128, BK = 8;  // 分块大小
         int TM = 8, TN = 8;               // 线程分块
         cudaStream_t stream = 0;          // CUDA 流
@@ -258,7 +258,7 @@ private:
     template<GemmVersion V>
     void dispatch(const Tensor<T>& A, const Tensor<T>& B, Tensor<T>& C, ...);
     
-    // 自动选择
+    // 自动选择仅为设计草图，当前头文件没有实现 auto-tune
     GemmVersion select_best(int M, int N, int K);
 };
 
@@ -285,7 +285,8 @@ void Gemm<float>::dispatch<GemmVersion::Naive>(
     );
 }
 
-// Tensor Core 版本 (半精度)
+// Tensor Core 设计草图（当前实现是独立的 launch_gemm_wmma，
+// 而不是 GemmVersion 枚举成员）
 template<>
 void Gemm<half>::dispatch<GemmVersion::TensorCore>(
     const Tensor<half>& A,
@@ -478,8 +479,8 @@ TEST_F(GemmTest, NaiveCorrectness) {
     verify_correctness(C_test, C_ref);
 }
 
-TEST_F(GemmTest, TensorCorePerformance) {
-    // 性能测试
+TEST_F(GemmTest, TensorCorePerformanceDesignSketch) {
+    // 设计草图，不是仓库内可直接运行的测试
     auto A = random_tensor<half>(4096, 4096);
     auto B = random_tensor<half>(4096, 4096);
     auto C = Tensor<half>({4096, 4096});
@@ -487,7 +488,7 @@ TEST_F(GemmTest, TensorCorePerformance) {
     Gemm<half> gemm;
     
     auto time = benchmark([&]() {
-        gemm(A, B, C, {.version = GemmVersion::TensorCore});
+        launch_gemm_wmma(A.data(), B.data(), C_float.data(), 4096, 4096, 4096);
     });
     
     double gflops = 2.0 * 4096 * 4096 * 4096 / time / 1e9;
@@ -499,7 +500,7 @@ TEST_F(GemmTest, TensorCorePerformance) {
 
 ## 总结
 
-TensorCraft Core 展示了生产级 CUDA 算子库的设计模式：
+TensorCraft Core 展示了在动手做生产级 CUDA 算子库之前值得学习的设计模式：
 
 1. **Header-only**：零依赖集成，直接包含使用
 2. **多架构支持**：从 Volta 到 Hopper 的完整支持

@@ -62,6 +62,9 @@ public:
     void reshape(const std::vector<int>& new_shape) {
         size_t new_size = 1;
         for (int dim : new_shape) {
+            if (dim < 0) {
+                throw std::invalid_argument("Reshape: negative dimension not allowed");
+            }
             new_size *= dim;
         }
         if (new_size != size_) {

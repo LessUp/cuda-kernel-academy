@@ -24,6 +24,7 @@ project(
 option(BUILD_TENSORCRAFT "Build 02-tensorcraft-core module" ON)
 option(BUILD_HPC_ADVANCED "Build 03-hpc-advanced module" ON)
 option(BUILD_INFERENCE_ENGINE "Build 04-inference-engine module" ON)
+option(BUILD_SGEMM_TUTORIAL "Build 01-sgemm-tutorial module" ON)
 option(BUILD_EXAMPLES "Build examples" ON)
 option(BUILD_TESTS "Build tests" ON)
 option(BUILD_BENCHMARKS "Build benchmarks" ON)
@@ -44,11 +45,18 @@ set(CMAKE_CUDA_STANDARD_REQUIRED ON)
 # CUDA Configuration
 # =============================================================================
 
-# Default CUDA architectures (Volta to Hopper)
-if(NOT DEFINED CMAKE_CUDA_ARCHITECTURES)
+# Default CUDA architectures (Volta to Hopper).
+# CMake pre-defines CMAKE_CUDA_ARCHITECTURES to the toolkit's legacy default
+# (compute_52) during project() language detection, so a plain
+# `cmake -S . -B <dir>` without a preset would otherwise build un-runnable
+# sm_52 code and break the WMMA-based kernels. Guard against that default too.
+if(NOT DEFINED CMAKE_CUDA_ARCHITECTURES
+   OR CMAKE_CUDA_ARCHITECTURES STREQUAL "52")
+  # FORCE: the toolkit default is already cached by project() during language
+  # detection, and a plain set(... CACHE ...) would silently keep the old value.
   set(CMAKE_CUDA_ARCHITECTURES
       "70;75;80;86"
-      CACHE STRING "CUDA architectures")
+      CACHE STRING "CUDA architectures" FORCE)
 endif()
 
 # CUDA compile options
@@ -95,11 +103,33 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 add_subdirectory(common)
 
 # =============================================================================
+# GoogleTest (single canonical FetchContent for all modules)
+# =============================================================================
+# When tests are enabled the root fetches GoogleTest exactly once; the 02/03/04
+# submodules detect the existing GTest::gtest target and skip their own fetch
+# (they keep a fallback so standalone builds still work).
+# =============================================================================
+
+if(BUILD_TESTS)
+  include(FetchContent)
+  FetchContent_Declare(
+    googletest
+    GIT_REPOSITORY https://github.com/google/googletest.git
+    GIT_TAG v1.14.0)
+  set(gtest_force_shared_crt
+      ON
+      CACHE BOOL "" FORCE)
+  FetchContent_MakeAvailable(googletest)
+endif()
+
+# =============================================================================
 # Subprojects
 # =============================================================================
 
-# Note: 01-sgemm-tutorial is a standalone tutorial module with its own Makefile.
-# Build it separately with: cd 01-sgemm-tutorial && make GPU_ARCH=sm_86
+if(BUILD_SGEMM_TUTORIAL)
+  message(STATUS "Building 01-sgemm-tutorial")
+  add_subdirectory(01-sgemm-tutorial)
+endif()
 
 if(BUILD_TENSORCRAFT)
   message(STATUS "Building 02-tensorcraft-core")
@@ -209,7 +239,7 @@ message(STATUS "")
 message(STATUS "Modules:")
 message(
   STATUS
-    "  01-sgemm-tutorial:    Standalone Makefile (cd 01-sgemm-tutorial && make GPU_ARCH=sm_86)"
+    "  01-sgemm-tutorial:    ${BUILD_SGEMM_TUTORIAL} (standalone Makefile still available)"
 )
 message(STATUS "  02-tensorcraft-core:  ${BUILD_TENSORCRAFT}")
 message(STATUS "  03-hpc-advanced:      ${BUILD_HPC_ADVANCED}")

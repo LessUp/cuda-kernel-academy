@@ -11,6 +11,7 @@
  */
 
 #include <algorithm>
+#include <stdexcept>
 
 #include "../core/cuda_check.hpp"
 #include "../core/features.hpp"
@@ -31,8 +32,9 @@ enum class GemmVersion {
     Naive,         // Basic implementation
     Tiled,         // Shared memory tiling
     DoubleBuffer,  // Double buffering for latency hiding
-    TensorCore,    // WMMA tensor core (CUDA 11.0+)
-    Auto           // Automatic selection based on hardware
+    // NOTE: Tensor Core is intentionally NOT an option here.  The generic
+    // launch_gemm<T> returns T, while the WMMA path accumulates in FP32 and
+    // returns float.  Use launch_gemm_wmma(half*, half*, float*) explicitly.
 };
 
 // ============================================================================
@@ -314,7 +316,11 @@ __global__ void transpose_shared_kernel(const T* TC_RESTRICT input, T* TC_RESTRI
 // ============================================================================
 
 /**
- * @brief Launch GEMM kernel with version selection
+ * @brief Launch GEMM kernel with explicit version selection
+ *
+ * This is a teaching dispatcher with three implemented FP32/templated
+ * kernels.  It deliberately does not pretend to auto-tune: callers choose the
+ * version so benchmarks can attribute every delta to one change.
  */
 template <typename T>
 void launch_gemm(const T* A, const T* B, T* C, int M, int N, int K, T alpha = T(1), T beta = T(0),
@@ -341,9 +347,10 @@ void launch_gemm(const T* A, const T* B, T* C, int M, int N, int K, T alpha = T(
                 <<<grid, block, 0, stream>>>(A, B, C, M, N, K, alpha, beta);
             break;
 
-        case GemmVersion::Auto:
         default:
-            // Default to tiled version
+            // Unknown enum values should have been caught by the caller.  Keep
+            // a deterministic fallback so a cast-from-int misuse cannot launch
+            // an uninitialized kernel pointer.
             gemm_tiled_kernel<T, TILE_SIZE>
                 <<<grid, block, 0, stream>>>(A, B, C, M, N, K, alpha, beta);
             break;
@@ -360,6 +367,14 @@ inline void launch_gemm_wmma(const half* A, const half* B, float* C, int M, int 
                              float alpha = 1.0f, float beta = 0.0f, cudaStream_t stream = nullptr) {
     if (M == 0 || N == 0 || K == 0)
         return;
+
+    // The educational WMMA kernel loads complete 16x16 fragments with no
+    // boundary staging.  Accepting non-multiples of 16 would read/write past
+    // the logical matrix extents, so reject them before launch.
+    if (M % 16 != 0 || N % 16 != 0 || K % 16 != 0) {
+        throw std::invalid_argument(
+            "launch_gemm_wmma requires M, N and K to be multiples of 16");
+    }
 
     constexpr int WMMA_M = 16;
     constexpr int WMMA_N = 16;

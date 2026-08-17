@@ -496,7 +496,7 @@ private:
 
 ## 总结
 
-04-Inference Engine 展示了从基础 CUDA kernel 到生产级推理引擎的完整架构：
+04-Inference Engine 是教学演示，展示 kernel、内存池和流如何组装在一起。它**不是生产级推理引擎**：只支持 MLP 式权重，没有 tokenizer、调度器和 KV cache 集成。
 
 1. **分层设计**：清晰的职责划分，易于理解和扩展
 2. **RAII 资源管理**：所有 GPU 资源自动管理，无泄漏

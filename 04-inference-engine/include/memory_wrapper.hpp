@@ -73,6 +73,11 @@ public:
 
         if (allocator) {
             allocator_ = allocator;
+        } else if (!allocator_) {
+            // Default-constructed wrapper must still allocate from the
+            // process-wide pool; otherwise Tensor({shape}) leaves ptr_ null
+            // and later copy/fill operations fail with cudaMemcpy errors.
+            allocator_ = &MemoryPool::instance();
         }
 
         if (bytes > 0 && allocator_) {

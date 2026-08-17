@@ -77,10 +77,6 @@ __global__ void vectorized_gemm(
 
     const int num_tiles = (K + BK - 1) / BK;
 
-    // Elements per thread for loading
-    const int A_STRIDE = NUM_THREADS / BK;  // 32
-    const int B_STRIDE = NUM_THREADS / BK;  // 32
-
     for (int tile = 0; tile < num_tiles; tile++) {
         // Cooperative loading of A tile (transposed storage)
         // Each thread loads multiple elements

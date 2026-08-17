@@ -42,6 +42,10 @@
 - **模块 03**：继续深入更复杂的 CUDA / HPC 主题
 - **模块 04**：把 kernel、内存、stream、配置组合成小型推理系统
 
+## 仓库状态
+
+教学仓库，**维护模式**。四个模块已完成，完整测试套件全绿（`ctest --preset default`），不再新增模块；后续精力投入 [LEARNING_PATH.md](LEARNING_PATH.md) 中记录的后续项目（如 `tiny-llm` 与 `paged-infer`）。
+
 ## 仓库收敛边界
 
 CUDA Kernel Academy 是 `sgemm-optimization`、`modern-ai-kernels`、`hpc-ai-optimization-lab` 和 `mini-inference-engine` 四条重叠学习路径的唯一维护入口。仍有价值的实现和验证已经进入对应 Academy 模块，重复仓库直接退场，不再保留平行维护入口。
@@ -52,7 +56,7 @@ CUDA Kernel Academy 是 `sgemm-optimization`、`modern-ai-kernels`、`hpc-ai-opt
 
 | 模块 | 你会学到什么 | 构建方式 |
 | --- | --- | --- |
-| [01-sgemm-tutorial](01-sgemm-tutorial/README.md) | tiled SGEMM、bank conflict、double buffering、WMMA | 独立 `Makefile` |
+| [01-sgemm-tutorial](01-sgemm-tutorial/README.md) | tiled SGEMM、bank conflict、double buffering、WMMA | 根 CMake + 可选 `Makefile` |
 | [02-tensorcraft-core](02-tensorcraft-core/README.md) | 可复用 kernel API、header-only 组织方式、算子接口 | 根目录 / 模块 CMake |
 | [03-hpc-advanced](03-hpc-advanced/README.md) | 进阶优化主题、实验性 CUDA 12+ 能力 | 根目录 / 模块 CMake |
 | [04-inference-engine](04-inference-engine/README.md) | tensor plumbing、memory pool、stream、轻量推理流程 | 根目录 / 模块 CMake |
@@ -91,14 +95,15 @@ make test
 
 ## 关于构建与验证
 
-- 根目录 CMake 负责 `02-tensorcraft-core`、`03-hpc-advanced`、`04-inference-engine`、`common`、`examples`
-- `01-sgemm-tutorial` 故意保持独立，不进入根目录 CMake 图
+- 根 CMake 图覆盖 `01-sgemm-tutorial`、`02-tensorcraft-core`、`03-hpc-advanced`、`04-inference-engine`、`common` 和 `examples`
+- `01-sgemm-tutorial/Makefile` 仍可用于快速独立运行，但测试与 CI 使用根 CMake 图
 - GitHub Actions 仅做 CPU-safe 检查
 - 真正的 CUDA 编译与运行验证应在本地 GPU 机器上完成
 
 ## 文档入口
 
 - [文档总览](docs/zh/index.md)
+- [后续开发计划（供执行模型使用）](DEV_PLAN.md)
 - [快速开始](docs/zh/guides/getting-started.md)
 - [开发流程](docs/zh/guides/workflow.md)
 - [编码风格](docs/zh/reference/coding-style.md)

@@ -19,7 +19,8 @@ void InferenceEngine::init(int device_id) {
 
 void InferenceEngine::cleanup() {
     layers_.clear();
-    temp_buffer_.free();
+    temp_a_.free();
+    temp_b_.free();
 
     if (cublas_handle_) {
         cublasDestroy(cublas_handle_);
@@ -35,6 +36,10 @@ void InferenceEngine::cleanup() {
 }
 
 bool InferenceEngine::load_weights(const std::string& path) {
+    // Upper bound on the number of layers read from a file, so a corrupted
+    // header cannot trigger an unbounded reserve/allocation (OOM).
+    constexpr uint32_t kMaxLayers = 1024;
+
     std::ifstream file(path, std::ios::binary);
     if (!file.is_open()) {
         return false;
@@ -43,6 +48,9 @@ bool InferenceEngine::load_weights(const std::string& path) {
     // Read header
     WeightFileHeader header;
     file.read(reinterpret_cast<char*>(&header), sizeof(header));
+    if (!file.good()) {
+        return false;  // truncated before a full header
+    }
 
     if (header.magic != WEIGHT_FILE_MAGIC) {
         return false;
@@ -52,6 +60,10 @@ bool InferenceEngine::load_weights(const std::string& path) {
         return false;
     }
 
+    if (header.num_layers > kMaxLayers) {
+        return false;  // unreasonable layer count: refuse to proceed
+    }
+
     layers_.clear();
     layers_.reserve(header.num_layers);
 
@@ -59,6 +71,10 @@ bool InferenceEngine::load_weights(const std::string& path) {
     for (uint32_t i = 0; i < header.num_layers; i++) {
         LayerMeta meta;
         file.read(reinterpret_cast<char*>(&meta), sizeof(meta));
+        if (!file.good()) {
+            layers_.clear();
+            return false;  // truncated in the middle of a layer
+        }
 
         LayerWeights layer;
         layer.in_features = meta.in_features;
@@ -69,6 +85,10 @@ bool InferenceEngine::load_weights(const std::string& path) {
         size_t weight_size = static_cast<size_t>(meta.in_features) * meta.out_features;
         std::vector<float> weight_data(weight_size);
         file.read(reinterpret_cast<char*>(weight_data.data()), weight_size * sizeof(float));
+        if (!file.good()) {
+            layers_.clear();
+            return false;  // truncated weights
+        }
 
         layer.weights.allocate(weight_size * sizeof(float));
         layer.weights.copy_from_host(weight_data.data(), weight_size * sizeof(float));
@@ -77,6 +97,10 @@ bool InferenceEngine::load_weights(const std::string& path) {
         if (layer.has_bias) {
             std::vector<float> bias_data(meta.out_features);
             file.read(reinterpret_cast<char*>(bias_data.data()), meta.out_features * sizeof(float));
+            if (!file.good()) {
+                layers_.clear();
+                return false;  // truncated bias
+            }
 
             layer.bias.allocate(meta.out_features * sizeof(float));
             layer.bias.copy_from_host(bias_data.data(), meta.out_features * sizeof(float));
@@ -131,6 +155,16 @@ bool InferenceEngine::save_weights(const std::string& path) const {
 
 void InferenceEngine::add_layer(int in_features, int out_features, bool has_bias,
                                 const float* weights_data, const float* bias_data) {
+    if (in_features <= 0 || out_features <= 0) {
+        throw std::invalid_argument("add_layer: in_features/out_features must be > 0");
+    }
+    if (!weights_data) {
+        throw std::invalid_argument("add_layer: weights_data must not be null");
+    }
+    if (has_bias && !bias_data) {
+        throw std::invalid_argument("add_layer: has_bias=true but bias_data is null");
+    }
+
     LayerWeights layer;
     layer.in_features = in_features;
     layer.out_features = out_features;
@@ -152,40 +186,71 @@ void InferenceEngine::forward(const float* input, float* output, int batch_size)
     if (layers_.empty()) {
         throw std::runtime_error("No layers loaded");
     }
+    if (!input || !output) {
+        throw std::invalid_argument("forward: input/output pointers must not be null");
+    }
+    if (batch_size <= 0) {
+        throw std::invalid_argument("forward: batch_size must be > 0");
+    }
 
-    // Allocate temp buffer for intermediate results
+    // CKA-002: Allocate two ping-pong buffers for intermediate results.
+    // This prevents in-place aliasing where a layer's output overwrites
+    // its input before the GEMM finishes reading it.
     size_t max_size = 0;
     for (const auto& layer : layers_) {
         max_size = std::max(max_size, static_cast<size_t>(batch_size) *
                                           std::max(layer.in_features, layer.out_features));
     }
 
-    if (temp_buffer_.size() < max_size * sizeof(float)) {
-        temp_buffer_.allocate(max_size * sizeof(float));
+    if (temp_a_.size() < max_size * sizeof(float)) {
+        temp_a_.allocate(max_size * sizeof(float));
+    }
+    if (temp_b_.size() < max_size * sizeof(float)) {
+        temp_b_.allocate(max_size * sizeof(float));
     }
 
     const float* current_input = input;
-    float* current_output = (layers_.size() == 1) ? output : temp_buffer_.get();
+    // For the first intermediate layer, output goes to temp_a.
+    // Then we alternate: temp_a -> temp_b -> temp_a -> ...
+    // The last layer always writes to `output`.
+    float* buf_a = temp_a_.get();
+    float* buf_b = temp_b_.get();
+    float* current_output = (layers_.size() == 1) ? output : buf_a;
+    bool use_buf_a = true;  // next intermediate destination
 
     for (size_t i = 0; i < layers_.size(); i++) {
         const auto& layer = layers_[i];
         bool is_last = (i == layers_.size() - 1);
-        bool apply_relu = !is_last;  // ReLU on all but last layer
+        bool apply_relu = !is_last;
 
         if (is_last) {
             current_output = output;
         }
 
-        // Use fused kernel for MatMul + Bias + ReLU
+        // In-place GEMM would let writes to C overwrite A before every thread
+        // has finished reading its K-slice.  This must be a runtime contract,
+        // not a debug-only assert.
+        if (current_input == current_output) {
+            throw std::invalid_argument(
+                "forward: a layer cannot read and write the same buffer");
+        }
+
         launch_fused_gemm(current_input, layer.weights.get(), current_output,
                           layer.has_bias ? layer.bias.get() : nullptr, batch_size,
                           layer.out_features, layer.in_features, layer.has_bias, apply_relu,
                           stream_);
 
-        // Swap buffers for next layer
+        // Advance: swap to the other buffer for next layer's output
         if (!is_last) {
             current_input = current_output;
-            current_output = (i + 2 == layers_.size()) ? output : temp_buffer_.get();
+            bool next_is_last = (i + 2 == layers_.size());
+            if (next_is_last) {
+                current_output = output;
+            } else {
+                // Alternate between buf_a and buf_b
+                use_buf_a = !use_buf_a;
+                current_output = use_buf_a ? buf_a : buf_b;
+            }
         }
     }
 
@@ -197,23 +262,35 @@ void InferenceEngine::forward_with_timing(const float* input, float* output, int
     if (layers_.empty()) {
         throw std::runtime_error("No layers loaded");
     }
+    if (!input || !output) {
+        throw std::invalid_argument("forward_with_timing: input/output pointers must not be null");
+    }
+    if (batch_size <= 0) {
+        throw std::invalid_argument("forward_with_timing: batch_size must be > 0");
+    }
 
     layer_times_ms.clear();
     layer_times_ms.reserve(layers_.size());
 
-    // Allocate temp buffer
+    // CKA-002: Use same ping-pong buffer logic as forward()
     size_t max_size = 0;
     for (const auto& layer : layers_) {
         max_size = std::max(max_size, static_cast<size_t>(batch_size) *
                                           std::max(layer.in_features, layer.out_features));
     }
 
-    if (temp_buffer_.size() < max_size * sizeof(float)) {
-        temp_buffer_.allocate(max_size * sizeof(float));
+    if (temp_a_.size() < max_size * sizeof(float)) {
+        temp_a_.allocate(max_size * sizeof(float));
+    }
+    if (temp_b_.size() < max_size * sizeof(float)) {
+        temp_b_.allocate(max_size * sizeof(float));
     }
 
     const float* current_input = input;
-    float* current_output = (layers_.size() == 1) ? output : temp_buffer_.get();
+    float* buf_a = temp_a_.get();
+    float* buf_b = temp_b_.get();
+    float* current_output = (layers_.size() == 1) ? output : buf_a;
+    bool use_buf_a = true;
 
     GpuTimer timer;
 
@@ -224,6 +301,11 @@ void InferenceEngine::forward_with_timing(const float* input, float* output, int
 
         if (is_last) {
             current_output = output;
+        }
+
+        if (current_input == current_output) {
+            throw std::invalid_argument(
+                "forward_with_timing: a layer cannot read and write the same buffer");
         }
 
         timer.start(stream_);
@@ -238,7 +320,13 @@ void InferenceEngine::forward_with_timing(const float* input, float* output, int
 
         if (!is_last) {
             current_input = current_output;
-            current_output = (i + 2 == layers_.size()) ? output : temp_buffer_.get();
+            bool next_is_last = (i + 2 == layers_.size());
+            if (next_is_last) {
+                current_output = output;
+            } else {
+                use_buf_a = !use_buf_a;
+                current_output = use_buf_a ? buf_a : buf_b;
+            }
         }
     }
 }

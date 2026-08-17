@@ -18,7 +18,7 @@ void print_header() {
     std::cout << "\n";
 }
 
-void print_results(const std::string& name, int M, int N, int K, const PerfStats& stats) {
+void print_results(const std::string& name, const PerfStats& stats) {
     std::cout << std::setw(16) << name << " | " << std::setw(8) << std::fixed
               << std::setprecision(3) << stats.kernel_time_ms << " ms"
               << " | " << std::setw(10) << std::fixed << std::setprecision(2) << stats.gflops
@@ -59,7 +59,7 @@ void run_benchmark(int M, int N, int K, cublasHandle_t cublas_handle) {
     PerfStats cublas_stats = benchmark_kernel(GemmKernelType::CUBLAS, d_A.get(), d_B.get(),
                                               d_C.get(), M, N, K, 10, 50, cublas_handle);
     cublas_stats.cublas_ratio = 1.0f;
-    print_results("cuBLAS", M, N, K, cublas_stats);
+    print_results("cuBLAS", cublas_stats);
 
     // Benchmark each kernel
     std::vector<std::pair<GemmKernelType, std::string>> kernels = {
@@ -74,7 +74,7 @@ void run_benchmark(int M, int N, int K, cublasHandle_t cublas_handle) {
         PerfStats stats =
             benchmark_kernel(type, d_A.get(), d_B.get(), d_C.get(), M, N, K, 10, 50, cublas_handle);
         stats.cublas_ratio = stats.gflops / cublas_stats.gflops;
-        print_results(name, M, N, K, stats);
+        print_results(name, stats);
     }
 
     std::cout
@@ -151,6 +151,8 @@ void verify_correctness(int M, int N, int K) {
 }
 
 int main(int argc, char** argv) {
+    (void)argc;
+    (void)argv;
     try {
         CUDA_CHECK(cudaSetDevice(0));
 

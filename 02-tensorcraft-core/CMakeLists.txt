@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.20)
 project(
   TensorCraft-HPC
   VERSION 1.0.0
-  DESCRIPTION "High-Performance AI Kernels with Modern C++ & CUDA"
+  DESCRIPTION "Teaching CUDA kernels with modern C++ and CUDA"
   LANGUAGES CXX CUDA)
 
 # ============================================================================
@@ -85,7 +85,9 @@ option(TC_BUILD_DOCS "Build documentation" OFF)
 # ============================================================================
 include(FetchContent)
 
-if(TC_BUILD_TESTS)
+# GoogleTest is provided by the repository root when configured from there;
+# fetch it locally only for standalone builds (target not yet defined).
+if(TC_BUILD_TESTS AND NOT TARGET GTest::gtest)
   FetchContent_Declare(
     googletest
     GIT_REPOSITORY https://github.com/google/googletest.git
@@ -143,9 +145,7 @@ endif()
 
 if(TC_BUILD_PYTHON)
   set(TC_PYTHON_BINDING_SOURCES
-      ${CMAKE_CURRENT_SOURCE_DIR}/src/python_ops/bindings.cpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/src/python_ops/tensor_bindings.cpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/src/python_ops/kernel_bindings.cpp)
+      ${CMAKE_CURRENT_SOURCE_DIR}/src/python_ops/bindings.cpp)
 
   set(TC_CAN_BUILD_PYTHON ON)
   foreach(tc_python_source IN LISTS TC_PYTHON_BINDING_SOURCES)

@@ -4,6 +4,11 @@ outline: [2, 3]
 
 # CUDA 13 & Hopper Features
 
+::: warning Performance numbers are teaching placeholders
+The TFLOPS, speedup and memory figures on this page are reference values, not results reproduced by this repository on a pinned hardware/software stack. Re-measure on your own GPU before quoting them.
+:::
+
+
 New features in the CUDA 12/13 era related to the Hopper architecture.
 
 ## Key Features

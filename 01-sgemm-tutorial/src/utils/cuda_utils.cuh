@@ -11,7 +11,6 @@
 
 #include <cuda_runtime.h>
 #include <cublas_v2.h>
-#include <curand.h>
 #include <cstdio>
 #include <cstdlib>
 #include <random>
@@ -35,16 +34,6 @@
         cublasStatus_t status = call;                                          \
         if (status != CUBLAS_STATUS_SUCCESS) {                                 \
             fprintf(stderr, "cuBLAS error at %s:%d: %d\n", __FILE__, __LINE__, \
-                    static_cast<int>(status));                                 \
-            exit(EXIT_FAILURE);                                                \
-        }                                                                      \
-    } while (0)
-
-#define CURAND_CHECK(call)                                                     \
-    do {                                                                       \
-        curandStatus_t status = call;                                          \
-        if (status != CURAND_STATUS_SUCCESS) {                                 \
-            fprintf(stderr, "cuRAND error at %s:%d: %d\n", __FILE__, __LINE__, \
                     static_cast<int>(status));                                 \
             exit(EXIT_FAILURE);                                                \
         }                                                                      \
@@ -177,28 +166,6 @@ inline void initConstantMatrix(float* data, int rows, int cols, float val) {
     for (int i = 0; i < rows * cols; ++i) {
         data[i] = val;
     }
-}
-
-// ============================================================================
-// GPU Random Initialization (using cuRAND)
-// ============================================================================
-
-inline void initRandomMatrixGPU(float* d_data, int rows, int cols,
-                                float min_val = -1.0f, float max_val = 1.0f,
-                                unsigned long long seed = 42) {
-    curandGenerator_t gen;
-    CURAND_CHECK(curandCreateGenerator(&gen, CURAND_RNG_PSEUDO_DEFAULT));
-    CURAND_CHECK(curandSetPseudoRandomGeneratorSeed(gen, seed));
-
-    // Generate uniform [0, 1)
-    CURAND_CHECK(curandGenerateUniform(gen, d_data, rows * cols));
-
-    // Scale to [min_val, max_val]
-    float scale = max_val - min_val;
-    // Simple kernel to scale values
-    // For simplicity, we'll do this on CPU for now
-
-    curandDestroyGenerator(gen);
 }
 
 // ============================================================================

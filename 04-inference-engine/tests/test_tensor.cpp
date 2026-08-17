@@ -31,6 +31,9 @@ TEST_F(TensorTest, CreateEmpty) {
 TEST_F(TensorTest, CreateWithShape) {
     Tensor t({2, 3, 4});
     EXPECT_FALSE(t.empty());
+    // Regression: default-constructed MemoryWrapper must fall back to the
+    // MemoryPool allocator, otherwise the tensor never allocates device memory.
+    EXPECT_NE(t.data(), nullptr);
     EXPECT_EQ(t.size(), 24);
     EXPECT_EQ(t.ndim(), 3);
     EXPECT_EQ(t.dim(0), 2);
@@ -74,6 +77,12 @@ TEST_F(TensorTest, Reshape) {
 TEST_F(TensorTest, ReshapeInvalidSize) {
     Tensor t({2, 3, 4});
     EXPECT_THROW(t.reshape({5, 5}), std::invalid_argument);
+}
+
+TEST_F(TensorTest, ReshapeNegativeDimThrows) {
+    Tensor t({2, 3, 4});
+    EXPECT_THROW(t.reshape({-1, 24}), std::invalid_argument);
+    EXPECT_THROW(t.reshape({6, -4}), std::invalid_argument);
 }
 
 // ============================================================================
@@ -188,6 +197,21 @@ TEST_F(TensorTest, MatMul) {
     auto c_result = c.to_host();
     float max_error = compare_matrices(c_result.data(), c_ref.data(), 8);
     EXPECT_LT(max_error, 1e-4f);
+}
+
+TEST_F(TensorTest, MatMulBatchShapeMismatchThrows) {
+    // A: 2x3x4 (batch 2), B: 3x4x5 (batch 3) -> batch dims must match.
+    std::vector<float> a_data(24), b_data(60);
+    random_init(a_data.data(), 24);
+    random_init(b_data.data(), 60);
+
+    Tensor a({2, 3, 4}, a_data.data());
+    Tensor b({3, 4, 5}, b_data.data());
+    EXPECT_THROW(matmul(a, b), std::invalid_argument);
+
+    // Different ndim (A 3D, B 2D) is also a batch mismatch.
+    Tensor b2d({4, 5}, b_data.data());
+    EXPECT_THROW(matmul(a, b2d), std::invalid_argument);
 }
 
 TEST_F(TensorTest, FusedLinearReLU) {

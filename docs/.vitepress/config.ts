@@ -217,7 +217,8 @@ export default withMermaid(defineConfig({
             items: [
               { text: 'Getting Started', link: '/en/guides/getting-started', activeMatch: '/en/guides/' },
               { text: 'Workflow', link: '/en/guides/workflow', activeMatch: '/en/guides/' },
-              { text: 'Reading Paths', link: '/en/guides/reading-paths', activeMatch: '/en/guides/' }
+              { text: 'Reading Paths', link: '/en/guides/reading-paths', activeMatch: '/en/guides/' },
+              { text: 'Profiling', link: '/en/guides/profiling', activeMatch: '/en/guides/' }
             ]
           },
           {
@@ -317,7 +318,8 @@ export default withMermaid(defineConfig({
               items: [
                 { text: 'Getting Started', link: '/en/guides/getting-started' },
                 { text: 'Workflow', link: '/en/guides/workflow' },
-                { text: 'Reading Paths', link: '/en/guides/reading-paths' }
+                { text: 'Reading Paths', link: '/en/guides/reading-paths' },
+                { text: 'Profiling', link: '/en/guides/profiling' }
               ]
             },
             {

@@ -4,7 +4,7 @@ outline: [2, 3]
 
 # 02-TensorCraft Core
 
-TensorCraft Core is the core operator library of CUDA Kernel Academy, providing production-grade CUDA kernel implementations. It uses a header-only design for easy integration.
+TensorCraft Core is the teaching operator library of CUDA Kernel Academy. It uses a header-only design for easy reading and experimentation. It is **not** a production-grade kernel library: boundary handling, operator coverage, and performance are deliberately scoped for learning.
 
 ## Design Principles
 

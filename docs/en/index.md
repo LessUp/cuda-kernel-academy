@@ -24,7 +24,7 @@ features:
     link: /en/modules/02-tensorcraft
   - icon: <span class="feature-icon">03</span>
     title: HPC Advanced
-    details: "Study the module that pushes toward production-grade performance with CUTLASS, FlashAttention, register tiling, and newer CUDA features."
+    details: "Study the techniques production stacks build on: CUTLASS-style tiling, FlashAttention, register tiling, and newer CUDA features (teaching implementations)."
     link: /en/modules/03-hpc
   - icon: <span class="feature-icon">04</span>
     title: Inference Engine

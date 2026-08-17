@@ -1,6 +1,5 @@
 # TensorCraft-HPC Python Bindings
-pybind11_add_module(tensorcraft_ops bindings.cpp tensor_bindings.cpp
-                    kernel_bindings.cpp)
+pybind11_add_module(tensorcraft_ops bindings.cpp)
 
 target_link_libraries(tensorcraft_ops PRIVATE tensorcraft CUDA::cudart)
 

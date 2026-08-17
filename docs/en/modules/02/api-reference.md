@@ -4,6 +4,11 @@ outline: [2, 3]
 
 # TensorCraft Core API Reference
 
+::: warning Teaching API sketch
+This page contains aspirational API sketches. The headers are the source of truth; some signatures shown here (e.g. mask or batched_gemm) are not implemented.
+:::
+
+
 Complete API reference for the TensorCraft Core library.
 
 ## Core Module
@@ -258,8 +263,9 @@ enum class GemmVersion {
     Naive,        // Simple implementation
     Tiled,        // Shared memory tiling
     DoubleBuffer, // Double buffering
-    TensorCore    // WMMA Tensor Core
 };
+// WMMA/Tensor Core is a separate half -> float entry point, not part of
+// the generic enum.
 
 // Generic GEMM: C = alpha * A * B + beta * C
 template<typename T>
@@ -272,9 +278,11 @@ void launch_gemm(const T* A, const T* B, T* C, int M, int N, int K,
                  float alpha, float beta, GemmVersion version,
                  cudaStream_t stream = 0);
 
-// WMMA Tensor Core GEMM (half -> float)
+// WMMA Tensor Core GEMM (half -> float). M/N/K must be multiples of 16;
+// otherwise std::invalid_argument is thrown.
 void launch_gemm_wmma(const __half* A, const __half* B, float* C,
-                      int M, int N, int K, cudaStream_t stream = 0);
+                      int M, int N, int K, float alpha = 1.0f,
+                      float beta = 0.0f, cudaStream_t stream = 0);
 
 // Matrix transpose
 template<typename T>

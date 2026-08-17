@@ -4,7 +4,7 @@ outline: [2, 3]
 
 # 02-TensorCraft Core
 
-TensorCraft Core 是 CUDA Kernel Academy 的核心算子库，提供生产级的 CUDA kernel 实现。采用 Header-Only 设计，易于集成到其他项目中。
+TensorCraft Core 是 CUDA Kernel Academy 的教学算子库。采用 Header-Only 设计便于阅读和实验，但**不是生产级实现**：边界处理、算子覆盖和性能都按学习目标做了裁剪。
 
 ## 模块定位
 
@@ -161,7 +161,7 @@ launch_gemm(d_A, d_B, d_C, M, N, K,
             GemmVersion::Tiled,            // 版本选择
             stream);
 
-// Tensor Core (half 精度)
+// WMMA Tensor Core：half 输入、float 输出；M/N/K 必须为 16 的倍数
 #ifdef TC_HAS_WMMA
 launch_gemm_wmma(d_A_half, d_B_half, d_C_float, M, N, K);
 #endif
@@ -183,13 +183,9 @@ launch_rope(d_x, d_cos, d_sin, batch_size, seq_len, num_heads, head_dim);
 
 ## 性能基准
 
-在 NVIDIA RTX 3090 上的 GEMM 性能：
-
-| 矩阵大小 | Naive | Tiled | Double Buffer | cuBLAS |
-|----------|-------|-------|---------------|--------|
-| 512 × 512 | 15 GFLOPS | 180 GFLOPS | 220 GFLOPS | 280 GFLOPS |
-| 1024 × 1024 | 18 GFLOPS | 350 GFLOPS | 450 GFLOPS | 520 GFLOPS |
-| 2048 × 2048 | 20 GFLOPS | 480 GFLOPS | 620 GFLOPS | 750 GFLOPS |
+本页**不发布未复现的性能数字**。请在本机运行 `gemm_benchmark`，并记录 GPU、
+驱动、CUDA 版本、形状、warmup 和迭代次数。历史表格中未经本机复现的数字
+已删除，避免把占位参考值误当成事实。
 
 ## 相关模块
 

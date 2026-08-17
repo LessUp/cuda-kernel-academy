@@ -37,6 +37,8 @@ void print_header() {
 }
 
 int main(int argc, char** argv) {
+    (void)argc;
+    (void)argv;
     try {
         print_header();
 

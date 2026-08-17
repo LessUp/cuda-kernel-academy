@@ -28,26 +28,27 @@
 
 ## 构建方式
 
-该模块是**独立教程模块**，不参与根目录 CMake 构建。
-
-### 构建 benchmark
+推荐通过根目录 CMake 构建并测试（01 模块已纳入根 `ctest`）：
 
 ```bash
-cd 01-sgemm-tutorial
-make GPU_ARCH=sm_86
-./build/sgemm_benchmark
+cd ..
+cmake --preset default
+cmake --build --preset default
+ctest --preset default
 ```
 
-### 运行测试
+也可以使用独立 Makefile：
 
 ```bash
 cd 01-sgemm-tutorial
+make GPU_ARCH=sm_86 benchmark
 make test
 ```
 
 说明：
 
-- `make test` 依赖系统可用的 GoogleTest（例如通过包管理器安装 `gtest` / `libgtest-dev`）。
+- Makefile 默认使用 `PATH` 中的 `nvcc`，可显式覆盖：`make NVCC=/path/to/nvcc`。
+- `make test` 会自动克隆 v1.14.0 GoogleTest 到 `build/googletest`，不依赖系统 gtest 包。
 - `GPU_ARCH` 可按本机 GPU 调整，例如 `sm_80`、`sm_86`、`sm_89`、`sm_90`。
 
 ## 学习路径中的位置

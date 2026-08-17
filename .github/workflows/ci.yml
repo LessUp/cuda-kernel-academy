@@ -68,6 +68,35 @@ jobs:
           test -f _site/404.html || exit 1
           test -f _site/assets/styles/website.css || exit 1
 
+  cuda-build-smoke:
+    name: CUDA Build Smoke (CPU-only runner, no GPU tests)
+    runs-on: ubuntu-latest
+    container: nvidia/cuda:12.2.2-devel-ubuntu22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install build tools
+        run: |
+          apt-get update
+          DEBIAN_FRONTEND=noninteractive apt-get install -y \
+            cmake ninja-build g++ git ca-certificates
+
+      - name: Configure
+        run: |
+          cmake -S . -B build/ci -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_CUDA_ARCHITECTURES=70 \
+            -DBUILD_TESTS=ON \
+            -DBUILD_BENCHMARKS=OFF \
+            -DBUILD_PYTHON_BINDINGS=OFF
+
+      - name: Build every module
+        run: cmake --build build/ci -j 2
+
+      - name: List tests (run requires a GPU)
+        run: ctest --test-dir build/ci -N
+
   cmake-presets:
     name: CMake Preset Sanity
     runs-on: ubuntu-latest

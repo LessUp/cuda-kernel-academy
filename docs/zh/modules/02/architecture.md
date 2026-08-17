@@ -4,6 +4,11 @@ outline: [2, 3]
 
 # TensorCraft Core 架构设计
 
+::: warning 教学架构说明
+本页描述的教学设计不全部对应生产级实现；以头文件和测试为准。
+:::
+
+
 本文档描述 TensorCraft Core 的整体架构和设计决策。
 
 ## 设计原则
@@ -202,7 +207,8 @@ __global__ void elementwise_kernel(const T* in, T* out, size_t n, Func func) {
 通过枚举选择优化级别：
 
 ```cpp
-enum class GemmVersion { Naive, Tiled, DoubleBuffer, TensorCore };
+enum class GemmVersion { Naive, Tiled, DoubleBuffer };
+// WMMA/Tensor Core 使用独立的 launch_gemm_wmma(half*, half*, float*)。
 
 template<typename T>
 void launch_gemm(const T* A, const T* B, T* C, int M, int N, int K,

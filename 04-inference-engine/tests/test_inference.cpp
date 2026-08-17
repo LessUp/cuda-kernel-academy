@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 
+#include <cstring>
 #include <filesystem>
+#include <fstream>
 
 #include "inference_engine.h"
 
@@ -180,9 +182,89 @@ TEST_F(InferenceTest, LoadNonExistentFile) {
     EXPECT_FALSE(engine_.load_weights("/nonexistent/path/weights.bin"));
 }
 
+TEST_F(InferenceTest, LoadTruncatedFileFails) {
+    // A file that contains a valid header but no layer body must fail to load
+    // (stream read fails mid-way instead of silently succeeding).
+    const std::string test_path = make_test_path("test_weights_truncated.bin");
+
+    {
+        std::ofstream file(test_path, std::ios::binary);
+        ASSERT_TRUE(file.is_open());
+        WeightFileHeader header;
+        header.magic = WEIGHT_FILE_MAGIC;
+        header.version = WEIGHT_FILE_VERSION;
+        header.num_layers = 1;
+        std::memset(header.reserved, 0, sizeof(header.reserved));
+        file.write(reinterpret_cast<const char*>(&header), sizeof(header));
+        // No layer body follows -> truncated file.
+    }
+
+    InferenceEngine engine2;
+    engine2.init(0);
+    EXPECT_FALSE(engine2.load_weights(test_path));
+    EXPECT_EQ(engine2.num_layers(), 0);  // partial state must be rolled back
+    engine2.cleanup();
+
+    std::remove(test_path.c_str());
+}
+
+TEST_F(InferenceTest, LoadHugeNumLayersFails) {
+    // A corrupted header claiming an unreasonable layer count must be rejected
+    // instead of triggering an unbounded allocation.
+    const std::string test_path = make_test_path("test_weights_huge_layers.bin");
+
+    {
+        std::ofstream file(test_path, std::ios::binary);
+        ASSERT_TRUE(file.is_open());
+        WeightFileHeader header;
+        header.magic = WEIGHT_FILE_MAGIC;
+        header.version = WEIGHT_FILE_VERSION;
+        header.num_layers = 0xffffffffu;  // absurd layer count
+        std::memset(header.reserved, 0, sizeof(header.reserved));
+        file.write(reinterpret_cast<const char*>(&header), sizeof(header));
+    }
+
+    EXPECT_FALSE(engine_.load_weights(test_path));
+
+    std::remove(test_path.c_str());
+}
+
 TEST_F(InferenceTest, ForwardWithNoLayers) {
     DeviceMemory d_input(100 * sizeof(float));
     DeviceMemory d_output(10 * sizeof(float));
 
     EXPECT_THROW(engine_.forward(d_input.get(), d_output.get(), 1), std::runtime_error);
+}
+
+TEST_F(InferenceTest, AddLayerRejectsInvalidInputs) {
+    std::vector<float> w(10);
+    EXPECT_THROW(engine_.add_layer(0, 10, false, w.data()), std::invalid_argument);
+    EXPECT_THROW(engine_.add_layer(10, 0, false, w.data()), std::invalid_argument);
+    EXPECT_THROW(engine_.add_layer(10, 10, false, nullptr), std::invalid_argument);
+    EXPECT_THROW(engine_.add_layer(10, 10, true, w.data(), nullptr),
+                 std::invalid_argument);
+}
+
+TEST_F(InferenceTest, ForwardRejectsInvalidInputs) {
+    std::vector<float> w(4), b(2);
+    random_init(w.data(), w.size());
+    random_init(b.data(), b.size());
+    engine_.add_layer(2, 2, true, w.data(), b.data());
+
+    DeviceMemory d_input(2 * sizeof(float));
+    DeviceMemory d_output(2 * sizeof(float));
+
+    EXPECT_THROW(engine_.forward(nullptr, d_output.get(), 1), std::invalid_argument);
+    EXPECT_THROW(engine_.forward(d_input.get(), nullptr, 1), std::invalid_argument);
+    EXPECT_THROW(engine_.forward(d_input.get(), d_output.get(), 0), std::invalid_argument);
+}
+
+TEST_F(InferenceTest, ForwardRejectsInPlaceSingleLayer) {
+    std::vector<float> w(4), b(2);
+    random_init(w.data(), w.size());
+    random_init(b.data(), b.size());
+    engine_.add_layer(2, 2, true, w.data(), b.data());
+
+    DeviceMemory d_io(2 * sizeof(float));
+    EXPECT_THROW(engine_.forward(d_io.get(), d_io.get(), 1), std::invalid_argument);
 }

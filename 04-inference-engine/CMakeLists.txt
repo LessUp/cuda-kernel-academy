@@ -84,18 +84,22 @@ add_executable(detailed_benchmark benchmarks/detailed_benchmark.cu)
 target_link_libraries(detailed_benchmark mini_inference CUDA::cudart
                       CUDA::cublas)
 
-# Testing with Google Test (optional)
+# Testing with Google Test (optional).
+# GoogleTest is provided by the repository root when configured from there;
+# fetch it locally only for standalone builds (target not yet defined).
 if(BUILD_TESTS)
-  include(FetchContent)
-  FetchContent_Declare(
-    googletest
-    URL https://github.com/google/googletest/archive/refs/tags/v1.14.0.tar.gz
-    URL_HASH MD5=c8340a482851ef6a3fe618a082304cfc
-    DOWNLOAD_EXTRACT_TIMESTAMP TRUE)
-  set(gtest_force_shared_crt
-      ON
-      CACHE BOOL "" FORCE)
-  FetchContent_MakeAvailable(googletest)
+  if(NOT TARGET GTest::gtest)
+    include(FetchContent)
+    FetchContent_Declare(
+      googletest
+      URL https://github.com/google/googletest/archive/refs/tags/v1.14.0.tar.gz
+      URL_HASH MD5=c8340a482851ef6a3fe618a082304cfc
+      DOWNLOAD_EXTRACT_TIMESTAMP TRUE)
+    set(gtest_force_shared_crt
+        ON
+        CACHE BOOL "" FORCE)
+    FetchContent_MakeAvailable(googletest)
+  endif()
 
   enable_testing()
 

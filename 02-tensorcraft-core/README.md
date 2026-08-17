@@ -1,7 +1,7 @@
-# 🔧 TensorCraft Core: High-Performance AI Kernel Library
+# 🔧 TensorCraft Core: Teaching CUDA Kernel Library
 
 <p align="center">
-  <b>工业级高性能 AI 算子库 - Header-Only 设计</b>
+  <b>教学用 CUDA 算子库 - Header-Only 设计（不是生产级实现）</b>
 </p>
 
 <p align="center">
@@ -15,9 +15,9 @@
 
 ## 📖 模块简介
 
-**TensorCraft Core** 是 CUDA Kernel Academy 的核心算子库，提供生产级的 CUDA kernel 实现。采用 Header-Only 设计，易于集成到其他项目中。
+**TensorCraft Core** 是 CUDA Kernel Academy 的教学算子库，用于学习可复用 kernel API、正确性验证和基准测量方法。它采用 Header-Only 设计，便于阅读和实验，但**不承诺生产级性能、完整边界处理或全算子覆盖**。
 
-> **🎯 学习目标**：掌握工业级 API 设计、理解多种算子实现、学会在项目中集成高性能库
+> **🎯 学习目标**：理解可复用 kernel API 设计、学会用独立参考实现验证正确性、学会测量并解释性能
 
 ## 🗺️ 在学习路径中的位置
 
@@ -40,9 +40,9 @@
 |------|------|
 | 📦 **Header-Only** | 纯头文件设计，零编译依赖 |
 | 🚀 **多架构支持** | Volta (sm_70) 到 Hopper (sm_90) |
-| 🐍 **Python 绑定** | pybind11 提供 Python 接口 |
+| 🐍 **Python 绑定** | 最小 pybind11 接口（elementwise/softmax/norm/GEMM） |
 | 🧪 **完整测试** | GoogleTest 单元测试 |
-| 📊 **性能基准** | Google Benchmark 性能测试 |
+| 📊 **性能基准** | Google Benchmark 骨架，数字需在本地 GPU 实测 |
 
 ## 📁 目录结构
 
@@ -126,7 +126,7 @@ launch_gemm(d_A, d_B, d_C, M, N, K,
             GemmVersion::Tiled,            // 版本选择
             stream);
 
-// Tensor Core (half 精度)
+// WMMA Tensor Core（half 输入，float 输出；M/N/K 必须为 16 的倍数）
 #ifdef TC_HAS_WMMA
 launch_gemm_wmma(d_A_half, d_B_half, d_C_float, M, N, K);
 #endif
@@ -158,7 +158,10 @@ launch_flash_attention(d_Q, d_K, d_V, d_O,
 launch_rope(d_x, d_cos, d_sin, batch_size, seq_len, num_heads, head_dim);
 ```
 
-### Python 接口
+### Python 接口（最小教学绑定）
+
+只暴露 `relu/silu/gelu/vector_add/softmax/layernorm/rmsnorm/gemm`，
+不覆盖 attention/conv/sparse，也不做非连续 NumPy 数组的完整处理。
 
 ```python
 import tensorcraft_ops as tc
@@ -202,20 +205,24 @@ enum class GemmVersion {
     Naive,          // 基础实现
     Tiled,          // 共享内存分块
     DoubleBuffer,   // 双缓冲
-    TensorCore,     // WMMA Tensor Core
-    Auto            // 自动选择
 };
+
+// WMMA/Tensor Core 是独立接口：half 输入、float 输出，
+// 并且要求 M/N/K 均为 16 的倍数（教学 kernel 不做边界 staging）。
 ```
 
 ## 📊 性能基准
 
-在 NVIDIA RTX 3090 上的 GEMM 性能：
+本 README **不发布未复现的性能数字**。请在本机运行：
 
-| 矩阵大小 | Naive | Tiled | Double Buffer | cuBLAS |
-|----------|-------|-------|---------------|--------|
-| 512×512 | 15 GFLOPS | 180 GFLOPS | 220 GFLOPS | 280 GFLOPS |
-| 1024×1024 | 18 GFLOPS | 350 GFLOPS | 450 GFLOPS | 520 GFLOPS |
-| 2048×2048 | 20 GFLOPS | 480 GFLOPS | 620 GFLOPS | 750 GFLOPS |
+```bash
+cmake --build --preset default --target gemm_benchmark
+./build/default/bin/gemm_benchmark
+```
+
+记录 GPU、驱动、CUDA 版本、形状、warmup、迭代次数后，再把你得到的
+数据写入 `docs/en/benchmarks/`。不同架构和形状上的相对顺序可能不同，
+不能把某一次结果当成普适结论。
 
 ## 🔗 相关模块
 

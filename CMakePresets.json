@@ -115,6 +115,7 @@
                 "BUILD_HPC_ADVANCED": "OFF",
                 "BUILD_INFERENCE_ENGINE": "OFF",
                 "BUILD_EXAMPLES": "OFF",
+                "BUILD_SGEMM_TUTORIAL": "OFF",
                 "BUILD_TESTS": "OFF",
                 "BUILD_BENCHMARKS": "OFF"
             }

@@ -18,33 +18,35 @@ Benchmark data in this repository should be interpreted as **teaching evidence**
 2. **Module-level tables** show what each module is trying to validate.
 3. **Comparisons to cuBLAS** are a sanity check, not a claim that the repo should replace cuBLAS in every case.
 
-::: warning Limits matter
-Some values on this page are placeholder reference numbers for an RTX 4090-class GPU. They are useful for understanding the shape of the optimization ladder, but real validation still belongs on your own GPU, with your own compiler, clocks, and CUDA version.
+::: tip Measured data only
+[rtx3060-laptop-2026-08-17](./rtx3060-laptop-2026-08-17) contains the only
+repository-measured numbers currently published. Placeholder figures have been
+removed from this page.
 :::
 
-## SGEMM optimization ladder
+## SGEMM optimization ladder (measured, 1024^3)
 
-| Kernel | TFLOPS (FP32) | Bandwidth (GB/s) | vs cuBLAS |
-| --- | ---: | ---: | ---: |
-| Naive | 0.5 | 20 | 2% |
-| Tiled | 2.1 | 85 | 10% |
-| Coalesced | 4.5 | 180 | 22% |
-| Double Buffer | 8.2 | 320 | 40% |
-| Vectorized | 12.5 | 480 | 60% |
-| Tensor Core | 18.0 | 700 | 85% |
-| cuBLAS | 21.0 | 820 | 100% |
+Hardware: RTX 3060 Laptop, sm_86. See the linked page for full method and all sizes.
+
+| Kernel | TFLOPS (FP32) | vs cuBLAS |
+| --- | ---: | ---: |
+| Naive | 0.58 | 10.4% |
+| Tiled | 0.92 | 16.6% |
+| Bank Conflict Free | 0.66 | 11.8% |
+| Double Buffer | 0.68 | 12.2% |
+| Tensor Core WMMA | 1.09 | 19.6% |
+| cuBLAS | 5.58 | 100% |
 
 <BenchmarkChart
-  title="SGEMM optimization ladder (FP32, RTX 4090-class reference)"
+  title="SGEMM optimization ladder (FP32, RTX 3060 Laptop measured)"
   unit="TFLOPS"
   :data="[
-    { name: 'Naive', value: 0.5 },
-    { name: 'Tiled', value: 2.1 },
-    { name: 'Coalesced', value: 4.5 },
-    { name: 'Double Buffer', value: 8.2 },
-    { name: 'Vectorized', value: 12.5 },
-    { name: 'Tensor Core', value: 18.0 },
-    { name: 'cuBLAS', value: 21.0 }
+    { name: 'Naive', value: 0.58 },
+    { name: 'Tiled', value: 0.92 },
+    { name: 'Bank Conflict Free', value: 0.66 },
+    { name: 'Double Buffer', value: 0.68 },
+    { name: 'Tensor Core WMMA', value: 1.09 },
+    { name: 'cuBLAS', value: 5.58 }
   ]"
 />
 
@@ -53,15 +55,16 @@ Some values on this page are placeholder reference numbers for an RTX 4090-class
   unit="% of cuBLAS"
   type="line"
   :data="[
-    { name: 'Naive', value: 2 },
-    { name: 'Tiled', value: 10 },
-    { name: 'Coalesced', value: 22 },
-    { name: 'Double Buffer', value: 40 },
-    { name: 'Vectorized', value: 60 },
-    { name: 'Tensor Core', value: 85 },
+    { name: 'Naive', value: 10.4 },
+    { name: 'Tiled', value: 16.6 },
+    { name: 'Bank Conflict Free', value: 11.8 },
+    { name: 'Double Buffer', value: 12.2 },
+    { name: 'Tensor Core WMMA', value: 19.6 },
     { name: 'cuBLAS', value: 100 }
   ]"
 />
+
+Full result file and reproducibility notes: [RTX 3060 Laptop, 2026-08-17](./rtx3060-laptop-2026-08-17).
 
 ## What each module's benchmarks are trying to prove
 
