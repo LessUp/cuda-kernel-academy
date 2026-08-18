@@ -7,16 +7,16 @@
  *
  * @example
  * @code
- * #include <cuda_academy/core/gpu_info.hpp>
+ * #include <cuda_foundations/core/gpu_info.hpp>
  *
  * // Print info for current device
- * cuda_academy::print_gpu_info();
+ * cuda_foundations::print_gpu_info();
  *
  * // Print info for all devices
- * cuda_academy::print_all_gpus();
+ * cuda_foundations::print_all_gpus();
  *
  * // Get device properties
- * auto props = cuda_academy::get_device_properties();
+ * auto props = cuda_foundations::get_device_properties();
  * std::cout << "SM count: " << props.multiProcessorCount << std::endl;
  * @endcode
  */
@@ -24,9 +24,9 @@
 #include <cuda_runtime.h>
 
 #include <cstdio>
-#include <cuda_academy/core/cuda_check.hpp>
+#include <cuda_foundations/core/cuda_check.hpp>
 
-namespace cuda_academy {
+namespace cuda_foundations {
 
 // ============================================================================
 // Device Query Functions
@@ -217,4 +217,4 @@ inline int ceil_div(int num_elements, int block_size) {
     return (num_elements + block_size - 1) / block_size;
 }
 
-}  // namespace cuda_academy
+}  // namespace cuda_foundations

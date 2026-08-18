@@ -9,7 +9,7 @@
  *
  * @example
  * @code
- * #include <cuda_academy/core/cuda_check.hpp>
+ * #include <cuda_foundations/core/cuda_check.hpp>
  *
  * // Basic usage
  * CA_CUDA_CHECK(cudaMalloc(&ptr, size));
@@ -30,7 +30,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace cuda_academy {
+namespace cuda_foundations {
 namespace core {
 
 // ============================================================================
@@ -227,23 +227,23 @@ inline void curand_check(curandStatus_t status, const char* expr, const char* fi
 }
 
 }  // namespace core
-}  // namespace cuda_academy
+}  // namespace cuda_foundations
 
 // ============================================================================
 // Convenience Macros
 // ============================================================================
 
 /// Check a CUDA runtime API call and throw on error
-#define CA_CUDA_CHECK(expr) ::cuda_academy::core::cuda_check((expr), #expr, __FILE__, __LINE__)
+#define CA_CUDA_CHECK(expr) ::cuda_foundations::core::cuda_check((expr), #expr, __FILE__, __LINE__)
 
 /// Check the last kernel launch error (call after kernel launches)
-#define CA_CUDA_CHECK_LAST() ::cuda_academy::core::cuda_check_last(__FILE__, __LINE__)
+#define CA_CUDA_CHECK_LAST() ::cuda_foundations::core::cuda_check_last(__FILE__, __LINE__)
 
 /// Synchronize device and check for errors
-#define CA_CUDA_SYNC_CHECK() ::cuda_academy::core::cuda_sync_check(__FILE__, __LINE__)
+#define CA_CUDA_SYNC_CHECK() ::cuda_foundations::core::cuda_sync_check(__FILE__, __LINE__)
 
 /// Check a cuBLAS API call and throw on error
-#define CA_CUBLAS_CHECK(expr) ::cuda_academy::core::cublas_check((expr), #expr, __FILE__, __LINE__)
+#define CA_CUBLAS_CHECK(expr) ::cuda_foundations::core::cublas_check((expr), #expr, __FILE__, __LINE__)
 
 /// Check a cuRAND API call and throw on error
-#define CA_CURAND_CHECK(expr) ::cuda_academy::core::curand_check((expr), #expr, __FILE__, __LINE__)
+#define CA_CURAND_CHECK(expr) ::cuda_foundations::core::curand_check((expr), #expr, __FILE__, __LINE__)

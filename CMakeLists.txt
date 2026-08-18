@@ -1,5 +1,5 @@
 # =============================================================================
-# CUDA Kernel Academy - Root CMakeLists.txt
+# CUDA Foundations - Root CMakeLists.txt
 # =============================================================================
 # A comprehensive learning project for high-performance CUDA kernel development
 # =============================================================================
@@ -11,11 +11,11 @@ file(READ "${CMAKE_CURRENT_SOURCE_DIR}/VERSION" VERSION_STRING)
 string(STRIP "${VERSION_STRING}" VERSION_STRING)
 
 project(
-  CUDAKernelAcademy
+  CUDAFoundations
   VERSION ${VERSION_STRING}
   LANGUAGES CXX CUDA
   DESCRIPTION "Comprehensive CUDA kernel optimization learning project"
-  HOMEPAGE_URL "https://github.com/AICL-Lab/cuda-kernel-academy")
+  HOMEPAGE_URL "https://github.com/AICL-Lab/cuda-foundations")
 
 # =============================================================================
 # Build Options
@@ -220,7 +220,7 @@ install(FILES README.md LICENSE CHANGELOG.md CONTRIBUTING.md CODE_OF_CONDUCT.md
 include(CMakePackageConfigHelpers)
 
 write_basic_package_version_file(
-  "${CMAKE_CURRENT_BINARY_DIR}/CUDAKernelAcademyConfigVersion.cmake"
+  "${CMAKE_CURRENT_BINARY_DIR}/CUDAFoundationsConfigVersion.cmake"
   VERSION ${PROJECT_VERSION}
   COMPATIBILITY SameMajorVersion)
 

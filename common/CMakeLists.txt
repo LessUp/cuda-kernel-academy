@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(cuda-academy-common LANGUAGES CXX CUDA)
+project(cuda-foundations-common LANGUAGES CXX CUDA)
 
 # ============================================================================
 # C++ Standard Configuration
@@ -26,15 +26,15 @@ endif()
 # ============================================================================
 # Header-Only Library
 # ============================================================================
-add_library(cuda_academy_common INTERFACE)
-add_library(CudaAcademy::common ALIAS cuda_academy_common)
+add_library(cuda_foundations_common INTERFACE)
+add_library(CUDAFoundations::common ALIAS cuda_foundations_common)
 
 target_include_directories(
-  cuda_academy_common
+  cuda_foundations_common
   INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
             $<INSTALL_INTERFACE:include>)
 
-target_link_libraries(cuda_academy_common INTERFACE CUDA::cudart CUDA::cublas)
+target_link_libraries(cuda_foundations_common INTERFACE CUDA::cudart CUDA::cublas)
 
 # ============================================================================
 # Installation
@@ -42,8 +42,8 @@ target_link_libraries(cuda_academy_common INTERFACE CUDA::cudart CUDA::cublas)
 include(GNUInstallDirs)
 
 install(
-  TARGETS cuda_academy_common
-  EXPORT CudaAcademyTargets
+  TARGETS cuda_foundations_common
+  EXPORT CUDAFoundationsTargets
   INCLUDES
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 

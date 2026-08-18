@@ -176,8 +176,8 @@ install(
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../common/include/cuda_academy/
-        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/cuda_academy)
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../common/include/cuda_foundations/
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/cuda_foundations)
 
 install(
   EXPORT TensorCraftTargets

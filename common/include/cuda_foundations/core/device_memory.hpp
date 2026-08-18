@@ -8,10 +8,10 @@
  *
  * @example
  * @code
- * #include <cuda_academy/core/device_memory.hpp>
+ * #include <cuda_foundations/core/device_memory.hpp>
  *
  * // Allocate device memory
- * cuda_academy::DeviceMemory<float> d_data(1024);
+ * cuda_foundations::DeviceMemory<float> d_data(1024);
  *
  * // Copy from host
  * std::vector<float> host_data(1024, 1.0f);
@@ -25,10 +25,10 @@
  * @endcode
  */
 
-#include <cuda_academy/core/cuda_check.hpp>
+#include <cuda_foundations/core/cuda_check.hpp>
 #include <vector>
 
-namespace cuda_academy {
+namespace cuda_foundations {
 
 // ============================================================================
 // DeviceMemory - RAII Wrapper for Device Memory
@@ -273,4 +273,4 @@ using DeviceMemoryF = DeviceMemory<float>;
 using DeviceMemoryD = DeviceMemory<double>;
 using DeviceMemoryI = DeviceMemory<int>;
 
-}  // namespace cuda_academy
+}  // namespace cuda_foundations

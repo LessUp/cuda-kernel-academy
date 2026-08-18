@@ -8,9 +8,9 @@
  *
  * @example
  * @code
- * #include <cuda_academy/core/timer.hpp>
+ * #include <cuda_foundations/core/timer.hpp>
  *
- * cuda_academy::CudaTimer timer;
+ * cuda_foundations::CudaTimer timer;
  *
  * timer.start();
  * my_kernel<<<grid, block>>>(args);
@@ -23,10 +23,10 @@
 #include <cuda_runtime.h>
 
 #include <cstdio>
-#include <cuda_academy/core/cuda_check.hpp>
+#include <cuda_foundations/core/cuda_check.hpp>
 #include <string>
 
-namespace cuda_academy {
+namespace cuda_foundations {
 
 // ============================================================================
 // CudaTimer - Event-Based GPU Timer
@@ -144,7 +144,7 @@ private:
  * @example
  * @code
  * {
- *     cuda_academy::ScopedTimer timer("my_kernel");
+ *     cuda_foundations::ScopedTimer timer("my_kernel");
  *     my_kernel<<<grid, block>>>(args);
  * } // Timer automatically stops and prints
  * @endcode
@@ -185,4 +185,4 @@ private:
     CudaTimer timer_;
 };
 
-}  // namespace cuda_academy
+}  // namespace cuda_foundations

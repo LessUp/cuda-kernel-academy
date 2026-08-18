@@ -6,7 +6,7 @@
  *
  * Note: This module uses exit() on error for simplicity in educational contexts.
  * For production code or library usage, prefer the exception-based error handling
- * from cuda_academy: <cuda_academy/core/cuda_check.hpp>
+ * from cuda_foundations: <cuda_foundations/core/cuda_check.hpp>
  */
 
 #include <cuda_runtime.h>

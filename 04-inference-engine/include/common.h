@@ -6,7 +6,7 @@
  *
  * This file provides common utilities and backward-compatible aliases
  * for the mini_inference module. Core CUDA utilities are now provided
- * by cuda_academy in common/.
+ * by cuda_foundations in common/.
  */
 
 #include <cublas_v2.h>
@@ -23,8 +23,8 @@
 #include <string>
 #include <vector>
 
-// Include common cuda_academy utilities
-#include <cuda_academy/cuda_academy.hpp>
+// Include common cuda_foundations utilities
+#include <cuda_foundations/cuda_foundations.hpp>
 
 namespace mini_inference {
 
@@ -32,13 +32,13 @@ namespace mini_inference {
 // CUDA Error Handling (backward compatible)
 // ============================================================================
 
-// Use cuda_academy's CudaError as CudaException for compatibility
-using CudaException = cuda_academy::core::CudaError;
+// Use cuda_foundations's CudaError as CudaException for compatibility
+using CudaException = cuda_foundations::core::CudaError;
 
 // Backward-compatible macro
 #define CUDA_CHECK(call) CA_CUDA_CHECK(call)
 
-// cuBLAS check (kept here as it's not in cuda_academy)
+// cuBLAS check (kept here as it's not in cuda_foundations)
 #define CUBLAS_CHECK(call)                                                       \
     do {                                                                         \
         cublasStatus_t status = call;                                            \

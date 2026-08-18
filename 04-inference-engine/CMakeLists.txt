@@ -65,7 +65,7 @@ add_library(mini_inference STATIC ${SOURCES} ${HEADERS})
 target_include_directories(mini_inference
                            PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(mini_inference
-                      CudaAcademy::common
+                      CUDAFoundations::common
                       CUDA::cudart
                       CUDA::cublas
                       TensorCraft::tensorcraft)
