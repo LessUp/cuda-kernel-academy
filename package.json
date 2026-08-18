@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "cuda-kernel-academy",
+  "name": "cuda-foundations",
   "scripts": {
     "docs:dev": "cd docs && npm install && npm run dev",
     "docs:build": "cd docs && npm install && npm run build",

@@ -44,7 +44,7 @@ class MyClass {
 ## CUDA Error Handling
 
 ```cpp
-#include "cuda_academy/cuda_academy.hpp"
+#include "cuda_foundations/cuda_foundations.hpp"
 
 CUDA_CHECK(cudaMalloc(&ptr, size));
 kernel<<<grid, block>>>(args);

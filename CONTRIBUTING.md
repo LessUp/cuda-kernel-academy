@@ -26,8 +26,8 @@ Please avoid drive-by framework additions, generic boilerplate docs, or speculat
 ## Quick start
 
 ```bash
-git clone https://github.com/AICL-Lab/cuda-kernel-academy.git
-cd cuda-kernel-academy
+git clone https://github.com/AICL-Lab/cuda-foundations.git
+cd cuda-foundations
 
 pip install pre-commit
 pre-commit install

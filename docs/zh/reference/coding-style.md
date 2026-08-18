@@ -78,10 +78,10 @@ namespace mini_inference { }   // 04-inference-engine
 
 ## CUDA 错误处理
 
-使用 `common/include/cuda_academy/` 中的共享宏：
+使用 `common/include/cuda_foundations/` 中的共享宏：
 
 ```cpp
-#include "cuda_academy/cuda_academy.hpp"
+#include "cuda_foundations/cuda_foundations.hpp"
 
 CUDA_CHECK(cudaMalloc(&ptr, size));
 kernel<<<grid, block>>>(args);

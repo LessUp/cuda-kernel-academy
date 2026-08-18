@@ -5,8 +5,8 @@
 ## 获取代码
 
 ```bash
-git clone https://github.com/AICL-Lab/cuda-kernel-academy.git
-cd cuda-kernel-academy
+git clone https://github.com/AICL-Lab/cuda-foundations.git
+cd cuda-foundations
 ```
 
 ## 构建与测试

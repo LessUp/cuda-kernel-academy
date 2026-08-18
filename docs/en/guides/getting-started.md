@@ -19,8 +19,8 @@ This document covers installation and build instructions for CUDA Kernel Academy
 ## Clone Repository
 
 ```bash
-git clone https://github.com/AICL-Lab/cuda-kernel-academy.git
-cd cuda-kernel-academy
+git clone https://github.com/AICL-Lab/cuda-foundations.git
+cd cuda-foundations
 ```
 
 ## Build with CMake Presets

@@ -6,7 +6,7 @@
 
 | 阶段 | 主仓 | 需要掌握的能力 | 完成证据 |
 |---|---|---|---|
-| 1. CUDA 基础 | `cuda-kernel-academy` | 内存层次、线程组织、归约、GEMM、profiling | kernel 与 CPU/库参考结果一致，并有基准数据 |
+| 1. CUDA 基础 | `cuda-foundations` | 内存层次、线程组织、归约、GEMM、profiling | kernel 与 CPU/库参考结果一致，并有基准数据 |
 | 2. Triton 算子 | `triton-fused-ops` | block 设计、融合、在线 softmax、输入契约 | Triton 与 PyTorch/NumPy 参考实现一致 |
 | 3. 专项深挖 | `cuflash-attn` | FlashAttention 前后向、数值稳定性、性能分析 | 多精度与 causal/non-causal 正确性测试 |
 | 4. 推理运行时 | `tiny-llm` | 模型加载、Tensor、算子编排、采样、token 生成 | 真实模型从权重加载到生成 token 的端到端测试 |
@@ -14,7 +14,7 @@
 
 建议按表格顺序推进。前两阶段是基础；后三阶段分别形成 kernel、runtime、serving 方向的作品证据。
 
-> ⚠️ **教学预览**：`cuda-kernel-academy` 的 [04-inference-engine](04-inference-engine/README.md)
+> ⚠️ **教学预览**：`cuda-foundations` 的 [04-inference-engine](04-inference-engine/README.md)
 > 是 `tiny-llm` 的简化预习版（教学预览，**非独立作品**），用于演示 kernel/内存/流如何
 > 组装成小系统；真实推理运行时以 `tiny-llm` 为准。
 

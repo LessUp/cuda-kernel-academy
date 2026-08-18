@@ -1,12 +1,12 @@
 import { defineConfig } from 'vitepress'
 import { withMermaid } from 'vitepress-plugin-mermaid'
 
-const repoUrl = 'https://github.com/AICL-Lab/cuda-kernel-academy'
-const pagesUrl = 'https://aicl-lab.github.io/cuda-kernel-academy/'
+const repoUrl = 'https://github.com/AICL-Lab/cuda-foundations'
+const pagesUrl = 'https://aicl-lab.github.io/cuda-foundations/'
 const docsEditPattern = `${repoUrl}/edit/master/docs/:path`
 
 export default withMermaid(defineConfig({
-  base: '/cuda-kernel-academy/',
+  base: '/cuda-foundations/',
   title: 'CUDA Kernel Academy',
   description: 'Systematic CUDA kernel engineering from SGEMM to inference',
 

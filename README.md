@@ -6,9 +6,9 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/AICL-Lab/cuda-kernel-academy/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/AICL-Lab/cuda-kernel-academy/ci.yml?style=flat-square&logo=github&label=CI" alt="CI"></a>
-  <a href="https://aicl-lab.github.io/cuda-kernel-academy/"><img src="https://img.shields.io/github/actions/workflow/status/AICL-Lab/cuda-kernel-academy/pages.yml?branch=master&style=flat-square&logo=githubpages&logoColor=white&label=Pages" alt="Pages"></a>
-  <a href="https://github.com/AICL-Lab/cuda-kernel-academy/releases"><img src="https://img.shields.io/github/v/release/AICL-Lab/cuda-kernel-academy?style=flat-square&logo=github" alt="Release"></a>
+  <a href="https://github.com/AICL-Lab/cuda-foundations/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/AICL-Lab/cuda-foundations/ci.yml?style=flat-square&logo=github&label=CI" alt="CI"></a>
+  <a href="https://aicl-lab.github.io/cuda-foundations/"><img src="https://img.shields.io/github/actions/workflow/status/AICL-Lab/cuda-foundations/pages.yml?branch=master&style=flat-square&logo=githubpages&logoColor=white&label=Pages" alt="Pages"></a>
+  <a href="https://github.com/AICL-Lab/cuda-foundations/releases"><img src="https://img.shields.io/github/v/release/AICL-Lab/cuda-foundations?style=flat-square&logo=github" alt="Release"></a>
   <img src="https://img.shields.io/badge/CUDA-12.x-76B900?style=flat-square&logo=nvidia" alt="CUDA">
   <img src="https://img.shields.io/badge/C++-17%2F20-00599C?style=flat-square&logo=cplusplus" alt="C++">
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue?style=flat-square" alt="License"></a>
@@ -21,7 +21,7 @@
 <div class="showcase-hero">
   <p class="showcase-kicker">A repository for people who want to understand how CUDA kernels evolve from a first correct GEMM into reusable kernels, advanced optimization experiments, and lightweight inference plumbing.</p>
   <div class="showcase-cta">
-    <a href="https://aicl-lab.github.io/cuda-kernel-academy/">Visit GitHub Pages</a>
+    <a href="https://aicl-lab.github.io/cuda-foundations/">Visit GitHub Pages</a>
     <a href="docs/en/index.md">Read the docs</a>
     <a href="01-sgemm-tutorial/README.md">Start with module 01</a>
   </div>
@@ -93,8 +93,8 @@ For the repository sequence from CUDA fundamentals to LLM serving, see the Chine
 ## Quick start
 
 ```bash
-git clone https://github.com/AICL-Lab/cuda-kernel-academy.git
-cd cuda-kernel-academy
+git clone https://github.com/AICL-Lab/cuda-foundations.git
+cd cuda-foundations
 
 cmake --list-presets
 cmake --preset default
@@ -128,7 +128,7 @@ make test
 - [中文文档首页](docs/zh/index.md)
 - [Follow-up development plan (executable by coding agents)](DEV_PLAN.md)
 - [Contributing](CONTRIBUTING.md)
-- 📖 [技术文档站](https://aicl-lab.github.io/cuda-kernel-academy/) 由 VitePress 驱动，支持 NVIDIA 风格深色主题、交互式图表和学术论文引用。
+- 📖 [技术文档站](https://aicl-lab.github.io/cuda-foundations/) 由 VitePress 驱动，支持 NVIDIA 风格深色主题、交互式图表和学术论文引用。
 
 ## Requirements
 
@@ -149,12 +149,12 @@ make test
 ## Citation
 
 ```text
-@misc{cuda-kernel-academy,
+@misc{cuda-foundations,
   author = {CUDA Kernel Academy Contributors},
   title = {CUDA Kernel Academy},
   year = {2026},
   publisher = {GitHub},
-  url = {https://github.com/AICL-Lab/cuda-kernel-academy}
+  url = {https://github.com/AICL-Lab/cuda-foundations}
 }
 ```
 

@@ -69,5 +69,5 @@ The repository keeps a lightweight changelog focused on release-level milestones
 - root CMake build for shared modules plus a standalone Makefile flow for `01-sgemm-tutorial`
 - documentation set for installation, troubleshooting, coding style, and module-level deep dives
 
-[Unreleased]: https://github.com/AICL-Lab/cuda-kernel-academy/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/AICL-Lab/cuda-kernel-academy/releases/tag/v1.0.0
+[Unreleased]: https://github.com/AICL-Lab/cuda-foundations/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/AICL-Lab/cuda-foundations/releases/tag/v1.0.0

@@ -19,8 +19,8 @@ outline: [2, 3]
 ## 克隆仓库
 
 ```bash
-git clone https://github.com/AICL-Lab/cuda-kernel-academy.git
-cd cuda-kernel-academy
+git clone https://github.com/AICL-Lab/cuda-foundations.git
+cd cuda-foundations
 ```
 
 ## 推荐方式：使用 CMake Presets
@@ -145,7 +145,7 @@ GitHub-hosted CI 当前主要执行 CPU-safe 检查：
 
 | 目标 | 文档 |
 |------|------|
-| 理解仓库全貌 | [GitHub README](https://github.com/AICL-Lab/cuda-kernel-academy) |
+| 理解仓库全貌 | [GitHub README](https://github.com/AICL-Lab/cuda-foundations) |
 | 构建仓库 | 本文档 |
 | 开发流程 | [workflow](./workflow.md) |
 | 编码风格 | [coding-style](../reference/coding-style.md) |

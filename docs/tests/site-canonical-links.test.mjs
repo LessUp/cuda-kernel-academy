@@ -7,9 +7,9 @@ import { fileURLToPath } from 'node:url'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const repoRoot = path.resolve(__dirname, '..', '..')
 
-const canonicalRepoSlug = 'AICL-Lab/cuda-kernel-academy'
+const canonicalRepoSlug = 'AICL-Lab/cuda-foundations'
 const canonicalRepoUrl = `https://github.com/${canonicalRepoSlug}`
-const canonicalPagesUrl = 'https://aicl-lab.github.io/cuda-kernel-academy/'
+const canonicalPagesUrl = 'https://aicl-lab.github.io/cuda-foundations/'
 
 const publicFiles = [
   'README.md',
@@ -29,11 +29,11 @@ test('public docs use one canonical repo and Pages identity', async () => {
   for (const relativePath of publicFiles) {
     const content = await readFile(path.join(repoRoot, relativePath), 'utf8')
 
-    if (content.includes('LessUp/cuda-kernel-academy')) {
+    if (content.includes('LessUp/cuda-foundations')) {
       violations.push(`${relativePath}: found stale LessUp repo slug`)
     }
 
-    if (content.includes('https://lessup.github.io/cuda-kernel-academy/')) {
+    if (content.includes('https://lessup.github.io/cuda-foundations/')) {
       violations.push(`${relativePath}: found stale LessUp Pages URL`)
     }
   }

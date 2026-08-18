@@ -30,7 +30,7 @@ include(FetchContent)
 
 FetchContent_Declare(
     tensorcraft
-    GIT_REPOSITORY https://github.com/AICL-Lab/cuda-kernel-academy.git
+    GIT_REPOSITORY https://github.com/AICL-Lab/cuda-foundations.git
     GIT_TAG main
     SOURCE_SUBDIR 02-tensorcraft-core
 )
@@ -67,7 +67,7 @@ if(NOT DEFINED CMAKE_CUDA_ARCHITECTURES)
     set(CMAKE_CUDA_ARCHITECTURES 70 75 80 86 89 90)
 endif()
 
-set(TENSORCRAFT_DIR "${CMAKE_SOURCE_DIR}/../cuda-kernel-academy/02-tensorcraft-core")
+set(TENSORCRAFT_DIR "${CMAKE_SOURCE_DIR}/../cuda-foundations/02-tensorcraft-core")
 add_subdirectory(${TENSORCRAFT_DIR} tensorcraft EXCLUDE_FROM_ALL)
 
 add_executable(my_app
