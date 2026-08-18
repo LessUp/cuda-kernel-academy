@@ -1,5 +1,10 @@
 # CUDA Kernel Academy
 
+> GitHub 仓库名：[`cuda-foundations`](https://github.com/AICL-Lab/cuda-foundations)
+> （教学品牌名：CUDA Kernel Academy；原仓库名 `cuda-kernel-academy`）
+>
+> 📚 作品集地图：https://github.com/aicl-lab/aicl-lab
+
 <p align="center">
   <strong>从 SGEMM 基础到可复用推理组件的系统性 CUDA 算子工程学习路径</strong><br>
   <strong>Systematic CUDA kernel engineering from SGEMM fundamentals to reusable inference components</strong>
@@ -44,7 +49,7 @@
 
 ## 仓库状态
 
-教学仓库，**维护模式**。四个模块已完成，完整测试套件全绿（`ctest --preset default`），不再新增模块；后续精力投入 [LEARNING_PATH.md](LEARNING_PATH.md) 中记录的后续项目（如 `tiny-llm` 与 `paged-infer`）。
+教学仓库，**Phase 2 面试就绪冻结**（`phase-2-e`）。四个模块已完成，完整测试套件全绿（`ctest --preset default`，冻结机 209/209），不再新增模块；后续精力投入 [LEARNING_PATH.md](LEARNING_PATH.md) 中记录的后续项目（如 `tiny-llm` 与 `paged-infer`）。
 
 ## 仓库收敛边界
 

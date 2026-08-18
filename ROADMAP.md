@@ -1,13 +1,15 @@
-# CUDA Kernel Academy 路线图
+# CUDA Foundations 路线图
 
-> 定位：五仓学习路径的**总入口与 CUDA 系统教学仓**，当前处于维护模式。
+> 仓库名：[`cuda-foundations`](https://github.com/AICL-Lab/cuda-foundations)
+> （教学品牌仍可用 CUDA Kernel Academy）。
+> 定位：五仓学习路径的 **CUDA 系统教学仓**，`phase-2-e` 面试就绪冻结。
 > 可执行的分步开发计划见 [DEV_PLAN.md](DEV_PLAN.md)。
 > 旗舰开发投入在 [tiny-llm](https://github.com/AICL-Lab/tiny-llm)（运行时）与
 > [cuflash-attn](https://github.com/AICL-Lab/cuflash-attn)（kernel 深度）。
 >
 > 归档状态：DEV_PLAN.md 的 T1–T12 已全部落地并在 GPU 上验证
-> （`ctest --preset default` 199/199，01 模块 52/52）；剩余归档动作仅剩
-> `git tag v1.0.1 && git push origin v1.0.1`（等待人工执行）。
+> （`ctest --preset default` 209/209，01 模块 52/52）。
+> 组织 landing 页：https://github.com/aicl-lab/aicl-lab
 
 ## 面试前必做（数据可信度）
 
