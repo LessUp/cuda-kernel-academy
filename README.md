@@ -1,5 +1,7 @@
 # CUDA Kernel Academy
 
+> 📚 Portfolio map: https://github.com/aicl-lab/aicl-lab
+
 <p align="center">
   <strong>Systematic CUDA kernel engineering from SGEMM fundamentals to reusable inference components</strong><br>
   <strong>从 SGEMM 基础到可复用推理组件的系统性 CUDA 算子工程学习路径</strong>
