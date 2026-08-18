@@ -1,7 +1,7 @@
 # CUDA Kernel Academy
 
 > GitHub repository: [`cuda-foundations`](https://github.com/AICL-Lab/cuda-foundations)
-> （教学品牌名：CUDA Kernel Academy；原仓库名 `cuda-kernel-academy`）
+> （教学品牌名：CUDA Kernel Academy）
 >
 > 📚 Portfolio map: https://github.com/aicl-lab/aicl-lab
 
@@ -50,10 +50,12 @@ Most CUDA learning material is either too small to feel like engineering or too 
 ## Repository status
 
 Teaching repository, **Phase 2 interview-ready freeze** (`phase-2-e`).
-The four modules are complete and the full test suite is green
-(`ctest --preset default`, 209/209 on the freeze machine). No new modules
-will be added here. Follow-up work lives in
-[LEARNING_PATH.md](LEARNING_PATH.md) (e.g. `tiny-llm` and `paged-infer`).
+The four modules are complete. On the 2026-08-18 freeze machine
+`ctest --preset default` reported **0 failed / 209 collected**
+(131 ran, 78 skipped — mostly 02/04 GPU binaries; same skip class as
+the prior freeze note). No new modules will be added here. Follow-up
+work lives in [LEARNING_PATH.md](LEARNING_PATH.md) (e.g. `tiny-llm`
+and `paged-infer`).
 
 ## Consolidation boundary
 
