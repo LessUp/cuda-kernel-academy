@@ -10,7 +10,7 @@
 | 2. Triton 算子 | `triton-fused-ops` | block 设计、融合、在线 softmax、输入契约 | Triton 与 PyTorch/NumPy 参考实现一致 |
 | 3. 专项深挖 | `cuflash-attn` | FlashAttention 前后向、数值稳定性、性能分析 | 多精度与 causal/non-causal 正确性测试 |
 | 4. 推理运行时 | `tiny-llm` | 模型加载、Tensor、算子编排、采样、token 生成 | 真实模型从权重加载到生成 token 的端到端测试 |
-| 5. Serving 控制面 | `paged-infer` | Paged KV、continuous batching、限流、取消、指标 | 并发请求下资源守恒、失败传播和 API 集成测试 |
+| 5. Serving 控制面 | `paged-infer` | Paged KV、continuous batching、限流、取消、指标 | 分页 KV 已启用：`tiny-llm` 策略 1（block_tables）3 并发 e2e 与 llama.cpp 逐 token 对齐 + 资源守恒（`paged-infer/tests/tiny_llm_text_e2e.rs::qwen2_three_concurrent_paged_requests_match_llama_cpp`） |
 
 建议按表格顺序推进。前两阶段是基础；后三阶段分别形成 kernel、runtime、serving 方向的作品证据。
 
