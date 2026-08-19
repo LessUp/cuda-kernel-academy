@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitepress'
 import { withMermaid } from 'vitepress-plugin-mermaid'
 
-const repoUrl = 'https://github.com/AICL-Lab/cuda-foundations'
+const repoUrl = 'https://github.com/aicl-lab/cuda-foundations'
 const pagesUrl = 'https://aicl-lab.github.io/cuda-foundations/'
 const docsEditPattern = `${repoUrl}/edit/master/docs/:path`
 

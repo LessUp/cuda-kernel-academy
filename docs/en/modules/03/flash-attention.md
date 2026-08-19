@@ -4,6 +4,10 @@ outline: [2, 3]
 
 # FlashAttention
 
+::: warning Teaching kernel, not the portfolio authority
+The `03-hpc-advanced` FlashAttention sources explain tiling and online softmax only. Forward+backward, WMMA, FlashDecoding, and measured numbers live in [cuflash-attn](https://github.com/aicl-lab/cuflash-attn). The Triton reference is [triton-fused-ops](https://github.com/aicl-lab/triton-fused-ops).
+:::
+
 ::: warning Performance numbers are teaching placeholders
 The TFLOPS, speedup and memory figures on this page are reference values, not results reproduced by this repository on a pinned hardware/software stack. Re-measure on your own GPU before quoting them.
 :::

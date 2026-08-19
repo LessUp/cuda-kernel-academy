@@ -104,7 +104,7 @@ cmake .. -DBUILD_TENSORCRAFT=ON
 
 ## 获取帮助
 
-1. 搜索 [GitHub Issues](https://github.com/AICL-Lab/cuda-foundations/issues)
+1. 搜索 [GitHub Issues](https://github.com/aicl-lab/cuda-foundations/issues)
 2. 查看 [NVIDIA Developer Forums](https://forums.developer.nvidia.com/)
 3. 创建新 Issue，提供：错误信息、OS、CUDA 版本、GPU 型号
 

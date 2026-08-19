@@ -30,7 +30,7 @@ include(FetchContent)
 
 FetchContent_Declare(
     tensorcraft
-    GIT_REPOSITORY https://github.com/AICL-Lab/cuda-foundations.git
+    GIT_REPOSITORY https://github.com/aicl-lab/cuda-foundations.git
     GIT_TAG main
     SOURCE_SUBDIR 02-tensorcraft-core
 )

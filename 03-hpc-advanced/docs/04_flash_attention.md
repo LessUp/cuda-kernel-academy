@@ -1,5 +1,9 @@
 # FlashAttention 详解
 
+::: warning 教学简化核，不是权威实现
+`03-hpc-advanced/src/05_attention/` 只讲 tiling 与 online softmax。完整前后向、WMMA、FlashDecoding 与实测数字见 [cuflash-attn](https://github.com/aicl-lab/cuflash-attn)。Triton 参考实现见 [triton-fused-ops](https://github.com/aicl-lab/triton-fused-ops)。
+:::
+
 ::: warning 性能数字为教学占位
 本页 TFLOPS、加速比和内存数字大多来自教学资料或特定硬件的参考值，并非本仓库在统一脚本、统一硬件上复现的结果。面试或文档引用前，请用自己的 GPU 重跑并记录复现命令与版本。
 :::

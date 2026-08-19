@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const repoRoot = path.resolve(__dirname, '..', '..')
 
-const canonicalRepoSlug = 'AICL-Lab/cuda-foundations'
+const canonicalRepoSlug = 'aicl-lab/cuda-foundations'
 const canonicalRepoUrl = `https://github.com/${canonicalRepoSlug}`
 const canonicalPagesUrl = 'https://aicl-lab.github.io/cuda-foundations/'
 

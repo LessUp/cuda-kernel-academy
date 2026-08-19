@@ -15,7 +15,7 @@
 
 ## 📖 模块简介
 
-**TensorCraft Core** 是 CUDA Kernel Academy 的教学算子库，用于学习可复用 kernel API、正确性验证和基准测量方法。它采用 Header-Only 设计，便于阅读和实验，但**不承诺生产级性能、完整边界处理或全算子覆盖**。
+**TensorCraft Core** 是 `cuda-foundations` 的教学算子库（目录名 `02-tensorcraft-core` 是历史模块名，**不是独立产品、也不是独立仓库**），用于学习可复用 kernel API、正确性验证和基准测量方法。它采用 Header-Only 设计，便于阅读和实验，但**不承诺生产级性能、完整边界处理或全算子覆盖**。
 
 > **🎯 学习目标**：理解可复用 kernel API 设计、学会用独立参考实现验证正确性、学会测量并解释性能
 

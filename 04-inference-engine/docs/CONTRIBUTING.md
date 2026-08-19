@@ -5,7 +5,7 @@
 ## 获取代码
 
 ```bash
-git clone https://github.com/AICL-Lab/cuda-foundations.git
+git clone https://github.com/aicl-lab/cuda-foundations.git
 cd cuda-foundations
 ```
 

@@ -14,6 +14,10 @@
 - 可选 Python 绑定
 - `07_cuda13_features/` 中的 CUDA 12/13 相关实验性实现
 
+> ⚠️ `src/05_attention/` 的 FlashAttention 是**教学简化核**（固定形状、前向为主），
+> **不是**作品集里的权威实现。完整前后向 / WMMA / FlashDecoding 见
+> [cuflash-attn](https://github.com/aicl-lab/cuflash-attn)。
+
 ## 重要说明
 
 `src/07_cuda13_features/` 当前主要是**教学性质的占位/兼容实现**，用于展示接口、组织方式和实验方向；它们**不应被视为完整的 Hopper / Blackwell 生产级实现**。

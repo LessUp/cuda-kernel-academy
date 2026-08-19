@@ -8,7 +8,7 @@ hero:
   actions:
     - theme: brand
       text: "访问 GitHub"
-      link: "https://github.com/AICL-Lab/cuda-foundations"
+      link: "https://github.com/aicl-lab/cuda-foundations"
     - theme: alt
       text: "开始阅读"
       link: "/zh/guides/getting-started"
@@ -27,8 +27,8 @@ features:
     details: 在仓库语境下继续推进到 CUTLASS、FlashAttention、寄存器分块和新 CUDA 特性。
     link: /zh/modules/03-hpc
   - icon: <span class="feature-icon">04</span>
-    title: Inference Engine
-    details: 观察优化后的 kernel 如何进入带内存池、流调度和端到端执行路径的推理系统。
+    title: Inference Engine（教学预览）
+    details: 看 kernel、内存池和流如何装进一个小系统。不是独立作品；真实运行时是 tiny-llm。
     link: /zh/modules/04-inference
 ---
 

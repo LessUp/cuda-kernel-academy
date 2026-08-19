@@ -8,7 +8,7 @@ hero:
   actions:
     - theme: brand
       text: "Visit GitHub"
-      link: "https://github.com/AICL-Lab/cuda-foundations"
+      link: "https://github.com/aicl-lab/cuda-foundations"
     - theme: alt
       text: "Start Reading"
       link: "/en/guides/getting-started"
@@ -27,8 +27,8 @@ features:
     details: "Study the techniques production stacks build on: CUTLASS-style tiling, FlashAttention, register tiling, and newer CUDA features (teaching implementations)."
     link: /en/modules/03-hpc
   - icon: <span class="feature-icon">04</span>
-    title: Inference Engine
-    details: "Follow the end-to-end system path where optimized kernels become a schedulable inference pipeline with memory pools and streams."
+    title: Inference Engine (tutorial preview)
+    details: "See how kernels, memory pools, and streams assemble into a tiny system. Not a standalone product; the real runtime is tiny-llm."
     link: /en/modules/04-inference
 ---
 

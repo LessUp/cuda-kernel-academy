@@ -4,6 +4,12 @@ The repository keeps a lightweight changelog focused on release-level milestones
 
 ## [Unreleased]
 
+### Changed
+- README 标题与仓名对齐为 `cuda-foundations`（教学品牌仍为 CUDA Kernel Academy）
+- 中文 README 补齐 IN/OUT；`02-tensorcraft-core` 标明历史模块名而非独立产品
+- `03-hpc-advanced` FlashAttention 教学核与文档标明非权威，指向 `cuflash-attn`
+- 面向用户的 GitHub 链接统一为 `github.com/aicl-lab/...`
+
 ## [1.0.1] - 2026-08-17
 
 ### Added
@@ -69,5 +75,5 @@ The repository keeps a lightweight changelog focused on release-level milestones
 - root CMake build for shared modules plus a standalone Makefile flow for `01-sgemm-tutorial`
 - documentation set for installation, troubleshooting, coding style, and module-level deep dives
 
-[Unreleased]: https://github.com/AICL-Lab/cuda-foundations/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/AICL-Lab/cuda-foundations/releases/tag/v1.0.0
+[Unreleased]: https://github.com/aicl-lab/cuda-foundations/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/aicl-lab/cuda-foundations/releases/tag/v1.0.0
