@@ -49,7 +49,7 @@
 
 ## 仓库状态
 
-教学仓库，**Phase 2 面试就绪冻结**（`phase-2-e`）。四个模块已完成。2026-08-18 冻结机 `ctest --preset default` 为 **0 failed / 209 collected**（131 执行，78 skip，主要是 02/04 GPU 测试二进制，与此前冻结记录同类）。不再新增模块；后续精力投入 [LEARNING_PATH.md](LEARNING_PATH.md) 中记录的后续项目（如 `tiny-llm` 与 `paged-infer`）。
+教学仓库，状态 **active**（正确性修复与教学打磨；不再新增模块）。四个模块已完成。2026-08-18 测试机 `ctest --preset default` 为 **0 failed / 209 collected**（131 执行，78 skip，主要是 02/04 GPU 测试二进制，与此前冻结记录同类）。不再新增模块；后续精力投入 [LEARNING_PATH.md](https://github.com/open-infra-ai/open-infra-ai/blob/master/LEARNING_PATH.md) 中记录的后续项目（如 `tiny-llm` 与 `paged-infer`）。
 
 ## 仓库收敛边界
 
@@ -91,7 +91,7 @@ CUDA Kernel Academy 是 `sgemm-optimization`、`modern-ai-kernels`、`hpc-ai-opt
 | 看 kernel 如何落到小系统里 | [04-inference-engine](04-inference-engine/README.md) |
 | 了解构建、验证、协作流程 | [docs/zh/index.md](docs/zh/index.md) |
 
-如果目标是从初学者逐步转向 AI Infra 岗位，请按 [AI Infra 初学者学习路径](LEARNING_PATH.md) 串联 CUDA、Triton、FlashAttention、推理运行时和 Serving 五个主仓。该文档也统一保留性能优化与不变量测试的方法。
+如果目标是从初学者逐步转向 AI Infra 岗位，请按 [AI Infra 初学者学习路径](https://github.com/open-infra-ai/open-infra-ai/blob/master/LEARNING_PATH.md) 串联 CUDA、Triton、FlashAttention、推理运行时和 Serving 五个主仓。该文档也统一保留性能优化与不变量测试的方法。
 
 ## 快速开始
 

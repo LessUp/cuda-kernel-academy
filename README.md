@@ -49,12 +49,13 @@ Most CUDA learning material is either too small to feel like engineering or too 
 
 ## Repository status
 
-Teaching repository, **Phase 2 interview-ready freeze** (`phase-2-e`).
-The four modules are complete. On the 2026-08-18 freeze machine
+Teaching repository, status **active** (correctness fixes and teaching
+refinements; no new modules). The four modules are complete. On the
+2026-08-18 test machine
 `ctest --preset default` reported **0 failed / 209 collected**
 (131 ran, 78 skipped — mostly 02/04 GPU binaries; same skip class as
 the prior freeze note). No new modules will be added here. Follow-up
-work lives in [LEARNING_PATH.md](LEARNING_PATH.md) (e.g. `tiny-llm`
+work lives in [LEARNING_PATH.md](https://github.com/open-infra-ai/open-infra-ai/blob/master/LEARNING_PATH.md) (e.g. `tiny-llm`
 and `paged-infer`).
 
 ## Consolidation boundary
@@ -97,7 +98,7 @@ The former `llm-speed` GEMM learning path is covered here, while the maintained 
 | see kernels embedded in a tiny system | [04-inference-engine](04-inference-engine/README.md) |
 | understand how to build, verify, and contribute | [docs/en/index.md](docs/en/index.md) |
 
-For the repository sequence from CUDA fundamentals to LLM serving, see the Chinese [AI Infra beginner learning path](LEARNING_PATH.md). It also records the shared optimization and invariant-testing method used across the five retained projects.
+For the repository sequence from CUDA fundamentals to LLM serving, see the Chinese [AI Infra beginner learning path](https://github.com/open-infra-ai/open-infra-ai/blob/master/LEARNING_PATH.md). It also records the shared optimization and invariant-testing method used across the five retained projects.
 
 ## Quick start
 
