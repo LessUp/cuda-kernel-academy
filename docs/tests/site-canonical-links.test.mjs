@@ -7,9 +7,9 @@ import { fileURLToPath } from 'node:url'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const repoRoot = path.resolve(__dirname, '..', '..')
 
-const canonicalRepoSlug = 'aicl-lab/cuda-foundations'
+const canonicalRepoSlug = 'open-infra-ai/cuda-foundations'
 const canonicalRepoUrl = `https://github.com/${canonicalRepoSlug}`
-const canonicalPagesUrl = 'https://aicl-lab.github.io/cuda-foundations/'
+const canonicalPagesUrl = 'https://open-infra-ai.github.io/cuda-foundations/'
 
 const publicFiles = [
   'README.md',

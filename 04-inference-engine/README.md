@@ -1,7 +1,7 @@
 # 04-inference-engine
 
 > ⚠️ **教学预览**：本模块是 tiny-llm 的简化预习版，用于展示 kernel/内存/流如何
-> 组装成小系统。**真实推理运行时见 [tiny-llm](https://github.com/aicl-lab/tiny-llm)**。
+> 组装成小系统。**真实推理运行时见 [tiny-llm](https://github.com/open-infra-ai/tiny-llm)**。
 > 本模块不追求模型兼容性、量化精度或推理性能。
 
 

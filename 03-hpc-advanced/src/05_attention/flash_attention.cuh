@@ -1,7 +1,7 @@
 #pragma once
 
 // Teaching-only FlashAttention forward. Not the portfolio authority.
-// Full forward+backward, WMMA, FlashDecoding: https://github.com/aicl-lab/cuflash-attn
+// Full forward+backward, WMMA, FlashDecoding: https://github.com/open-infra-ai/cuflash-attn
 // Triton reference: triton-fused-ops. Runtime generate path: tiny-llm/kernels/attention.cu
 
 #include <cuda_runtime.h>

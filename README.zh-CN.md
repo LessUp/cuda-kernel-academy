@@ -1,9 +1,9 @@
 # cuda-foundations
 
-> GitHub 仓库名：[`cuda-foundations`](https://github.com/aicl-lab/cuda-foundations)
+> GitHub 仓库名：[`cuda-foundations`](https://github.com/open-infra-ai/cuda-foundations)
 > 教学品牌名：CUDA Kernel Academy
 >
-> 📚 作品集地图：https://github.com/aicl-lab/aicl-lab
+> 📚 作品集地图：https://github.com/open-infra-ai/open-infra-ai
 
 <p align="center">
   <strong>从 SGEMM 基础到可复用推理组件的系统性 CUDA 算子工程学习路径</strong><br>
@@ -11,9 +11,9 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/aicl-lab/cuda-foundations/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/aicl-lab/cuda-foundations/ci.yml?style=flat-square&logo=github&label=CI" alt="CI"></a>
-  <a href="https://aicl-lab.github.io/cuda-foundations/"><img src="https://img.shields.io/github/actions/workflow/status/aicl-lab/cuda-foundations/pages.yml?branch=master&style=flat-square&logo=githubpages&logoColor=white&label=Pages" alt="Pages"></a>
-  <a href="https://github.com/aicl-lab/cuda-foundations/releases"><img src="https://img.shields.io/github/v/release/aicl-lab/cuda-foundations?style=flat-square&logo=github" alt="Release"></a>
+  <a href="https://github.com/open-infra-ai/cuda-foundations/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/open-infra-ai/cuda-foundations/ci.yml?style=flat-square&logo=github&label=CI" alt="CI"></a>
+  <a href="https://open-infra-ai.github.io/cuda-foundations/"><img src="https://img.shields.io/github/actions/workflow/status/open-infra-ai/cuda-foundations/pages.yml?branch=master&style=flat-square&logo=githubpages&logoColor=white&label=Pages" alt="Pages"></a>
+  <a href="https://github.com/open-infra-ai/cuda-foundations/releases"><img src="https://img.shields.io/github/v/release/open-infra-ai/cuda-foundations?style=flat-square&logo=github" alt="Release"></a>
   <img src="https://img.shields.io/badge/CUDA-12.x-76B900?style=flat-square&logo=nvidia" alt="CUDA">
   <img src="https://img.shields.io/badge/C++-17%2F20-00599C?style=flat-square&logo=cplusplus" alt="C++">
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue?style=flat-square" alt="License"></a>
@@ -26,7 +26,7 @@
 <div class="showcase-hero">
   <p class="showcase-kicker">这个仓库面向希望真正理解 CUDA 算子工程路径的读者：从第一个可运行 SGEMM，到可复用 kernel、进阶优化实验，以及轻量级推理系统拼装。</p>
   <div class="showcase-cta">
-    <a href="https://aicl-lab.github.io/cuda-foundations/">访问 GitHub Pages</a>
+    <a href="https://open-infra-ai.github.io/cuda-foundations/">访问 GitHub Pages</a>
     <a href="docs/zh/index.md">查看文档</a>
     <a href="01-sgemm-tutorial/README.md">从模块 01 开始</a>
   </div>
@@ -55,7 +55,7 @@
 
 CUDA Kernel Academy 是 `sgemm-optimization`、`modern-ai-kernels`、`hpc-ai-optimization-lab` 和 `mini-inference-engine` 四条重叠学习路径的唯一维护入口。仍有价值的实现和验证已经进入对应 Academy 模块，重复仓库直接退场，不再保留平行维护入口。
 
-原 `llm-speed` 的 GEMM 学习路径由本仓库覆盖，仍维护的深度 FlashAttention 实现位于 [`cuflash-attn`](https://github.com/aicl-lab/cuflash-attn)。本仓库不会搬入每一种历史实现，只为每个教学角色保留一条清晰路径。
+原 `llm-speed` 的 GEMM 学习路径由本仓库覆盖，仍维护的深度 FlashAttention 实现位于 [`cuflash-attn`](https://github.com/open-infra-ai/cuflash-attn)。本仓库不会搬入每一种历史实现，只为每个教学角色保留一条清晰路径。
 
 ## 项目边界（IN / OUT）
 
@@ -66,9 +66,9 @@ CUDA Kernel Academy 是 `sgemm-optimization`、`modern-ai-kernels`、`hpc-ai-opt
 - profiling 与性能分析方法
 
 **OUT（明确不做，见对应仓库）**：
-- 生产级推理运行时（模型加载/采样/生成）→ [tiny-llm](https://github.com/aicl-lab/tiny-llm)
-- 完整 FlashAttention 前后向与优化 → [cuflash-attn](https://github.com/aicl-lab/cuflash-attn)
-- Serving / 分页 KV / continuous batching → [paged-infer](https://github.com/aicl-lab/paged-infer)
+- 生产级推理运行时（模型加载/采样/生成）→ [tiny-llm](https://github.com/open-infra-ai/tiny-llm)
+- 完整 FlashAttention 前后向与优化 → [cuflash-attn](https://github.com/open-infra-ai/cuflash-attn)
+- Serving / 分页 KV / continuous batching → [paged-infer](https://github.com/open-infra-ai/paged-infer)
 - 本仓库 [04-inference-engine](04-inference-engine/README.md) 为**教学预览**，非独立作品
 - 本仓库 [03-hpc-advanced](03-hpc-advanced/README.md) 的 FlashAttention 核是教学简化版，权威实现见 cuflash-attn
 
@@ -96,7 +96,7 @@ CUDA Kernel Academy 是 `sgemm-optimization`、`modern-ai-kernels`、`hpc-ai-opt
 ## 快速开始
 
 ```bash
-git clone https://github.com/aicl-lab/cuda-foundations.git
+git clone https://github.com/open-infra-ai/cuda-foundations.git
 cd cuda-foundations
 
 cmake --list-presets
@@ -156,7 +156,7 @@ make test
   title = {CUDA Kernel Academy},
   year = {2026},
   publisher = {GitHub},
-  url = {https://github.com/aicl-lab/cuda-foundations}
+  url = {https://github.com/open-infra-ai/cuda-foundations}
 }
 ```
 

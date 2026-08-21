@@ -1,11 +1,11 @@
 blank_issues_enabled: false
 contact_links:
   - name: 💬 Discussions
-    url: https://github.com/aicl-lab/cuda-foundations/discussions
+    url: https://github.com/open-infra-ai/cuda-foundations/discussions
     about: Ask questions and discuss ideas in GitHub Discussions
   - name: 📚 Documentation
-    url: https://aicl-lab.github.io/cuda-foundations/
+    url: https://open-infra-ai.github.io/cuda-foundations/
     about: Start from the landing page, docs overview, and module entry points
   - name: 🔒 Security Issues
-    url: https://github.com/aicl-lab/cuda-foundations/security/policy
+    url: https://github.com/open-infra-ai/cuda-foundations/security/policy
     about: Report security vulnerabilities privately (do NOT create public issues)

@@ -61,7 +61,7 @@
   </g>
 
   <!-- URL -->
-  <text x="300" y="520" font-family="monospace" font-size="20" fill="#484f58">github.com/aicl-lab/cuda-foundations</text>
+  <text x="300" y="520" font-family="monospace" font-size="20" fill="#484f58">github.com/open-infra-ai/cuda-foundations</text>
 
   <!-- Decorative elements -->
   <circle cx="1100" cy="100" r="60" fill="#76B900" opacity="0.1"/>

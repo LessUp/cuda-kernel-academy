@@ -26,7 +26,7 @@ Please avoid drive-by framework additions, generic boilerplate docs, or speculat
 ## Quick start
 
 ```bash
-git clone https://github.com/aicl-lab/cuda-foundations.git
+git clone https://github.com/open-infra-ai/cuda-foundations.git
 cd cuda-foundations
 
 pip install pre-commit

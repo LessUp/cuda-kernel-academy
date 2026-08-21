@@ -8,7 +8,7 @@ hero:
   actions:
     - theme: brand
       text: "Visit GitHub"
-      link: "https://github.com/aicl-lab/cuda-foundations"
+      link: "https://github.com/open-infra-ai/cuda-foundations"
     - theme: alt
       text: "Start Reading"
       link: "/en/guides/getting-started"

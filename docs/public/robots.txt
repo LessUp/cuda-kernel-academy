@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://aicl-lab.github.io/cuda-foundations/sitemap.xml
+Sitemap: https://open-infra-ai.github.io/cuda-foundations/sitemap.xml

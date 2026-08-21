@@ -11,7 +11,7 @@
         </p>
         <div class="hero-actions">
           <a
-            href="https://github.com/aicl-lab/cuda-foundations"
+            href="https://github.com/open-infra-ai/cuda-foundations"
             class="hero-btn hero-btn-primary"
             target="_blank"
             rel="noopener"

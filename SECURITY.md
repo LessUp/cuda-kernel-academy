@@ -15,7 +15,7 @@ CUDA Kernel Academy is an educational CUDA repository, but security issues still
 
 Please use GitHub private vulnerability reporting:
 
-- <https://github.com/aicl-lab/cuda-foundations/security/advisories/new>
+- <https://github.com/open-infra-ai/cuda-foundations/security/advisories/new>
 
 Include:
 

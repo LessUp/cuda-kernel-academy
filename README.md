@@ -1,9 +1,9 @@
 # cuda-foundations
 
-> GitHub repository: [`cuda-foundations`](https://github.com/aicl-lab/cuda-foundations)
+> GitHub repository: [`cuda-foundations`](https://github.com/open-infra-ai/cuda-foundations)
 > Teaching brand: CUDA Kernel Academy
 >
-> 📚 Portfolio map: https://github.com/aicl-lab/aicl-lab
+> 📚 Portfolio map: https://github.com/open-infra-ai/open-infra-ai
 
 <p align="center">
   <strong>Systematic CUDA kernel engineering from SGEMM fundamentals to reusable inference components</strong><br>
@@ -11,9 +11,9 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/aicl-lab/cuda-foundations/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/aicl-lab/cuda-foundations/ci.yml?style=flat-square&logo=github&label=CI" alt="CI"></a>
-  <a href="https://aicl-lab.github.io/cuda-foundations/"><img src="https://img.shields.io/github/actions/workflow/status/aicl-lab/cuda-foundations/pages.yml?branch=master&style=flat-square&logo=githubpages&logoColor=white&label=Pages" alt="Pages"></a>
-  <a href="https://github.com/aicl-lab/cuda-foundations/releases"><img src="https://img.shields.io/github/v/release/aicl-lab/cuda-foundations?style=flat-square&logo=github" alt="Release"></a>
+  <a href="https://github.com/open-infra-ai/cuda-foundations/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/open-infra-ai/cuda-foundations/ci.yml?style=flat-square&logo=github&label=CI" alt="CI"></a>
+  <a href="https://open-infra-ai.github.io/cuda-foundations/"><img src="https://img.shields.io/github/actions/workflow/status/open-infra-ai/cuda-foundations/pages.yml?branch=master&style=flat-square&logo=githubpages&logoColor=white&label=Pages" alt="Pages"></a>
+  <a href="https://github.com/open-infra-ai/cuda-foundations/releases"><img src="https://img.shields.io/github/v/release/open-infra-ai/cuda-foundations?style=flat-square&logo=github" alt="Release"></a>
   <img src="https://img.shields.io/badge/CUDA-12.x-76B900?style=flat-square&logo=nvidia" alt="CUDA">
   <img src="https://img.shields.io/badge/C++-17%2F20-00599C?style=flat-square&logo=cplusplus" alt="C++">
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue?style=flat-square" alt="License"></a>
@@ -26,7 +26,7 @@
 <div class="showcase-hero">
   <p class="showcase-kicker">A repository for people who want to understand how CUDA kernels evolve from a first correct GEMM into reusable kernels, advanced optimization experiments, and lightweight inference plumbing.</p>
   <div class="showcase-cta">
-    <a href="https://aicl-lab.github.io/cuda-foundations/">Visit GitHub Pages</a>
+    <a href="https://open-infra-ai.github.io/cuda-foundations/">Visit GitHub Pages</a>
     <a href="docs/en/index.md">Read the docs</a>
     <a href="01-sgemm-tutorial/README.md">Start with module 01</a>
   </div>
@@ -61,7 +61,7 @@ and `paged-infer`).
 
 CUDA Kernel Academy is the maintained successor for the overlapping learning paths that previously lived in `sgemm-optimization`, `modern-ai-kernels`, `hpc-ai-optimization-lab`, and `mini-inference-engine`. Useful implementations and verification now live in the matching Academy modules; the duplicate repositories have been retired instead of remaining as parallel maintenance surfaces.
 
-The former `llm-speed` GEMM learning path is covered here, while the maintained deep FlashAttention implementation lives in [`cuflash-attn`](https://github.com/aicl-lab/cuflash-attn). The Academy intentionally keeps only one implementation per teaching role instead of importing every historical variant.
+The former `llm-speed` GEMM learning path is covered here, while the maintained deep FlashAttention implementation lives in [`cuflash-attn`](https://github.com/open-infra-ai/cuflash-attn). The Academy intentionally keeps only one implementation per teaching role instead of importing every historical variant.
 
 ## Scope（IN / OUT）
 
@@ -72,9 +72,9 @@ The former `llm-speed` GEMM learning path is covered here, while the maintained 
 - profiling 与性能分析方法
 
 **OUT（明确不做，见对应仓库）**：
-- 生产级推理运行时（模型加载/采样/生成）→ [tiny-llm](https://github.com/aicl-lab/tiny-llm)
-- 完整 FlashAttention 前后向与优化 → [cuflash-attn](https://github.com/aicl-lab/cuflash-attn)
-- Serving / 分页 KV / continuous batching → [paged-infer](https://github.com/aicl-lab/paged-infer)
+- 生产级推理运行时（模型加载/采样/生成）→ [tiny-llm](https://github.com/open-infra-ai/tiny-llm)
+- 完整 FlashAttention 前后向与优化 → [cuflash-attn](https://github.com/open-infra-ai/cuflash-attn)
+- Serving / 分页 KV / continuous batching → [paged-infer](https://github.com/open-infra-ai/paged-infer)
 - 本仓库 [04-inference-engine](04-inference-engine/README.md) 为**教学预览**，非独立作品
 - 本仓库 [03-hpc-advanced](03-hpc-advanced/README.md) 的 FlashAttention 核是教学简化版，权威实现见 cuflash-attn
 
@@ -102,7 +102,7 @@ For the repository sequence from CUDA fundamentals to LLM serving, see the Chine
 ## Quick start
 
 ```bash
-git clone https://github.com/aicl-lab/cuda-foundations.git
+git clone https://github.com/open-infra-ai/cuda-foundations.git
 cd cuda-foundations
 
 cmake --list-presets
@@ -137,7 +137,7 @@ make test
 - [中文文档首页](docs/zh/index.md)
 - [Follow-up development plan (executable by coding agents)](DEV_PLAN.md)
 - [Contributing](CONTRIBUTING.md)
-- 📖 [技术文档站](https://aicl-lab.github.io/cuda-foundations/) 由 VitePress 驱动，支持 NVIDIA 风格深色主题、交互式图表和学术论文引用。
+- 📖 [技术文档站](https://open-infra-ai.github.io/cuda-foundations/) 由 VitePress 驱动，支持 NVIDIA 风格深色主题、交互式图表和学术论文引用。
 
 ## Requirements
 
@@ -163,7 +163,7 @@ make test
   title = {CUDA Kernel Academy},
   year = {2026},
   publisher = {GitHub},
-  url = {https://github.com/aicl-lab/cuda-foundations}
+  url = {https://github.com/open-infra-ai/cuda-foundations}
 }
 ```
 
