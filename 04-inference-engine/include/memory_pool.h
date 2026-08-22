@@ -24,6 +24,13 @@ public:
 
     // Allocate memory from pool
     void* allocate(size_t size) override {
+        // Zero-size requests must not satisfy via lower_bound(0): that would
+        // steal an existing cached block and then re-insert it under a 0-byte
+        // key that can never be reused by real allocations.
+        if (size == 0) {
+            return nullptr;
+        }
+
         std::lock_guard<std::mutex> lock(mutex_);
 
         // Round up to alignment
@@ -236,10 +243,16 @@ public:
     bool empty() const { return ptr_ == nullptr; }
 
     void copy_from_host(const float* host_data, size_t bytes) {
+        if (bytes > size_) {
+            throw std::invalid_argument("copy_from_host: bytes exceed allocation size");
+        }
         CUDA_CHECK(cudaMemcpy(ptr_, host_data, bytes, cudaMemcpyHostToDevice));
     }
 
     void copy_to_host(float* host_data, size_t bytes) const {
+        if (bytes > size_) {
+            throw std::invalid_argument("copy_to_host: bytes exceed allocation size");
+        }
         CUDA_CHECK(cudaMemcpy(host_data, ptr_, bytes, cudaMemcpyDeviceToHost));
     }
 

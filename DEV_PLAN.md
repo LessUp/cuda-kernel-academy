@@ -34,6 +34,39 @@
 - 文档去“工业级/生产级”，性能占位数字标注
 - CI 增加 CUDA 编译 smoke job
 
+### 2026-08-21 bug 排查修复（已完成，2026-08-22 全量回归通过）
+
+以下修复 2026-08-22 在 GPU 恢复后完成全量验证：**`ctest` 261/261 通过**
+（含 01-sgemm-tutorial 的 52 个测试，修复前从未被收集）。
+验证中修正一处：`LoggerTest.SpecialCharacters` 原按旧语义用 `%%` 转义、
+期望输出 `%`；logger 无参路径改为 verbatim 后，测试已按新语义更新
+（原样输出特殊字符，断言 `%d %s %f` 逐字出现）。
+
+- 根 CMake：`enable_testing()`/`include(CTest)` 移到所有 `add_subdirectory()` 之前，
+  修复 01-sgemm-tutorial 的 ~52 个测试从未被 `ctest` 收集的问题（受控实验：209 → 261）。
+- `04-inference-engine/include/stream_manager.h`：拆分 `init_locked()`，修复
+  `get_stream()` 懒初始化时对非递归 `mutex_` 双重加锁导致的死锁（gdb 实锤）；修复
+  `get_stream(int)` 负索引越界。
+- `02-tensorcraft-core/include/tensorcraft/memory/memory_pool.hpp`：`clear()` 不再清空
+  存活分配记录（修复泄漏）；`deallocate()` 移除 live 记录并防双重释放别名，外部指针
+  直接 `cudaFree`。
+- `04-inference-engine/include/memory_pool.h`：`allocate(0)` 直接返回 `nullptr`
+  （原实现会经 `lower_bound(0)` 偷走缓存块）；`PooledMemory::copy_from_host/to_host`
+  增加 `bytes <= size_` 校验。
+- `04-inference-engine/include/logger.h`：无参 `format_string` 不再把运行期字符串
+  当格式串传给 `snprintf`（消除 `-Wformat-security` 隐患）。
+- `02-tensorcraft-core/include/tensorcraft/kernels/attention.hpp`：`launch_rope` 增加
+  `max_cache_len` 参数并在越界时抛异常（更新 benchmark 调用点）。
+
+### 下次待办（记录存档）
+
+| 编号 | 问题 | 严重度 | 状态 |
+|---|---:|---:|---:|
+| D1 | WSL2 GPU 驱动栈崩溃（`nvidia-smi` 与最小 CUDA 程序均段错误，疑似宿主侧状态损坏，重启 WSL 即恢复） | 高 | ✅ 2026-08-22 恢复 |
+| D2 | GPU 恢复后全量回归：`cmake --preset default && cmake --build --preset default && ctest`，预期 ~261 个测试全绿（含 01 模块 52 个） | 高 | ✅ 261/261 通过 |
+| D3 | WSL2 链接 cuBLAS 的程序会经 `libcublasLt` 的 `RUNPATH=$ORIGIN` 解析到原生 `libcuda.so.580.173.02`（属 `libnvidia-compute-580` 包，WSL2 用不到）导致 `cudaGetDeviceCount` 失败；根治是移除该包，临时用 `export LD_LIBRARY_PATH=/usr/lib/wsl/lib` | 高 | 未复现（本次回归未见 cuBLAS 路径报错）；临时规避仍可用 |
+| D4 | 复核修复后 `01-sgemm-tutorial` 模块用 nvcc 全量编译 + 跑完 52 个测试，确认无回归 | 中 | ✅ 随 261/261 一并验证 |
+
 ### 剩余问题（按优先级执行）
 
 | 编号 | 问题 | 严重度 | 预估 |

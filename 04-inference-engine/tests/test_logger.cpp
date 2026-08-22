@@ -294,7 +294,10 @@ TEST_F(LoggerTest, SpecialCharacters) {
     Logger::instance().set_file(log_path_);
     Logger::instance().set_level(LogLevel::INFO);
 
-    LOG_INFO("Special chars: %%d %%s %%f");
+    // 零参数调用走 verbatim 路径（format_string(fmt) 按原样返回，不做格式
+    // 解析）：嵌入的 '%' 等特殊字符必须原样写入日志文件，不能被当格式串
+    // 误解析（-Wformat-security 隐患的回归用例）。
+    LOG_INFO("Special chars: %d %s %f");
 
     std::ifstream file(log_path_);
     std::string content((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());

@@ -439,13 +439,24 @@ void launch_flash_attention(const T* Q, const T* K, const T* V, T* O, int batch_
 
 /**
  * @brief Launch RoPE kernel
+ *
+ * @param max_cache_len Length of the cos/sin caches (positions [0, max_cache_len)).
+ *                      Pass 0 to skip the bounds check.  When non-zero the
+ *                      requested position range [start_pos, start_pos + seq_len)
+ *                      must fit inside the caches, otherwise the kernel would
+ *                      read past their end.
  */
 template <typename T>
 void launch_rope(T* x, const float* cos_cache, const float* sin_cache, int batch_size, int seq_len,
-                 int num_heads, int head_dim, int start_pos = 0, cudaStream_t stream = nullptr) {
+                 int num_heads, int head_dim, int start_pos = 0, cudaStream_t stream = nullptr,
+                 int max_cache_len = 0) {
     const int total = batch_size * seq_len * num_heads * (head_dim / 2);
     if (total == 0)
         return;
+
+    if (max_cache_len > 0 && start_pos + seq_len > max_cache_len) {
+        throw std::invalid_argument("launch_rope: position range exceeds cos/sin cache length");
+    }
 
     constexpr int BLOCK_SIZE = 256;
     const int grid_size = (total + BLOCK_SIZE - 1) / BLOCK_SIZE;

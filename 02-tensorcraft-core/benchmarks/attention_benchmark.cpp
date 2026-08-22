@@ -111,7 +111,8 @@ protected:
 
 BENCHMARK_DEFINE_F(RoPEBenchmark, RoPE)(benchmark::State& state) {
     for (auto _ : state) {
-        launch_rope(d_x, d_cos, d_sin, batch_size, seq_len, num_heads, head_dim, 0);
+        launch_rope(d_x, d_cos, d_sin, batch_size, seq_len, num_heads, head_dim, 0, nullptr,
+                    seq_len);
         cudaDeviceSynchronize();
     }
 

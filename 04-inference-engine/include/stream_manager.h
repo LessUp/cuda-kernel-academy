@@ -23,21 +23,14 @@ public:
     // Initialize with specified number of streams
     void init(int num_streams = 4) {
         std::lock_guard<std::mutex> lock(mutex_);
-        cleanup();
-
-        num_streams_ = num_streams;
-        streams_.resize(num_streams);
-        for (int i = 0; i < num_streams; i++) {
-            CUDA_CHECK(cudaStreamCreate(&streams_[i]));
-        }
-        current_stream_ = 0;
+        init_locked(num_streams);
     }
 
     // Get next stream in round-robin fashion
     cudaStream_t get_stream() {
         std::lock_guard<std::mutex> lock(mutex_);
         if (streams_.empty()) {
-            init();
+            init_locked();
         }
         cudaStream_t stream = streams_[current_stream_];
         current_stream_ = (current_stream_ + 1) % num_streams_;
@@ -48,9 +41,10 @@ public:
     cudaStream_t get_stream(int index) {
         std::lock_guard<std::mutex> lock(mutex_);
         if (streams_.empty()) {
-            init();
+            init_locked();
         }
-        return streams_[index % num_streams_];
+        int idx = ((index % num_streams_) + num_streams_) % num_streams_;
+        return streams_[idx];
     }
 
     // Synchronize all streams
@@ -90,6 +84,18 @@ private:
 
     StreamManager(const StreamManager&) = delete;
     StreamManager& operator=(const StreamManager&) = delete;
+
+    // Must be called with mutex_ held.
+    void init_locked(int num_streams = 4) {
+        cleanup();
+
+        num_streams_ = num_streams;
+        streams_.resize(num_streams);
+        for (int i = 0; i < num_streams; i++) {
+            CUDA_CHECK(cudaStreamCreate(&streams_[i]));
+        }
+        current_stream_ = 0;
+    }
 
     std::vector<cudaStream_t> streams_;
     int num_streams_ = 0;

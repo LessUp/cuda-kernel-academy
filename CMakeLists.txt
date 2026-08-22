@@ -123,6 +123,20 @@ if(BUILD_TESTS)
 endif()
 
 # =============================================================================
+# Testing
+# =============================================================================
+# Enable testing BEFORE the subdirectories are added.  Otherwise a module that
+# relies on the top-level enable_testing() (e.g. 01-sgemm-tutorial, which does
+# not call it itself) never gets a CTestTestfile.cmake generated and its tests
+# silently drop out of the repository-wide `ctest` run.
+# =============================================================================
+
+if(BUILD_TESTS)
+  enable_testing()
+  include(CTest)
+endif()
+
+# =============================================================================
 # Subprojects
 # =============================================================================
 
@@ -183,15 +197,6 @@ endif()
 if(BUILD_EXAMPLES)
   message(STATUS "Building examples")
   add_subdirectory(examples)
-endif()
-
-# =============================================================================
-# Testing
-# =============================================================================
-
-if(BUILD_TESTS)
-  enable_testing()
-  include(CTest)
 endif()
 
 # =============================================================================

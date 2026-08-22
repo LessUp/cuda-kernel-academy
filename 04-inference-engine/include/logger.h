@@ -150,14 +150,10 @@ private:
         return std::string(buf.get(), buf.get() + size - 1);
     }
 
-    std::string format_string(const char* fmt) {
-        int size = std::snprintf(nullptr, 0, fmt) + 1;
-        if (size <= 0)
-            return fmt;
-        std::unique_ptr<char[]> buf(new char[size]);
-        std::snprintf(buf.get(), size, fmt);
-        return std::string(buf.get(), buf.get() + size - 1);
-    }
+    // No-argument overload: return the string verbatim.  Passing a runtime
+    // string straight into snprintf as a format string would misparse any
+    // embedded '%' characters (and trips -Wformat-security).
+    std::string format_string(const char* fmt) { return std::string(fmt); }
 
     LogLevel level_ = LogLevel::INFO;
     bool log_to_console_ = true;

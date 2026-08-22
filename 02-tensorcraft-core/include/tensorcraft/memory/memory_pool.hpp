@@ -10,6 +10,7 @@
 #include <memory>
 #include <mutex>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 #include "../core/cuda_check.hpp"
@@ -57,6 +58,7 @@ public:
         if (!free_list.empty()) {
             void* ptr = free_list.back();
             free_list.pop_back();
+            cached_blocks_.erase(ptr);
             stats_.cache_hits++;
             return ptr;
         }
@@ -83,9 +85,24 @@ public:
 
         auto it = allocated_sizes_.find(ptr);
         if (it != allocated_sizes_.end()) {
-            free_blocks_[it->second].push_back(ptr);
+            // Cache the block and drop its live-allocation record so a second
+            // deallocate of the same pointer cannot re-insert it into the
+            // free list (which would later hand out the same pointer twice).
+            size_t size = it->second;
+            allocated_sizes_.erase(it);
+            free_blocks_[size].push_back(ptr);
+            cached_blocks_.insert(ptr);
             stats_.deallocations++;
+            return;
         }
+
+        // Not a live allocation.  Guard against double-deallocate of a block
+        // that is already cached, otherwise two allocations would alias.
+        if (cached_blocks_.count(ptr))
+            return;
+
+        // Foreign pointer: release it directly instead of leaking it.
+        cudaFree(ptr);
     }
 
     /**
@@ -101,7 +118,9 @@ public:
             }
         }
         free_blocks_.clear();
-        allocated_sizes_.clear();
+        cached_blocks_.clear();
+        // Note: allocated_sizes_ (live allocations) is intentionally kept so
+        // that in-flight blocks can still be returned via deallocate().
     }
 
     /**
@@ -133,11 +152,7 @@ public:
             if (!blocks.empty()) {
                 void* ptr = blocks.back();
                 blocks.pop_back();
-
-                auto it = allocated_sizes_.find(ptr);
-                if (it != allocated_sizes_.end()) {
-                    allocated_sizes_.erase(it);
-                }
+                cached_blocks_.erase(ptr);
 
                 cudaFree(ptr);
                 cached_bytes -= max_size;
@@ -187,6 +202,7 @@ private:
     mutable std::mutex mutex_;
     std::unordered_map<size_t, std::vector<void*>> free_blocks_;
     std::unordered_map<void*, size_t> allocated_sizes_;
+    std::unordered_set<void*> cached_blocks_;
     Stats stats_;
 };
 
