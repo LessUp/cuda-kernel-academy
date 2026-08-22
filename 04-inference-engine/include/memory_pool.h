@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <map>
 #include <mutex>
+#include <unordered_set>
 #include <vector>
 
 #include "common.h"
@@ -39,8 +40,11 @@ public:
         // Check free list for suitable block
         auto it = free_blocks_.lower_bound(size);
         if (it != free_blocks_.end()) {
+            size_t cached_size = it->first;
             void* ptr = it->second;
             free_blocks_.erase(it);
+            cached_blocks_.erase(ptr);
+            stats_.cached_size -= cached_size;
             allocated_blocks_[ptr] = size;
             stats_.cache_hits++;
             return ptr;
@@ -74,6 +78,12 @@ public:
 
         auto it = allocated_blocks_.find(ptr);
         if (it == allocated_blocks_.end()) {
+            // A block that is already cached must not be cudaFree'd again:
+            // doing so would release pooled memory that the pool still hands
+            // out, a use-after-free.  Ignore the duplicate deallocate.
+            if (cached_blocks_.count(ptr)) {
+                return;
+            }
             // Not from this pool, free directly
             cudaFree(ptr);
             return;
@@ -84,6 +94,7 @@ public:
 
         // Add to free list
         free_blocks_.insert({size, ptr});
+        cached_blocks_.insert(ptr);
         stats_.cached_size += size;
     }
 
@@ -95,6 +106,7 @@ public:
             cudaFree(ptr);
         }
         free_blocks_.clear();
+        cached_blocks_.clear();
         stats_.cached_size = 0;
     }
 
@@ -111,6 +123,7 @@ public:
             cudaFree(ptr);
         }
         free_blocks_.clear();
+        cached_blocks_.clear();
 
         stats_ = {};
     }
@@ -158,7 +171,9 @@ private:
         size_t freed = 0;
         auto it = free_blocks_.begin();
         while (it != free_blocks_.end() && freed < needed) {
-            cudaFree(it->second);
+            void* ptr = it->second;
+            cudaFree(ptr);
+            cached_blocks_.erase(ptr);
             freed += it->first;
             stats_.cached_size -= it->first;
             it = free_blocks_.erase(it);
@@ -169,6 +184,7 @@ private:
     mutable std::mutex mutex_;
     std::map<void*, size_t> allocated_blocks_;
     std::multimap<size_t, void*> free_blocks_;
+    std::unordered_set<void*> cached_blocks_;
     Stats stats_;
 };
 

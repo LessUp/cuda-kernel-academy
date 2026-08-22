@@ -297,6 +297,23 @@ void launch_spmm_csr(const T* A_values, const int* A_col_indices, const int* A_r
     TC_CUDA_CHECK_LAST();
 }
 
+// Tiled SpMM variant: one warp per row, computing a TILE_N-wide slice of the
+// output row at a time using shared memory for the B slice.
+template <typename T, int TILE_N = 32>
+void launch_spmm_csr_tiled(const T* A_values, const int* A_col_indices, const int* A_row_ptrs,
+                           const T* B, T* C, int M, int K, int N, cudaStream_t stream = nullptr) {
+    if (M == 0 || N == 0)
+        return;
+
+    // spmm_csr_tiled_kernel indexes shared memory by threadIdx.x and assumes
+    // exactly one warp (32 threads) per row.
+    dim3 block(32);
+    dim3 grid((N + TILE_N - 1) / TILE_N, M);
+    spmm_csr_tiled_kernel<T, TILE_N>
+        <<<grid, block, 0, stream>>>(A_values, A_col_indices, A_row_ptrs, B, C, M, K, N);
+    TC_CUDA_CHECK_LAST();
+}
+
 template <typename T>
 void launch_csr_to_dense(const T* values, const int* col_indices, const int* row_ptrs, T* dense,
                          int rows, int cols, cudaStream_t stream = nullptr) {

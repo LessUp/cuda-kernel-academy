@@ -4,6 +4,9 @@
  * @brief 2D Convolution kernels with multiple implementations
  */
 
+#include <cstdint>
+#include <stdexcept>
+
 #include "../core/cuda_check.hpp"
 #include "../core/features.hpp"
 #include "../core/type_traits.hpp"
@@ -138,6 +141,10 @@ void launch_conv2d_naive(const T* input, const T* weight, const T* bias, T* outp
                          int pad_w, cudaStream_t stream = nullptr) {
     int OH = (H + 2 * pad_h - R) / stride_h + 1;
     int OW = (W + 2 * pad_w - S) / stride_w + 1;
+    // gridDim.z is capped at 65535; N*K would overflow or fail to launch.
+    if (static_cast<int64_t>(N) * K > 65535) {
+        throw std::invalid_argument("conv2d: batch*out_channels exceeds the 65535 gridDim.z limit");
+    }
     dim3 block(16, 16);
     dim3 grid((OW + 15) / 16, (OH + 15) / 16, N * K);
     conv2d_naive_kernel<T><<<grid, block, 0, stream>>>(

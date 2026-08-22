@@ -428,6 +428,11 @@ void launch_flash_attention(const T* Q, const T* K, const T* V, T* O, int batch_
     constexpr int HEAD_DIM = 64;
 
     // 256 threads per block: dim3(32, 8)
+    // gridDim.z is capped at 65535; batch*heads would fail to launch.
+    if (static_cast<int64_t>(batch_size) * num_heads > 65535) {
+        throw std::invalid_argument(
+            "flash_attention: batch*heads exceeds the 65535 gridDim.z limit");
+    }
     dim3 block(BLOCK_N, BLOCK_M);
     dim3 grid((seq_len + BLOCK_M - 1) / BLOCK_M, 1, batch_size * num_heads);
 

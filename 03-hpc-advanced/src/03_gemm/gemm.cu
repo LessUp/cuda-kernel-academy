@@ -2,6 +2,8 @@
 #include "../common/cuda_check.cuh"
 
 #include <cstdint>
+#include <mma.h>
+#include <stdexcept>
 
 namespace hpc::gemm {
 
@@ -323,7 +325,6 @@ void gemm<__half, GemmOpt::RegisterTiling>(const __half* A, const __half* B, __h
 
 
 // Tensor Core GEMM using WMMA API
-#include <mma.h>
 using namespace nvcuda;
 
 // WMMA tile dimensions (fixed by hardware)
@@ -437,6 +438,14 @@ template <>
 void gemm<__half, GemmOpt::TensorCoreWMMA>(const __half* A, const __half* B, __half* C,
                                             int M, int N, int K,
                                             float alpha, float beta, cudaStream_t stream) {
+    // WMMA load/store_matrix_sync operates on full 16x16 fragments with no
+    // partial-tile handling; unaligned dimensions would read/write out of
+    // bounds. Reject them up front instead of silently corrupting results.
+    if (M % WMMA_M != 0 || N % WMMA_N != 0 || K % WMMA_K != 0) {
+        throw std::invalid_argument(
+            "gemm<TensorCoreWMMA>: M, N, K must be multiples of 16 (WMMA fragment size)");
+    }
+
     // Each block has multiple warps
     constexpr int WARPS_PER_BLOCK = (WMMA_BLK_M / WMMA_M) * (WMMA_BLK_N / WMMA_N);
     constexpr int THREADS_PER_BLOCK = WARPS_PER_BLOCK * 32;
@@ -539,8 +548,12 @@ __global__ void gemm_software_pipeline_kernel(const T* __restrict__ A,
     int block_row = blockIdx.y * PIPE_TILE_M;
     int block_col = blockIdx.x * PIPE_TILE_N;
 
-    int thread_row = threadIdx.x / PIPE_TILE_N;
-    int thread_col = threadIdx.x % PIPE_TILE_N;
+    // 16 x 16 thread grid; each thread owns a 4 x 4 output tile -> 64 x 64 block tile.
+    // (Dividing by PIPE_TILE_N (64) would map threads to a 4 x 64 grid, leaving rows 16..63
+    // uncomputed and reading Bs up to column 255 -> shared-memory OOB.)
+    constexpr int THREAD_TILE = 4;
+    int thread_col = threadIdx.x % (PIPE_TILE_N / THREAD_TILE);
+    int thread_row = threadIdx.x / (PIPE_TILE_N / THREAD_TILE);
 
     // Register accumulator
     float reg_c[4][4] = {0.0f};

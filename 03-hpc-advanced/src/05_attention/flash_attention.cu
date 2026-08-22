@@ -1,4 +1,5 @@
 #include "flash_attention.cuh"
+#include <stdexcept>
 #include "../common/cuda_check.cuh"
 #include <cfloat>
 
@@ -118,6 +119,15 @@ void flash_attention_forward<float>(const float* Q, const float* K, const float*
                                     cudaStream_t stream) {
     constexpr int BLOCK_SIZE = 32;
     constexpr int HEAD_DIM = 64;
+
+    if (config.head_dim != HEAD_DIM) {
+        throw std::invalid_argument("flash_attention: head_dim must equal HEAD_DIM (" +
+                                    std::to_string(HEAD_DIM) + "); got " +
+                                    std::to_string(config.head_dim));
+    }
+    if (config.seq_len <= 0 || config.batch_size <= 0 || config.num_heads <= 0) {
+        throw std::invalid_argument("flash_attention: seq_len/batch/heads must be > 0");
+    }
 
     dim3 grid(config.batch_size * config.num_heads,
               (config.seq_len + BLOCK_SIZE - 1) / BLOCK_SIZE);

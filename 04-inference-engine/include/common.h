@@ -17,6 +17,7 @@
 #include <cstdint>
 #include <cstdio>
 #include <memory>
+#include <mutex>
 #include <random>
 #include <sstream>
 #include <stdexcept>
@@ -289,7 +290,11 @@ inline float compare_matrices(const float* A, const float* B, size_t n) {
 
 // Random matrix initialization
 inline void random_init(float* data, size_t n, float min_val = -1.0f, float max_val = 1.0f) {
-    static std::mt19937 gen(42);  // Fixed seed for reproducibility
+    // Function-local static generator with a fixed seed for reproducibility;
+    // the mutex makes concurrent calls from multiple threads safe.
+    static std::mt19937 gen(42);
+    static std::mutex m;
+    std::lock_guard<std::mutex> lock(m);
     std::uniform_real_distribution<float> dist(min_val, max_val);
     for (size_t i = 0; i < n; i++) {
         data[i] = dist(gen);

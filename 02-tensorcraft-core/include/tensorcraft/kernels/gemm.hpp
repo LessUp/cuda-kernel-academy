@@ -284,8 +284,10 @@ __global__ void transpose_naive_kernel(const T* TC_RESTRICT input, T* TC_RESTRIC
 template <typename T, int TILE_SIZE = 32>
 __global__ void transpose_shared_kernel(const T* TC_RESTRICT input, T* TC_RESTRICT output, int rows,
                                         int cols) {
-    // +1 padding to avoid bank conflicts
-    __shared__ float tile[TILE_SIZE][TILE_SIZE + 1];
+    // +1 padding to avoid bank conflicts.  The tile is stored in T rather than
+    // a float intermediate so that T = double (or any other type) is not
+    // silently truncated by a double -> float -> double round-trip.
+    __shared__ T tile[TILE_SIZE][TILE_SIZE + 1];
 
     const int bx = blockIdx.x * TILE_SIZE;
     const int by = blockIdx.y * TILE_SIZE;
@@ -297,7 +299,7 @@ __global__ void transpose_shared_kernel(const T* TC_RESTRICT input, T* TC_RESTRI
     const int in_col = bx + tx;
 
     if (in_row < rows && in_col < cols) {
-        tile[ty][tx] = to_float(input[in_row * cols + in_col]);
+        tile[ty][tx] = input[in_row * cols + in_col];
     }
 
     __syncthreads();
@@ -307,7 +309,7 @@ __global__ void transpose_shared_kernel(const T* TC_RESTRICT input, T* TC_RESTRI
     const int out_col = by + tx;
 
     if (out_row < cols && out_col < rows) {
-        output[out_row * rows + out_col] = from_float<T>(tile[tx][ty]);
+        output[out_row * rows + out_col] = tile[tx][ty];
     }
 }
 

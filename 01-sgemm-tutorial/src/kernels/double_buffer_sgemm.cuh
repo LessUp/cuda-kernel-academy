@@ -301,6 +301,14 @@ void launch_double_buffer_register_tiled_sgemm(
     int M, int K, int N,
     cudaStream_t stream = 0
 ) {
+    // This kernel allocates 2 buffers x 2 matrices x TILE_SIZE x (TILE_SIZE+1)
+    // floats statically.  With the default TILE_SIZE=64 that is ~65KB, which
+    // exceeds the 48KB static shared-memory limit (sm_86) and makes every
+    // launch fail at runtime.  Reject it at compile time instead; use 32.
+    static_assert(2 * 2 * TILE_SIZE * (TILE_SIZE + 1) * static_cast<int>(sizeof(float)) <= 48 * 1024,
+                  "double_buffer_register_tiled: TILE_SIZE too large; exceeds 48KB static "
+                  "shared memory (use TILE_SIZE=32)");
+
     constexpr int THREADS_X = TILE_SIZE / THREAD_TILE_N;
     constexpr int THREADS_Y = TILE_SIZE / THREAD_TILE_M;
 

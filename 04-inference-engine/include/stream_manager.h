@@ -66,16 +66,10 @@ public:
     // Get number of streams
     int num_streams() const { return num_streams_; }
 
-    // Cleanup
+    // Cleanup (thread-safe)
     void cleanup() {
-        for (auto& stream : streams_) {
-            if (stream) {
-                cudaStreamDestroy(stream);
-            }
-        }
-        streams_.clear();
-        num_streams_ = 0;
-        current_stream_ = 0;
+        std::lock_guard<std::mutex> lock(mutex_);
+        cleanup_locked();
     }
 
 private:
@@ -86,8 +80,20 @@ private:
     StreamManager& operator=(const StreamManager&) = delete;
 
     // Must be called with mutex_ held.
+    void cleanup_locked() {
+        for (auto& stream : streams_) {
+            if (stream) {
+                cudaStreamDestroy(stream);
+            }
+        }
+        streams_.clear();
+        num_streams_ = 0;
+        current_stream_ = 0;
+    }
+
+    // Must be called with mutex_ held.
     void init_locked(int num_streams = 4) {
-        cleanup();
+        cleanup_locked();
 
         num_streams_ = num_streams;
         streams_.resize(num_streams);

@@ -48,9 +48,10 @@ public:
     Tensor(const Tensor&) = delete;
     Tensor& operator=(const Tensor&) = delete;
 
-    // Clone tensor
+    // Clone tensor (keeps the source allocator so a pool/custom allocation
+    // strategy is preserved across the clone)
     Tensor clone() const {
-        Tensor result(shape_);
+        Tensor result(shape_, allocator_);
         if (size_ > 0) {
             CUDA_CHECK(cudaMemcpy(result.data_.get(), data_.get(), size_ * sizeof(float),
                                   cudaMemcpyDeviceToDevice));

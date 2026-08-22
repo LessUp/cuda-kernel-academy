@@ -1,5 +1,6 @@
 #include "vector_add.cuh"
 #include "../common/cuda_check.cuh"
+#include <algorithm>
 
 namespace hpc::elementwise {
 
@@ -56,7 +57,9 @@ template <>
 void vector_add<float, OptLevel::Vectorized>(const float* a, const float* b,
                                               float* c, size_t n, cudaStream_t stream) {
     constexpr int block_size = 256;
-    int grid_size = static_cast<int>((n / 4 + block_size - 1) / block_size);
+    // n < 4 would yield grid_size 0 (invalid launch); at least one block must run
+    // so the scalar tail path handles the remaining 1..3 elements.
+    int grid_size = std::max(1, static_cast<int>((n / 4 + block_size - 1) / block_size));
     vector_add_vectorized_kernel<<<grid_size, block_size, 0, stream>>>(a, b, c, n);
     CUDA_CHECK_LAST();
 }

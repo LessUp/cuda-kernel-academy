@@ -1,8 +1,10 @@
 #pragma once
 
+#include <cctype>
 #include <fstream>
 #include <map>
 #include <sstream>
+#include <vector>
 #include <stdexcept>
 #include <string>
 
@@ -92,6 +94,10 @@ public:
         std::string value = get(key);
         if (value.empty()) {
             return default_value;
+        }
+        // Case-insensitive: "True"/"TRUE"/"Yes" should behave like "true".
+        for (char& c : value) {
+            c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
         }
         return value == "true" || value == "1" || value == "yes" || value == "on";
     }

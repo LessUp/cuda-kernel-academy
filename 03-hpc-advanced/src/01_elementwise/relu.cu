@@ -1,5 +1,6 @@
 #include "relu.cuh"
 #include "../common/cuda_check.cuh"
+#include <algorithm>
 #include "../common/launch.cuh"
 
 namespace hpc::elementwise {
@@ -60,7 +61,9 @@ template <>
 void relu<float, OptLevel::Vectorized>(const float* input, float* output,
                                         size_t n, cudaStream_t stream) {
     constexpr int block_size = 256;
-    int grid_size = static_cast<int>((n / 4 + block_size - 1) / block_size);
+    // n < 4 would yield grid_size 0 (invalid launch); at least one block must run
+    // so the scalar tail path handles the remaining 1..3 elements.
+    int grid_size = std::max(1, static_cast<int>((n / 4 + block_size - 1) / block_size));
     relu_vectorized_kernel<<<grid_size, block_size, 0, stream>>>(input, output, n);
     CUDA_CHECK_LAST();
 }

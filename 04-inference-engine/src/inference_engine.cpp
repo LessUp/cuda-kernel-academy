@@ -67,6 +67,10 @@ bool InferenceEngine::load_weights(const std::string& path) {
     layers_.clear();
     layers_.reserve(header.num_layers);
 
+    // Sanity limits for a single layer so a corrupted header cannot trigger a
+    // huge allocation (OOM) even though the layer *count* is already capped.
+    constexpr size_t kMaxLayerElements = (size_t{1} << 28);  // ~1 GiB of floats
+
     // Read each layer
     for (uint32_t i = 0; i < header.num_layers; i++) {
         LayerMeta meta;
@@ -74,6 +78,12 @@ bool InferenceEngine::load_weights(const std::string& path) {
         if (!file.good()) {
             layers_.clear();
             return false;  // truncated in the middle of a layer
+        }
+
+        if (meta.in_features == 0 || meta.out_features == 0 ||
+            static_cast<size_t>(meta.in_features) * meta.out_features > kMaxLayerElements) {
+            layers_.clear();
+            return false;  // unreasonable single-layer size: refuse to proceed
         }
 
         LayerWeights layer;
@@ -125,6 +135,9 @@ bool InferenceEngine::save_weights(const std::string& path) const {
     header.num_layers = static_cast<uint32_t>(layers_.size());
     std::fill(std::begin(header.reserved), std::end(header.reserved), 0);
     file.write(reinterpret_cast<const char*>(&header), sizeof(header));
+    if (!file.good()) {
+        return false;  // e.g. disk full
+    }
 
     // Write each layer
     for (const auto& layer : layers_) {
@@ -134,12 +147,18 @@ bool InferenceEngine::save_weights(const std::string& path) const {
         meta.out_features = layer.out_features;
         meta.has_bias = layer.has_bias ? 1 : 0;
         file.write(reinterpret_cast<const char*>(&meta), sizeof(meta));
+        if (!file.good()) {
+            return false;
+        }
 
         // Write weights
         size_t weight_size = static_cast<size_t>(layer.in_features) * layer.out_features;
         std::vector<float> weight_data(weight_size);
         layer.weights.copy_to_host(weight_data.data(), weight_size * sizeof(float));
         file.write(reinterpret_cast<const char*>(weight_data.data()), weight_size * sizeof(float));
+        if (!file.good()) {
+            return false;
+        }
 
         // Write bias if present
         if (layer.has_bias) {
@@ -147,6 +166,9 @@ bool InferenceEngine::save_weights(const std::string& path) const {
             layer.bias.copy_to_host(bias_data.data(), layer.out_features * sizeof(float));
             file.write(reinterpret_cast<const char*>(bias_data.data()),
                        layer.out_features * sizeof(float));
+            if (!file.good()) {
+                return false;
+            }
         }
     }
 

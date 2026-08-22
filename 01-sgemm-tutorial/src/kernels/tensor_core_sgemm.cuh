@@ -3,6 +3,7 @@
 #include <cuda_runtime.h>
 #include <cuda_fp16.h>
 #include <mma.h>
+#include <stdexcept>
 #include "../utils/cuda_utils.cuh"
 
 using namespace nvcuda;
@@ -229,6 +230,13 @@ void launch_tensor_core_sgemm(
     int M, int K, int N,
     cudaStream_t stream = 0
 ) {
+    // WMMA load/store_matrix_sync operate on whole 16x16 fragments with no
+    // partial-tile handling, so M/N/K must be multiples of 16.
+    if (M % WMMA_M != 0 || N % WMMA_N != 0 || K % WMMA_K != 0) {
+        throw std::invalid_argument(
+            "launch_tensor_core_sgemm: M, N, K must be multiples of 16 (WMMA fragment)");
+    }
+
     // Allocate FP16 buffers
     half *d_A_fp16, *d_B_fp16;
     CUDA_CHECK(cudaMalloc(&d_A_fp16, M * K * sizeof(half)));
@@ -276,6 +284,13 @@ void launch_tensor_core_sgemm_fp16(
     int M, int K, int N,
     cudaStream_t stream = 0
 ) {
+    // WMMA load/store_matrix_sync operate on whole 16x16 fragments with no
+    // partial-tile handling, so M/N/K must be multiples of 16.
+    if (M % WMMA_M != 0 || N % WMMA_N != 0 || K % WMMA_K != 0) {
+        throw std::invalid_argument(
+            "launch_tensor_core_sgemm_fp16: M, N, K must be multiples of 16 (WMMA fragment)");
+    }
+
     dim3 blockDim(32, 1);
     dim3 gridDim(
         (N + WMMA_N - 1) / WMMA_N,

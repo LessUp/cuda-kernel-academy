@@ -1,4 +1,6 @@
 #pragma once
+
+#include <stdexcept>
 /**
  * @file device_memory.hpp
  * @brief RAII wrapper for CUDA device memory
@@ -130,6 +132,9 @@ public:
      * @throws CudaError if copy fails
      */
     void copy_from_host(const T* host_ptr, size_t count) {
+        if (count > size_) {
+            throw std::out_of_range("copy_from_host: count exceeds device allocation size");
+        }
         CA_CUDA_CHECK(cudaMemcpy(ptr_, host_ptr, count * sizeof(T), cudaMemcpyHostToDevice));
     }
 
@@ -158,6 +163,9 @@ public:
      * @throws CudaError if copy fails
      */
     void copy_to_host(T* host_ptr, size_t count) const {
+        if (count > size_) {
+            throw std::out_of_range("copy_to_host: count exceeds device allocation size");
+        }
         CA_CUDA_CHECK(cudaMemcpy(host_ptr, ptr_, count * sizeof(T), cudaMemcpyDeviceToHost));
     }
 
@@ -195,6 +203,9 @@ public:
      * @throws CudaError if copy fails
      */
     void copy_from_host_async(const T* host_ptr, cudaStream_t stream, size_t count) {
+        if (count > size_) {
+            throw std::out_of_range("copy_from_host_async: count exceeds device allocation size");
+        }
         CA_CUDA_CHECK(
             cudaMemcpyAsync(ptr_, host_ptr, count * sizeof(T), cudaMemcpyHostToDevice, stream));
     }
@@ -218,6 +229,9 @@ public:
      * @throws CudaError if copy fails
      */
     void copy_to_host_async(T* host_ptr, cudaStream_t stream, size_t count) const {
+        if (count > size_) {
+            throw std::out_of_range("copy_to_host_async: count exceeds device allocation size");
+        }
         CA_CUDA_CHECK(
             cudaMemcpyAsync(host_ptr, ptr_, count * sizeof(T), cudaMemcpyDeviceToHost, stream));
     }

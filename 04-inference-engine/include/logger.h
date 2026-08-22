@@ -63,9 +63,15 @@ public:
         return logger;
     }
 
-    void set_level(LogLevel level) { level_ = level; }
+    void set_level(LogLevel level) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        level_ = level;
+    }
 
-    LogLevel get_level() const { return level_; }
+    LogLevel get_level() const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        return level_;
+    }
 
     void set_file(const std::string& path) {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -76,9 +82,15 @@ public:
         log_to_file_ = file_.is_open();
     }
 
-    void set_console(bool enabled) { log_to_console_ = enabled; }
+    void set_console(bool enabled) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        log_to_console_ = enabled;
+    }
 
-    void set_colors(bool enabled) { use_colors_ = enabled; }
+    void set_colors(bool enabled) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        use_colors_ = enabled;
+    }
 
     template <typename... Args>
     void log(LogLevel level, const char* file, int line, const char* fmt, Args... args) {
@@ -160,7 +172,7 @@ private:
     bool log_to_file_ = false;
     bool use_colors_ = true;
     std::ofstream file_;
-    std::mutex mutex_;
+    mutable std::mutex mutex_;
 };
 
 // Logging macros

@@ -146,8 +146,9 @@ inline VerifyResult compareMatrices(const float* h_test, const float* h_ref,
         float ref_val = h_ref[i];
         float test_val = h_test[i];
 
-        // Check for NaN or Inf
-        if (std::isnan(test_val) || std::isinf(test_val)) {
+        // Check for NaN or Inf in either operand: a NaN reference (or result)
+        // would silently pass the numeric tolerance below otherwise.
+        if (std::isnan(test_val) || std::isinf(test_val) || std::isnan(ref_val) || std::isinf(ref_val)) {
             result.error_count++;
             result.max_abs_error = std::numeric_limits<float>::infinity();
             result.max_rel_error = std::numeric_limits<float>::infinity();
@@ -179,10 +180,15 @@ inline bool matricesApproxEqual(const float* h_test, const float* h_ref,
                                 float rtol = 1e-4f,
                                 float atol = 1e-5f) {
     for (int i = 0; i < M * N; ++i) {
-        float abs_error = std::fabs(h_test[i] - h_ref[i]);
-        float rel_error = abs_error / (std::fabs(h_ref[i]) + 1e-8f);
-
-        if (abs_error > atol && rel_error > rtol) {
+        // NaN/Inf either way is treated as a mismatch.
+        float test_val = h_test[i];
+        float ref_val = h_ref[i];
+        if (std::isnan(test_val) || std::isinf(test_val) || std::isnan(ref_val) || std::isinf(ref_val)) {
+            return false;
+        }
+        float abs_error = std::fabs(test_val - ref_val);
+        // numpy-style allclose: fail when |test-ref| > atol + rtol*|ref|.
+        if (abs_error > atol + rtol * std::fabs(ref_val)) {
             return false;
         }
     }
@@ -195,10 +201,14 @@ inline int findFirstMismatch(const float* h_test, const float* h_ref,
                              float rtol = 1e-4f,
                              float atol = 1e-5f) {
     for (int i = 0; i < M * N; ++i) {
-        float abs_error = std::fabs(h_test[i] - h_ref[i]);
-        float rel_error = abs_error / (std::fabs(h_ref[i]) + 1e-8f);
-
-        if (abs_error > atol && rel_error > rtol) {
+        float test_val = h_test[i];
+        float ref_val = h_ref[i];
+        if (std::isnan(test_val) || std::isinf(test_val) || std::isnan(ref_val) || std::isinf(ref_val)) {
+            return i;
+        }
+        float abs_error = std::fabs(test_val - ref_val);
+        // numpy-style allclose: fail when |test-ref| > atol + rtol*|ref|.
+        if (abs_error > atol + rtol * std::fabs(ref_val)) {
             return i;
         }
     }

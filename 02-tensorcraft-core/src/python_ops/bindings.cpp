@@ -21,7 +21,14 @@ using namespace tensorcraft;
 // Helper to convert numpy array to device pointer
 template <typename T>
 T* numpy_to_device(py::array_t<T> arr, size_t& size) {
-    py::buffer_info buf = arr.request();
+    // Force a C-contiguous, correctly-typed copy: a raw memcpy of a strided
+    // (e.g. transposed or sliced) array would silently transfer wrong data.
+    auto c_arr = py::array_t<T>::ensure(arr, py::array::c_style | py::array::forcecast);
+    if (!c_arr) {
+        throw std::runtime_error("numpy_to_device: cannot obtain a C-contiguous array");
+    }
+
+    py::buffer_info buf = c_arr.request();
     size = buf.size;
 
     T* d_ptr;

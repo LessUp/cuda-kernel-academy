@@ -25,6 +25,13 @@ namespace tensorcraft {
  * - Thread-safe allocation/deallocation
  * - Automatic cleanup on destruction
  * - Configurable alignment
+ *
+ * Stream-safety note: deallocate() hands a block back to the pool without
+ * synchronizing any CUDA stream.  If a block is used asynchronously on a
+ * non-default stream, the caller must synchronize that stream (or record an
+ * event and cudaStreamWaitEvent) BEFORE deallocate(), otherwise a later
+ * allocate() may hand the same memory to a different stream that is still
+ * racing with the prior kernel.
  */
 class MemoryPool {
 public:

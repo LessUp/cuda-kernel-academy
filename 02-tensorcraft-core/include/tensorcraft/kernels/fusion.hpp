@@ -8,6 +8,8 @@
  * - INT8/FP8 quantization
  */
 
+#include <cfloat>
+
 #include "../core/cuda_check.hpp"
 #include "../core/features.hpp"
 #include "../core/type_traits.hpp"
@@ -190,8 +192,24 @@ __global__ void compute_quant_params_kernel(const T* TC_RESTRICT input, float* T
     }
 
     if (tid == 0) {
-        atomicMin(reinterpret_cast<int*>(min_val), __float_as_int(s_min[0]));
-        atomicMax(reinterpret_cast<int*>(max_val), __float_as_int(s_max[0]));
+        // A raw signed-int comparison of float bit patterns is WRONG for
+        // negative values: e.g. -2.0f (0xC0000000 as int = -1073741824) sorts
+        // as a LARGER int than -1.0f (0xBF800000 = -1082130432), so an
+        // atomicMin would pick -1.0f.  Map each bit pattern to a key that
+        // sorts in float order:
+        //     key = sign ? ~bits : (bits | 0x80000000u)
+        // Callers must initialize *min_val to the key of +FLT_MAX
+        // (0xFF800000u) and *max_val to the key of -FLT_MAX (0x7F800000u)
+        // before launching, and decode a result back to float via
+        // (positive keys carry bit 31):
+        //     float v = (key >> 31) ? __uint_as_float(key & 0x7FFFFFFFu)
+        //                           : __uint_as_float(~key);
+        auto to_key = [](float v) {
+            uint32_t b = __float_as_uint(v);
+            return (b >> 31) ? ~b : (b | 0x80000000u);
+        };
+        atomicMin(reinterpret_cast<unsigned int*>(min_val), to_key(s_min[0]));
+        atomicMax(reinterpret_cast<unsigned int*>(max_val), to_key(s_max[0]));
     }
 }
 

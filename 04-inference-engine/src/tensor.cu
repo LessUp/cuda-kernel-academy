@@ -188,6 +188,12 @@ Tensor add_bias(const Tensor& X, const Tensor& bias) {
     int rows = X.size() / cols;
     Tensor Y(X.shape());
 
+    // gridDim.{x,y} are capped at 65535; larger grids would silently fail to
+    // launch. The kernel is 2-D over (cols x rows), so guard the row axis.
+    if ((rows + 15) / 16 > 65535) {
+        throw std::invalid_argument("add_bias: too many rows for 2-D grid launch");
+    }
+
     dim3 block(16, 16);
     dim3 grid((cols + 15) / 16, (rows + 15) / 16);
     add_bias_kernel<<<grid, block>>>(X.data(), bias.data(), Y.data(), rows, cols);

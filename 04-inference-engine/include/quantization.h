@@ -24,6 +24,11 @@ struct QuantizationParams {
 inline QuantizationParams compute_quant_params(const float* data, size_t n) {
     QuantizationParams params;
 
+    if (n == 0) {
+        // data[0] would be an out-of-bounds read on an empty tensor.
+        return params;  // defaults: scale=1.0f, zero_point=0
+    }
+
     // Find min/max
     float min_val = data[0];
     float max_val = data[0];

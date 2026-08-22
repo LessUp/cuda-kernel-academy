@@ -354,11 +354,23 @@ void launch_elementwise_binary(const T* input1, const T* input2, T* output, size
     constexpr int block_size = 256;
     constexpr int vec_size = optimal_vec_size<T>();
 
+    // A vectorized reinterpret_cast on a misaligned pointer is undefined
+    // behavior on the device, so unlike the unary path this launcher must
+    // check alignment too.  Misaligned pointers fall back to the scalar
+    // (VecSize == 1) instantiation of the same kernel.
+    const bool aligned = is_aligned<T, vec_size>(input1) && is_aligned<T, vec_size>(input2) &&
+                         is_aligned<T, vec_size>(output);
+
     int grid_size = static_cast<int>((n + block_size * vec_size - 1) / (block_size * vec_size));
     grid_size = std::min(grid_size, 65535);
 
-    elementwise_binary_kernel<T, Func, vec_size>
-        <<<grid_size, block_size, 0, stream>>>(input1, input2, output, n, func);
+    if (aligned) {
+        elementwise_binary_kernel<T, Func, vec_size>
+            <<<grid_size, block_size, 0, stream>>>(input1, input2, output, n, func);
+    } else {
+        elementwise_binary_kernel<T, Func, 1>
+            <<<grid_size, block_size, 0, stream>>>(input1, input2, output, n, func);
+    }
 
     TC_CUDA_CHECK_LAST();
 }

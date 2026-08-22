@@ -18,6 +18,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <memory>
+#include <random>
 #include <vector>
 
 // ============================================================================
@@ -135,8 +136,12 @@ public:
 
     // 用随机数填充 | Fill with random values
     void fill_random(float min = 0.0f, float max = 1.0f) {
+        // Fixed-seed generator so runs are reproducible; rand() without seeding
+        // gives identical (and unseeded) results every run.
+        static std::mt19937 gen(42);
+        std::uniform_real_distribution<float> dist(min, max);
         for (size_t i = 0; i < size_; ++i) {
-            h_data_[i] = min + (max - min) * ((float)rand() / RAND_MAX);
+            h_data_[i] = dist(gen);
         }
     }
 

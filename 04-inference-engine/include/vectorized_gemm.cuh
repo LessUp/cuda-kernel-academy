@@ -135,20 +135,25 @@ __global__ void vectorized_gemm(
         __syncthreads();
     }
 
-    // Write results with vectorized stores where possible
+    // Write results with vectorized stores where possible.
+    // A float4 store requires the address to be 16B-aligned, i.e. the element
+    // index (out_row*N + out_col) must be a multiple of 4. out_col is always a
+    // multiple of 4, but out_row*N is only when N is a multiple of 4; for other
+    // N a misaligned vector store triggers "misaligned address" on the device.
     #pragma unroll
     for (int m = 0; m < TM; m++) {
         int out_row = row_start + m;
         if (out_row < M) {
+            bool row_aligned = (static_cast<size_t>(out_row) * N) % 4 == 0;
             #pragma unroll
             for (int n = 0; n < TN; n += 4) {
                 int out_col = col_start + n;
-                if (out_col + 3 < N) {
+                if (out_col + 3 < N && row_aligned) {
                     float4 result = make_float4(
                         regC[m][n], regC[m][n+1], regC[m][n+2], regC[m][n+3]);
                     store_float4(&C[out_row * N + out_col], result);
                 } else {
-                    // Handle boundary
+                    // Handle boundary or non-16B-aligned rows with scalar stores
                     for (int nn = 0; nn < 4 && out_col + nn < N; nn++) {
                         C[out_row * N + out_col + nn] = regC[m][n + nn];
                     }
