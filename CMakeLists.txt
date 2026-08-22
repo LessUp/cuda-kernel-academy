@@ -15,7 +15,7 @@ project(
   VERSION ${VERSION_STRING}
   LANGUAGES CXX CUDA
   DESCRIPTION "Comprehensive CUDA kernel optimization learning project"
-  HOMEPAGE_URL "https://github.com/aicl-lab/cuda-foundations")
+  HOMEPAGE_URL "https://github.com/open-infra-ai/cuda-foundations")
 
 # =============================================================================
 # Build Options
