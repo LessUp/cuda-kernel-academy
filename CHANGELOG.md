@@ -4,11 +4,22 @@ The repository keeps a lightweight changelog focused on release-level milestones
 
 ## [Unreleased]
 
+### Fixed
+
+- CI CUDA smoke job pins CMake 3.28.3 so CUDA 12.2 C++20 targets can be generated; Ubuntu 22.04's CMake 3.22 did not know the required `CUDA20` compile flag.
+- CI docs job now installs from `docs/package-lock.json`, runs the existing VitePress `build` script, and verifies the actual `docs/.vitepress/dist` artifact tree.
+- Apply the repository's pinned clang-format, cmake-format, and markdownlint hooks so pre-commit is a read-only gate instead of rewriting files in CI.
+- Isolate logger test files by process so GoogleTest cases discovered as separate CTest processes remain reliable under parallel execution.
+- Create the SGEMM test's cuBLAS verifier only after confirming a CUDA device exists, allowing CPU-only environments to skip GPU cases cleanly instead of exiting during fixture construction.
+- Update ECharts, Mermaid, and compatible transitive dependencies to patched releases; the remaining audit findings are confined to the VitePress 1.x toolchain, which has no stable compatible fix yet.
+- Document how to diagnose and temporarily bypass a Linux `libcuda.so.1` shadowing the Windows-projected CUDA driver in WSL.
+
 ### Changed
 - README 标题与仓名对齐为 `cuda-foundations`（教学品牌仍为 CUDA Kernel Academy）
 - 中文 README 补齐 IN/OUT；`02-tensorcraft-core` 标明历史模块名而非独立产品
 - `03-hpc-advanced` FlashAttention 教学核与文档标明非权威，指向 `cuflash-attn`
-- 面向用户的 GitHub 链接统一为 `github.com/aicl-lab/...`
+- 面向用户的 GitHub 链接统一为 `github.com/open-infra-ai/...`
+- Refresh current README and roadmap validation evidence to the complete 261/261 CTest run on RTX 3060 Laptop (sm_86, CUDA 12.0).
 
 ## [1.0.1] - 2026-08-17
 
@@ -75,5 +86,5 @@ The repository keeps a lightweight changelog focused on release-level milestones
 - root CMake build for shared modules plus a standalone Makefile flow for `01-sgemm-tutorial`
 - documentation set for installation, troubleshooting, coding style, and module-level deep dives
 
-[Unreleased]: https://github.com/aicl-lab/cuda-foundations/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/open-infra-ai/cuda-foundations/compare/v1.0.0...HEAD
 [1.0.0]: https://github.com/aicl-lab/cuda-foundations/releases/tag/v1.0.0

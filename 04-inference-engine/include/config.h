@@ -4,9 +4,9 @@
 #include <fstream>
 #include <map>
 #include <sstream>
-#include <vector>
 #include <stdexcept>
 #include <string>
+#include <vector>
 
 namespace mini_inference {
 

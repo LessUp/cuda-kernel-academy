@@ -49,8 +49,8 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(fmt rapidcheck)
 
-# GoogleTest: provided by the repository root when configured from there;
-# fetch it locally only for standalone builds (target not yet defined).
+# GoogleTest: provided by the repository root when configured from there; fetch
+# it locally only for standalone builds (target not yet defined).
 if(BUILD_TESTS AND NOT TARGET GTest::gtest)
   FetchContent_Declare(
     googletest

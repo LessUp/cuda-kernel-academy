@@ -8,8 +8,8 @@
 > [cuflash-attn](https://github.com/open-infra-ai/cuflash-attn)（kernel 深度）。
 >
 > 归档状态：DEV_PLAN.md 的 T1–T12 已全部落地。
-> 2026-08-18 冻结机 `ctest --preset default`：0 failed / 209 collected
-> （131 执行，78 skip）。组织 landing 页：https://github.com/open-infra-ai/open-infra-ai
+> 2026-08-23 在 RTX 3060 Laptop（sm_86、CUDA 12.0）执行
+> `ctest --preset default`：261/261 通过。组织 landing 页：<https://github.com/open-infra-ai/open-infra-ai>
 
 ## 面试前必做（数据可信度）
 

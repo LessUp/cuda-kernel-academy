@@ -17,9 +17,11 @@ using namespace tensorcraft::kernels;
 namespace {
 
 // CPU reference for the naive conv2d used by the kernel.
-std::vector<float> reference_conv2d(const std::vector<float>& input, const std::vector<float>& weight,
-                                    const std::vector<float>& bias, int N, int C, int H, int W, int K,
-                                    int R, int S, int stride_h, int stride_w, int pad_h, int pad_w) {
+std::vector<float> reference_conv2d(const std::vector<float>& input,
+                                    const std::vector<float>& weight,
+                                    const std::vector<float>& bias, int N, int C, int H, int W,
+                                    int K, int R, int S, int stride_h, int stride_w, int pad_h,
+                                    int pad_w) {
     int OH = (H + 2 * pad_h - R) / stride_h + 1;
     int OW = (W + 2 * pad_w - S) / stride_w + 1;
     std::vector<float> output(N * K * OH * OW, 0.0f);
@@ -69,13 +71,15 @@ protected:
         std::mt19937 gen(42);
         std::uniform_real_distribution<float> dist(lo, hi);
         std::vector<float> v(n);
-        for (auto& x : v) x = dist(gen);
+        for (auto& x : v)
+            x = dist(gen);
         return v;
     }
 
     void run_and_compare(const std::vector<float>& input, const std::vector<float>& weight,
                          const std::vector<float>& bias, int N, int C, int H, int W, int K, int R,
-                         int S, int stride_h, int stride_w, int pad_h, int pad_w, float tol = 1e-4f) {
+                         int S, int stride_h, int stride_w, int pad_h, int pad_w,
+                         float tol = 1e-4f) {
         int OH = (H + 2 * pad_h - R) / stride_h + 1;
         int OW = (W + 2 * pad_w - S) / stride_w + 1;
         const size_t out_size = static_cast<size_t>(N) * K * OH * OW;
@@ -97,15 +101,16 @@ protected:
                                      cudaMemcpyHostToDevice));
         }
 
-        conv2d<float>(d_input, d_weight, d_bias_ptr, d_output, N, C, H, W, K, R, S, stride_h, pad_h);
+        conv2d<float>(d_input, d_weight, d_bias_ptr, d_output, N, C, H, W, K, R, S, stride_h,
+                      pad_h);
         TC_CUDA_CHECK(cudaDeviceSynchronize());
 
         std::vector<float> actual(out_size);
-        TC_CUDA_CHECK(cudaMemcpy(actual.data(), d_output, out_size * sizeof(float),
-                                 cudaMemcpyDeviceToHost));
+        TC_CUDA_CHECK(
+            cudaMemcpy(actual.data(), d_output, out_size * sizeof(float), cudaMemcpyDeviceToHost));
 
-        auto expected = reference_conv2d(input, weight, bias, N, C, H, W, K, R, S, stride_h, stride_w,
-                                         pad_h, pad_w);
+        auto expected = reference_conv2d(input, weight, bias, N, C, H, W, K, R, S, stride_h,
+                                         stride_w, pad_h, pad_w);
         ASSERT_EQ(actual.size(), expected.size());
         for (size_t i = 0; i < actual.size(); ++i) {
             EXPECT_NEAR(actual[i], expected[i], tol) << "element " << i;
@@ -114,7 +119,8 @@ protected:
         cudaFree(d_input);
         cudaFree(d_weight);
         cudaFree(d_output);
-        if (d_bias_ptr) cudaFree(d_bias_ptr);
+        if (d_bias_ptr)
+            cudaFree(d_bias_ptr);
     }
 };
 

@@ -241,8 +241,7 @@ TEST_F(InferenceTest, AddLayerRejectsInvalidInputs) {
     EXPECT_THROW(engine_.add_layer(0, 10, false, w.data()), std::invalid_argument);
     EXPECT_THROW(engine_.add_layer(10, 0, false, w.data()), std::invalid_argument);
     EXPECT_THROW(engine_.add_layer(10, 10, false, nullptr), std::invalid_argument);
-    EXPECT_THROW(engine_.add_layer(10, 10, true, w.data(), nullptr),
-                 std::invalid_argument);
+    EXPECT_THROW(engine_.add_layer(10, 10, true, w.data(), nullptr), std::invalid_argument);
 }
 
 TEST_F(InferenceTest, ForwardRejectsInvalidInputs) {

@@ -40,6 +40,32 @@ cmake .. -DCMAKE_CUDA_ARCHITECTURES=86  # RTX 3090
 
 ## 运行时错误
 
+### WSL：`nvidia-smi` 正常，但 CUDA 找不到设备
+
+WSL 必须使用 Windows 宿主机映射进来的 CUDA 驱动。如果在 WSL 内安装了
+Linux NVIDIA 驱动包，其 `libcuda.so.1` 可能遮蔽 WSL 驱动，导致
+`cudaGetDeviceCount` 失败，即使 `nvidia-smi` 仍然正常。
+
+先检查进程实际加载的驱动库：
+
+```bash
+LD_DEBUG=libs ./build/default/bin/sgemm_tutorial_tests 2>&1 \
+  | grep 'libcuda.so.1'
+```
+
+WSL 驱动位于 `/usr/lib/wsl/lib`。可以先让该目录优先，确认是否为库遮蔽问题，
+这不会修改系统：
+
+```bash
+LD_LIBRARY_PATH=/usr/lib/wsl/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH} \
+  ctest --preset default
+```
+
+永久处理请遵循
+[NVIDIA CUDA on WSL 指南](https://docs.nvidia.com/cuda/wsl-user-guide/)：显示驱动只安装
+在 Windows 中；审查包依赖后，从 WSL 移除冲突的 Linux 显示驱动包；安装仅含
+Toolkit 的 WSL 软件包，不要安装会携带 Linux 驱动的 CUDA 元包。
+
 ### CUDA error: out of memory
 
 ```bash

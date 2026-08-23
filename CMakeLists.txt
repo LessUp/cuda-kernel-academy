@@ -45,13 +45,13 @@ set(CMAKE_CUDA_STANDARD_REQUIRED ON)
 # CUDA Configuration
 # =============================================================================
 
-# Default CUDA architectures (Volta to Hopper).
-# CMake pre-defines CMAKE_CUDA_ARCHITECTURES to the toolkit's legacy default
-# (compute_52) during project() language detection, so a plain
-# `cmake -S . -B <dir>` without a preset would otherwise build un-runnable
-# sm_52 code and break the WMMA-based kernels. Guard against that default too.
-if(NOT DEFINED CMAKE_CUDA_ARCHITECTURES
-   OR CMAKE_CUDA_ARCHITECTURES STREQUAL "52")
+# Default CUDA architectures (Volta to Hopper). CMake pre-defines
+# CMAKE_CUDA_ARCHITECTURES to the toolkit's legacy default (compute_52) during
+# project() language detection, so a plain `cmake -S . -B <dir>` without a
+# preset would otherwise build un-runnable sm_52 code and break the WMMA-based
+# kernels. Guard against that default too.
+if(NOT DEFINED CMAKE_CUDA_ARCHITECTURES OR CMAKE_CUDA_ARCHITECTURES STREQUAL
+                                           "52")
   # FORCE: the toolkit default is already cached by project() during language
   # detection, and a plain set(... CACHE ...) would silently keep the old value.
   set(CMAKE_CUDA_ARCHITECTURES

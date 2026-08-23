@@ -419,8 +419,7 @@ void launch_flash_attention(const T* Q, const T* K, const T* V, T* O, int batch_
     // Only head_dim=64 is supported in this simplified educational kernel.
     // Fail loudly instead of pretending the operator ran successfully.
     if (head_dim != 64) {
-        throw std::invalid_argument(
-            "launch_flash_attention: only head_dim=64 is supported");
+        throw std::invalid_argument("launch_flash_attention: only head_dim=64 is supported");
     }
 
     constexpr int BLOCK_M = 8;
@@ -502,8 +501,7 @@ void launch_moe_router(const T* gate_logits, int* expert_indices, float* expert_
         throw std::invalid_argument("launch_moe_router: num_experts must be in [1, 8]");
     }
     if (top_k < 1 || top_k > num_experts) {
-        throw std::invalid_argument(
-            "launch_moe_router: top_k must be in [1, num_experts]");
+        throw std::invalid_argument("launch_moe_router: top_k must be in [1, num_experts]");
     }
     if (!gate_logits || !expert_indices || !expert_weights) {
         throw std::invalid_argument("launch_moe_router: null tensor pointer");

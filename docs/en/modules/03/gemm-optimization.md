@@ -8,7 +8,6 @@ outline: [2, 3]
 The TFLOPS, speedup and memory figures on this page are reference values, not results reproduced by this repository on a pinned hardware/software stack. Re-measure on your own GPU before quoting them.
 :::
 
-
 Detailed walkthrough of the 7-step GEMM optimization path.
 
 ## Optimization Path

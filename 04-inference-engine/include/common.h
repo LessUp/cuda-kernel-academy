@@ -135,19 +135,14 @@ class DeviceMemory {
 public:
     DeviceMemory() = default;
 
-    explicit DeviceMemory(size_t bytes) {
-        allocate(bytes);
-    }
+    explicit DeviceMemory(size_t bytes) { allocate(bytes); }
 
-    ~DeviceMemory() {
-        free();
-    }
+    ~DeviceMemory() { free(); }
 
     DeviceMemory(const DeviceMemory&) = delete;
     DeviceMemory& operator=(const DeviceMemory&) = delete;
 
-    DeviceMemory(DeviceMemory&& other) noexcept
-        : ptr_(other.ptr_), size_(other.size_) {
+    DeviceMemory(DeviceMemory&& other) noexcept : ptr_(other.ptr_), size_(other.size_) {
         other.ptr_ = nullptr;
         other.size_ = 0;
     }

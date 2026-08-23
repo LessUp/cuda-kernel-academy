@@ -374,8 +374,7 @@ inline void launch_gemm_wmma(const half* A, const half* B, float* C, int M, int 
     // boundary staging.  Accepting non-multiples of 16 would read/write past
     // the logical matrix extents, so reject them before launch.
     if (M % 16 != 0 || N % 16 != 0 || K % 16 != 0) {
-        throw std::invalid_argument(
-            "launch_gemm_wmma requires M, N and K to be multiples of 16");
+        throw std::invalid_argument("launch_gemm_wmma requires M, N and K to be multiples of 16");
     }
 
     constexpr int WMMA_M = 16;

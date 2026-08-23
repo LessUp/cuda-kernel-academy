@@ -64,11 +64,8 @@ set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} --expt-relaxed-constexpr")
 add_library(mini_inference STATIC ${SOURCES} ${HEADERS})
 target_include_directories(mini_inference
                            PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_link_libraries(mini_inference
-                      CUDAFoundations::common
-                      CUDA::cudart
-                      CUDA::cublas
-                      TensorCraft::tensorcraft)
+target_link_libraries(mini_inference CUDAFoundations::common CUDA::cudart
+                      CUDA::cublas TensorCraft::tensorcraft)
 
 # Benchmark executable
 add_executable(mini_inference_benchmark benchmarks/benchmark.cpp)
@@ -84,9 +81,9 @@ add_executable(detailed_benchmark benchmarks/detailed_benchmark.cu)
 target_link_libraries(detailed_benchmark mini_inference CUDA::cudart
                       CUDA::cublas)
 
-# Testing with Google Test (optional).
-# GoogleTest is provided by the repository root when configured from there;
-# fetch it locally only for standalone builds (target not yet defined).
+# Testing with Google Test (optional). GoogleTest is provided by the repository
+# root when configured from there; fetch it locally only for standalone builds
+# (target not yet defined).
 if(BUILD_TESTS)
   if(NOT TARGET GTest::gtest)
     include(FetchContent)

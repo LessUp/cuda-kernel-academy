@@ -243,7 +243,9 @@ inline void curand_check(curandStatus_t status, const char* expr, const char* fi
 #define CA_CUDA_SYNC_CHECK() ::cuda_foundations::core::cuda_sync_check(__FILE__, __LINE__)
 
 /// Check a cuBLAS API call and throw on error
-#define CA_CUBLAS_CHECK(expr) ::cuda_foundations::core::cublas_check((expr), #expr, __FILE__, __LINE__)
+#define CA_CUBLAS_CHECK(expr) \
+    ::cuda_foundations::core::cublas_check((expr), #expr, __FILE__, __LINE__)
 
 /// Check a cuRAND API call and throw on error
-#define CA_CURAND_CHECK(expr) ::cuda_foundations::core::curand_check((expr), #expr, __FILE__, __LINE__)
+#define CA_CURAND_CHECK(expr) \
+    ::cuda_foundations::core::curand_check((expr), #expr, __FILE__, __LINE__)

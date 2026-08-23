@@ -73,7 +73,8 @@ protected:
         std::mt19937 gen(2026);
         std::uniform_real_distribution<float> dist(lo, hi);
         std::vector<float> v(n);
-        for (auto& x : v) x = dist(gen);
+        for (auto& x : v)
+            x = dist(gen);
         return v;
     }
 
@@ -113,7 +114,8 @@ protected:
         TC_CUDA_CHECK(cudaDeviceSynchronize());
 
         std::vector<float> actual(M * N);
-        TC_CUDA_CHECK(cudaMemcpy(actual.data(), d_C, M * N * sizeof(float), cudaMemcpyDeviceToHost));
+        TC_CUDA_CHECK(
+            cudaMemcpy(actual.data(), d_C, M * N * sizeof(float), cudaMemcpyDeviceToHost));
 
         auto expected = reference_fused_gemm(A, B, bias, M, N, K, kind);
         for (int i = 0; i < M * N; ++i) {
@@ -123,7 +125,8 @@ protected:
         cudaFree(d_A);
         cudaFree(d_B);
         cudaFree(d_C);
-        if (d_bias) cudaFree(d_bias);
+        if (d_bias)
+            cudaFree(d_bias);
     }
 };
 

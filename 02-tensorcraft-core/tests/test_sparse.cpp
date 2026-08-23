@@ -96,7 +96,8 @@ protected:
         std::mt19937 gen(11);
         std::uniform_real_distribution<float> dist(-1.0f, 1.0f);
         std::vector<float> v(n);
-        for (auto& x : v) x = dist(gen);
+        for (auto& x : v)
+            x = dist(gen);
         return v;
     }
 
@@ -130,9 +131,8 @@ protected:
         TC_CUDA_CHECK(cudaMemcpy(d_row_ptrs, row_ptrs.data(), (rows + 1) * sizeof(int),
                                  cudaMemcpyHostToDevice));
 
-        dense_to_csr_kernel<float>
-            <<<(rows + 255) / 256, 256>>>(d_dense, d_values, d_col_indices, d_row_ptrs, rows, cols,
-                                          0.0f);
+        dense_to_csr_kernel<float><<<(rows + 255) / 256, 256>>>(d_dense, d_values, d_col_indices,
+                                                                d_row_ptrs, rows, cols, 0.0f);
         TC_CUDA_CHECK(cudaDeviceSynchronize());
 
         cudaFree(d_dense);

@@ -95,10 +95,12 @@
 - 方案 A（推荐）：删除整个函数。因为它不是测试路径，留着是误导。
 - 方案 B：补一个 scale kernel，但会增加无用代码，不推荐。
 - 验证：
+
   ```bash
   grep -R "initRandomMatrixGPU" 01-sgemm-tutorial/ || true
   cd 01-sgemm-tutorial && make benchmark && make test
   ```
+
 - 完成标准：grep 无结果（方案 A），`make test` 仍 52/52 通过。
 
 ### T2 MoE router 输入校验
@@ -111,6 +113,7 @@
   2. 检查 `top_k >= 1 && top_k <= num_experts`。
   3. 检查 `batch_size == 0` 时直接返回。
 - 验证：在 `02-tensorcraft-core/tests/test_attention.cpp` 增加两个 `EXPECT_THROW` 用例；跑：
+
   ```bash
   cmake --build --preset default --target tensorcraft_tests
   LD_PRELOAD=/usr/lib/wsl/lib/libcuda.so.1 ./build/default/bin/tensorcraft_tests
@@ -136,6 +139,7 @@
   - 写入半截文件（只写 header 不写 body）加载失败。
   - 写 `num_layers = 0xffffffff` 加载失败。
   跑：
+
   ```bash
   cmake --build --preset default --target mini_inference_tests
   LD_PRELOAD=/usr/lib/wsl/lib/libcuda.so.1 ./build/default/bin/mini_inference_tests
@@ -190,6 +194,7 @@
 
 - 文件：新建 `scripts/run_benchmarks.sh`
 - 脚本内容：
+
   ```bash
   #!/usr/bin/env bash
   set -euo pipefail
@@ -207,6 +212,7 @@
   LD_PRELOAD=/usr/lib/wsl/lib/libcuda.so.1 ./build/default/bin/gemm_benchmark \
     --benchmark_min_time=0.1s --benchmark_repetitions=3
   ```
+
 - 说明：`LD_PRELOAD` 仅在 WSL2 下需要，普通 Linux 删除。
 - 完成标准：脚本可重复执行，输出可复制粘贴到结果文档。
 
@@ -238,6 +244,7 @@
   1. 根 `CMakeLists.txt` 向 03 传递 `BUILD_TESTS` / `BUILD_BENCHMARKS`。
   2. 03 的 `if(BUILD_TESTS) enable_testing(); add_subdirectory(tests); endif()`
 - 验证：
+
   ```bash
   cmake -S . -B build/min -G Ninja -DBUILD_HPC_ADVANCED=ON -DBUILD_TESTS=OFF
   cmake --build build/min -j4
@@ -311,11 +318,13 @@
 本仓库可以宣布结束，当且仅当：
 
 1. 一次干净构建与测试通过：
+
    ```bash
    cmake --preset default
    cmake --build --preset default
    ctest --preset default
    ```
+
 2. 01 模块测试通过：`cd 01-sgemm-tutorial && make test`
 3. `scripts/run_benchmarks.sh` 可一键采集基准。
 4. `docs/en/benchmarks/` 中只有实测数据，无未标注的占位数字。

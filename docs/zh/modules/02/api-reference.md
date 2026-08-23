@@ -8,7 +8,6 @@ outline: [2, 3]
 本页包含为教学演示预留的 API 草图，实际可用接口以头文件为准。部分签名（例如 mask、batched_gemm）可能尚未实现。
 :::
 
-
 本文档提供 TensorCraft Core 库的完整 API 参考。
 
 ## Core 模块

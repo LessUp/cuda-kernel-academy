@@ -238,6 +238,7 @@ inline QuantizationParams compute_quant_params(const float* data, size_t n) {
             return false;
         }
 ```
+
 （`kMaxLayerBytes` 例如 1<<30。）
 
 ### Task B5: tensor.h clone 保留 allocator（M8）
@@ -254,6 +255,7 @@ inline QuantizationParams compute_quant_params(const float* data, size_t n) {
         return result;
     }
 ```
+
 （需确认 `Tensor` 构造签名与 `copy_from_host` 使用场景。）
 
 ### Task B6: save_weights 检查写入（L9）
@@ -266,6 +268,7 @@ inline QuantizationParams compute_quant_params(const float* data, size_t n) {
 ```cpp
     if (!file.good()) return false;
 ```
+
 （在 header 与每层 write 后追加；循环内失败返回 false。）
 
 ### Task B7: Config::get_bool 大小写不敏感（L12）
@@ -283,6 +286,7 @@ inline QuantizationParams compute_quant_params(const float* data, size_t n) {
         return value == "true" || value == "1" || value == "yes" || value == "on";
     }
 ```
+
 （补 `#include <cctype>`。）
 
 ### Task B8: random_init 线程安全（L5）
@@ -301,6 +305,7 @@ inline void random_init(float* data, size_t n, float min_val = -1.0f, float max_
     for (size_t i = 0; i < n; ++i) data[i] = dist(gen);
 }
 ```
+
 （补 `#include <mutex>`。）
 
 ### Task B9: StreamManager/Logger 锁（L6/L7）
@@ -345,6 +350,7 @@ inline void random_init(float* data, size_t n, float min_val = -1.0f, float max_
         atomicMax(reinterpret_cast<unsigned int*>(max_val), max_key);
     }
 ```
+
 （注意：min_val/max_val 入参须由调用方以 `FLT_MAX`/`-FLT_MAX` 对应的变换 key 初始化；调用方需先清零并写入 `0xFF800000u` 与 `0x7F800000u`。因无调用者，补一段注释说明正确的初始化契约。）
 
 - [ ] **Step 2: CPU 模拟验证变换后的比较序**
@@ -364,6 +370,7 @@ inline void random_init(float* data, size_t n, float min_val = -1.0f, float max_
         // 标量 fallback elementwise_binary_kernel_naive
     }
 ```
+
 （需存在/新增 naive binary kernel；若无则降级为 vec_size=1 路径。）
 
 ### Task C3: transpose_shared 用 T 类型 tile（M10）
@@ -380,6 +387,7 @@ inline void random_init(float* data, size_t n, float min_val = -1.0f, float max_
     ...
     output[out_row * rows + out_col] = tile[tx][ty];
 ```
+
 （删除 to_float/from_float 中间转换，double 保精度；half 亦保真。）
 
 ### Task C4: spmm_csr_tiled 补 launcher（M4）
@@ -424,6 +432,7 @@ T* numpy_to_device(py::array_t<T> arr, size_t& size) {
     return d_ptr;
 }
 ```
+
 （确保 `ensure` 复制非连续输入，杜绝错位拷贝。）
 
 ### Task C6: conv2d/attention grid.z 校验（L8）
@@ -470,6 +479,7 @@ T* numpy_to_device(py::array_t<T> arr, size_t& size) {
     static_assert(2 * 2 * TILE_SIZE * (TILE_SIZE + 1) * (int)sizeof(float) <= 48 * 1024,
                   "TILE_SIZE too large: shared memory would exceed the 48KB static limit");
 ```
+
 （默认 TILE_SIZE=64 编译即失败，调用方改用 32。）
 
 ### Task D3: verify.cuh 容差语义一致 + NaN 对称（L1/L2）

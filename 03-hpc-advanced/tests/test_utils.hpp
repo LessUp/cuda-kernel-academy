@@ -51,15 +51,12 @@ inline rc::Gen<size_t> reasonable_size() {
 }
 
 inline rc::Gen<std::vector<float>> sized_float_vector(size_t size) {
-    return rc::gen::map(rc::gen::just(size), [](size_t n) {
-        return random_vector<float>(n);
-    });
+    return rc::gen::map(rc::gen::just(size), [](size_t n) { return random_vector<float>(n); });
 }
 
 inline rc::Gen<std::vector<float>> float_vector(size_t min_size = 1, size_t max_size = 1024) {
-    return rc::gen::map(rc::gen::inRange<size_t>(min_size, max_size), [](size_t size) {
-        return random_vector<float>(size);
-    });
+    return rc::gen::map(rc::gen::inRange<size_t>(min_size, max_size),
+                        [](size_t size) { return random_vector<float>(size); });
 }
 
 }  // namespace gen

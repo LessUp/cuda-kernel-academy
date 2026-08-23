@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <unistd.h>
 
 #include <filesystem>
 #include <fstream>
@@ -9,7 +10,7 @@
 #include "logger.h"
 
 namespace {
-std::string make_test_path(const char* filename) {
+std::string make_test_path(const std::string& filename) {
     return (std::filesystem::temp_directory_path() / filename).string();
 }
 }  // namespace
@@ -22,7 +23,7 @@ protected:
         Logger::instance().set_level(LogLevel::INFO);
         Logger::instance().set_console(false);
         Logger::instance().set_colors(false);
-        log_path_ = make_test_path("mini_inference_test.log");
+        log_path_ = make_test_path("mini_inference_test_" + std::to_string(getpid()) + ".log");
     }
 
     void TearDown() override {

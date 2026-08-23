@@ -7,6 +7,7 @@
 
 #include <gtest/gtest.h>
 #include <cuda_runtime.h>
+#include <memory>
 #include <vector>
 #include <random>
 #include <tuple>
@@ -182,6 +183,8 @@ protected:
             GTEST_SKIP() << "No CUDA devices found.";
         }
 
+        verifier_ = std::make_unique<SGEMMVerifier>();
+
         auto [M, K, N] = GetParam();
         M_ = M;
         K_ = K;
@@ -210,7 +213,7 @@ protected:
                               cudaMemcpyHostToDevice));
 
         // Compute reference using cuBLAS
-        verifier_.computeReference(d_A_, d_B_, d_C_ref_, M_, K_, N_);
+        verifier_->computeReference(d_A_, d_B_, d_C_ref_, M_, K_, N_);
         CUDA_CHECK(cudaMemcpy(h_C_ref_.data(), d_C_ref_, M_ * N_ * sizeof(float),
                               cudaMemcpyDeviceToHost));
     }
@@ -225,7 +228,7 @@ protected:
     int M_, K_, N_;
     std::vector<float> h_A_, h_B_, h_C_, h_C_ref_;
     float *d_A_ = nullptr, *d_B_ = nullptr, *d_C_ = nullptr, *d_C_ref_ = nullptr;
-    SGEMMVerifier verifier_;
+    std::unique_ptr<SGEMMVerifier> verifier_;
 };
 
 // ============================================================================

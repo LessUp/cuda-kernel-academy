@@ -3,7 +3,7 @@
 > GitHub 仓库名：[`cuda-foundations`](https://github.com/open-infra-ai/cuda-foundations)
 > 教学品牌名：CUDA Kernel Academy
 >
-> 📚 作品集地图：https://github.com/open-infra-ai/open-infra-ai
+> 📚 作品集地图：<https://github.com/open-infra-ai/open-infra-ai>
 
 <p align="center">
   <strong>从 SGEMM 基础到可复用推理组件的系统性 CUDA 算子工程学习路径</strong><br>
@@ -49,7 +49,7 @@
 
 ## 仓库状态
 
-教学仓库，状态 **active**（正确性修复与教学打磨；不再新增模块）。四个模块已完成。2026-08-18 测试机 `ctest --preset default` 为 **0 failed / 209 collected**（131 执行，78 skip，主要是 02/04 GPU 测试二进制，与此前冻结记录同类）。不再新增模块；后续精力投入 [LEARNING_PATH.md](https://github.com/open-infra-ai/open-infra-ai/blob/master/LEARNING_PATH.md) 中记录的后续项目（如 `tiny-llm` 与 `paged-infer`）。
+教学仓库，状态 **active**（正确性修复与教学打磨；不再新增模块）。四个模块已完成。2026-08-23 在 RTX 3060 Laptop（sm_86、CUDA 12.0）上运行 `ctest --preset default`，结果为 **261/261 通过**。不再新增模块；后续精力投入 [LEARNING_PATH.md](https://github.com/open-infra-ai/open-infra-ai/blob/master/LEARNING_PATH.md) 中记录的后续项目（如 `tiny-llm` 与 `paged-infer`）。
 
 ## 仓库收敛边界
 
@@ -60,12 +60,14 @@ CUDA Kernel Academy 是 `sgemm-optimization`、`modern-ai-kernels`、`hpc-ai-opt
 ## 项目边界（IN / OUT）
 
 **IN（本仓库负责）**：
+
 - CUDA 编程模型与 kernel 编写（线程/块/共享内存/同步）
 - GEMM 优化阶梯（naive → tiled → bank-conflict-free → double buffering → WMMA）
 - 算子库设计（header-only 布局、operator surface）
 - profiling 与性能分析方法
 
 **OUT（明确不做，见对应仓库）**：
+
 - 生产级推理运行时（模型加载/采样/生成）→ [tiny-llm](https://github.com/open-infra-ai/tiny-llm)
 - 完整 FlashAttention 前后向与优化 → [cuflash-attn](https://github.com/open-infra-ai/cuflash-attn)
 - Serving / 分页 KV / continuous batching → [paged-infer](https://github.com/open-infra-ai/paged-infer)

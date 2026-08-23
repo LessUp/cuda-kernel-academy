@@ -3,9 +3,9 @@
  * @brief Tests for GEMM kernels
  */
 
-#include <gtest/gtest.h>
-
 #include <cuda_fp16.h>
+
+#include <gtest/gtest.h>
 
 #include <cmath>
 #include <random>
@@ -229,8 +229,10 @@ TEST_F(GemmTest, WmmaCorrectness) {
     auto h_ref = reference_gemm(h_A, h_B, M, N, K, 1.0f, 0.0f);
 
     std::vector<half> h_A_half(M * K), h_B_half(K * N);
-    for (int i = 0; i < M * K; ++i) h_A_half[i] = __float2half(h_A[i]);
-    for (int i = 0; i < K * N; ++i) h_B_half[i] = __float2half(h_B[i]);
+    for (int i = 0; i < M * K; ++i)
+        h_A_half[i] = __float2half(h_A[i]);
+    for (int i = 0; i < K * N; ++i)
+        h_B_half[i] = __float2half(h_B[i]);
 
     half *d_A, *d_B;
     float* d_C;
@@ -238,18 +240,17 @@ TEST_F(GemmTest, WmmaCorrectness) {
     TC_CUDA_CHECK(cudaMalloc(&d_B, h_B_half.size() * sizeof(half)));
     TC_CUDA_CHECK(cudaMalloc(&d_C, M * N * sizeof(float)));
 
-    TC_CUDA_CHECK(cudaMemcpy(d_A, h_A_half.data(), h_A_half.size() * sizeof(half),
-                            cudaMemcpyHostToDevice));
-    TC_CUDA_CHECK(cudaMemcpy(d_B, h_B_half.data(), h_B_half.size() * sizeof(half),
-                            cudaMemcpyHostToDevice));
+    TC_CUDA_CHECK(
+        cudaMemcpy(d_A, h_A_half.data(), h_A_half.size() * sizeof(half), cudaMemcpyHostToDevice));
+    TC_CUDA_CHECK(
+        cudaMemcpy(d_B, h_B_half.data(), h_B_half.size() * sizeof(half), cudaMemcpyHostToDevice));
     TC_CUDA_CHECK(cudaMemset(d_C, 0, M * N * sizeof(float)));
 
     launch_gemm_wmma(d_A, d_B, d_C, M, N, K);
     TC_CUDA_CHECK(cudaDeviceSynchronize());
 
     std::vector<float> h_C(M * N);
-    TC_CUDA_CHECK(cudaMemcpy(h_C.data(), d_C, M * N * sizeof(float),
-                            cudaMemcpyDeviceToHost));
+    TC_CUDA_CHECK(cudaMemcpy(h_C.data(), d_C, M * N * sizeof(float), cudaMemcpyDeviceToHost));
 
     // Inputs are rounded to FP16, so allow a small absolute error in addition
     // to the relative term.
@@ -267,12 +268,9 @@ TEST_F(GemmTest, WmmaRejectsNonMultipleDimensions) {
     float* d_C = nullptr;
     // No allocation should be touched: the host-side input contract must fail
     // before kernel launch.
-    EXPECT_THROW(launch_gemm_wmma(d_A, d_B, d_C, 33, 16, 16),
-                 std::invalid_argument);
-    EXPECT_THROW(launch_gemm_wmma(d_A, d_B, d_C, 16, 17, 16),
-                 std::invalid_argument);
-    EXPECT_THROW(launch_gemm_wmma(d_A, d_B, d_C, 16, 16, 15),
-                 std::invalid_argument);
+    EXPECT_THROW(launch_gemm_wmma(d_A, d_B, d_C, 33, 16, 16), std::invalid_argument);
+    EXPECT_THROW(launch_gemm_wmma(d_A, d_B, d_C, 16, 17, 16), std::invalid_argument);
+    EXPECT_THROW(launch_gemm_wmma(d_A, d_B, d_C, 16, 16, 15), std::invalid_argument);
 }
 #endif  // TC_HAS_WMMA
 

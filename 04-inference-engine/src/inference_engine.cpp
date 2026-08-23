@@ -253,8 +253,7 @@ void InferenceEngine::forward(const float* input, float* output, int batch_size)
         // has finished reading its K-slice.  This must be a runtime contract,
         // not a debug-only assert.
         if (current_input == current_output) {
-            throw std::invalid_argument(
-                "forward: a layer cannot read and write the same buffer");
+            throw std::invalid_argument("forward: a layer cannot read and write the same buffer");
         }
 
         launch_fused_gemm(current_input, layer.weights.get(), current_output,

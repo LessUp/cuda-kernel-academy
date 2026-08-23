@@ -12,7 +12,6 @@ The `03-hpc-advanced` FlashAttention sources explain tiling and online softmax o
 The TFLOPS, speedup and memory figures on this page are reference values, not results reproduced by this repository on a pinned hardware/software stack. Re-measure on your own GPU before quoting them.
 :::
 
-
 FlashAttention uses tiling and online softmax to compute attention without materializing the full N×N attention matrix in HBM.
 
 ## Standard Attention Problem

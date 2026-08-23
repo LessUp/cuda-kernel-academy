@@ -53,20 +53,22 @@ jobs:
         with:
           node-version: 22
           cache: npm
+          cache-dependency-path: docs/package-lock.json
 
       - name: Install dependencies
+        working-directory: docs
         run: npm ci
 
       - name: Build docs
-        run: npm run docs:build-prod
+        working-directory: docs
+        run: npm run build
 
       - name: Verify build artifacts
         run: |
-          test -f _site/index.html || exit 1
-          test -f _site/sitemap.xml || exit 1
-          test -f _site/robots.txt || exit 1
-          test -f _site/404.html || exit 1
-          test -f _site/assets/styles/website.css || exit 1
+          test -f docs/.vitepress/dist/index.html
+          test -f docs/.vitepress/dist/sitemap.xml
+          test -f docs/.vitepress/dist/robots.txt
+          test -f docs/.vitepress/dist/404.html
 
   cuda-build-smoke:
     name: CUDA Build Smoke (CPU-only runner, no GPU tests)
@@ -80,7 +82,9 @@ jobs:
         run: |
           apt-get update
           DEBIAN_FRONTEND=noninteractive apt-get install -y \
-            cmake ninja-build g++ git ca-certificates
+            python3-pip ninja-build g++ git ca-certificates
+          python3 -m pip install --no-cache-dir cmake==3.28.3
+          cmake --version
 
       - name: Configure
         run: |

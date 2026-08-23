@@ -8,7 +8,6 @@ outline: [2, 3]
 This page contains aspirational API sketches. The headers are the source of truth; some signatures shown here (e.g. mask or batched_gemm) are not implemented.
 :::
 
-
 Complete API reference for the TensorCraft Core library.
 
 ## Core Module

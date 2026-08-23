@@ -122,10 +122,10 @@ endif()
 # ============================================================================
 add_library(tensorcraft INTERFACE)
 target_include_directories(
-  tensorcraft INTERFACE
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../common/include>
-    $<INSTALL_INTERFACE:include>)
+  tensorcraft
+  INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../common/include>
+            $<INSTALL_INTERFACE:include>)
 target_link_libraries(tensorcraft INTERFACE CUDA::cudart)
 
 # Add alias for consistent naming
@@ -176,8 +176,9 @@ install(
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../common/include/cuda_foundations/
-        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/cuda_foundations)
+install(
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../common/include/cuda_foundations/
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/cuda_foundations)
 
 install(
   EXPORT TensorCraftTargets

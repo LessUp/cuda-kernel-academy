@@ -3,7 +3,7 @@
 > GitHub repository: [`cuda-foundations`](https://github.com/open-infra-ai/cuda-foundations)
 > Teaching brand: CUDA Kernel Academy
 >
-> 📚 Portfolio map: https://github.com/open-infra-ai/open-infra-ai
+> 📚 Portfolio map: <https://github.com/open-infra-ai/open-infra-ai>
 
 <p align="center">
   <strong>Systematic CUDA kernel engineering from SGEMM fundamentals to reusable inference components</strong><br>
@@ -51,10 +51,9 @@ Most CUDA learning material is either too small to feel like engineering or too 
 
 Teaching repository, status **active** (correctness fixes and teaching
 refinements; no new modules). The four modules are complete. On the
-2026-08-18 test machine
-`ctest --preset default` reported **0 failed / 209 collected**
-(131 ran, 78 skipped — mostly 02/04 GPU binaries; same skip class as
-the prior freeze note). No new modules will be added here. Follow-up
+2026-08-23 test machine (RTX 3060 Laptop, sm_86, CUDA 12.0),
+`ctest --preset default` reported **261/261 passed**. No new modules
+will be added here. Follow-up
 work lives in [LEARNING_PATH.md](https://github.com/open-infra-ai/open-infra-ai/blob/master/LEARNING_PATH.md) (e.g. `tiny-llm`
 and `paged-infer`).
 
@@ -67,12 +66,14 @@ The former `llm-speed` GEMM learning path is covered here, while the maintained 
 ## Scope（IN / OUT）
 
 **IN（本仓库负责）**：
+
 - CUDA 编程模型与 kernel 编写（线程/块/共享内存/同步）
 - GEMM 优化阶梯（naive → tiled → bank-conflict-free → double buffering → WMMA）
 - 算子库设计（header-only 布局、operator surface）
 - profiling 与性能分析方法
 
 **OUT（明确不做，见对应仓库）**：
+
 - 生产级推理运行时（模型加载/采样/生成）→ [tiny-llm](https://github.com/open-infra-ai/tiny-llm)
 - 完整 FlashAttention 前后向与优化 → [cuflash-attn](https://github.com/open-infra-ai/cuflash-attn)
 - Serving / 分页 KV / continuous batching → [paged-infer](https://github.com/open-infra-ai/paged-infer)
