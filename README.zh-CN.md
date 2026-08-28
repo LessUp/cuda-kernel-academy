@@ -49,13 +49,13 @@
 
 ## 仓库状态
 
-教学仓库，状态 **active**（正确性修复与教学打磨；不再新增模块）。四个模块已完成。2026-08-23 在 RTX 3060 Laptop（sm_86、CUDA 12.0）上运行 `ctest --preset default`，结果为 **261/261 通过**。不再新增模块；后续精力投入 [LEARNING_PATH.md](https://github.com/open-infra-ai/open-infra-ai/blob/master/LEARNING_PATH.md) 中记录的后续项目（如 `tiny-llm` 与 `paged-infer`）。
+教学仓库，状态 **active**（正确性修复与教学打磨；不再新增模块）。四个模块已完成。2026-08-23 在 RTX 3060 Laptop（sm_86、CUDA 12.0）上运行 `ctest --preset default`，结果为 **261/261 通过**。不再新增模块；后续精力投入 [LEARNING_PATH.md](https://github.com/open-infra-ai/open-infra-ai/blob/master/LEARNING_PATH.md) 中记录的后续项目（如 `tiny-llm` 与 `paged-serving`）。
 
 ## 仓库收敛边界
 
 CUDA Kernel Academy 是 `sgemm-optimization`、`modern-ai-kernels`、`hpc-ai-optimization-lab` 和 `mini-inference-engine` 四条重叠学习路径的唯一维护入口。仍有价值的实现和验证已经进入对应 Academy 模块，重复仓库直接退场，不再保留平行维护入口。
 
-原 `llm-speed` 的 GEMM 学习路径由本仓库覆盖，仍维护的深度 FlashAttention 实现位于 [`cuflash-attn`](https://github.com/open-infra-ai/cuflash-attn)。本仓库不会搬入每一种历史实现，只为每个教学角色保留一条清晰路径。
+原 `llm-speed` 的 GEMM 学习路径由本仓库覆盖，仍维护的深度 FlashAttention 实现位于 [`cuflash`](https://github.com/open-infra-ai/cuflash)。本仓库不会搬入每一种历史实现，只为每个教学角色保留一条清晰路径。
 
 ## 项目边界（IN / OUT）
 
@@ -69,10 +69,10 @@ CUDA Kernel Academy 是 `sgemm-optimization`、`modern-ai-kernels`、`hpc-ai-opt
 **OUT（明确不做，见对应仓库）**：
 
 - 生产级推理运行时（模型加载/采样/生成）→ [tiny-llm](https://github.com/open-infra-ai/tiny-llm)
-- 完整 FlashAttention 前后向与优化 → [cuflash-attn](https://github.com/open-infra-ai/cuflash-attn)
-- Serving / 分页 KV / continuous batching → [paged-infer](https://github.com/open-infra-ai/paged-infer)
+- 完整 FlashAttention 前后向与优化 → [cuflash](https://github.com/open-infra-ai/cuflash)
+- Serving / 分页 KV / continuous batching → [paged-serving](https://github.com/open-infra-ai/paged-serving)
 - 本仓库 [04-inference-engine](04-inference-engine/README.md) 为**教学预览**，非独立作品
-- 本仓库 [03-hpc-advanced](03-hpc-advanced/README.md) 的 FlashAttention 核是教学简化版，权威实现见 cuflash-attn
+- 本仓库 [03-hpc-advanced](03-hpc-advanced/README.md) 的 FlashAttention 核是教学简化版，权威实现见 cuflash
 
 ## 项目地图
 

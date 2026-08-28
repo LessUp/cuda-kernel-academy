@@ -5,7 +5,7 @@
 > 定位：五仓学习路径的 **CUDA 系统教学仓**，`phase-2-e` 面试就绪冻结。
 > 可执行的分步开发计划见 [DEV_PLAN.md](DEV_PLAN.md)。
 > 旗舰开发投入在 [tiny-llm](https://github.com/open-infra-ai/tiny-llm)（运行时）与
-> [cuflash-attn](https://github.com/open-infra-ai/cuflash-attn)（kernel 深度）。
+> [cuflash](https://github.com/open-infra-ai/cuflash)（kernel 深度）。
 >
 > 归档状态：DEV_PLAN.md 的 T1–T12 已全部落地。
 > 2026-08-23 在 RTX 3060 Laptop（sm_86、CUDA 12.0）执行

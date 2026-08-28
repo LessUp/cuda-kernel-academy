@@ -55,13 +55,13 @@ refinements; no new modules). The four modules are complete. On the
 `ctest --preset default` reported **261/261 passed**. No new modules
 will be added here. Follow-up
 work lives in [LEARNING_PATH.md](https://github.com/open-infra-ai/open-infra-ai/blob/master/LEARNING_PATH.md) (e.g. `tiny-llm`
-and `paged-infer`).
+and `paged-serving`).
 
 ## Consolidation boundary
 
 CUDA Kernel Academy is the maintained successor for the overlapping learning paths that previously lived in `sgemm-optimization`, `modern-ai-kernels`, `hpc-ai-optimization-lab`, and `mini-inference-engine`. Useful implementations and verification now live in the matching Academy modules; the duplicate repositories have been retired instead of remaining as parallel maintenance surfaces.
 
-The former `llm-speed` GEMM learning path is covered here, while the maintained deep FlashAttention implementation lives in [`cuflash-attn`](https://github.com/open-infra-ai/cuflash-attn). The Academy intentionally keeps only one implementation per teaching role instead of importing every historical variant.
+The former `llm-speed` GEMM learning path is covered here, while the maintained deep FlashAttention implementation lives in [`cuflash`](https://github.com/open-infra-ai/cuflash). The Academy intentionally keeps only one implementation per teaching role instead of importing every historical variant.
 
 ## Scope（IN / OUT）
 
@@ -75,10 +75,10 @@ The former `llm-speed` GEMM learning path is covered here, while the maintained 
 **OUT（明确不做，见对应仓库）**：
 
 - 生产级推理运行时（模型加载/采样/生成）→ [tiny-llm](https://github.com/open-infra-ai/tiny-llm)
-- 完整 FlashAttention 前后向与优化 → [cuflash-attn](https://github.com/open-infra-ai/cuflash-attn)
-- Serving / 分页 KV / continuous batching → [paged-infer](https://github.com/open-infra-ai/paged-infer)
+- 完整 FlashAttention 前后向与优化 → [cuflash](https://github.com/open-infra-ai/cuflash)
+- Serving / 分页 KV / continuous batching → [paged-serving](https://github.com/open-infra-ai/paged-serving)
 - 本仓库 [04-inference-engine](04-inference-engine/README.md) 为**教学预览**，非独立作品
-- 本仓库 [03-hpc-advanced](03-hpc-advanced/README.md) 的 FlashAttention 核是教学简化版，权威实现见 cuflash-attn
+- 本仓库 [03-hpc-advanced](03-hpc-advanced/README.md) 的 FlashAttention 核是教学简化版，权威实现见 cuflash
 
 ## Project map
 

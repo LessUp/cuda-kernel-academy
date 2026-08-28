@@ -16,7 +16,7 @@
 
 > ⚠️ `src/05_attention/` 的 FlashAttention 是**教学简化核**（固定形状、前向为主），
 > **不是**作品集里的权威实现。完整前后向 / WMMA / FlashDecoding 见
-> [cuflash-attn](https://github.com/open-infra-ai/cuflash-attn)。
+> [cuflash](https://github.com/open-infra-ai/cuflash)。
 
 ## 重要说明
 
