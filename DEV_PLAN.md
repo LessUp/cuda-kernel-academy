@@ -297,7 +297,7 @@
 
 | 顺序 | 仓库 | 目标 | 完成证据 |
 |---|---|---|---|
-| 1 | `triton-fused-ops` | Triton 算子、在线 softmax、输入契约 | Triton vs PyTorch/NumPy 一致 |
+| 1 | `trifuse` | Triton 算子、在线 softmax、输入契约 | Triton vs PyTorch/NumPy 一致 |
 | 2 | `cuflash-attn` | FlashAttention 前后向、数值稳定性、性能分析 | 多精度与 causal 正确性测试 |
 | 3 | `tiny-llm` | 模型加载、Tensor、算子编排、采样、token 生成 | 真实模型端到端生成 token |
 | 4 | `paged-infer` | Paged KV、continuous batching、限流、取消、指标 | 并发请求资源守恒测试 |
