@@ -51,6 +51,8 @@ html:not(.dark) {
   --vp-c-bg: #ffffff;
   --vp-c-bg-alt: #f7f9fb;
   --vp-c-bg-elv: #ffffff;
+  --vp-c-bg-mute: #eef1f4;
+  --vp-c-bg-soft: #f6f8fa;
   --vp-c-divider: #d0d7de;
   --vp-c-border: #d0d7de;
   --vp-c-text-1: #1f2937;
